@@ -8,7 +8,7 @@
 	<span class="date-label">{date}</span>
 
 	{#if bodyFat}
-		<span class="body-fat-label">13.9% BF</span>
+		<span class="body-fat-label">{bodyFat}% BF</span>
 	{/if}
 	<span class="weight-label">{weight} lbs</span>
 </div>
