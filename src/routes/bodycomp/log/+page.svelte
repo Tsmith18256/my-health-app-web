@@ -1,5 +1,6 @@
 <script lang="ts">
   import BodyCompListItem from '$lib/components/body-comp/body-comp-list-item/body-comp-list-item.svelte';
+  import BodyCompNewEntryButton from '$lib/components/body-comp/body-comp-new-entry-button/body-comp-new-entry-button.svelte';
 	import BodyCompTableHeading from '$lib/components/body-comp/body-comp-table-heading/body-comp-table-heading.svelte';
 	import type { ComponentProps } from 'svelte';
 
@@ -25,7 +26,17 @@
   ];
 </script>
 
-<BodyCompTableHeading />
-{#each entries as entry}
-  <BodyCompListItem {...entry} />
-{/each}
+<BodyCompNewEntryButton />
+
+<div class="body-comp-table">
+  <BodyCompTableHeading />
+  {#each entries as entry}
+    <BodyCompListItem {...entry} />
+  {/each}
+</div>
+
+<style>
+  .body-comp-table {
+    margin-top: 1rem;
+  }
+</style>
