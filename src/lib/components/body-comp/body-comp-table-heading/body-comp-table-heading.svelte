@@ -10,9 +10,6 @@
 </div>
 
 <style>
-  /*
-  TODO: reduce DRY between these styles and list item
-  */
   .container {
     display: none;
 

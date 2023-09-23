@@ -1,9 +1,9 @@
 <script lang="ts">
   import BodyCompListItem from '$lib/components/body-comp/body-comp-list-item/body-comp-list-item.svelte';
-  import type { IBodyCompListItemProps } from '$lib/components/body-comp/body-comp-list-item/body-comp-list-item.types';
 	import BodyCompTableHeading from '$lib/components/body-comp/body-comp-table-heading/body-comp-table-heading.svelte';
+	import type { ComponentProps } from 'svelte';
 
-  const entries: IBodyCompListItemProps[] = [
+  const entries: ComponentProps<BodyCompListItem>[] = [
     {
       date: 'August 27, 2023',
       weight: '169.2',
