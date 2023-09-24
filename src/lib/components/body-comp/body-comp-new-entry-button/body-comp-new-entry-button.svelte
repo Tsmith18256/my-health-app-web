@@ -3,13 +3,13 @@
   NEW ENTRY
 </button>
 
-<style>
-  .new-entry-button {
-    /* color:  */
+<style lang="scss">
+  @use '$lib/styles/variables/colors';
 
+  .new-entry-button {
     padding: 1rem;
 
-    background-color: var(--secondary-color);
+    background-color: colors.$secondary;
     border: none;
     border-radius: 0.25rem;
 

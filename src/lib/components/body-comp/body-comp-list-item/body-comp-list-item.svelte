@@ -39,7 +39,7 @@
 	{/if}
 </div>
 
-<style>
+<style lang="scss">
 	.item-container {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
