@@ -1,8 +1,8 @@
 <script lang="ts">
   import BodyCompListItem from '$lib/components/body-comp/body-comp-list-item/body-comp-list-item.svelte';
   import BodyCompNewEntryButton from '$lib/components/body-comp/body-comp-new-entry-button/body-comp-new-entry-button.svelte';
-	import BodyCompTableHeading from '$lib/components/body-comp/body-comp-table-heading/body-comp-table-heading.svelte';
-	import type { ComponentProps } from 'svelte';
+  import BodyCompTableHeading from '$lib/components/body-comp/body-comp-table-heading/body-comp-table-heading.svelte';
+  import type { ComponentProps } from 'svelte';
 
   const entries: ComponentProps<BodyCompListItem>[] = [
     {
@@ -13,16 +13,16 @@
       neckCirc: '15.0',
       chestSkinfold: '12',
       abSkinfold: '14',
-      thighSkinfold: '13'
+      thighSkinfold: '13',
     },
     {
       date: 'August 26, 2023',
-      weight: '171.6'
+      weight: '171.6',
     },
     {
       date: 'August 25, 2023',
-      weight: '169.2'
-    }
+      weight: '169.2',
+    },
   ];
 </script>
 
