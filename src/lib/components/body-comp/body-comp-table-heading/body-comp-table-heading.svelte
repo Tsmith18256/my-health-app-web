@@ -9,25 +9,28 @@
   <strong class="large-desktop-heading">Thigh skinfold</strong>
 </div>
 
-<style>
+<style lang="scss">
+  @use '$lib/styles/variables/breakpoints';
+  @use '$lib/styles/variables/colors';
+
   .container {
     display: none;
 
-    @media (min-width: 769px) {
+    @media (min-width: breakpoints.$tablet) {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
 
       height: 3rem;
       padding: 0.9rem 1rem;
 
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid colors.$border;
     }
 
-    @media (min-width: 1025px) {
+    @media (min-width: breakpoints.$desktop-small) {
       grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     }
 
-    @media (min-width: 1201px) {
+    @media (min-width: breakpoints.$desktop-large) {
       grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     }
   }
@@ -35,7 +38,7 @@
   .small-desktop-heading {
     display: none;
 
-    @media (min-width: 1025px) {
+    @media (min-width: breakpoints.$desktop-small) {
       display: initial;
     }
   }
@@ -43,7 +46,7 @@
   .large-desktop-heading {
     display: none;
 
-    @media (min-width: 1201px) {
+    @media (min-width: breakpoints.$desktop-large) {
       display: initial;
     }
   }

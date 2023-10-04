@@ -40,6 +40,9 @@
 </div>
 
 <style lang="scss">
+  @use '$lib/styles/variables/breakpoints';
+  @use '$lib/styles/variables/colors';
+
   .item-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -49,19 +52,19 @@
     height: 4.5rem;
     padding: 0.9rem 1rem;
 
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid colors.$border;
 
-    @media (min-width: 769px) {
+    @media (min-width: breakpoints.$tablet) {
       grid-template-columns: 1fr 1fr 1fr;
 
       height: 3rem;
     }
 
-    @media (min-width: 1025px) {
+    @media (min-width: breakpoints.$desktop-small) {
       grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     }
 
-    @media (min-width: 1201px) {
+    @media (min-width: breakpoints.$desktop-large) {
       grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     }
   }
@@ -71,7 +74,7 @@
     grid-row-end: span 2;
     font-size: 1.5rem;
 
-    @media (min-width: 769px) {
+    @media (min-width: breakpoints.$tablet) {
       font-weight: normal;
       font-size: 1rem;
     }
@@ -85,7 +88,7 @@
     font-weight: bold;
     font-size: 1.3rem;
 
-    @media (min-width: 769px) {
+    @media (min-width: breakpoints.$tablet) {
       grid-row-start: initial;
       grid-row-end: initial;
       justify-self: initial;
@@ -101,7 +104,7 @@
 
     font-size: 0.9rem;
 
-    @media (min-width: 769px) {
+    @media (min-width: breakpoints.$tablet) {
       grid-row-start: initial;
       grid-row-end: initial;
       justify-self: initial;
@@ -113,7 +116,7 @@
   .small-desktop-label {
     display: none;
 
-    @media (min-width: 1025px) {
+    @media (min-width: breakpoints.$desktop-small) {
       display: initial;
     }
   }
@@ -121,7 +124,7 @@
   .large-desktop-label {
     display: none;
 
-    @media (min-width: 1201px) {
+    @media (min-width: breakpoints.$desktop-large) {
       display: initial;
     }
   }
