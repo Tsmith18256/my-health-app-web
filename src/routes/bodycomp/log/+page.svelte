@@ -1,6 +1,7 @@
 <script lang="ts">
   import BodyCompListItem from '$lib/components/body-comp/body-comp-list-item/body-comp-list-item.svelte';
   import BodyCompNewEntryButton from '$lib/components/body-comp/body-comp-new-entry-button/body-comp-new-entry-button.svelte';
+  import BodyCompNewEntryForm from '$lib/components/body-comp/body-comp-new-entry-form/body-comp-new-entry-form.svelte';
   import BodyCompTableHeading from '$lib/components/body-comp/body-comp-table-heading/body-comp-table-heading.svelte';
   import Modal from '$lib/components/shared/modal/modal.svelte';
   import type { ComponentProps } from 'svelte';
@@ -41,7 +42,9 @@
     <BodyCompListItem {...entry} />
   {/each}
 
-  <Modal bind:isVisible={isNewEntryModalVisible} />
+  <Modal bind:isVisible={isNewEntryModalVisible}>
+    <BodyCompNewEntryForm />
+  </Modal>
 </div>
 
 <style>
