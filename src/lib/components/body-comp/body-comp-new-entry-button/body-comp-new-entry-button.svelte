@@ -1,14 +1,4 @@
-<script lang="ts">
-  import { createEventDispatcher } from 'svelte';
-
-  const dispatch = createEventDispatcher();
-
-  const onClick = () => {
-    dispatch('click');
-  };
-</script>
-
-<button class="new-entry-button" on:click={onClick}>
+<button class="new-entry-button" on:click>
   <i class="far fa-plus icon" />
   NEW ENTRY
 </button>
