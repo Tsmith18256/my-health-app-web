@@ -41,7 +41,7 @@
     <BodyCompListItem {...entry} />
   {/each}
 
-  <Modal isVisible={isNewEntryModalVisible} />
+  <Modal bind:isVisible={isNewEntryModalVisible} />
 </div>
 
 <style>
