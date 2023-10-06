@@ -2,11 +2,12 @@
   import Modal from '$lib/components/shared/modal/modal.svelte';
   import BodyCompNewEntryForm from '../body-comp-new-entry-form/body-comp-new-entry-form.svelte';
   import type { IBodyCompEntry } from '$lib/types/body-comp/body-comp-entry.types';
+  import { addBodyCompEntry } from '$lib/stores/body-comp/body-comp-entries/body-comp-entries.store';
 
   export let isVisible = false;
 
   const onFormSubmit = (e: CustomEvent<IBodyCompEntry>) => {
-    console.log(e.detail);
+    addBodyCompEntry(e.detail);
   };
 </script>
 
