@@ -1,4 +1,4 @@
-import { convertGsToLbs, convertInsToCms, convertInsToMms, convertLbsToGs, convertMmsToCms } from '$lib/utils/shared/unit-converter/unit-converter.util';
+import { convertCmsToIns, convertGsToLbs, convertInsToCms, convertInsToMms, convertLbsToGs, convertMmsToCms, convertMmsToIns } from '$lib/utils/shared/unit-converter/unit-converter.util';
 import { describe, expect, test } from 'vitest';
 
 describe('Unit Converter util', () => {
@@ -60,5 +60,29 @@ describe('Unit Converter util', () => {
     const received = convertInsToMms(-6);
 
     expect(received).toBeCloseTo(-152.4, 4);
+  });
+
+  test('converts positive mms to ins correctly', () => {
+    const received = convertMmsToIns(37);
+
+    expect(received).toBeCloseTo(1.4567, 4);
+  });
+
+  test('converts negative mms to ins correctly', () => {
+    const received = convertMmsToIns(-37);
+
+    expect(received).toBeCloseTo(-1.4567, 4);
+  });
+
+  test('converts positive cms to ins correctly', () => {
+    const received = convertCmsToIns(13);
+
+    expect(received).toBeCloseTo(5.1181, 4);
+  });
+
+  test('converts negative cms to ins correctly', () => {
+    const received = convertCmsToIns(-13);
+
+    expect(received).toBeCloseTo(-5.1181, 4);
   });
 });

@@ -14,29 +14,29 @@
 
   <span class="weight-label">{weight} lbs</span>
 
-  {#if bodyFat}
-    <span class="body-fat-label">{bodyFat}% BF</span>
-  {/if}
+  <span class="body-fat-label">
+    {#if bodyFat}{bodyFat}% BF{/if}
+  </span>
 
-  {#if waistCirc}
-    <span class="small-desktop-label">{waistCirc}"</span>
-  {/if}
+  <span class="small-desktop-label">
+    {#if waistCirc}{waistCirc}"{/if}
+  </span>
 
-  {#if neckCirc}
-    <span class="small-desktop-label">{neckCirc}"</span>
-  {/if}
+  <span class="small-desktop-label">
+    {#if neckCirc}{neckCirc}"{/if}
+  </span>
 
-  {#if chestSkinfold}
-    <span class="large-desktop-label">{chestSkinfold} mm</span>
-  {/if}
+  <span class="large-desktop-label">
+    {#if chestSkinfold}{chestSkinfold} mm{/if}
+  </span>
 
-  {#if abSkinfold}
-    <span class="large-desktop-label">{abSkinfold} mm</span>
-  {/if}
+  <span class="large-desktop-label">
+    {#if abSkinfold}{abSkinfold} mm{/if}
+  </span>
 
-  {#if thighSkinfold}
-    <span class="large-desktop-label">{thighSkinfold} mm</span>
-  {/if}
+  <span class="large-desktop-label">
+    {#if thighSkinfold}{thighSkinfold} mm{/if}
+  </span>
 </div>
 
 <style lang="scss">

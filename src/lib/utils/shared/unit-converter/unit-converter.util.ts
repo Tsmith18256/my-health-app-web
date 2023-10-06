@@ -49,3 +49,13 @@ export const convertInsToCms = (ins: number): number => {
 export const convertInsToMms = (ins: number): number => {
   return convertInsToCms(ins) * MM_PER_CM;
 };
+
+// Metric -> Imperial
+
+export const convertMmsToIns = (mms: number): number => {
+  return convertCmsToIns(convertMmsToCms(mms));
+};
+
+export const convertCmsToIns = (cms: number): number => {
+  return cms / CM_PER_IN;
+};
