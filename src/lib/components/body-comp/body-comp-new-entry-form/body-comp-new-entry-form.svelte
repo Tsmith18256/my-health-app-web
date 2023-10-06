@@ -17,11 +17,20 @@
   $: waistInCm = waistInIn && convertInsToCms(waistInIn);
   $: neckInCm = neckInIn && convertInsToCms(neckInIn);
 
-  let bodyFat: string | undefined;
-  let leanBodyMass: string | undefined;
-  let bodyFatMass: string | undefined;
+  let bodyFat: number | undefined;
+  $: leanBodyMass = weightInLbs && bodyFat && (weightInLbs * (1 - bodyFat)).toFixed(1);
+  $: bodyFatMass = weightInLbs && bodyFat && (weightInLbs * bodyFat).toFixed(1);
+
+  $: formattedBodyFat =
+    bodyFat &&
+    bodyFat.toLocaleString(undefined, {
+      style: 'percent',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+
   $: if (weightInLbs && waistInCm && neckInCm && chestInMm && abInMm && thighInMm) {
-    const bodyFatNum = calculateAveragedBodyFat({
+    bodyFat = calculateAveragedBodyFat({
       age,
       heightInCm,
       neckInCm,
@@ -30,15 +39,6 @@
       abInMm,
       thighInMm,
     });
-
-    bodyFat = bodyFatNum.toLocaleString(undefined, {
-      style: 'percent',
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
-
-    leanBodyMass = (weightInLbs * (1 - bodyFatNum)).toFixed(1);
-    bodyFatMass = (weightInLbs * bodyFatNum).toFixed(1);
   } else {
     bodyFat = undefined;
     leanBodyMass = undefined;
@@ -62,9 +62,9 @@
   <TextInput id="thighField" label="Thigh (mm)" bind:value={thighInMm} />
 </div>
 
-{#if bodyFat}
+{#if formattedBodyFat}
   <div class="body-fat-container">
-    <strong class="body-fat-label">Body Fat: {bodyFat}</strong>
+    <strong class="body-fat-label">Body Fat: {formattedBodyFat}</strong>
     <strong class="body-fat-label">Lean Body Mass: {leanBodyMass}</strong>
     <strong class="body-fat-label">Body Fat Mass: {bodyFatMass}</strong>
   </div>
