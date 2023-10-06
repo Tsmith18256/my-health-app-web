@@ -1,21 +1,13 @@
-<button class="new-entry-button" on:click>
+<script>
+  import Button from '$lib/components/shared/button/button.svelte';
+</script>
+
+<Button on:click>
   <i class="far fa-plus icon" />
   NEW ENTRY
-</button>
+</Button>
 
-<style lang="scss">
-  @use '$lib/styles/variables/colors';
-
-  .new-entry-button {
-    padding: 1rem;
-
-    background-color: colors.$secondary;
-    border: none;
-    border-radius: 0.25rem;
-
-    font-weight: bold;
-  }
-
+<style>
   .icon {
     padding-right: 0.25rem;
   }
