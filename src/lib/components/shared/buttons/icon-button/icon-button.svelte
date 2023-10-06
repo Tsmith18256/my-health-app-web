@@ -1,0 +1,21 @@
+<script lang="ts">
+  import { ICON_SIZE, type IconImage } from '$lib/components/shared/icon/icon.constants';
+  import Icon from '$lib/components/shared/icon/icon.svelte';
+  import Button from '../button/button.svelte';
+
+  export let disabled = false;
+  export let icon: IconImage;
+</script>
+
+<Button bind:disabled on:click>
+  <span class="icon">
+    <Icon icon={icon} size={ICON_SIZE.medium} />
+  </span>
+  <slot />
+</Button>
+
+<style>
+  .icon {
+    padding-right: 0.25rem;
+  }
+</style>

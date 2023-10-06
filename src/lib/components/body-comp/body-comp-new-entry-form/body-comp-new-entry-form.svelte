@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Button from '$lib/components/shared/button/button.svelte';
+  import Button from '$lib/components/shared/buttons/button/button.svelte';
   import TextInput from '$lib/components/shared/text-input/text-input.svelte';
   import type { IBodyCompEntry } from '$lib/types/body-comp/body-comp-entry.types';
   import { calculateAveragedBodyFat } from '$lib/utils/body-comp/body-fat-calculator/body-fat-calculator.util';

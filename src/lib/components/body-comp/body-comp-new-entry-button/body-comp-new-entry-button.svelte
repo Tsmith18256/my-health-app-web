@@ -1,7 +1,10 @@
 <script lang="ts">
-  import Button from '$lib/components/shared/button/button.svelte';
-  import FloatingActionButton from '$lib/components/shared/floating-action-button/floating-action-button.svelte';
+  import Button from '$lib/components/shared/buttons/button/button.svelte';
+  import FloatingActionButton from '$lib/components/shared/buttons/floating-action-button/floating-action-button.svelte';
+  import IconButton from '$lib/components/shared/buttons/icon-button/icon-button.svelte';
   import { ICON_IMAGE } from '$lib/components/shared/icon/icon.constants';
+
+  const icon = ICON_IMAGE.plus;
 
   let innerWidth: number;
 
@@ -9,12 +12,11 @@
 </script>
 
 {#if isMobile}
-  <FloatingActionButton on:click icon={ICON_IMAGE.plus} />
+  <FloatingActionButton on:click {icon} />
 {:else}
-  <Button on:click>
-    <i class="far fa-plus icon" />
+  <IconButton on:click {icon}>
     NEW ENTRY
-  </Button>
+  </IconButton>
 {/if}
 
 <svelte:window bind:innerWidth />

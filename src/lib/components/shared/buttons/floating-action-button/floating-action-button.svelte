@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { ICON_SIZE, type IconImage } from '../icon/icon.constants';
-  import Icon from '../icon/icon.svelte';
+  import { ICON_SIZE, type IconImage } from '../../icon/icon.constants';
+  import Icon from '../../icon/icon.svelte';
 
   export let icon: IconImage;
 </script>
 
-<button class="button" on:click>
+<button class="button" on:click|stopPropagation>
   <Icon icon={icon} size={ICON_SIZE.extraLarge} />
 </button>
 
