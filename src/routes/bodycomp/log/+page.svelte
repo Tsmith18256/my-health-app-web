@@ -4,20 +4,50 @@
   import BodyCompNewEntryModal from '$lib/components/body-comp/body-comp-new-entry-modal/body-comp-new-entry-modal.svelte';
   import BodyCompTableHeading from '$lib/components/body-comp/body-comp-table-heading/body-comp-table-heading.svelte';
   import { bodyCompEntries } from '$lib/stores/body-comp/body-comp-entries/body-comp-entries.store';
-  import { convertGsToLbs, convertMmsToIns } from '$lib/utils/shared/unit-converter/unit-converter.util';
+  import { calculateAveragedBodyFat } from '$lib/utils/body-comp/body-fat-calculator/body-fat-calculator.util';
+  import {
+    convertGsToLbs,
+    convertInsToCms,
+    convertMmsToCms,
+    convertMmsToIns,
+  } from '$lib/utils/shared/unit-converter/unit-converter.util';
   import type { ComponentProps } from 'svelte';
 
   let isNewEntryModalVisible = false;
 
-  $: formattedEntries = $bodyCompEntries.map<ComponentProps<BodyCompListItem>>(entry => ({
-    date: entry.date.format('MMMM D, YYYY'),
-    weight: convertGsToLbs(entry.weightInG).toFixed(1),
-    waistCirc: entry.waistCircInMm !== undefined ? convertMmsToIns(entry.waistCircInMm).toFixed(1) : undefined,
-    neckCirc: entry.neckCircInMm !== undefined ? convertMmsToIns(entry.neckCircInMm).toFixed(1) : undefined,
-    chestSkinfold: entry.chestSkinfoldInMm?.toString(),
-    abSkinfold: entry.abSkinfoldInMm?.toString(),
-    thighSkinfold: entry.thighSkinfoldInMm?.toString()
-  }));
+  $: formattedEntries = $bodyCompEntries.map<ComponentProps<BodyCompListItem>>(entry => {
+    const { date, weightInG, waistCircInMm, neckCircInMm, chestSkinfoldInMm, abSkinfoldInMm, thighSkinfoldInMm } =
+      entry;
+    const canCalculateBodyFat =
+      waistCircInMm && neckCircInMm && chestSkinfoldInMm && abSkinfoldInMm && thighSkinfoldInMm;
+
+    const bodyFat =
+      canCalculateBodyFat &&
+      calculateAveragedBodyFat({
+        age: 28,
+        heightInCm: convertInsToCms(70),
+        neckInCm: convertMmsToCms(neckCircInMm),
+        waistInCm: convertMmsToCms(waistCircInMm),
+        chestInMm: chestSkinfoldInMm,
+        abInMm: abSkinfoldInMm,
+        thighInMm: thighSkinfoldInMm,
+      });
+
+    return {
+      date: date.format('MMMM D, YYYY'),
+      weight: convertGsToLbs(weightInG).toFixed(1),
+      bodyFat: bodyFat?.toLocaleString(undefined, {
+        style: 'percent',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }),
+      waistCirc: waistCircInMm !== undefined ? convertMmsToIns(waistCircInMm).toFixed(1) : undefined,
+      neckCirc: neckCircInMm !== undefined ? convertMmsToIns(neckCircInMm).toFixed(1) : undefined,
+      chestSkinfold: chestSkinfoldInMm?.toString(),
+      abSkinfold: abSkinfoldInMm?.toString(),
+      thighSkinfold: thighSkinfoldInMm?.toString(),
+    };
+  });
 
   const showNewEntryModal = () => {
     isNewEntryModalVisible = true;

@@ -15,7 +15,7 @@
   <span class="weight-label">{weight} lbs</span>
 
   <span class="body-fat-label">
-    {#if bodyFat}{bodyFat}% BF{/if}
+    {#if bodyFat}{bodyFat} <span class="body-fat-quantifier">BF</span>{/if}
   </span>
 
   <span class="small-desktop-label">
@@ -110,6 +110,12 @@
       justify-self: initial;
 
       font-size: 1rem;
+    }
+  }
+
+  .body-fat-quantifier {
+    @media (min-width: breakpoints.$tablet) {
+      display: none;
     }
   }
 
