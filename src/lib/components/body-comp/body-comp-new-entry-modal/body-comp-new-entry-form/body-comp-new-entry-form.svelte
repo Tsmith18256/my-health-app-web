@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { BUTTON_TYPE } from '$lib/components/shared/buttons/button/button.constants';
   import Button from '$lib/components/shared/buttons/button/button.svelte';
   import TextInput from '$lib/components/shared/text-input/text-input.svelte';
   import type { IBodyCompEntry } from '$lib/types/body-comp/body-comp-entry.types';
@@ -47,7 +48,7 @@
     bodyFatMass = undefined;
   }
 
-  const dispatch = createEventDispatcher<{ submit: IBodyCompEntry}>();
+  const dispatch = createEventDispatcher<{ submit: IBodyCompEntry, cancel: void }>();
 
   const submit = () => {
     if (date && weightInLb) {
@@ -60,7 +61,22 @@
         abSkinfoldInMm: abInMm,
         thighSkinfoldInMm: thighInMm
       });
+      reset();
     }
+  };
+
+  const cancel = () => {
+    dispatch('cancel');
+    reset();
+  };
+
+  const reset = () => {
+    weightInLb = undefined;
+    waistInIn = undefined;
+    neckInIn = undefined;
+    chestInMm = undefined;
+    abInMm = undefined;
+    thighInMm = undefined;
   };
 </script>
 
@@ -88,9 +104,15 @@
   </div>
 {/if}
 
-<Button on:click={submit} disabled={!date || !weightInLb}>
-  Submit
-</Button>
+<div class="buttons-container">
+  <Button disabled={!date || !weightInLb} on:click={submit}>
+    Submit
+  </Button>
+
+  <Button type={BUTTON_TYPE.negative} on:click={cancel}>
+    Cancel
+  </Button>
+</div>
 
 <style lang="scss">
   .heading {
@@ -118,5 +140,11 @@
 
   .body-fat-label {
     display: block;
+  }
+
+  .buttons-container {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
   }
 </style>
