@@ -1,128 +1,141 @@
 <script lang="ts">
-	export let date: string;
-	export let weight: string;
-	export let bodyFat: string | undefined = undefined;
-	export let waistCirc: string | undefined = undefined;
-	export let neckCirc: string | undefined = undefined;
-	export let chestSkinfold: string | undefined = undefined;
-	export let abSkinfold: string | undefined = undefined;
-	export let thighSkinfold: string | undefined = undefined;
+  import { BREAKPOINTS } from '$lib/constants/breakpoints.constants';
+
+  export let date: string;
+  export let weight: string;
+  export let bodyFat: string | undefined = undefined;
+  export let waistCirc: string | undefined = undefined;
+  export let neckCirc: string | undefined = undefined;
+  export let chestSkinfold: string | undefined = undefined;
+  export let abSkinfold: string | undefined = undefined;
+  export let thighSkinfold: string | undefined = undefined;
+
+  let innerWidth: number;
+  $: isMobile = innerWidth < BREAKPOINTS.tablet;
 </script>
 
 <div class="item-container">
-	<span class="date-label">{date}</span>
+  <span class="date-label">{date}</span>
 
-	<span class="weight-label">{weight} lbs</span>
+  <span class="weight-label">{weight} lbs</span>
 
-	{#if bodyFat}
-		<span class="body-fat-label">{bodyFat}% BF</span>
-	{/if}
+  <span class="body-fat-label">
+    {#if bodyFat}
+      {bodyFat}
+      {#if isMobile}BF{/if}
+    {/if}
+  </span>
 
-	{#if waistCirc}
-		<span class="small-desktop-label">{waistCirc}"</span>
-	{/if}
+  <span class="small-desktop-label">
+    {#if waistCirc}{waistCirc}"{/if}
+  </span>
 
-	{#if neckCirc}
-		<span class="small-desktop-label">{neckCirc}"</span>
-	{/if}
+  <span class="small-desktop-label">
+    {#if neckCirc}{neckCirc}"{/if}
+  </span>
 
-	{#if chestSkinfold}
-		<span class="large-desktop-label">{chestSkinfold} mm</span>
-	{/if}
+  <span class="large-desktop-label">
+    {#if chestSkinfold}{chestSkinfold} mm{/if}
+  </span>
 
-	{#if abSkinfold}
-		<span class="large-desktop-label">{abSkinfold} mm</span>
-	{/if}
+  <span class="large-desktop-label">
+    {#if abSkinfold}{abSkinfold} mm{/if}
+  </span>
 
-	{#if thighSkinfold}
-		<span class="large-desktop-label">{thighSkinfold} mm</span>
-	{/if}
+  <span class="large-desktop-label">
+    {#if thighSkinfold}{thighSkinfold} mm{/if}
+  </span>
 </div>
 
-<style>
-	.item-container {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		grid-template-rows: auto;
-		align-items: center;
+<svelte:window bind:innerWidth />
 
-		height: 4.5rem;
-		padding: 0.9rem 1rem;
+<style lang="scss">
+  @use '$lib/styles/variables/breakpoints';
+  @use '$lib/styles/variables/colors';
 
-		border-bottom: 1px solid #ddd;
+  .item-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    align-items: center;
 
-		@media (min-width: 769px) {
-			grid-template-columns: 1fr 1fr 1fr;
+    height: 4.5rem;
+    padding: 0.9rem 1rem;
 
-			height: 3rem;
-		}
+    border-bottom: 1px solid colors.$border;
 
-		@media (min-width: 1025px) {
-			grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-		}
+    @media (min-width: breakpoints.$tablet) {
+      grid-template-columns: 1fr 1fr 1fr;
 
-		@media (min-width: 1201px) {
-			grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-		}
-	}
+      height: 3rem;
+    }
 
-	.date-label {
-		grid-row-start: 1;
-		grid-row-end: span 2;
-		font-size: 1.5rem;
+    @media (min-width: breakpoints.$desktop-small) {
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
 
-		@media (min-width: 769px) {
-			font-weight: normal;
-			font-size: 1rem;
-		}
-	}
+    @media (min-width: breakpoints.$desktop-large) {
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    }
+  }
 
-	.weight-label {
-		grid-row-start: 1;
-		grid-row-end: span 1;
-		justify-self: end;
+  .date-label {
+    grid-row-start: 1;
+    grid-row-end: span 2;
+    font-size: 1.5rem;
 
-		font-weight: bold;
-		font-size: 1.3rem;
+    @media (min-width: breakpoints.$tablet) {
+      font-weight: normal;
+      font-size: 1rem;
+    }
+  }
 
-		@media (min-width: 769px) {
-			grid-row-start: initial;
-			grid-row-end: initial;
-			justify-self: initial;
+  .weight-label {
+    grid-row-start: 1;
+    grid-row-end: span 1;
+    justify-self: end;
 
-			font-size: 1rem;
-		}
-	}
+    font-weight: bold;
+    font-size: 1.3rem;
 
-	.body-fat-label {
-		grid-row-start: 2;
-		grid-row-end: span 1;
-		justify-self: end;
+    @media (min-width: breakpoints.$tablet) {
+      grid-row-start: initial;
+      grid-row-end: initial;
+      justify-self: initial;
 
-		font-size: 0.9rem;
+      font-size: 1rem;
+    }
+  }
 
-		@media (min-width: 769px) {
-			grid-row-start: initial;
-			grid-row-end: initial;
-			justify-self: initial;
+  .body-fat-label {
+    grid-row-start: 2;
+    grid-row-end: span 1;
+    justify-self: end;
 
-			font-size: 1rem;
-		}
-	}
+    font-size: 0.9rem;
 
-	.small-desktop-label {
-		display: none;
+    @media (min-width: breakpoints.$tablet) {
+      grid-row-start: initial;
+      grid-row-end: initial;
+      justify-self: initial;
 
-		@media (min-width: 1025px) {
-			display: initial;
-		}
-	}
+      font-size: 1rem;
+    }
+  }
 
-	.large-desktop-label {
-		display: none;
+  .small-desktop-label {
+    display: none;
 
-		@media (min-width: 1201px) {
-			display: initial;
-		}
-	}
+    @media (min-width: breakpoints.$desktop-small) {
+      display: initial;
+    }
+  }
+
+  .large-desktop-label {
+    display: none;
+
+    @media (min-width: breakpoints.$desktop-large) {
+      display: initial;
+    }
+  }
 </style>

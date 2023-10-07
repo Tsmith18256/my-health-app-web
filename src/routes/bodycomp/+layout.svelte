@@ -1,5 +1,5 @@
 <slot />
-<nav class="bottom-nav"></nav>
+<nav class="bottom-nav" />
 
 <style>
   .bottom-nav {
