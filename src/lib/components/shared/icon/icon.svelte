@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { IconImage, IconSize } from '$lib/components/shared/icon/icon.constants';
+  import type { IconImage, IconSize } from '$lib/components/shared/icon/icon.types';
 
   export let icon: IconImage;
   export let size: IconSize;
@@ -25,6 +25,6 @@
   }
 
   .extra-large {
-    font-size: 2rem;;
+    font-size: 2rem;
   }
 </style>

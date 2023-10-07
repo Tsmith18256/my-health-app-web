@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { BREAKPOINTS } from '$lib/constants/breakpoints.constants';
+
   export let date: string;
   export let weight: string;
   export let bodyFat: string | undefined = undefined;
@@ -7,6 +9,9 @@
   export let chestSkinfold: string | undefined = undefined;
   export let abSkinfold: string | undefined = undefined;
   export let thighSkinfold: string | undefined = undefined;
+
+  let innerWidth: number;
+  $: isMobile = innerWidth < BREAKPOINTS.tablet;
 </script>
 
 <div class="item-container">
@@ -15,7 +20,10 @@
   <span class="weight-label">{weight} lbs</span>
 
   <span class="body-fat-label">
-    {#if bodyFat}{bodyFat} <span class="body-fat-quantifier">BF</span>{/if}
+    {#if bodyFat}
+      {bodyFat}
+      {#if isMobile}BF{/if}
+    {/if}
   </span>
 
   <span class="small-desktop-label">
@@ -38,6 +46,8 @@
     {#if thighSkinfold}{thighSkinfold} mm{/if}
   </span>
 </div>
+
+<svelte:window bind:innerWidth />
 
 <style lang="scss">
   @use '$lib/styles/variables/breakpoints';
@@ -110,12 +120,6 @@
       justify-self: initial;
 
       font-size: 1rem;
-    }
-  }
-
-  .body-fat-quantifier {
-    @media (min-width: breakpoints.$tablet) {
-      display: none;
     }
   }
 

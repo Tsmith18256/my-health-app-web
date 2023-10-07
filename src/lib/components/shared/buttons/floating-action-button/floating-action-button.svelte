@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { ICON_SIZE, type IconImage } from '../../icon/icon.constants';
+  import type { IconImage } from '$lib/components/shared/icon/icon.types';
+  import { ICON_SIZE } from '../../icon/icon.constants';
   import Icon from '../../icon/icon.svelte';
 
   export let icon: IconImage;

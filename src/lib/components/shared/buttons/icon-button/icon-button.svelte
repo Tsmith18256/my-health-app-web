@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { ICON_SIZE, type IconImage } from '$lib/components/shared/icon/icon.constants';
+  import { ICON_SIZE } from '$lib/components/shared/icon/icon.constants';
   import Icon from '$lib/components/shared/icon/icon.svelte';
+  import type { IconImage } from '$lib/components/shared/icon/icon.types';
   import Button from '../button/button.svelte';
 
   export let disabled = false;

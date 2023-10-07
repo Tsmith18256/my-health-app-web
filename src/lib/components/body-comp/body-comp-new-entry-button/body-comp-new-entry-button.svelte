@@ -1,14 +1,14 @@
 <script lang="ts">
-  import Button from '$lib/components/shared/buttons/button/button.svelte';
   import FloatingActionButton from '$lib/components/shared/buttons/floating-action-button/floating-action-button.svelte';
   import IconButton from '$lib/components/shared/buttons/icon-button/icon-button.svelte';
   import { ICON_IMAGE } from '$lib/components/shared/icon/icon.constants';
+  import { BREAKPOINTS } from '$lib/constants/breakpoints.constants';
 
   const icon = ICON_IMAGE.plus;
 
   let innerWidth: number;
 
-  $: isMobile = innerWidth <= 769;
+  $: isMobile = innerWidth < BREAKPOINTS.tablet;
 </script>
 
 {#if isMobile}
@@ -20,9 +20,3 @@
 {/if}
 
 <svelte:window bind:innerWidth />
-
-<style>
-  .icon {
-    padding-right: 0.25rem;
-  }
-</style>
