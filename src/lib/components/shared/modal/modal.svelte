@@ -12,25 +12,19 @@
   };
 </script>
 
-<div
-  class="background"
-  class:visible={isVisible}
-  on:click|stopPropagation|self={hideModal}
-  on:keyup={onKeyUp}
-  role="presentation"
->
-  <div class="modal" role="dialog">
-    <slot />
+{#if isVisible}
+  <div class="background" on:click|stopPropagation|self={hideModal} on:keyup={onKeyUp} role="presentation">
+    <div class="modal" role="dialog">
+      <slot />
+    </div>
   </div>
-</div>
+{/if}
 
 <style lang="scss">
   @use '$lib/styles/variables/breakpoints';
   @use '$lib/styles/variables/colors';
 
   .background {
-    display: none;
-
     @media (min-width: breakpoints.$tablet) {
       position: fixed;
       top: 0;
@@ -64,9 +58,5 @@
 
       border-radius: 2rem;
     }
-  }
-
-  .visible {
-    display: initial;
   }
 </style>
