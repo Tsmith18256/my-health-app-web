@@ -1,12 +1,13 @@
 <script lang="ts">
   import type { IconImage } from '$lib/components/shared/icon/icon.types';
+  import { TEST_IDS } from '$lib/constants/test-ids.constants';
   import { ICON_SIZE } from '../../icon/icon.constants';
   import Icon from '../../icon/icon.svelte';
 
   export let icon: IconImage;
 </script>
 
-<button class="button" on:click|stopPropagation>
+<button class="button" on:click|stopPropagation data-testid={TEST_IDS.floatingActionButton}>
   <Icon icon={icon} size={ICON_SIZE.extraLarge} />
 </button>
 

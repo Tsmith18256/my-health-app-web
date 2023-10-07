@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { TEST_IDS } from '$lib/constants/test-ids.constants';
+
   export let isVisible = false;
 
   const onKeyUp = (e: KeyboardEvent) => {
@@ -13,7 +15,13 @@
 </script>
 
 {#if isVisible}
-  <div class="background" on:click|stopPropagation|self={hideModal} on:keyup={onKeyUp} role="presentation">
+  <div
+    class="background"
+    on:click|stopPropagation|self={hideModal}
+    on:keyup={onKeyUp}
+    role="presentation"
+    data-testid={TEST_IDS.modal}
+  >
     <div class="modal" role="dialog">
       <slot />
     </div>

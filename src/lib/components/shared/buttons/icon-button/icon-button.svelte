@@ -4,8 +4,8 @@
   import type { IconImage } from '$lib/components/shared/icon/icon.types';
   import Button from '../button/button.svelte';
 
-  export let disabled = false;
   export let icon: IconImage;
+  export let disabled = false;
 </script>
 
 <Button bind:disabled on:click>

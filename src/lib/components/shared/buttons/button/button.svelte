@@ -1,8 +1,10 @@
 <script lang="ts">
+  import { TEST_IDS } from '$lib/constants/test-ids.constants';
+
   export let disabled = false;
 </script>
 
-<button class="button" class:disabled on:click|stopPropagation {disabled}>
+<button class="button" class:disabled on:click|stopPropagation {disabled} data-testid={TEST_IDS.button}>
   <slot />
 </button>
 
