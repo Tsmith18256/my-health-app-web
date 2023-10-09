@@ -1,7 +1,7 @@
 <script lang="ts">
   import { BUTTON_TYPE } from '$lib/components/shared/buttons/button/button.constants';
   import Button from '$lib/components/shared/buttons/button/button.svelte';
-  import TextInput from '$lib/components/shared/text-input/text-input.svelte';
+  import TextInput from '$lib/components/shared/inputs/text-input/text-input.svelte';
   import { settings, userAge } from '$lib/stores/shared/settings/settings.store';
   import type { IBodyCompEntry } from '$lib/types/body-comp/body-comp-entry.types';
   import { calculateAveragedBodyFat } from '$lib/utils/body-comp/body-fat-calculator/body-fat-calculator.util';
@@ -10,7 +10,6 @@
   import { createEventDispatcher } from 'svelte';
 
   let age = $userAge;
-  console.log('AGE:', age);
   let heightInMm = $settings.heightInMm;
 
   // TODO: add date picker
@@ -130,6 +129,8 @@
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
+
+    max-width: 20rem;
   }
 
   .body-fat-container {

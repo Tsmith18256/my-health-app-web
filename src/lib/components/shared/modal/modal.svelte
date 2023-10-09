@@ -65,6 +65,7 @@
 
     /* TODO: Hide the scroll bar */
     overflow-y: scroll;
+    scrollbar-width: none;
 
     background-color: colors.$background;
 
@@ -75,6 +76,10 @@
       left: 20rem;
 
       border-radius: 2rem;
+    }
+
+    &::-webkit-scrollbar {
+      display: none;
     }
   }
 </style>

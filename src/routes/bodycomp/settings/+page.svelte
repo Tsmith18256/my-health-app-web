@@ -1,6 +1,7 @@
 <script lang="ts">
   import Button from '$lib/components/shared/buttons/button/button.svelte';
-  import TextInput from '$lib/components/shared/text-input/text-input.svelte';
+  import DateInput from '$lib/components/shared/inputs/date-input/date-input.svelte';
+  import TextInput from '$lib/components/shared/inputs/text-input/text-input.svelte';
   import { settings, updateSettings } from '$lib/stores/shared/settings/settings.store';
   import { convertInsToMms, convertMmsToIns } from '$lib/utils/shared/unit-converter/unit-converter.util';
   import dayjs from 'dayjs';
@@ -25,7 +26,7 @@
   <h2 class="heading">Settings</h2>
 
   <div class="fields-container">
-    <input type="date" bind:value={birthday} />
+    <DateInput id="birthdayField" label="Birthday" bind:value={birthday} />
     <TextInput id="heightField" label="Height (in)" bind:value={heightInIn} />
   </div>
 
