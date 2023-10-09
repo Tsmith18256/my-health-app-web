@@ -1,7 +1,14 @@
 <script lang="ts">
   import { TEST_IDS } from '$lib/constants/test-ids.constants';
+  import { isMobileWidth } from '$lib/utils/shared/breakpoints/breakpoints.util';
+  import { fade } from 'svelte/transition';
 
   export let isVisible = false;
+
+  let innerWidth: number;
+
+  // Setting duration to undefined tells Svelte to use the default duration.
+  $: fadeDuration = isMobileWidth(innerWidth) ? 0 : undefined;
 
   const onKeyUp = (e: KeyboardEvent) => {
     if (e.key === 'Escape') {
@@ -17,6 +24,7 @@
 {#if isVisible}
   <div
     class="background"
+    transition:fade={{ duration: fadeDuration }}
     on:click|stopPropagation|self={hideModal}
     on:keyup={onKeyUp}
     role="presentation"
@@ -27,6 +35,8 @@
     </div>
   </div>
 {/if}
+
+<svelte:window bind:innerWidth />
 
 <style lang="scss">
   @use '$lib/styles/variables/breakpoints';
