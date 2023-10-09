@@ -4,7 +4,7 @@
   import IconButton from '$lib/components/shared/buttons/icon-button/icon-button.svelte';
   import { ICON_IMAGE, ICON_SIZE } from '$lib/components/shared/icon/icon.constants';
   import Icon from '$lib/components/shared/icon/icon.svelte';
-  import { isDesktopWidth } from '$lib/utils/shared/breakpoints/breakpoint.util';
+  import { isDesktopWidth } from '$lib/utils/shared/breakpoint/breakpoint.util';
 
   let innerWidth: number;
   $: isDesktop = isDesktopWidth(innerWidth);

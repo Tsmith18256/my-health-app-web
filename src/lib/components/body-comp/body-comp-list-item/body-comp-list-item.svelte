@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { isMobileWidth } from '$lib/utils/shared/breakpoints/breakpoint.util';
+  import { isMobileWidth } from '$lib/utils/shared/breakpoint/breakpoint.util';
 
   export let date: string;
   export let weight: string;

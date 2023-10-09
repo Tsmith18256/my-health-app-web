@@ -1,5 +1,5 @@
 import { BREAKPOINTS } from '$lib/constants/breakpoints.constants';
-import { isDesktopWidth, isMobileWidth } from '$lib/utils/shared/breakpoints/breakpoint.util';
+import { isDesktopWidth, isMobileWidth } from '$lib/utils/shared/breakpoint/breakpoint.util';
 import { describe, expect, test } from 'vitest';
 
 const mobileWidth = BREAKPOINTS.tablet - 5;

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { TEST_IDS } from '$lib/constants/test-ids.constants';
-  import { isMobileWidth } from '$lib/utils/shared/breakpoints/breakpoint.util';
+  import { isMobileWidth } from '$lib/utils/shared/breakpoint/breakpoint.util';
   import { fade } from 'svelte/transition';
 
   export let isVisible = false;

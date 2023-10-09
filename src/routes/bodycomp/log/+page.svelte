@@ -34,7 +34,7 @@
       });
 
     return {
-      date: date.format('MMMM D, YYYY'),
+      date: date.format('MMM D, YYYY'),
       weight: convertGsToLbs(weightInG).toFixed(1),
       bodyFat: bodyFat?.toLocaleString(undefined, {
         style: 'percent',

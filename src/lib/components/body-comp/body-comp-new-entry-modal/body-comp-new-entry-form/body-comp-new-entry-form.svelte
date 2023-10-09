@@ -1,6 +1,7 @@
 <script lang="ts">
   import { BUTTON_TYPE } from '$lib/components/shared/buttons/button/button.constants';
   import Button from '$lib/components/shared/buttons/button/button.svelte';
+  import DateInput from '$lib/components/shared/inputs/date-input/date-input.svelte';
   import TextInput from '$lib/components/shared/inputs/text-input/text-input.svelte';
   import { settings, userAge } from '$lib/stores/shared/settings/settings.store';
   import type { IBodyCompEntry } from '$lib/types/body-comp/body-comp-entry.types';
@@ -12,8 +13,7 @@
   let age = $userAge;
   let heightInMm = $settings.heightInMm;
 
-  // TODO: add date picker
-  const date = dayjs();
+  let date = dayjs().format('YYYY-MM-DD');
   let weightInLb: number | undefined;
   let waistInIn: number | undefined;
   let neckInIn: number | undefined;
@@ -54,7 +54,7 @@
   const submit = () => {
     if (date && weightInLb) {
       dispatch('submit', {
-        date,
+        date: dayjs(date),
         weightInG: convertLbsToGs(weightInLb),
         waistCircInMm: waistInIn && convertInsToMms(waistInIn),
         neckCircInMm: neckInIn && convertInsToMms(neckInIn),
@@ -84,6 +84,7 @@
 <h2 class="heading">New Body Comp Entry</h2>
 
 <div class="fields-container">
+  <DateInput id="dateField" label="Date" bind:value={date} />
   <TextInput id="weightField" label="Weight (lbs)" bind:value={weightInLb} />
   <TextInput id="waistField" label="Waist (in)" bind:value={waistInIn} />
   <TextInput id="neckField" label="Neck (in)" bind:value={neckInIn} />
