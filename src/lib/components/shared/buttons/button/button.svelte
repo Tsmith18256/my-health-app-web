@@ -24,7 +24,7 @@
   .button {
     padding: 1rem;
 
-    background-color: colors.$secondary;
+    background-color: colors.$primary;
     border: none;
     border-radius: 0.25rem;
 
@@ -36,7 +36,7 @@
   }
 
   .type-primary {
-    background-color: colors.$secondary;
+    background-color: colors.$primary;
   }
 
   .type-negative {

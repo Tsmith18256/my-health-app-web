@@ -1,5 +1,6 @@
 export const ICON_IMAGE = {
   cog: 'fa-cog',
+  log: 'fa-clipboard-list',
   plus: 'fa-plus'
 };
 

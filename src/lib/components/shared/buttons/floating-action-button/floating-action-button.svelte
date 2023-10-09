@@ -24,7 +24,7 @@
     width: $size;
     height: $size;
 
-    background-color: colors.$secondary;
+    background-color: colors.$quaternary;
     border: none;
     border-radius: 50%;
   }
