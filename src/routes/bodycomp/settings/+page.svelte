@@ -3,17 +3,20 @@
   import TextInput from '$lib/components/shared/text-input/text-input.svelte';
   import { settings, updateSettings } from '$lib/stores/shared/settings/settings.store';
   import { convertInsToMms, convertMmsToIns } from '$lib/utils/shared/unit-converter/unit-converter.util';
+  import dayjs from 'dayjs';
   import { get } from 'svelte/store';
 
-  let age = get(settings).age;
+  let birthday = get(settings).birthday.format('YYYY-MM-DD');
   let heightInIn = Math.round(convertMmsToIns(get(settings).heightInMm) * 10) / 10;
 
-  $: areValuesSameAsSaved = age === $settings.age && Math.round(convertInsToMms(heightInIn)) === $settings.heightInMm;
-  $: isButtonDisabled = !age || !heightInIn || areValuesSameAsSaved;
+  $: areValuesSameAsSaved =
+    birthday === $settings.birthday.format('YYYY-MM-DD') &&
+    Math.round(convertInsToMms(heightInIn)) === $settings.heightInMm;
+  $: isButtonDisabled = !birthday || !heightInIn || areValuesSameAsSaved;
 
   const save = () => {
-    if (age && heightInIn) {
-      updateSettings({ age, heightInMm: Math.round(convertInsToMms(heightInIn)) });
+    if (birthday && heightInIn) {
+      updateSettings({ birthday: dayjs(birthday), heightInMm: Math.round(convertInsToMms(heightInIn)) });
     }
   };
 </script>
@@ -22,14 +25,12 @@
   <h2 class="heading">Settings</h2>
 
   <div class="fields-container">
-    <TextInput id="ageField" label="Age" bind:value={age} />
+    <input type="date" bind:value={birthday} />
     <TextInput id="heightField" label="Height (in)" bind:value={heightInIn} />
   </div>
 
   <div class="button-container">
-    <Button disabled={isButtonDisabled} on:click={save}>
-      Save Settings
-    </Button>
+    <Button disabled={isButtonDisabled} on:click={save}>Save Settings</Button>
   </div>
 </div>
 

@@ -1,4 +1,6 @@
+import type { Dayjs } from 'dayjs';
+
 export interface ISettings {
-  age: number;
+  birthday: Dayjs;
   heightInMm: number;
 }

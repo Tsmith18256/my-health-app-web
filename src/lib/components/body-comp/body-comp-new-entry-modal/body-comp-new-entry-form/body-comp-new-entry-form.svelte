@@ -2,14 +2,15 @@
   import { BUTTON_TYPE } from '$lib/components/shared/buttons/button/button.constants';
   import Button from '$lib/components/shared/buttons/button/button.svelte';
   import TextInput from '$lib/components/shared/text-input/text-input.svelte';
-  import { settings } from '$lib/stores/shared/settings/settings.store';
+  import { settings, userAge } from '$lib/stores/shared/settings/settings.store';
   import type { IBodyCompEntry } from '$lib/types/body-comp/body-comp-entry.types';
   import { calculateAveragedBodyFat } from '$lib/utils/body-comp/body-fat-calculator/body-fat-calculator.util';
   import { convertInsToCms, convertInsToMms, convertLbsToGs, convertMmsToCms } from '$lib/utils/shared/unit-converter/unit-converter.util';
   import dayjs from 'dayjs';
   import { createEventDispatcher } from 'svelte';
 
-  let age = $settings.age;
+  let age = $userAge;
+  console.log('AGE:', age);
   let heightInMm = $settings.heightInMm;
 
   // TODO: add date picker

@@ -4,7 +4,7 @@
   import BodyCompNewEntryModal from '$lib/components/body-comp/body-comp-new-entry-modal/body-comp-new-entry-modal.svelte';
   import BodyCompTableHeading from '$lib/components/body-comp/body-comp-table-heading/body-comp-table-heading.svelte';
   import { bodyCompEntries } from '$lib/stores/body-comp/body-comp-entries/body-comp-entries.store';
-  import { settings } from '$lib/stores/shared/settings/settings.store';
+  import { settings, userAge } from '$lib/stores/shared/settings/settings.store';
   import { calculateAveragedBodyFat } from '$lib/utils/body-comp/body-fat-calculator/body-fat-calculator.util';
   import {
     convertGsToLbs,
@@ -24,7 +24,7 @@
     const bodyFat =
       canCalculateBodyFat &&
       calculateAveragedBodyFat({
-        age: $settings.age,
+        age: $userAge,
         heightInCm: convertMmsToCms($settings.heightInMm),
         neckInCm: convertMmsToCms(neckCircInMm),
         waistInCm: convertMmsToCms(waistCircInMm),
