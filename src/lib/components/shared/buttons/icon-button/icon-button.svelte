@@ -1,22 +1,28 @@
 <script lang="ts">
-  import { ICON_SIZE } from '$lib/components/shared/icon/icon.constants';
-  import Icon from '$lib/components/shared/icon/icon.svelte';
-  import type { IconImage } from '$lib/components/shared/icon/icon.types';
-  import Button from '../button/button.svelte';
+  import type { IconImage, IconSize } from '$lib/components/shared/icon/icon.types';
+  import { createEventDispatcher } from 'svelte';
+  import Icon from '../../icon/icon.svelte';
 
   export let icon: IconImage;
-  export let disabled = false;
+  export let size: IconSize | undefined = undefined;
+  export let title: string | undefined = undefined;
+  export let tabindex: number;
+
+  const dispatch = createEventDispatcher<{ click: void }>();
+
+  const onKeyUp = (e: KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      dispatch('click');
+    }
+  };
 </script>
 
-<Button bind:disabled on:click>
-  <span class="icon">
-    <Icon icon={icon} size={ICON_SIZE.medium} />
-  </span>
-  <slot />
-</Button>
+<span class="button" {title} on:click on:keyup={onKeyUp} role="button" {tabindex}>
+  <Icon {icon} {size} />
+</span>
 
-<style>
-  .icon {
-    padding-right: 0.25rem;
+<style lang="scss">
+  .button {
+    padding: 0.75rem;
   }
 </style>

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { BREAKPOINTS } from '$lib/constants/breakpoints.constants';
+  import { isMobileWidth } from '$lib/utils/shared/breakpoint/breakpoint.util';
 
   export let date: string;
   export let weight: string;
@@ -11,7 +11,7 @@
   export let thighSkinfold: string | undefined = undefined;
 
   let innerWidth: number;
-  $: isMobile = innerWidth < BREAKPOINTS.tablet;
+  $: isMobile = isMobileWidth(innerWidth);
 </script>
 
 <div class="item-container">

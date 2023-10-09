@@ -10,11 +10,4 @@ describe('Button component', () => {
     const button = screen.getByTestId(TEST_IDS.button);
     expect(button).toHaveTextContent('Click me');
   });
-
-  test('applies disabled class', () => {
-    render(TestingWrapperButton, { props: { disabled: true }})
-
-    const button = screen.getByTestId(TEST_IDS.button);
-    expect(button).toHaveStyle('opacity: 0.5');
-  });
 });

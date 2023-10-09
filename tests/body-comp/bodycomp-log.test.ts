@@ -1,8 +1,11 @@
 import test, { expect } from '@playwright/test';
 import { TEST_IDS } from '../../src/lib/constants/test-ids.constants';
+import { sleep } from '../../src/lib/utils/shared/sleep/sleep.util';
+import dayjs from 'dayjs';
 
 test.describe('Body Comp Log', () => {
   test.beforeEach(async ({ page }) => {
+    // Go to the log page.
     await page.goto('/bodycomp/log');
   });
 
@@ -34,6 +37,22 @@ test.describe('Body Comp Log', () => {
   });
 
   test('saves and displays new entry', async ({ page }) => {
+    // Update the settings so that the user is 28 and 5'10" every time.
+    const settingsButton = page.getByTitle('Settings');
+    await settingsButton.click();
+
+    const birthdayInput = page.getByLabel('Birthday');
+    await birthdayInput.fill(dayjs().subtract(28, 'year').format('YYYY-MM-DD'));
+
+    const heightInput = page.getByLabel('Height');
+    await heightInput.fill('70');
+
+    const saveButton = page.getByText('Save Settings');
+    await saveButton.click();
+
+    const backButton = page.getByTitle('Go back');
+    await backButton.click();
+
     // Open the new entry modal.
     const newEntryButton = page.getByTestId(TEST_IDS.button);
     await newEntryButton.click();
@@ -49,7 +68,7 @@ test.describe('Body Comp Log', () => {
     await chestInput.fill('10');
     const abInput = page.getByLabel('Ab (mm)');
     await abInput.fill('11');
-    const thighInput = page.getByLabel('Thigh (mm');
+    const thighInput = page.getByLabel('Thigh (mm)');
     await thighInput.fill('12');
 
     // Submit the form.
@@ -71,5 +90,7 @@ test.describe('Body Comp Log', () => {
     await expect(abLabel).toBeVisible();
     const thighLabel = page.getByText('12 mm');
     await expect(thighLabel).toBeVisible();
+
+    await sleep(1000);
   });
 });

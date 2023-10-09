@@ -4,10 +4,10 @@
   import BodyCompNewEntryModal from '$lib/components/body-comp/body-comp-new-entry-modal/body-comp-new-entry-modal.svelte';
   import BodyCompTableHeading from '$lib/components/body-comp/body-comp-table-heading/body-comp-table-heading.svelte';
   import { bodyCompEntries } from '$lib/stores/body-comp/body-comp-entries/body-comp-entries.store';
+  import { settings, userAge } from '$lib/stores/shared/settings/settings.store';
   import { calculateAveragedBodyFat } from '$lib/utils/body-comp/body-fat-calculator/body-fat-calculator.util';
   import {
     convertGsToLbs,
-    convertInsToCms,
     convertMmsToCms,
     convertMmsToIns,
   } from '$lib/utils/shared/unit-converter/unit-converter.util';
@@ -24,8 +24,8 @@
     const bodyFat =
       canCalculateBodyFat &&
       calculateAveragedBodyFat({
-        age: 28,
-        heightInCm: convertInsToCms(70),
+        age: $userAge,
+        heightInCm: convertMmsToCms($settings.heightInMm),
         neckInCm: convertMmsToCms(neckCircInMm),
         waistInCm: convertMmsToCms(waistCircInMm),
         chestInMm: chestSkinfoldInMm,
@@ -34,7 +34,7 @@
       });
 
     return {
-      date: date.format('MMMM D, YYYY'),
+      date: date.format('MMM D, YYYY'),
       weight: convertGsToLbs(weightInG).toFixed(1),
       bodyFat: bodyFat?.toLocaleString(undefined, {
         style: 'percent',
@@ -65,8 +65,12 @@
   <BodyCompNewEntryModal bind:isVisible={isNewEntryModalVisible} />
 </div>
 
-<style>
+<style lang="scss">
+  @use '$lib/styles/variables/breakpoints';
+
   .body-comp-table {
-    margin-top: 1rem;
+    @media (min-width: breakpoints.$tablet) {
+      margin-top: 1rem;
+    }
   }
 </style>

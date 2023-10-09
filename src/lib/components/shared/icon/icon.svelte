@@ -1,8 +1,9 @@
 <script lang="ts">
+  import { ICON_SIZE } from '$lib/components/shared/icon/icon.constants';
   import type { IconImage, IconSize } from '$lib/components/shared/icon/icon.types';
 
   export let icon: IconImage;
-  export let size: IconSize;
+  export let size: IconSize = ICON_SIZE.medium;
 </script>
 
 <i class="far {icon} {size}" />
