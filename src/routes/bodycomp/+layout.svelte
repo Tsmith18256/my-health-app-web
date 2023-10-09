@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { goto } from '$app/navigation';
   import { page } from '$app/stores';
   import IconButton from '$lib/components/shared/buttons/icon-button/icon-button.svelte';
   import { ICON_IMAGE, ICON_SIZE } from '$lib/components/shared/icon/icon.constants';
@@ -9,6 +10,24 @@
   $: isDesktop = isDesktopWidth(innerWidth);
 
   $: path = $page.url.pathname.split('/').pop();
+
+  const onKeyUp = (e: KeyboardEvent, path: string) => {
+    if (e.key === 'Enter') {
+      goto(`/bodycomp/${path}`);
+    }
+  };
+
+  const goToLog = () => {
+    goto('/bodycomp/log');
+  };
+
+  const goToOverview = () => {
+    goto('/bodycomp/overview');
+  };
+
+  const goToSettings = () => {
+    goto('/bodycomp/settings');
+  };
 </script>
 
 {#if isDesktop}
@@ -23,12 +42,38 @@
 
 {#if !isDesktop}
   <nav class="bottom-nav">
-    <div class="bottom-nav-tab" class:bottom-nav-tab-selected={path === 'log'}>
+    <div
+      class="bottom-nav-tab"
+      class:bottom-nav-tab-selected={path === 'log'}
+      on:click={goToLog}
+      role="tab"
+      tabindex={0}
+      on:keyup={e => onKeyUp(e, 'log')}
+    >
       <Icon icon={ICON_IMAGE.log} size={ICON_SIZE.large} />
       <span>Log</span>
     </div>
 
-    <div class="bottom-nav-tab" class:bottom-nav-tab-selected={path === 'settings'}>
+    <div
+      class="bottom-nav-tab"
+      class:bottom-nav-tab-selected={path === 'overview'}
+      on:click={goToOverview}
+      role="tab"
+      tabindex={0}
+      on:keyup={e => onKeyUp(e, 'overview')}
+    >
+      <Icon icon={ICON_IMAGE.chartLine} size={ICON_SIZE.large} />
+      <span>Overview</span>
+    </div>
+
+    <div
+      class="bottom-nav-tab"
+      class:bottom-nav-tab-selected={path === 'settings'}
+      on:click={goToSettings}
+      role="tab"
+      tabindex={0}
+      on:keyup={e => onKeyUp(e, 'settings')}
+    >
       <Icon icon={ICON_IMAGE.cog} size={ICON_SIZE.large} />
       <span>Settings</span>
     </div>
@@ -65,7 +110,7 @@
     flex: 1;
 
     &-selected {
-      background-color:#00000033;
+      background-color: #00000033;
     }
   }
 
