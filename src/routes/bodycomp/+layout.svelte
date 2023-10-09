@@ -32,7 +32,19 @@
 
 {#if isDesktop}
   <nav class="top-nav">
-    <IconButton icon={ICON_IMAGE.cog} size={ICON_SIZE.large} title="Settings" tabindex={1} />
+    <span class="top-nav-settings-button">
+      <IconButton icon={ICON_IMAGE.cog} size={ICON_SIZE.large} on:click={goToSettings} title="Settings" tabindex={0} />
+    </span>
+
+    {#if path === 'settings'}
+      <IconButton
+        icon={ICON_IMAGE.chevronLeft}
+        size={ICON_SIZE.large}
+        on:click={goToLog}
+        title="Go back"
+        tabindex={0}
+      />
+    {/if}
   </nav>
 {/if}
 
@@ -116,7 +128,10 @@
 
   .top-nav {
     display: flex;
-    justify-content: flex-end;
+    // Using a reverse row makes it easier to use space-between because there will always be an icon on the right side,
+    // but the one on the left side will not always appear.
+    flex-direction: row-reverse;
+    justify-content: space-between;
     align-items: center;
 
     position: fixed;
@@ -125,9 +140,13 @@
     left: 0;
 
     height: $top-nav-height;
-    padding: 0 2rem;
+    padding: 0 1.25rem;
 
     border-bottom: 2px solid colors.$border;
+  }
+
+  .top-nav-settings-button {
+    justify-self: flex-end;
   }
 
   .with-top-nav {
