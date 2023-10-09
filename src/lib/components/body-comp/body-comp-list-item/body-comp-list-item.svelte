@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { BREAKPOINTS } from '$lib/constants/breakpoints.constants';
-  import { isMobileWidth } from '$lib/utils/shared/breakpoints/breakpoints.util';
+  import { isMobileWidth } from '$lib/utils/shared/breakpoints/breakpoint.util';
 
   export let date: string;
   export let weight: string;

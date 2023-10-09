@@ -1,4 +1,5 @@
 export const ICON_IMAGE = {
+  cog: 'fa-cog',
   plus: 'fa-plus'
 };
 
