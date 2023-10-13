@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import { describe, expect, test } from 'vitest';
 
 describe('Sort Body Comp Entries by Newest util', () => {
-  test('sorts entries in the correct order', () => {
+  test('should sort entries in the correct order', () => {
     const unsorted: IBodyCompEntry[] = [
       {
         id: 1,

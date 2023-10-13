@@ -1,49 +1,46 @@
 <script lang="ts">
+  import type { IBodyCompEntry } from '$lib/types/body-comp/body-comp-entry.types';
+  import { formatBodyCompEntry } from '$lib/utils/body-comp/format-body-comp-entry/format-body-comp-entry.util';
   import { isMobileWidth } from '$lib/utils/shared/breakpoint/breakpoint.util';
 
-  export let date: string;
-  export let weight: string;
-  export let bodyFat: string | undefined = undefined;
-  export let waistCirc: string | undefined = undefined;
-  export let neckCirc: string | undefined = undefined;
-  export let chestSkinfold: string | undefined = undefined;
-  export let abSkinfold: string | undefined = undefined;
-  export let thighSkinfold: string | undefined = undefined;
+  export let entry: IBodyCompEntry;
+
+  $: formatted = formatBodyCompEntry(entry);
 
   let innerWidth: number;
   $: isMobile = isMobileWidth(innerWidth);
 </script>
 
 <div class="item-container">
-  <span class="date-label">{date}</span>
+  <span class="date-label">{formatted.date}</span>
 
-  <span class="weight-label">{weight} lbs</span>
+  <span class="weight-label">{formatted.weight} lbs</span>
 
   <span class="body-fat-label">
-    {#if bodyFat}
-      {bodyFat}
+    {#if formatted.bodyFat}
+      {formatted.bodyFat}
       {#if isMobile}BF{/if}
     {/if}
   </span>
 
   <span class="small-desktop-label">
-    {#if waistCirc}{waistCirc}"{/if}
+    {#if formatted.waistCirc}{formatted.waistCirc}"{/if}
   </span>
 
   <span class="small-desktop-label">
-    {#if neckCirc}{neckCirc}"{/if}
+    {#if formatted.neckCirc}{formatted.neckCirc}"{/if}
   </span>
 
   <span class="large-desktop-label">
-    {#if chestSkinfold}{chestSkinfold} mm{/if}
+    {#if formatted.chestSkinfold}{formatted.chestSkinfold} mm{/if}
   </span>
 
   <span class="large-desktop-label">
-    {#if abSkinfold}{abSkinfold} mm{/if}
+    {#if formatted.abSkinfold}{formatted.abSkinfold} mm{/if}
   </span>
 
   <span class="large-desktop-label">
-    {#if thighSkinfold}{thighSkinfold} mm{/if}
+    {#if formatted.thighSkinfold}{formatted.thighSkinfold} mm{/if}
   </span>
 </div>
 
