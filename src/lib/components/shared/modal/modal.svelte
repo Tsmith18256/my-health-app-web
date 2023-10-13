@@ -43,24 +43,27 @@
   @use '$lib/styles/variables/colors';
 
   .background {
-    @media (min-width: breakpoints.$tablet) {
-      position: fixed;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-      background-color: #000000dd;
+    position: fixed;
+    top: 0;
+    right: 0;
+    // TODO: Share the bottom nav height in a variable.
+    bottom: 5rem;
+    left: 0;
+
+    background-color: #000000dd;
+
+    @media (min-width: breakpoints.$desktop-small) {
+      bottom: 0;
     }
   }
 
   .modal {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-
+    width: 100%;
+    height: 100%;
     padding: 2rem;
 
     /* TODO: Hide the scroll bar */
@@ -69,11 +72,11 @@
 
     background-color: colors.$background;
 
-    @media (min-width: breakpoints.$tablet) {
-      top: 10rem;
-      right: 20rem;
-      bottom: 10rem;
-      left: 20rem;
+    @media (min-width: breakpoints.$desktop-small) {
+      width: 80%;
+      height: 80%;
+      min-width: 40rem;
+      min-height: 40rem;
 
       border-radius: 2rem;
     }
