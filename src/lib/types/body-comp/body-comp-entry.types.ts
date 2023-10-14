@@ -1,6 +1,9 @@
 import type { Dayjs } from 'dayjs'
 
+export type INewBodyCompEntry = Omit<IBodyCompEntry, 'id'>;
+
 export interface IBodyCompEntry {
+  id: number;
   date: Dayjs;
   weightInG: number;
   waistCircInMm?: number;

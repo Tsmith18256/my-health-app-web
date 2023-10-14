@@ -1,12 +1,12 @@
 <script lang="ts">
   import Modal from '$lib/components/shared/modal/modal.svelte';
-  import BodyCompNewEntryForm from './body-comp-new-entry-form/body-comp-new-entry-form.svelte';
-  import type { IBodyCompEntry } from '$lib/types/body-comp/body-comp-entry.types';
+  import BodyCompEditEntryForm from './body-comp-edit-entry-form/body-comp-edit-entry-form.svelte';
+  import type { INewBodyCompEntry } from '$lib/types/body-comp/body-comp-entry.types';
   import { addBodyCompEntry } from '$lib/stores/body-comp/body-comp-entries/body-comp-entries.store';
 
   export let isVisible = false;
 
-  const onFormSubmit = (e: CustomEvent<IBodyCompEntry>) => {
+  const onFormSubmit = (e: CustomEvent<INewBodyCompEntry>) => {
     addBodyCompEntry(e.detail);
     closeModal();
   };
@@ -17,5 +17,5 @@
 </script>
 
 <Modal bind:isVisible>
-  <BodyCompNewEntryForm on:submit={onFormSubmit} on:cancel={closeModal} />
+  <BodyCompEditEntryForm on:submit={onFormSubmit} on:cancel={closeModal} />
 </Modal>
