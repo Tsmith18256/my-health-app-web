@@ -88,7 +88,7 @@
   };
 </script>
 
-<h2 class="heading">New Body Comp Entry</h2>
+<h2 class="heading">{entryToEdit ? 'Edit' : 'New'} Body Comp Entry</h2>
 
 <div class="fields-container">
   <DateInput id="dateField" label="Date" bind:value={date} />

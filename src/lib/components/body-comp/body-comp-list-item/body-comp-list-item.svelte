@@ -11,7 +11,10 @@
   $: isMobile = isMobileWidth(innerWidth);
 </script>
 
-<div class="item-container">
+<!-- TODO: Fix these without linter ignores -->
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+<div class="item-container" on:click role='listitem'>
   <span class="date-label">{formatted.date}</span>
 
   <span class="weight-label">{formatted.weight} lbs</span>
@@ -60,6 +63,12 @@
     padding: 0.9rem 1rem;
 
     border-bottom: 1px solid colors.$border;
+
+    cursor: pointer;
+
+    &:hover {
+      background-color: #00000022;
+    }
 
     @media (min-width: breakpoints.$tablet) {
       grid-template-columns: 1fr 1fr 1fr;
