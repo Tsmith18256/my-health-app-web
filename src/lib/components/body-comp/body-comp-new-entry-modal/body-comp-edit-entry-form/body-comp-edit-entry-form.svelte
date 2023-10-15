@@ -55,7 +55,7 @@
     bodyFatMass = undefined;
   }
 
-  const dispatch = createEventDispatcher<{ submit: INewBodyCompEntry | IBodyCompEntry, cancel: void }>();
+  const dispatch = createEventDispatcher<{ submit: INewBodyCompEntry | IBodyCompEntry, cancel: void, delete: void }>();
 
   const submit = () => {
     if (date && weightInLb) {
@@ -75,6 +75,11 @@
 
   const cancel = () => {
     dispatch('cancel');
+    reset();
+  };
+
+  const deleteEntry = () => {
+    dispatch('delete');
     reset();
   };
 
@@ -118,9 +123,11 @@
     {entryToEdit ? 'SAVE' : 'SUBMIT'}
   </Button>
 
-  <Button type={BUTTON_TYPE.negative} on:click={cancel}>
-    Cancel
-  </Button>
+  <Button type={BUTTON_TYPE.negative} on:click={cancel}>Cancel</Button>
+
+  {#if entryToEdit}
+    <Button type={BUTTON_TYPE.danger} on:click={deleteEntry}>Delete</Button>
+  {/if}
 </div>
 
 <style lang="scss">

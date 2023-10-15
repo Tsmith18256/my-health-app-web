@@ -42,3 +42,18 @@ export const updateBodyCompEntry = (updatedEntry: IBodyCompEntry) => {
     return requiresResort ? sortBodyCompEntriesByNewest(updated) : updated;
   });
 };
+
+/**
+ * Deletes the entry with the given ID from the store. If no entry with the given ID exists, nothing will be deleted.
+ */
+export const deleteBodyCompEntryById = (id: IBodyCompEntry['id']) => {
+  bodyCompEntries.update(entries => {
+    const indexToRemove = entries.findIndex(entry => entry.id === id);
+
+    if (indexToRemove < 0) {
+      return entries;
+    }
+
+    return entries.toSpliced(indexToRemove, 1);
+  });
+};
