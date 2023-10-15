@@ -1,7 +1,7 @@
 <script lang="ts">
   import Modal from '$lib/components/shared/modal/modal.svelte';
   import type { IBodyCompEntry, INewBodyCompEntry } from '$lib/types/body-comp/body-comp-entry.types';
-  import { updateBodyCompEntry } from '$lib/stores/body-comp/body-comp-entries/body-comp-entries.store';
+  import { deleteBodyCompEntryById, updateBodyCompEntry } from '$lib/stores/body-comp/body-comp-entries/body-comp-entries.store';
   import BodyCompEditEntryForm from '$lib/components/body-comp/body-comp-new-entry-modal/body-comp-edit-entry-form/body-comp-edit-entry-form.svelte';
   import type { ComponentProps } from 'svelte';
 
@@ -23,6 +23,12 @@
     closeModal();
   };
 
+  const onDeleteEntry = () => {
+    deleteBodyCompEntryById(entryToEdit.id);
+
+    closeModal();
+  };
+
   const closeModal = () => {
     isVisible = false;
   };
@@ -33,5 +39,5 @@
 </script>
 
 <Modal bind:isVisible>
-  <BodyCompEditEntryForm {entryToEdit} on:submit={onFormSubmit} on:cancel={closeModal} />
+  <BodyCompEditEntryForm {entryToEdit} on:submit={onFormSubmit} on:cancel={closeModal} on:delete={onDeleteEntry} />
 </Modal>

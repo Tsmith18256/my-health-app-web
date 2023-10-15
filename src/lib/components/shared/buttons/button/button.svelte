@@ -11,6 +11,7 @@
   class="button"
   class:type-primary={type === BUTTON_TYPE.primary}
   class:type-negative={type === BUTTON_TYPE.negative}
+  class:type-danger={type === BUTTON_TYPE.danger}
   {disabled}
   on:click|stopPropagation
   data-testid={TEST_IDS.button}
@@ -41,5 +42,9 @@
 
   .type-negative {
     background-color: colors.$border;
+  }
+
+  .type-danger {
+    background-color: colors.$danger;
   }
 </style>
