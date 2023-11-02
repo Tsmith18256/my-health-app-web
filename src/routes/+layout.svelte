@@ -1,6 +1,7 @@
 <script lang="ts">
   import '$lib/assets/fonts/css/fontawesome.min.css';
   import '$lib/assets/fonts/css/regular.min.css';
+  import '$lib/polyfills';
 </script>
 
 <slot />
