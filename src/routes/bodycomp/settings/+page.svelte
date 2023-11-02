@@ -1,8 +1,7 @@
 <script lang="ts">
+  import { HEADING_LEVELS, Heading, ToggleButtons, type IToggleButton } from '@tsmith18256/ty-ui';
   import Button from '$lib/components/shared/buttons/button/button.svelte';
   import DateInput from '$lib/components/shared/inputs/date-input/date-input.svelte';
-  import RadioButtons from '$lib/components/shared/inputs/radio-buttons/radio-buttons.svelte';
-  import type { IRadioButton } from '$lib/components/shared/inputs/radio-buttons/radio-buttons.types';
   import TextInput from '$lib/components/shared/inputs/text-input/text-input.svelte';
   import { MEASUREMENT_SYSTEMS } from '$lib/constants/measurement-systems.constants';
   import { settings, updateSettings } from '$lib/stores/shared/settings/settings.store';
@@ -34,7 +33,7 @@
     }
   };
 
-  const measurementSystemRadioButtons: IRadioButton[] = [
+  const measurementSystemToggles: IToggleButton[] = [
     {
       label: 'Imperial',
       value: MEASUREMENT_SYSTEMS.imperial,
@@ -54,25 +53,23 @@
     <TextInput id="heightField" label="Height (in)" bind:value={heightInIn} />
   </div>
 
-  <h3 class="subheading">Measurement System</h3>
+  <Heading level={HEADING_LEVELS.h3}>Measurement systems</Heading>
 
   <div class="fields-container">
-    <RadioButtons
-      heading="Bodyweight"
-      groupName="bodyweightRadio"
-      radioButtons={measurementSystemRadioButtons}
+    <Heading level={HEADING_LEVELS.h4}>Bodyweight</Heading>
+    <ToggleButtons
+      groupName="bodyweightToggles"
+      toggleButtons={measurementSystemToggles}
       bind:value={bodyweightSystem}
     />
-    <RadioButtons
-      heading="Height"
-      groupName="heightRadio"
-      radioButtons={measurementSystemRadioButtons}
-      bind:value={heightSystem}
-    />
-    <RadioButtons
-      heading="Circumferences"
-      groupName="circumferenceRadio"
-      radioButtons={measurementSystemRadioButtons}
+
+    <Heading level={HEADING_LEVELS.h4}>Height</Heading>
+    <ToggleButtons groupName="heightToggles" toggleButtons={measurementSystemToggles} bind:value={heightSystem} />
+
+    <Heading level={HEADING_LEVELS.h4}>Circumferences</Heading>
+    <ToggleButtons
+      groupName="circumferenceToggles"
+      toggleButtons={measurementSystemToggles}
       bind:value={circumferenceSystem}
     />
   </div>
@@ -101,10 +98,5 @@
   // TODO: create a heading component.
   .heading {
     margin-bottom: 2rem;
-  }
-
-  .subheading {
-    margin-top: 2rem;
-    margin-bottom: 1rem;
   }
 </style>

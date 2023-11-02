@@ -1,2 +1,3 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<h1>Welcome to My Health App</h1>
+
+<p>The home page has not been created yet. Go to <a href="/bodycomp/log">the body composition log</a>.</p>
