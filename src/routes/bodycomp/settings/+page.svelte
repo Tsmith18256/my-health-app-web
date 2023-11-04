@@ -1,8 +1,13 @@
 <script lang="ts">
-  import { HEADING_LEVELS, Heading, ToggleButtons, type IToggleButton } from '@tsmith18256/ty-ui';
-  import Button from '$lib/components/shared/buttons/button/button.svelte';
-  import DateInput from '$lib/components/shared/inputs/date-input/date-input.svelte';
-  import TextInput from '$lib/components/shared/inputs/text-input/text-input.svelte';
+  import {
+    Button,
+    HEADING_LEVELS,
+    Heading,
+    ToggleButtons,
+    type IToggleButton,
+    TextInput,
+    TEXT_INPUT_TYPES,
+  } from '@tsmith18256/ty-ui';
   import { MEASUREMENT_SYSTEMS } from '$lib/constants/measurement-systems.constants';
   import { settings, updateSettings } from '$lib/stores/shared/settings/settings.store';
   import { convertInsToMms, convertMmsToIns } from '$lib/utils/shared/unit-converter/unit-converter.util';
@@ -10,6 +15,7 @@
   import { get } from 'svelte/store';
 
   let birthday = get(settings).birthday.format('YYYY-MM-DD');
+
   let heightInIn = Math.round(convertMmsToIns(get(settings).heightInMm) * 10) / 10;
   let { bodyweightSystem, heightSystem, circumferenceSystem } = get(settings);
 
@@ -19,6 +25,7 @@
     bodyweightSystem === $settings.bodyweightSystem &&
     heightSystem === $settings.heightSystem &&
     circumferenceSystem === $settings.circumferenceSystem;
+
   $: isButtonDisabled = !birthday || !heightInIn || areValuesSameAsSaved;
 
   const save = () => {
@@ -46,11 +53,11 @@
 </script>
 
 <div class="container">
-  <h2 class="heading">Settings</h2>
+  <Heading level={HEADING_LEVELS.h2}>Settings</Heading>
 
   <div class="fields-container">
-    <DateInput id="birthdayField" label="Birthday" bind:value={birthday} />
-    <TextInput id="heightField" label="Height (in)" bind:value={heightInIn} />
+    <TextInput id="birthdayField" type={TEXT_INPUT_TYPES.date} label="Birthday" bind:value={birthday} />
+    <TextInput id="heightField" type={TEXT_INPUT_TYPES.number} label="Height (in)" step={0.1} bind:value={heightInIn} />
   </div>
 
   <Heading level={HEADING_LEVELS.h3}>Measurement systems</Heading>
@@ -75,28 +82,23 @@
   </div>
 
   <div class="button-container">
-    <Button disabled={isButtonDisabled} on:click={save}>Save Settings</Button>
+    <Button label="Save Settings" disabled={isButtonDisabled} on:click={save} />
   </div>
 </div>
 
-<style lang="scss">
+<style>
   .button-container {
     margin-top: 1rem;
   }
 
   .container {
-    padding: 2rem;
+    max-width: 30rem;
   }
 
-  // TODO: create a shared component for this.
+  /* TODO: create a shared component for this. */
   .fields-container {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-  }
-
-  // TODO: create a heading component.
-  .heading {
-    margin-bottom: 2rem;
   }
 </style>
