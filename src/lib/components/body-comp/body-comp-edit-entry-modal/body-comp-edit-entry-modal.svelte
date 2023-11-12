@@ -1,22 +1,24 @@
 <script lang="ts">
-  import Modal from '$lib/components/shared/modal/modal.svelte';
+  import { Modal } from '@tsmith18256/ty-ui';
   import type { IBodyCompEntry, INewBodyCompEntry } from '$lib/types/body-comp/body-comp-entry.types';
-  import { deleteBodyCompEntryById, updateBodyCompEntry } from '$lib/stores/body-comp/body-comp-entries/body-comp-entries.store';
-  import BodyCompEditEntryForm from '$lib/components/body-comp/body-comp-new-entry-modal/body-comp-edit-entry-form/body-comp-edit-entry-form.svelte';
+  import { addBodyCompEntry, deleteBodyCompEntryById, updateBodyCompEntry } from '$lib/stores/body-comp/body-comp-entries/body-comp-entries.store';
+  import BodyCompEditEntryForm from '$lib/components/body-comp/body-comp-edit-entry-modal/body-comp-edit-entry-form/body-comp-edit-entry-form.svelte';
   import type { ComponentProps } from 'svelte';
 
   /**
-   * The body comp entry to edit.
+   * The body comp entry to edit. If this is provided, the modal will open in Edit mode; otherwise, it will open in New
+   * Entry mode.
    */
-  export let entryToEdit: NonNullable<ComponentProps<BodyCompEditEntryForm>['entryToEdit']>;
+  export let entryToEdit: ComponentProps<BodyCompEditEntryForm>['entryToEdit'];
   /**
    * Whether or not the modal is currently visible.
    */
   export let isVisible = false;
 
   const onFormSubmit = (e: CustomEvent<INewBodyCompEntry | IBodyCompEntry>) => {
-    // This should never be able to be false because we have provided the `entryToEdit` prop to the form.
-    if (isBodyCompEntry(e.detail)) {
+    if (isNewEntry(e.detail)) {
+      addBodyCompEntry(e.detail);
+    } else {
       updateBodyCompEntry(e.detail);
     }
 
@@ -24,7 +26,9 @@
   };
 
   const onDeleteEntry = () => {
-    deleteBodyCompEntryById(entryToEdit.id);
+    if (entryToEdit) {
+      deleteBodyCompEntryById(entryToEdit.id);
+    }
 
     closeModal();
   };
@@ -33,8 +37,8 @@
     isVisible = false;
   };
 
-  const isBodyCompEntry = (entry: INewBodyCompEntry | IBodyCompEntry): entry is IBodyCompEntry => {
-    return 'id' in entry;
+  const isNewEntry = (entry: INewBodyCompEntry | IBodyCompEntry): entry is INewBodyCompEntry => {
+    return !('id' in entry) || entry.id == undefined;
   };
 </script>
 

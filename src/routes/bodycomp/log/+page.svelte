@@ -1,28 +1,23 @@
 <script lang="ts">
+  import type { ComponentProps } from 'svelte';
+  import type BodyCompEditEntryForm from '$lib/components/body-comp/body-comp-edit-entry-modal/body-comp-edit-entry-form/body-comp-edit-entry-form.svelte';
   import BodyCompEditEntryModal from '$lib/components/body-comp/body-comp-edit-entry-modal/body-comp-edit-entry-modal.svelte';
   import BodyCompListItem from '$lib/components/body-comp/body-comp-list-item/body-comp-list-item.svelte';
-  import BodyCompNewEntryButton from '$lib/components/body-comp/body-comp-new-entry-modal/body-comp-new-entry-button/body-comp-new-entry-button.svelte';
-  import BodyCompNewEntryModal from '$lib/components/body-comp/body-comp-new-entry-modal/body-comp-new-entry-modal.svelte';
+  import BodyCompNewEntryButton from '$lib/components/body-comp/body-comp-new-entry-button/body-comp-new-entry-button.svelte';
   import BodyCompTableHeading from '$lib/components/body-comp/body-comp-table-heading/body-comp-table-heading.svelte';
   import { bodyCompEntries } from '$lib/stores/body-comp/body-comp-entries/body-comp-entries.store';
-  import type { IBodyCompEntry } from '$lib/types/body-comp/body-comp-entry.types';
 
-  let isNewEntryModalVisible = false;
   let isEditEntryModalVisible = false;
 
-  let entryBeingEdited: IBodyCompEntry | undefined;
+  let entryBeingEdited: ComponentProps<BodyCompEditEntryForm>['entryToEdit'];
 
-  const showNewEntryModal = () => {
-    isNewEntryModalVisible = true;
-  };
-
-  const editEntry = (entry: IBodyCompEntry) => {
+  const editEntry = (entry?: typeof entryBeingEdited) => {
     entryBeingEdited = entry;
     isEditEntryModalVisible = true;
   };
 </script>
 
-<BodyCompNewEntryButton on:click={showNewEntryModal} />
+<BodyCompNewEntryButton on:click={() => editEntry()} />
 
 <div class="body-comp-table">
   <BodyCompTableHeading />
@@ -30,10 +25,7 @@
     <BodyCompListItem {entry} on:click={() => editEntry(entry)} />
   {/each}
 
-  <BodyCompNewEntryModal bind:isVisible={isNewEntryModalVisible} />
-  {#if entryBeingEdited}
-    <BodyCompEditEntryModal entryToEdit={entryBeingEdited} bind:isVisible={isEditEntryModalVisible} />
-  {/if}
+  <BodyCompEditEntryModal entryToEdit={entryBeingEdited} bind:isVisible={isEditEntryModalVisible} />
 </div>
 
 <style lang="scss">
