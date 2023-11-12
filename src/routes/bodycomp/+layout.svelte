@@ -1,9 +1,8 @@
 <script lang="ts">
+  import { ICON_IMAGES, ICON_SIZES, Icon } from '@tsmith18256/ty-ui';
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
   import IconButton from '$lib/components/shared/buttons/icon-button/icon-button.svelte';
-  import { ICON_IMAGE, ICON_SIZE } from '$lib/components/shared/icon/icon.constants';
-  import Icon from '$lib/components/shared/icon/icon.svelte';
   import { isDesktopWidth } from '$lib/utils/shared/breakpoint/breakpoint.util';
 
   let innerWidth: number;
@@ -33,13 +32,15 @@
 {#if isDesktop}
   <nav class="top-nav">
     <span class="top-nav-settings-button">
-      <IconButton icon={ICON_IMAGE.cog} size={ICON_SIZE.large} on:click={goToSettings} title="Settings" tabindex={0} />
+      <!-- TODO: MHA-35 - Replace with TyUI component -->
+      <IconButton icon={ICON_IMAGES.cog} size={ICON_SIZES.large} on:click={goToSettings} title="Settings" tabindex={0} />
     </span>
 
     {#if path === 'settings'}
+      <!-- TODO: MHA-35 - Replace with TyUI component -->
       <IconButton
-        icon={ICON_IMAGE.chevronLeft}
-        size={ICON_SIZE.large}
+        icon={ICON_IMAGES.chevronLeft}
+        size={ICON_SIZES.large}
         on:click={goToLog}
         title="Go back"
         tabindex={0}
@@ -62,7 +63,7 @@
       tabindex={0}
       on:keyup={e => onKeyUp(e, 'log')}
     >
-      <Icon icon={ICON_IMAGE.log} size={ICON_SIZE.large} />
+      <Icon icon={ICON_IMAGES.log} size={ICON_SIZES.large} />
       <span>Log</span>
     </div>
 
@@ -74,7 +75,7 @@
       tabindex={0}
       on:keyup={e => onKeyUp(e, 'overview')}
     >
-      <Icon icon={ICON_IMAGE.chartLine} size={ICON_SIZE.large} />
+      <Icon icon={ICON_IMAGES.chartLine} size={ICON_SIZES.large} />
       <span>Overview</span>
     </div>
 
@@ -86,7 +87,7 @@
       tabindex={0}
       on:keyup={e => onKeyUp(e, 'settings')}
     >
-      <Icon icon={ICON_IMAGE.cog} size={ICON_SIZE.large} />
+      <Icon icon={ICON_IMAGES.cog} size={ICON_SIZES.large} />
       <span>Settings</span>
     </div>
   </nav>

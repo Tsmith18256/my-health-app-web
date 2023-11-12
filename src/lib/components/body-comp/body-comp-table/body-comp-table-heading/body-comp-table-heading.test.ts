@@ -1,4 +1,4 @@
-import BodyCompTableHeading from '$lib/components/body-comp/body-comp-table-heading/body-comp-table-heading.svelte';
+import BodyCompTableHeading from '$lib/components/body-comp/body-comp-table/body-comp-table-heading/body-comp-table-heading.svelte';
 import { render, screen } from '@testing-library/svelte';
 import { describe, expect, test } from 'vitest';
 

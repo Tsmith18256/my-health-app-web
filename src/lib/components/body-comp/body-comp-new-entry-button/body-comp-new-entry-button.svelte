@@ -1,21 +1,17 @@
 <script lang="ts">
-  import FloatingActionButton from '$lib/components/shared/buttons/floating-action-button/floating-action-button.svelte';
-  import IconButton from '$lib/components/shared/buttons/icon-button-old/icon-button-old.svelte';
-  import { ICON_IMAGE } from '$lib/components/shared/icon/icon.constants';
   import { isMobileWidth } from '$lib/utils/shared/breakpoint/breakpoint.util';
+  import { Button, FloatingActionButton, ICON_IMAGES } from '@tsmith18256/ty-ui';
 
-  const icon = ICON_IMAGE.plus;
+  const icon = ICON_IMAGES.plus;
 
   let innerWidth: number;
   $: isMobile = isMobileWidth(innerWidth);
 </script>
 
 {#if isMobile}
-  <FloatingActionButton on:click {icon} />
+  <FloatingActionButton {icon} on:click />
 {:else}
-  <IconButton on:click {icon}>
-    NEW ENTRY
-  </IconButton>
+  <Button label='New Entry' {icon} on:click />
 {/if}
 
 <svelte:window bind:innerWidth />

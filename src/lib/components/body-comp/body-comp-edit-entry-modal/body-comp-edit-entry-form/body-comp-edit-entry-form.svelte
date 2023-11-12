@@ -1,12 +1,11 @@
 <script lang="ts">
-  import { BUTTON_TYPE } from '$lib/components/shared/buttons/button/button.constants';
-  import Button from '$lib/components/shared/buttons/button/button.svelte';
   import DateInput from '$lib/components/shared/inputs/date-input/date-input.svelte';
   import TextInput from '$lib/components/shared/inputs/text-input/text-input.svelte';
   import { settings, userAge } from '$lib/stores/shared/settings/settings.store';
   import type { IBodyCompEntry, INewBodyCompEntry } from '$lib/types/body-comp/body-comp-entry.types';
   import { calculateAveragedBodyFat } from '$lib/utils/body-comp/body-fat-calculator/body-fat-calculator.util';
   import { convertGsToLbs, convertInsToCms, convertInsToMms, convertLbsToGs, convertMmsToCms, convertMmsToIns } from '$lib/utils/shared/unit-converter/unit-converter.util';
+  import { BUTTON_APPEARANCES, Button, ButtonGroup } from '@tsmith18256/ty-ui';
   import dayjs from 'dayjs';
   import { createEventDispatcher } from 'svelte';
 
@@ -15,6 +14,7 @@
    * Entry mode.
    */
   export let entryToEdit: IBodyCompEntry | undefined = undefined;
+  $: isEditMode = !!entryToEdit;
 
   let age = $userAge;
   let heightInMm = $settings.heightInMm;
@@ -93,7 +93,7 @@
   };
 </script>
 
-<h2 class="heading">{entryToEdit ? 'Edit' : 'New'} Body Comp Entry</h2>
+<h2 class="heading">{isEditMode ? 'Edit' : 'New'} Body Comp Entry</h2>
 
 <div class="fields-container">
   <DateInput id="dateField" label="Date" bind:value={date} />
@@ -118,19 +118,20 @@
   </div>
 {/if}
 
-<div class="buttons-container">
-  <Button disabled={!date || !weightInLb} on:click={submit}>
-    {entryToEdit ? 'SAVE' : 'SUBMIT'}
-  </Button>
+<!-- TODO: MHA-36 - Use ButtonGroup-->
+<div class="buttons-container" class:buttons-container-new={!isEditMode} class:buttons-container-edit={isEditMode}>
+  <Button label={entryToEdit ? 'Save' : 'Submit'} disabled={!date || !weightInLb} on:click={submit} />
 
-  <Button type={BUTTON_TYPE.negative} on:click={cancel}>Cancel</Button>
+  <Button label='Cancel' appearance={BUTTON_APPEARANCES.negative} on:click={cancel} />
 
   {#if entryToEdit}
-    <Button type={BUTTON_TYPE.danger} on:click={deleteEntry}>Delete</Button>
+    <Button label='Delete' appearance={BUTTON_APPEARANCES.danger} on:click={deleteEntry} />
   {/if}
 </div>
 
 <style lang="scss">
+  @use '$lib/styles/variables/breakpoints';
+
   .heading {
     margin-bottom: 2rem;
   }
@@ -162,7 +163,17 @@
 
   .buttons-container {
     display: flex;
-    gap: 1rem;
+    flex: 1;
+    gap: 0.5rem;
+
     margin-top: 1rem;
+
+    &-new {
+      max-width: 24rem;
+    }
+
+    &-edit {
+      max-width: 36rem;
+    }
   }
 </style>
