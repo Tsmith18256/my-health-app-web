@@ -1,7 +1,6 @@
 // toSpliced requires the following unsupported versions:
 // - Chrome 110
 // - Safari (iOS) 16
-// - Node 20
 if (!Array.prototype.toSpliced) {
   Array.prototype.toSpliced = function(start, deleteCount, ...items) {
     const cloned = [...this];
@@ -19,7 +18,6 @@ if (!Array.prototype.toSpliced) {
 // toSorted requires the following unsupported versions:
 // - Chrome 110
 // - Safari (iOS) 16
-// - Node 20
 if (!Array.prototype.toSorted) {
   Array.prototype.toSorted = function(compareFn) {
     const cloned = [...this];

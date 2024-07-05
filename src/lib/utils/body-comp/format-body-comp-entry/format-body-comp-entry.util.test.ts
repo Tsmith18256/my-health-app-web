@@ -22,7 +22,7 @@ describe('Format Body Comp Entry util', () => {
     const expected: IFormattedBodyCompEntry = {
       date: 'Jan 1, 2023',
       weight: '165.3',
-      bodyFat: '14.45%',
+      bodyFat: '14.50%',
       waistCirc: '35.4',
       neckCirc: '15.7',
       chestSkinfold: '10',
