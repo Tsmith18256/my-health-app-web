@@ -1,14 +1,14 @@
 <script lang="ts">
-  import '$lib/assets/fonts/css/fontawesome.min.css';
-  import '$lib/assets/fonts/css/regular.min.css';
-  import '$lib/polyfills';
+  import '$lib/shared/assets/fonts/css/fontawesome.min.css';
+  import '$lib/shared/assets/fonts/css/regular.min.css';
+  import '$lib/shared/polyfills';
 </script>
 
 <slot />
 
 <style lang="scss">
-  @use '$lib/styles/variables/breakpoints';
-  @use '$lib/styles/variables/colors';
+  @use '$lib/shared/styles/variables/breakpoints';
+  @use '$lib/shared/styles/variables/colors';
 
   :global(*) {
     margin: 0;

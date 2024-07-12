@@ -2,8 +2,8 @@
   import { ICON_IMAGES, ICON_SIZES, Icon } from '@tsmith18256/ty-ui';
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
-  import IconButton from '$lib/components/shared/buttons/icon-button/icon-button.svelte';
-  import { isDesktopWidth } from '$lib/utils/shared/breakpoint/breakpoint.util';
+  import { isDesktopWidth } from '$lib/shared/utils/breakpoint/breakpoint.util';
+  import IconButton from '$lib/shared/components/shared/buttons/icon-button/icon-button.svelte';
 
   let innerWidth: number;
   $: isDesktop = isDesktopWidth(innerWidth);
@@ -96,7 +96,7 @@
 <svelte:window bind:innerWidth />
 
 <style lang="scss">
-  @use '$lib/styles/variables/colors';
+  @use '$lib/shared/styles/variables/colors';
 
   $top-nav-height: 4rem;
 

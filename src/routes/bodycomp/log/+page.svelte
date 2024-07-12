@@ -1,11 +1,11 @@
 <script lang="ts">
   import type { ComponentProps } from 'svelte';
-  import type BodyCompEditEntryForm from '$lib/components/body-comp/body-comp-edit-entry-modal/body-comp-edit-entry-form/body-comp-edit-entry-form.svelte';
-  import BodyCompEditEntryModal from '$lib/components/body-comp/body-comp-edit-entry-modal/body-comp-edit-entry-modal.svelte';
-  import BodyCompListItem from '$lib/components/body-comp/body-comp-table/body-comp-list-item/body-comp-list-item.svelte';
-  import BodyCompNewEntryButton from '$lib/components/body-comp/body-comp-new-entry-button/body-comp-new-entry-button.svelte';
-  import BodyCompTableHeading from '$lib/components/body-comp/body-comp-table/body-comp-table-heading/body-comp-table-heading.svelte';
-  import { bodyCompEntries } from '$lib/stores/body-comp/body-comp-entries/body-comp-entries.store';
+  import type BodyCompEditEntryForm from '$lib/body-comp/components/body-comp-edit-entry-modal/body-comp-edit-entry-form/body-comp-edit-entry-form.svelte';
+  import BodyCompEditEntryModal from '$lib/body-comp/components/body-comp-edit-entry-modal/body-comp-edit-entry-modal.svelte';
+  import BodyCompNewEntryButton from '$lib/body-comp/components/body-comp-new-entry-button/body-comp-new-entry-button.svelte';
+  import BodyCompListItem from '$lib/body-comp/components/body-comp-table/body-comp-list-item/body-comp-list-item.svelte';
+  import BodyCompTableHeading from '$lib/body-comp/components/body-comp-table/body-comp-table-heading/body-comp-table-heading.svelte';
+  import { bodyCompEntries } from '$lib/body-comp/stores/body-comp-entries/body-comp-entries.store';
 
   let isEditEntryModalVisible = false;
 
@@ -29,7 +29,7 @@
 </div>
 
 <style lang="scss">
-  @use '$lib/styles/variables/breakpoints';
+  @use '$lib/shared/styles/variables/breakpoints';
 
   .body-comp-table {
     @media (min-width: breakpoints.$tablet) {
