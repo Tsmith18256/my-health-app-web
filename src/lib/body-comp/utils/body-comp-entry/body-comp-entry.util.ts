@@ -1,7 +1,15 @@
+import { calculateAveragedBodyFat } from '$lib/body-comp/utils/body-fat-calculator/body-fat-calculator.util';
 import { MEASUREMENT_SYSTEMS } from '$lib/shared/constants/measurement-systems.constants';
-import { settings } from '$lib/shared/stores/settings/settings.store';
-import { LengthMeasurement, LengthUnit } from '$lib/shared/utils/measurements/length-measurement/length-measurement.util';
-import { WEIGHT_UNITS, WeightMeasurement } from '$lib/shared/utils/measurements/weight-measurement/weight-measurement.util';
+import { settings, userAge } from '$lib/shared/stores/settings/settings.store';
+import {
+  LengthMeasurement,
+  LengthUnit,
+} from '$lib/shared/utils/measurements/length-measurement/length-measurement.util';
+import {
+  WEIGHT_UNITS,
+  WeightMeasurement,
+} from '$lib/shared/utils/measurements/weight-measurement/weight-measurement.util';
+import { convertMmsToCms } from '$lib/shared/utils/unit-converter/unit-converter.util';
 import { Dayjs } from 'dayjs';
 import { get } from 'svelte/store';
 
@@ -36,7 +44,22 @@ export class BodyCompEntry {
   }
 
   getBodyFatPercent(): number | undefined {
-    return undefined
+    const waistCircumference = this._waistCircumference;
+    const neckCircumference = this._neckCircumference;
+    const abSkinfold = this._abSkinfold;
+    const chestSkinfold = this._chestSkinfold;
+    const thighSkinfold = this._thighSkinfold;
+    const canCalculateBodyFat = waistCircumference && neckCircumference && abSkinfold && chestSkinfold && thighSkinfold;
+
+    return canCalculateBodyFat && calculateAveragedBodyFat({
+      age: get(userAge),
+      heightInCm: convertMmsToCms(get(settings).heightInMm),
+      neckInCm: neckCircumference.getValue({ unit: LengthUnit.Centimetres }),
+      waistInCm: waistCircumference.getValue({ unit: LengthUnit.Centimetres }),
+      chestInMm: chestSkinfold.getValue({ unit: LengthUnit.Millimetres }),
+      abInMm: abSkinfold.getValue({ unit: LengthUnit.Millimetres }),
+      thighInMm: thighSkinfold.getValue({ unit: LengthUnit.Millimetres })
+    });
   }
 
   get abSkinfold(): number | undefined {
@@ -140,7 +163,7 @@ export class BodyCompEntry {
   getFormattedNeckCircumference(): string | undefined {
     const unit = getCircumferenceUnit();
 
-    return this._neckCircumference?.getFormatted({ unit })
+    return this._neckCircumference?.getFormatted({ unit });
   }
 
   getFormattedThighSkinfold(): string | undefined {
