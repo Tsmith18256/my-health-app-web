@@ -14,6 +14,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { get } from 'svelte/store';
 
 interface IConstructorProps {
+  id?: number;
   date: Dayjs;
   weight: number;
   waistCircumference?: number;
@@ -24,7 +25,7 @@ interface IConstructorProps {
 }
 
 export class BodyCompEntry {
-  id: number = dayjs().unix();
+  id: number;
   date: IConstructorProps['date'];
 
   private _abSkinfold: LengthMeasurement | undefined;
@@ -35,6 +36,7 @@ export class BodyCompEntry {
   private _weight: WeightMeasurement = new WeightMeasurement();
 
   constructor(initialValues: IConstructorProps) {
+    this.id = initialValues.id ?? dayjs().unix();
     this.date = initialValues.date;
     this.waistCircumference = initialValues.waistCircumference;
     this.weight = initialValues.weight;

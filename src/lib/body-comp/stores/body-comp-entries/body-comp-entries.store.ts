@@ -22,10 +22,12 @@ export const addBodyCompEntry = (newEntry: BodyCompEntry) => {
  * Updates the given entry in the store. If no entry with the given ID exists, nothing will be updated.
  */
 export const updateBodyCompEntry = (updatedEntry: BodyCompEntry) => {
+  console.log(updatedEntry);
   let requiresResort = false;
 
   bodyCompEntries.update(entries => {
     const updated = entries.map(entry => {
+      console.log(entry.id, updatedEntry.id);
       if (entry.id === updatedEntry.id) {
         requiresResort = !entry.date.isSame(updatedEntry.date);
         return updatedEntry;

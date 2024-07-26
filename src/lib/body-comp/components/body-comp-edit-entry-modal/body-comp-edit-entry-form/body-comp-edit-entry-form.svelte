@@ -16,9 +16,6 @@
   export let entryToEdit: BodyCompEntry | undefined = undefined;
   $: isEditMode = !!entryToEdit;
 
-  let age = $userAge;
-  let heightInMm = $settings.heightInMm;
-
   let date = formatDateIso(entryToEdit?.date ?? dayjs());
   let weight = entryToEdit?.weight;
   let waist = entryToEdit?.waistCircumference;
@@ -27,6 +24,8 @@
   let ab = entryToEdit?.abSkinfold;
   let thigh = entryToEdit?.thighSkinfold;
 
+  // TODO: Now that the body fat percentage is coming off the class, this doesn't work because it doesn't update as the
+  // form is being edited.
   let bodyFat = entryToEdit?.getBodyFatPercent();
   let formattedBodyFat = bodyFat && formatPercent(bodyFat);
   let leanMass = entryToEdit?.getLeanMass();
@@ -39,6 +38,7 @@
       dispatch(
         'submit',
         new BodyCompEntry({
+          id: entryToEdit?.id,
           date: dayjs(date),
           weight: weight,
           waistCircumference: waist,
