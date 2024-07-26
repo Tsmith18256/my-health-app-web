@@ -1,5 +1,5 @@
 import test, { expect } from '@playwright/test';
-import { TEST_IDS } from '../../src/lib/constants/test-ids.constants';
+import { TEST_IDS } from '../../src/lib/shared/constants/test-ids.constants';
 import { sleep } from '../../src/lib/shared/utils/sleep/sleep.util';
 import dayjs from 'dayjs';
 

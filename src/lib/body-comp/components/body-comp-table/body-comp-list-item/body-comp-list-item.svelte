@@ -1,11 +1,11 @@
 <script lang="ts">
-  import type { IBodyCompEntry } from '$lib/body-comp/types/body-comp-entry.types';
   import { isMobileWidth } from '$lib/shared/utils/breakpoint/breakpoint.util';
-  import { formatBodyCompEntry } from '$lib/body-comp/utils/format-body-comp-entry/format-body-comp-entry.util';
+  import { BodyCompEntry } from '$lib/body-comp/utils/body-comp-entry/body-comp-entry.util';
+  import { formatDateShort } from '$lib/shared/utils/formatters/date-formatter/date-formatter.util';
+  import { formatPercent } from '$lib/shared/utils/formatters/number-formatter/number-formatter.util';
 
-  export let entry: IBodyCompEntry;
-
-  $: formatted = formatBodyCompEntry(entry);
+  export let entry: BodyCompEntry;
+  const bodyFatPercent = entry.getBodyFatPercent();
 
   let innerWidth: number;
   $: isMobile = isMobileWidth(innerWidth);
@@ -15,35 +15,35 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <div class="item-container" on:click role='listitem'>
-  <span class="date-label">{formatted.date}</span>
+  <span class="date-label">{formatDateShort(entry.date)}</span>
 
-  <span class="weight-label">{formatted.weight} lbs</span>
+  <span class="weight-label">{entry.getFormattedWeight()}</span>
 
   <span class="body-fat-label">
-    {#if formatted.bodyFat}
-      {formatted.bodyFat}
+    {#if bodyFatPercent}
+      {formatPercent(bodyFatPercent, { decimalPlaces: 2 })}
       {#if isMobile}BF{/if}
     {/if}
   </span>
 
   <span class="small-desktop-label">
-    {#if formatted.waistCirc}{formatted.waistCirc}"{/if}
+    {#if entry.waistCircumference}{entry.getFormattedWaistCircumference()}{/if}
   </span>
 
   <span class="small-desktop-label">
-    {#if formatted.neckCirc}{formatted.neckCirc}"{/if}
+    {#if entry.neckCircumference}{entry.getFormattedNeckCircumference()}{/if}
   </span>
 
   <span class="large-desktop-label">
-    {#if formatted.chestSkinfold}{formatted.chestSkinfold} mm{/if}
+    {#if entry.chestSkinfold}{entry.getFormattedChestSkinfold()}{/if}
   </span>
 
   <span class="large-desktop-label">
-    {#if formatted.abSkinfold}{formatted.abSkinfold} mm{/if}
+    {#if entry.abSkinfold}{entry.getFormattedAbSkinfold()}{/if}
   </span>
 
   <span class="large-desktop-label">
-    {#if formatted.thighSkinfold}{formatted.thighSkinfold} mm{/if}
+    {#if entry.thighSkinfold}{entry.getFormattedThighSkinfold()}{/if}
   </span>
 </div>
 

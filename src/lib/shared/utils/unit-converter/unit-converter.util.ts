@@ -11,9 +11,13 @@ export const G_PER_KG = 1000;
 // ----- DISTANCE -----
 // --------------------
 // Imperial/metric conversions.
+export const MM_PER_FT = 304.8;
+export const MM_PER_IN = 25.4;
 export const CM_PER_IN = 2.54;
 // Metric conversions.
 export const MM_PER_CM = 10;
+export const MM_PER_M = 1000;
+
 
 // ------------------
 // ----- WEIGHT -----
@@ -55,11 +59,24 @@ export const convertGsToOzs = (gs: number): number => {
 
 // Metric
 
+export const convertCmsToMms = (cms: number): number => {
+  return cms * MM_PER_CM;
+};
+
 export const convertMmsToCms = (mms: number): number => {
   return mms / MM_PER_CM;
 };
 
+export const convertMmsToMs = (mms: number): number => {
+  return mms / MM_PER_M;
+};
+
+
 // Imperial -> Metric
+
+export const convertFtToMms = (ft: number): number => {
+  return ft * MM_PER_FT;
+};
 
 export const convertInsToCms = (ins: number): number => {
   return ins * CM_PER_IN;
@@ -72,7 +89,11 @@ export const convertInsToMms = (ins: number): number => {
 // Metric -> Imperial
 
 export const convertMmsToIns = (mms: number): number => {
-  return convertCmsToIns(convertMmsToCms(mms));
+  return mms / MM_PER_IN;
+};
+
+export const convertMmsToFt = (mms: number): number => {
+  return mms / MM_PER_FT;
 };
 
 export const convertCmsToIns = (cms: number): number => {
