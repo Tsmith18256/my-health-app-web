@@ -7,3 +7,7 @@ export const formatDateShort = (date: Dayjs) => {
 export const formatDateLong = (date: Dayjs) => {
   return date.format('MMMM D, YYYY')
 };
+
+export const formatDateIso = (date: Dayjs) => {
+  return date.format('YYYY-MM-DD');
+};

@@ -5,9 +5,7 @@
   import BodyCompNewEntryButton from '$lib/body-comp/components/body-comp-new-entry-button/body-comp-new-entry-button.svelte';
   import BodyCompListItem from '$lib/body-comp/components/body-comp-table/body-comp-list-item/body-comp-list-item.svelte';
   import BodyCompTableHeading from '$lib/body-comp/components/body-comp-table/body-comp-table-heading/body-comp-table-heading.svelte';
-  import { BodyCompEntry } from '$lib/body-comp/utils/body-comp-entry/body-comp-entry.util';
-  import dayjs from 'dayjs';
-  // import { bodyCompEntries } from '$lib/body-comp/stores/body-comp-entries/body-comp-entries.store';
+  import { bodyCompEntries } from '$lib/body-comp/stores/body-comp-entries/body-comp-entries.store';
 
   let isEditEntryModalVisible = false;
 
@@ -17,27 +15,14 @@
     entryBeingEdited = entry;
     isEditEntryModalVisible = true;
   };
-
-  const entriesTemp = [
-    new BodyCompEntry({
-      date: dayjs(),
-      weight: 178.0,
-      waistCircumference: 35.5,
-      neckCircumference: 15.0,
-      chestSkinfold: 12,
-      abSkinfold: 19,
-      thighSkinfold: 14
-    })
-  ];
 </script>
 
 <BodyCompNewEntryButton on:click={() => editEntry()} />
 
 <div class="body-comp-table">
   <BodyCompTableHeading />
-  {#each entriesTemp as entry}
-    <!-- <BodyCompListItem {entry} on:click={() => editEntry(entry)} /> -->
-     <BodyCompListItem {entry} />
+  {#each $bodyCompEntries as entry}
+    <BodyCompListItem {entry} on:click={() => editEntry(entry)} />
   {/each}
 
   <BodyCompEditEntryModal entryToEdit={entryBeingEdited} bind:isVisible={isEditEntryModalVisible} />

@@ -10,7 +10,7 @@ import {
   WeightMeasurement,
 } from '$lib/shared/utils/measurements/weight-measurement/weight-measurement.util';
 import { convertMmsToCms } from '$lib/shared/utils/unit-converter/unit-converter.util';
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { get } from 'svelte/store';
 
 interface IConstructorProps {
@@ -24,6 +24,7 @@ interface IConstructorProps {
 }
 
 export class BodyCompEntry {
+  id: number = dayjs().unix();
   date: IConstructorProps['date'];
 
   private _abSkinfold: LengthMeasurement | undefined;
@@ -41,25 +42,6 @@ export class BodyCompEntry {
     this.chestSkinfold = initialValues.chestSkinfold;
     this.abSkinfold = initialValues.abSkinfold;
     this.thighSkinfold = initialValues.thighSkinfold;
-  }
-
-  getBodyFatPercent(): number | undefined {
-    const waistCircumference = this._waistCircumference;
-    const neckCircumference = this._neckCircumference;
-    const abSkinfold = this._abSkinfold;
-    const chestSkinfold = this._chestSkinfold;
-    const thighSkinfold = this._thighSkinfold;
-    const canCalculateBodyFat = waistCircumference && neckCircumference && abSkinfold && chestSkinfold && thighSkinfold;
-
-    return canCalculateBodyFat && calculateAveragedBodyFat({
-      age: get(userAge),
-      heightInCm: convertMmsToCms(get(settings).heightInMm),
-      neckInCm: neckCircumference.getValue({ unit: LengthUnit.Centimetres }),
-      waistInCm: waistCircumference.getValue({ unit: LengthUnit.Centimetres }),
-      chestInMm: chestSkinfold.getValue({ unit: LengthUnit.Millimetres }),
-      abInMm: abSkinfold.getValue({ unit: LengthUnit.Millimetres }),
-      thighInMm: thighSkinfold.getValue({ unit: LengthUnit.Millimetres })
-    });
   }
 
   get abSkinfold(): number | undefined {
@@ -152,12 +134,78 @@ export class BodyCompEntry {
     this._weight.setValue({ value, unit });
   }
 
+  getBodyFatPercent(): number | undefined {
+    const waistCircumference = this._waistCircumference;
+    const neckCircumference = this._neckCircumference;
+    const abSkinfold = this._abSkinfold;
+    const chestSkinfold = this._chestSkinfold;
+    const thighSkinfold = this._thighSkinfold;
+    const canCalculateBodyFat = waistCircumference && neckCircumference && abSkinfold && chestSkinfold && thighSkinfold;
+
+    return (
+      canCalculateBodyFat &&
+      calculateAveragedBodyFat({
+        age: get(userAge),
+        heightInCm: convertMmsToCms(get(settings).heightInMm),
+        neckInCm: neckCircumference.getValue({ unit: LengthUnit.Centimetres }),
+        waistInCm: waistCircumference.getValue({ unit: LengthUnit.Centimetres }),
+        chestInMm: chestSkinfold.getValue({ unit: LengthUnit.Millimetres }),
+        abInMm: abSkinfold.getValue({ unit: LengthUnit.Millimetres }),
+        thighInMm: thighSkinfold.getValue({ unit: LengthUnit.Millimetres }),
+      })
+    );
+  }
+
+  getFatMass(): number | undefined {
+    const bodyFat = this.getBodyFatPercent();
+
+    if (!bodyFat) {
+      return undefined;
+    }
+
+    return this.weight * bodyFat;
+  }
+
+  getLeanMass(): number | undefined {
+    const bodyFat = this.getBodyFatPercent();
+
+    if (!bodyFat) {
+      return undefined;
+    }
+
+    return this.weight * (1 - bodyFat);
+  }
+
   getFormattedAbSkinfold(): string | undefined {
     return this._abSkinfold?.getFormatted({ unit: LengthUnit.Millimetres });
   }
 
   getFormattedChestSkinfold(): string | undefined {
     return this._chestSkinfold?.getFormatted({ unit: LengthUnit.Millimetres });
+  }
+
+  getFormattedFatMass(): string | undefined {
+    const fatMass = this.getFatMass();
+
+    if (!fatMass) {
+      return undefined;
+    }
+
+    const unit = getWeightUnit();
+
+    return new WeightMeasurement({ value: fatMass, unit }).getFormatted({ unit });
+  }
+
+  getFormattedLeanMass(): string | undefined {
+    const leanMass = this.getLeanMass();
+
+    if (!leanMass) {
+      return undefined;
+    }
+
+    const unit = getWeightUnit();
+
+    return new WeightMeasurement({ value: leanMass, unit }).getFormatted({ unit });
   }
 
   getFormattedNeckCircumference(): string | undefined {

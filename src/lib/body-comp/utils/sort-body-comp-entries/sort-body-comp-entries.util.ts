@@ -1,9 +1,9 @@
-import type { IBodyCompEntry } from '$lib/body-comp/types/body-comp-entry.types';
+import { BodyCompEntry } from '$lib/body-comp/utils/body-comp-entry/body-comp-entry.util';
 
 /**
  * Sorts an array of body composition entries by date in descending order (newest entries first).
  */
-export const sortBodyCompEntriesByNewest = (entries: IBodyCompEntry[]): IBodyCompEntry[] => {
+export const sortBodyCompEntriesByNewest = (entries: BodyCompEntry[]): BodyCompEntry[] => {
   return entries.toSorted((a, b) => {
     if (a.date.isBefore(b.date)) {
       return 1;
