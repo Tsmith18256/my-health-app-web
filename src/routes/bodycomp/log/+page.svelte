@@ -5,7 +5,16 @@
   import BodyCompNewEntryButton from '$lib/body-comp/components/body-comp-new-entry-button/body-comp-new-entry-button.svelte';
   import BodyCompListItem from '$lib/body-comp/components/body-comp-table/body-comp-list-item/body-comp-list-item.svelte';
   import BodyCompTableHeading from '$lib/body-comp/components/body-comp-table/body-comp-table-heading/body-comp-table-heading.svelte';
-  import { bodyCompEntries } from '$lib/body-comp/stores/body-comp-entries/body-comp-entries.store';
+  import type { PageData } from './$types';
+  import { addBodyCompEntry, bodyCompEntries } from '$lib/body-comp/stores/body-comp-entries/body-comp-entries.store';
+
+  export let data: PageData;
+
+  if ($bodyCompEntries.length === 0) {
+    data.entries.forEach(entry => {
+      addBodyCompEntry(entry);
+    });
+  }
 
   let isEditEntryModalVisible = false;
 

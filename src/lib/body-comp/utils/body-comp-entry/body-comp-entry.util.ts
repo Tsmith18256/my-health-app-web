@@ -38,8 +38,8 @@ export class BodyCompEntry {
   constructor(initialValues: IConstructorProps) {
     this.id = initialValues.id ?? dayjs().unix();
     this.date = initialValues.date;
-    this.waistCircumference = initialValues.waistCircumference;
     this.weight = initialValues.weight;
+    this.waistCircumference = initialValues.waistCircumference;
     this.neckCircumference = initialValues.neckCircumference;
     this.chestSkinfold = initialValues.chestSkinfold;
     this.abSkinfold = initialValues.abSkinfold;
