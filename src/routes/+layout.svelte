@@ -1,4 +1,5 @@
 <script lang="ts">
+  import '../app.css';
   import '$lib/shared/assets/fonts/css/fontawesome.min.css';
   import '$lib/shared/assets/fonts/css/regular.min.css';
   import '$lib/shared/polyfills';
