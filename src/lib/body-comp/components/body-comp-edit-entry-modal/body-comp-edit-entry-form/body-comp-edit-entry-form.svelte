@@ -1,11 +1,4 @@
 <script lang="ts">
-  import DateInput from '$lib/shared/components/shared/inputs/date-input/date-input.svelte';
-  import TextInput from '$lib/shared/components/shared/inputs/text-input/text-input.svelte';
-  import {
-    settings,
-    userAge,
-  } from '$lib/shared/stores/settings/settings.store';
-  import { BUTTON_APPEARANCES, Button } from '@tsmith18256/ty-ui';
   import dayjs from 'dayjs';
   import { createEventDispatcher } from 'svelte';
   import { BodyCompEntry } from '$lib/body-comp/utils/body-comp-entry/body-comp-entry.util';
@@ -79,22 +72,44 @@
   };
 </script>
 
-<h2 class="heading">{isEditMode ? 'Edit' : 'New'} Body Comp Entry</h2>
+<h2 class="h2">{isEditMode ? 'Edit' : 'New'} Body Comp Entry</h2>
 
-<div class="fields-container">
-  <DateInput id="dateField" label="Date" bind:value={date} />
-  <TextInput id="weightField" label="Weight (lbs)" bind:value={weight} />
-  <TextInput id="waistField" label="Waist (in)" bind:value={waist} />
-  <TextInput id="neckField" label="Neck (in)" bind:value={neck} />
-</div>
+<label class="label">
+  <span>Date</span>
+  <input class="input" type="date" bind:value={date} />
+</label>
 
-<h3 class="subheading">Skinfold Sites</h3>
+<label class="label">
+  <span>Weight (lbs)</span>
+  <input class="input" type="number" bind:value={weight} />
+</label>
 
-<div class="fields-container">
-  <TextInput id="chestField" label="Chest (mm)" bind:value={chest} />
-  <TextInput id="abField" label="Ab (mm)" bind:value={ab} />
-  <TextInput id="thighField" label="Thigh (mm)" bind:value={thigh} />
-</div>
+<label class="label">
+  <span>Waist (in)</span>
+  <input class="input" type="number" bind:value={waist} />
+</label>
+
+<label class="label">
+  <span>Neck (in)</span>
+  <input class="input" type="number" bind:value={neck} />
+</label>
+
+<h3 class="h3">Skinfold Sites</h3>
+
+<label class="label">
+  <span>Chest (mm)</span>
+  <input class="input" type="number" step="1" bind:value={chest} />
+</label>
+
+<label class="label">
+  <span>Ab (mm)</span>
+  <input class="input" type="number" step="1" bind:value={ab} />
+</label>
+
+<label class="label">
+  <span>Thigh (mm)</span>
+  <input class="input" type="number" step="1" bind:value={thigh} />
+</label>
 
 {#if formattedBodyFat}
   <div class="body-fat-container">
@@ -106,76 +121,18 @@
 
 <!-- TODO: MHA-36 - Use ButtonGroup-->
 <div
-  class="buttons-container"
-  class:buttons-container-new={!isEditMode}
-  class:buttons-container-edit={isEditMode}
->
-  <Button
-    label={entryToEdit ? 'Save' : 'Submit'}
-    disabled={!date || !weight}
-    on:click={submit}
-  />
+  class="flex flex-row gap-2">
+  <button type="button" class="btn variant-filled-success" disabled={!date || !weight} on:click={submit}>
+    {entryToEdit ? 'Save' : 'Submit'}
+  </button>
 
-  <Button
-    label="Cancel"
-    appearance={BUTTON_APPEARANCES.negative}
-    on:click={cancel}
-  />
+  <button type="button" class="btn variant-filled-surface" on:click={cancel}>
+    Cancel
+  </button>
 
   {#if entryToEdit}
-    <Button
-      label="Delete"
-      appearance={BUTTON_APPEARANCES.danger}
-      on:click={deleteEntry}
-    />
+    <button type="button" class="btn variant-filled-error" on:click={deleteEntry}>
+      Delete
+    </button>
   {/if}
 </div>
-
-<style lang="scss">
-  @use '$lib/shared/styles/variables/breakpoints';
-
-  .heading {
-    margin-bottom: 2rem;
-  }
-
-  .subheading {
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-  }
-
-  .fields-container {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-
-    max-width: 20rem;
-  }
-
-  .body-fat-container {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-
-    margin-top: 2rem;
-  }
-
-  .body-fat-label {
-    display: block;
-  }
-
-  .buttons-container {
-    display: flex;
-    flex: 1;
-    gap: 0.5rem;
-
-    margin-top: 1rem;
-
-    &-new {
-      max-width: 24rem;
-    }
-
-    &-edit {
-      max-width: 36rem;
-    }
-  }
-</style>
