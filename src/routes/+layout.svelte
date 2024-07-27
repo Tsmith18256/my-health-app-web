@@ -1,36 +1,40 @@
 <script lang="ts">
-  import '../app.css';
+  import { TabGroup, TabAnchor } from '@skeletonlabs/skeleton';
+  import { page } from '$app/stores';
   import '$lib/shared/assets/fonts/css/fontawesome.min.css';
   import '$lib/shared/assets/fonts/css/regular.min.css';
   import '$lib/shared/polyfills';
+  import '../app.css';
 </script>
 
-<slot />
+<div class="grid h-screen grid-rows-[1fr_auto]">
+  <slot />
 
-<style lang="scss">
-  @use '$lib/shared/styles/variables/breakpoints';
-  @use '$lib/shared/styles/variables/colors';
-
-  :global(*) {
-    margin: 0;
-    padding: 0;
-
-    box-sizing: border-box;
-
-    font-family: sans-serif;
-    color: colors.$text;
-  }
-
-  :global(body) {
-    height: 100vw;
-    background-color: colors.$background;
-
-    @media (min-width: breakpoints.$tablet) {
-      padding: 1rem 2rem;
-    }
-
-    @media (min-width: breakpoints.$desktop-small) {
-      padding: 2rem 3rem;
-    }
-  }
-</style>
+  <nav>
+    <TabGroup
+      justify="justify-center"
+      active="variant-filled-primary"
+      hover="hover:variant-soft-primary"
+      flex="flex-1 lg:flex-none"
+      rounded=""
+      border=""
+      class="bg-surface-100-800-token w-full"
+    >
+      <TabAnchor href="/exercise" selected={$page.url.pathname.startsWith('/exercise')}>
+        <svelte:fragment slot="lead"><i class="far fa-running" /></svelte:fragment>
+        Exercise
+      </TabAnchor>
+      <TabAnchor
+        href="/nutrition"
+        selected={$page.url.pathname.startsWith('/nutrition')}
+      >
+      <svelte:fragment slot="lead"><i class="far fa-apple-alt" /></svelte:fragment>
+        Nutrition
+      </TabAnchor>
+      <TabAnchor href="/bodycomp/log" selected={$page.url.pathname.startsWith('/bodycomp')}>
+        <svelte:fragment slot="lead"><i class="far fa-heartbeat" /></svelte:fragment>
+        Body Comp
+      </TabAnchor>
+    </TabGroup>
+  </nav>
+</div>
