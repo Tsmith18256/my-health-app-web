@@ -1,15 +1,12 @@
 <script lang="ts">
   import type { ComponentProps } from 'svelte';
   import type BodyCompEditEntryForm from '$lib/body-comp/components/body-comp-edit-entry-modal/body-comp-edit-entry-form/body-comp-edit-entry-form.svelte';
-  import BodyCompEditEntryModal from '$lib/body-comp/components/body-comp-edit-entry-modal/body-comp-edit-entry-modal.svelte';
-  import BodyCompNewEntryButton from '$lib/body-comp/components/body-comp-new-entry-button/body-comp-new-entry-button.svelte';
-  import BodyCompListItem from '$lib/body-comp/components/body-comp-table/body-comp-list-item/body-comp-list-item.svelte';
-  import BodyCompTableHeading from '$lib/body-comp/components/body-comp-table/body-comp-table-heading/body-comp-table-heading.svelte';
   import type { PageData } from './$types';
   import {
     addBodyCompEntry,
     bodyCompEntries,
   } from '$lib/body-comp/stores/body-comp-entries/body-comp-entries.store';
+  import BodyCompTable from '$lib/body-comp/components/body-comp-table/body-comp-table.svelte';
 
   export let data: PageData;
 
@@ -29,9 +26,14 @@
   };
 </script>
 
-<BodyCompNewEntryButton on:click={() => editEntry()} />
+<button type="button" class="btn variant-filled-secondary">
+	<span><i class="far fa-plus" /></span>
+	<span>New entry</span>
+</button>
 
-<div class="body-comp-table">
+<BodyCompTable entries={$bodyCompEntries} on:entryClick={(e) => editEntry(e.detail)} />
+
+<!-- <div class="body-comp-table">
   <BodyCompTableHeading />
   {#each $bodyCompEntries as entry}
     <BodyCompListItem {entry} on:click={() => editEntry(entry)} />
@@ -41,14 +43,4 @@
     entryToEdit={entryBeingEdited}
     bind:isVisible={isEditEntryModalVisible}
   />
-</div>
-
-<style lang="scss">
-  @use '$lib/shared/styles/variables/breakpoints';
-
-  .body-comp-table {
-    @media (min-width: breakpoints.$tablet) {
-      margin-top: 1rem;
-    }
-  }
-</style>
+</div> -->
