@@ -1,28 +1,32 @@
 <script lang="ts">
-  import BodyCompEditEntryModal from '$lib/components/body-comp/body-comp-edit-entry-modal/body-comp-edit-entry-modal.svelte';
-  import BodyCompListItem from '$lib/components/body-comp/body-comp-list-item/body-comp-list-item.svelte';
-  import BodyCompNewEntryButton from '$lib/components/body-comp/body-comp-new-entry-modal/body-comp-new-entry-button/body-comp-new-entry-button.svelte';
-  import BodyCompNewEntryModal from '$lib/components/body-comp/body-comp-new-entry-modal/body-comp-new-entry-modal.svelte';
-  import BodyCompTableHeading from '$lib/components/body-comp/body-comp-table-heading/body-comp-table-heading.svelte';
-  import { bodyCompEntries } from '$lib/stores/body-comp/body-comp-entries/body-comp-entries.store';
-  import type { IBodyCompEntry } from '$lib/types/body-comp/body-comp-entry.types';
+  import type { ComponentProps } from 'svelte';
+  import type BodyCompEditEntryForm from '$lib/body-comp/components/body-comp-edit-entry-modal/body-comp-edit-entry-form/body-comp-edit-entry-form.svelte';
+  import BodyCompEditEntryModal from '$lib/body-comp/components/body-comp-edit-entry-modal/body-comp-edit-entry-modal.svelte';
+  import BodyCompNewEntryButton from '$lib/body-comp/components/body-comp-new-entry-button/body-comp-new-entry-button.svelte';
+  import BodyCompListItem from '$lib/body-comp/components/body-comp-table/body-comp-list-item/body-comp-list-item.svelte';
+  import BodyCompTableHeading from '$lib/body-comp/components/body-comp-table/body-comp-table-heading/body-comp-table-heading.svelte';
+  import type { PageData } from './$types';
+  import { addBodyCompEntry, bodyCompEntries } from '$lib/body-comp/stores/body-comp-entries/body-comp-entries.store';
 
-  let isNewEntryModalVisible = false;
+  export let data: PageData;
+
+  if ($bodyCompEntries.length === 0) {
+    data.entries.forEach(entry => {
+      addBodyCompEntry(entry);
+    });
+  }
+
   let isEditEntryModalVisible = false;
 
-  let entryBeingEdited: IBodyCompEntry | undefined;
+  let entryBeingEdited: ComponentProps<BodyCompEditEntryForm>['entryToEdit'];
 
-  const showNewEntryModal = () => {
-    isNewEntryModalVisible = true;
-  };
-
-  const editEntry = (entry: IBodyCompEntry) => {
+  const editEntry = (entry?: typeof entryBeingEdited) => {
     entryBeingEdited = entry;
     isEditEntryModalVisible = true;
   };
 </script>
 
-<BodyCompNewEntryButton on:click={showNewEntryModal} />
+<BodyCompNewEntryButton on:click={() => editEntry()} />
 
 <div class="body-comp-table">
   <BodyCompTableHeading />
@@ -30,14 +34,11 @@
     <BodyCompListItem {entry} on:click={() => editEntry(entry)} />
   {/each}
 
-  <BodyCompNewEntryModal bind:isVisible={isNewEntryModalVisible} />
-  {#if entryBeingEdited}
-    <BodyCompEditEntryModal entryToEdit={entryBeingEdited} bind:isVisible={isEditEntryModalVisible} />
-  {/if}
+  <BodyCompEditEntryModal entryToEdit={entryBeingEdited} bind:isVisible={isEditEntryModalVisible} />
 </div>
 
 <style lang="scss">
-  @use '$lib/styles/variables/breakpoints';
+  @use '$lib/shared/styles/variables/breakpoints';
 
   .body-comp-table {
     @media (min-width: breakpoints.$tablet) {

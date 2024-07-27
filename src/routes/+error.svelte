@@ -1,5 +1,6 @@
-<script>
+<script lang="ts">
   import { page } from '$app/stores';
+  import { HEADING_LEVELS, Heading } from '@tsmith18256/ty-ui';
 </script>
 
-<h1>{$page.status}: {$page.error?.message}</h1>
+<Heading level={HEADING_LEVELS.h1}>{$page.status}: {$page.error?.message}</Heading>
