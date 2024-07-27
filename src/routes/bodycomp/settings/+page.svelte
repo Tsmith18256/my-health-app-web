@@ -9,14 +9,21 @@
     TEXT_INPUT_TYPES,
   } from '@tsmith18256/ty-ui';
   import { MEASUREMENT_SYSTEMS } from '$lib/shared/constants/measurement-systems.constants';
-  import { settings, updateSettings } from '$lib/shared/stores/settings/settings.store';
-  import { convertInsToMms, convertMmsToIns } from '$lib/shared/utils/unit-converter/unit-converter.util';
+  import {
+    settings,
+    updateSettings,
+  } from '$lib/shared/stores/settings/settings.store';
+  import {
+    convertInsToMms,
+    convertMmsToIns,
+  } from '$lib/shared/utils/unit-converter/unit-converter.util';
   import dayjs from 'dayjs';
   import { get } from 'svelte/store';
 
   let birthday = get(settings).birthday.format('YYYY-MM-DD');
 
-  let heightInIn = Math.round(convertMmsToIns(get(settings).heightInMm) * 10) / 10;
+  let heightInIn =
+    Math.round(convertMmsToIns(get(settings).heightInMm) * 10) / 10;
   let { bodyweightSystem, heightSystem, circumferenceSystem } = get(settings);
 
   $: areValuesSameAsSaved =
@@ -56,8 +63,19 @@
   <Heading level={HEADING_LEVELS.h2}>Settings</Heading>
 
   <div class="fields-container">
-    <TextInput id="birthdayField" type={TEXT_INPUT_TYPES.date} label="Birthday" bind:value={birthday} />
-    <TextInput id="heightField" type={TEXT_INPUT_TYPES.number} label="Height (in)" step={0.1} bind:value={heightInIn} />
+    <TextInput
+      id="birthdayField"
+      type={TEXT_INPUT_TYPES.date}
+      label="Birthday"
+      bind:value={birthday}
+    />
+    <TextInput
+      id="heightField"
+      type={TEXT_INPUT_TYPES.number}
+      label="Height (in)"
+      step={0.1}
+      bind:value={heightInIn}
+    />
   </div>
 
   <Heading level={HEADING_LEVELS.h3}>Measurement systems</Heading>
@@ -71,7 +89,11 @@
     />
 
     <Heading level={HEADING_LEVELS.h4}>Height</Heading>
-    <ToggleButtons groupName="heightToggles" toggleButtons={measurementSystemToggles} bind:value={heightSystem} />
+    <ToggleButtons
+      groupName="heightToggles"
+      toggleButtons={measurementSystemToggles}
+      bind:value={heightSystem}
+    />
 
     <Heading level={HEADING_LEVELS.h4}>Circumferences</Heading>
     <ToggleButtons

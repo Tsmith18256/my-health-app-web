@@ -12,7 +12,7 @@ export const load: PageLoad = () => {
         neckCircumference: 15.0,
         chestSkinfold: 13,
         abSkinfold: 18,
-        thighSkinfold: 15
+        thighSkinfold: 15,
       }),
       new BodyCompEntry({
         date: dayjs('2024-07-15'),
@@ -21,8 +21,8 @@ export const load: PageLoad = () => {
         neckCircumference: 15.0,
         chestSkinfold: 12,
         abSkinfold: 17,
-        thighSkinfold: 14
+        thighSkinfold: 14,
       }),
-    ]
+    ],
   };
 };

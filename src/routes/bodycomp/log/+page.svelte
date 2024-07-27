@@ -6,12 +6,15 @@
   import BodyCompListItem from '$lib/body-comp/components/body-comp-table/body-comp-list-item/body-comp-list-item.svelte';
   import BodyCompTableHeading from '$lib/body-comp/components/body-comp-table/body-comp-table-heading/body-comp-table-heading.svelte';
   import type { PageData } from './$types';
-  import { addBodyCompEntry, bodyCompEntries } from '$lib/body-comp/stores/body-comp-entries/body-comp-entries.store';
+  import {
+    addBodyCompEntry,
+    bodyCompEntries,
+  } from '$lib/body-comp/stores/body-comp-entries/body-comp-entries.store';
 
   export let data: PageData;
 
   if ($bodyCompEntries.length === 0) {
-    data.entries.forEach(entry => {
+    data.entries.forEach((entry) => {
       addBodyCompEntry(entry);
     });
   }
@@ -34,7 +37,10 @@
     <BodyCompListItem {entry} on:click={() => editEntry(entry)} />
   {/each}
 
-  <BodyCompEditEntryModal entryToEdit={entryBeingEdited} bind:isVisible={isEditEntryModalVisible} />
+  <BodyCompEditEntryModal
+    entryToEdit={entryBeingEdited}
+    bind:isVisible={isEditEntryModalVisible}
+  />
 </div>
 
 <style lang="scss">

@@ -1,6 +1,10 @@
 <script lang="ts">
   import { Modal } from '@tsmith18256/ty-ui';
-  import { addBodyCompEntry, deleteBodyCompEntryById, updateBodyCompEntry } from '$lib/body-comp/stores/body-comp-entries/body-comp-entries.store';
+  import {
+    addBodyCompEntry,
+    deleteBodyCompEntryById,
+    updateBodyCompEntry,
+  } from '$lib/body-comp/stores/body-comp-entries/body-comp-entries.store';
   import BodyCompEditEntryForm from '$lib/body-comp/components/body-comp-edit-entry-modal/body-comp-edit-entry-form/body-comp-edit-entry-form.svelte';
   import type { ComponentProps } from 'svelte';
   import { BodyCompEntry } from '$lib/body-comp/utils/body-comp-entry/body-comp-entry.util';
@@ -39,5 +43,10 @@
 </script>
 
 <Modal bind:isVisible>
-  <BodyCompEditEntryForm {entryToEdit} on:submit={onFormSubmit} on:cancel={closeModal} on:delete={onDeleteEntry} />
+  <BodyCompEditEntryForm
+    {entryToEdit}
+    on:submit={onFormSubmit}
+    on:cancel={closeModal}
+    on:delete={onDeleteEntry}
+  />
 </Modal>

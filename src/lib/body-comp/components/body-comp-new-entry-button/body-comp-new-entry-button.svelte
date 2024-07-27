@@ -1,6 +1,10 @@
 <script lang="ts">
   import { isMobileWidth } from '$lib/shared/utils/breakpoint/breakpoint.util';
-  import { Button, FloatingActionButton, ICON_IMAGES } from '@tsmith18256/ty-ui';
+  import {
+    Button,
+    FloatingActionButton,
+    ICON_IMAGES,
+  } from '@tsmith18256/ty-ui';
 
   const icon = ICON_IMAGES.plus;
 
@@ -11,7 +15,7 @@
 {#if isMobile}
   <FloatingActionButton {icon} on:click />
 {:else}
-  <Button label='New Entry' {icon} on:click />
+  <Button label="New Entry" {icon} on:click />
 {/if}
 
 <svelte:window bind:innerWidth />

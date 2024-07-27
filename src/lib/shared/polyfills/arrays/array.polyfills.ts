@@ -2,7 +2,7 @@
 // - Chrome 110
 // - Safari (iOS) 16
 if (!Array.prototype.toSpliced) {
-  Array.prototype.toSpliced = function(start, deleteCount, ...items) {
+  Array.prototype.toSpliced = function (start, deleteCount, ...items) {
     const cloned = [...this];
 
     if (deleteCount == undefined) {
@@ -19,7 +19,7 @@ if (!Array.prototype.toSpliced) {
 // - Chrome 110
 // - Safari (iOS) 16
 if (!Array.prototype.toSorted) {
-  Array.prototype.toSorted = function(compareFn) {
+  Array.prototype.toSorted = function (compareFn) {
     const cloned = [...this];
 
     cloned.sort(compareFn);

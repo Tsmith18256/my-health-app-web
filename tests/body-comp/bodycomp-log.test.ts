@@ -18,7 +18,9 @@ test.describe('Body Comp Log', () => {
     await expect(fab).not.toBeVisible();
   });
 
-  test('shows floating action button for new entry on mobile', async ({ page }) => {
+  test('shows floating action button for new entry on mobile', async ({
+    page,
+  }) => {
     await page.setViewportSize({ width: 412, height: 783 });
 
     const fab = await page.getByTestId(TEST_IDS.floatingActionButton);

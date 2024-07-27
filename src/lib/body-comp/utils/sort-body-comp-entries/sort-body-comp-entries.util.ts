@@ -3,7 +3,9 @@ import { BodyCompEntry } from '$lib/body-comp/utils/body-comp-entry/body-comp-en
 /**
  * Sorts an array of body composition entries by date in descending order (newest entries first).
  */
-export const sortBodyCompEntriesByNewest = (entries: BodyCompEntry[]): BodyCompEntry[] => {
+export const sortBodyCompEntriesByNewest = (
+  entries: BodyCompEntry[],
+): BodyCompEntry[] => {
   return entries.toSorted((a, b) => {
     if (a.date.isBefore(b.date)) {
       return 1;
@@ -13,4 +15,4 @@ export const sortBodyCompEntriesByNewest = (entries: BodyCompEntry[]): BodyCompE
       return 0;
     }
   });
-}
+};

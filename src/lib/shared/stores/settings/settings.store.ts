@@ -11,7 +11,9 @@ export const settings = writable<ISettings>({
   circumferenceSystem: MEASUREMENT_SYSTEMS.imperial,
 });
 
-export const userAge = derived(settings, $settings => dayjs().diff($settings.birthday, 'year'));
+export const userAge = derived(settings, ($settings) =>
+  dayjs().diff($settings.birthday, 'year'),
+);
 
 export const updateSettings = (newSettings: ISettings) => {
   settings.set(newSettings);

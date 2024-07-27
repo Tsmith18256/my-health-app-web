@@ -1,7 +1,10 @@
 <script lang="ts">
   import DateInput from '$lib/shared/components/shared/inputs/date-input/date-input.svelte';
   import TextInput from '$lib/shared/components/shared/inputs/text-input/text-input.svelte';
-  import { settings, userAge } from '$lib/shared/stores/settings/settings.store';
+  import {
+    settings,
+    userAge,
+  } from '$lib/shared/stores/settings/settings.store';
   import { BUTTON_APPEARANCES, Button } from '@tsmith18256/ty-ui';
   import dayjs from 'dayjs';
   import { createEventDispatcher } from 'svelte';
@@ -31,7 +34,11 @@
   let leanMass = entryToEdit?.getLeanMass();
   let fatMass = entryToEdit?.getFatMass();
 
-  const dispatch = createEventDispatcher<{ submit: BodyCompEntry; cancel: void; delete: void }>();
+  const dispatch = createEventDispatcher<{
+    submit: BodyCompEntry;
+    cancel: void;
+    delete: void;
+  }>();
 
   const submit = () => {
     if (date && weight) {
@@ -98,13 +105,29 @@
 {/if}
 
 <!-- TODO: MHA-36 - Use ButtonGroup-->
-<div class="buttons-container" class:buttons-container-new={!isEditMode} class:buttons-container-edit={isEditMode}>
-  <Button label={entryToEdit ? 'Save' : 'Submit'} disabled={!date || !weight} on:click={submit} />
+<div
+  class="buttons-container"
+  class:buttons-container-new={!isEditMode}
+  class:buttons-container-edit={isEditMode}
+>
+  <Button
+    label={entryToEdit ? 'Save' : 'Submit'}
+    disabled={!date || !weight}
+    on:click={submit}
+  />
 
-  <Button label="Cancel" appearance={BUTTON_APPEARANCES.negative} on:click={cancel} />
+  <Button
+    label="Cancel"
+    appearance={BUTTON_APPEARANCES.negative}
+    on:click={cancel}
+  />
 
   {#if entryToEdit}
-    <Button label="Delete" appearance={BUTTON_APPEARANCES.danger} on:click={deleteEntry} />
+    <Button
+      label="Delete"
+      appearance={BUTTON_APPEARANCES.danger}
+      on:click={deleteEntry}
+    />
   {/if}
 </div>
 

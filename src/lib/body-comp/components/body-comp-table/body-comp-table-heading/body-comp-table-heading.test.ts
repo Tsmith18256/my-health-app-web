@@ -17,7 +17,7 @@ describe('Body Comp Table Heading component', () => {
 
     render(BodyCompTableHeading);
 
-    expectedHeadings.forEach(heading => {
+    expectedHeadings.forEach((heading) => {
       expect(screen.getByText(heading)).toBeInTheDocument();
     });
   });

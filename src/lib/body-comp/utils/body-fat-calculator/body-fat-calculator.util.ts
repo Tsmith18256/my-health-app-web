@@ -4,7 +4,9 @@
  *
  * TODO: Add support for women.
  */
-export const calculateAveragedBodyFat = (opts: ICalculateAveragedBodyFatOpts): number => {
+export const calculateAveragedBodyFat = (
+  opts: ICalculateAveragedBodyFatOpts,
+): number => {
   const navyBf = calculateNavyBodyFat(opts);
   const skinfoldBf = calculateSkinfoldBodyFat3Site(opts);
 
@@ -16,10 +18,15 @@ export const calculateAveragedBodyFat = (opts: ICalculateAveragedBodyFatOpts): n
  *
  * TODO: Add support for women.
  */
-export const calculateNavyBodyFat = (opts: ICalculateNavyBodyFatOpts): number => {
+export const calculateNavyBodyFat = (
+  opts: ICalculateNavyBodyFatOpts,
+): number => {
   const { heightInCm, neckInCm, waistInCm } = opts;
 
-  const density = 1.0324 - 0.19077 * Math.log10(waistInCm - neckInCm) + 0.15456 * Math.log10(heightInCm);
+  const density =
+    1.0324 -
+    0.19077 * Math.log10(waistInCm - neckInCm) +
+    0.15456 * Math.log10(heightInCm);
 
   return convertDensityToBodyFat(density);
 };
@@ -29,11 +36,17 @@ export const calculateNavyBodyFat = (opts: ICalculateNavyBodyFatOpts): number =>
  *
  * TODO: Add support for women.
  */
-export const calculateSkinfoldBodyFat3Site = (opts: ICalculateSkinfoldBodyFat3SiteOpts) => {
+export const calculateSkinfoldBodyFat3Site = (
+  opts: ICalculateSkinfoldBodyFat3SiteOpts,
+) => {
   const { age, chestInMm, abInMm, thighInMm } = opts;
 
   const totalMm = chestInMm + abInMm + thighInMm;
-  const density = 1.10938 - 0.0008267 * totalMm + 0.0000016 * Math.pow(totalMm, 2) - 0.0002574 * age;
+  const density =
+    1.10938 -
+    0.0008267 * totalMm +
+    0.0000016 * Math.pow(totalMm, 2) -
+    0.0002574 * age;
 
   return convertDensityToBodyFat(density);
 };
@@ -47,7 +60,9 @@ const convertDensityToBodyFat = (density: number): number => {
   return (495 / density - 450) / 100;
 };
 
-export interface ICalculateAveragedBodyFatOpts extends ICalculateNavyBodyFatOpts, ICalculateSkinfoldBodyFat3SiteOpts {}
+export interface ICalculateAveragedBodyFatOpts
+  extends ICalculateNavyBodyFatOpts,
+    ICalculateSkinfoldBodyFat3SiteOpts {}
 
 interface ICalculateNavyBodyFatOpts {
   heightInCm: number;

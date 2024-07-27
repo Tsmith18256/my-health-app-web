@@ -33,7 +33,13 @@
   <nav class="top-nav">
     <span class="top-nav-settings-button">
       <!-- TODO: MHA-35 - Replace with TyUI component -->
-      <IconButton icon={ICON_IMAGES.cog} size={ICON_SIZES.large} on:click={goToSettings} title="Settings" tabindex={0} />
+      <IconButton
+        icon={ICON_IMAGES.cog}
+        size={ICON_SIZES.large}
+        on:click={goToSettings}
+        title="Settings"
+        tabindex={0}
+      />
     </span>
 
     {#if path === 'settings'}
@@ -61,7 +67,7 @@
       on:click={goToLog}
       role="tab"
       tabindex={0}
-      on:keyup={e => onKeyUp(e, 'log')}
+      on:keyup={(e) => onKeyUp(e, 'log')}
     >
       <Icon icon={ICON_IMAGES.log} size={ICON_SIZES.large} />
       <span>Log</span>
@@ -73,7 +79,7 @@
       on:click={goToOverview}
       role="tab"
       tabindex={0}
-      on:keyup={e => onKeyUp(e, 'overview')}
+      on:keyup={(e) => onKeyUp(e, 'overview')}
     >
       <Icon icon={ICON_IMAGES.chartLine} size={ICON_SIZES.large} />
       <span>Overview</span>
@@ -85,7 +91,7 @@
       on:click={goToSettings}
       role="tab"
       tabindex={0}
-      on:keyup={e => onKeyUp(e, 'settings')}
+      on:keyup={(e) => onKeyUp(e, 'settings')}
     >
       <Icon icon={ICON_IMAGES.cog} size={ICON_SIZES.large} />
       <span>Settings</span>

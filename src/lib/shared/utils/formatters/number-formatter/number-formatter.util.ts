@@ -1,4 +1,7 @@
-export const formatPercent = (percent: number, opts?: { decimalPlaces?: number }) => {
+export const formatPercent = (
+  percent: number,
+  opts?: { decimalPlaces?: number },
+) => {
   const decimalPlaces = opts?.decimalPlaces ?? 0;
 
   return percent.toLocaleString(undefined, {

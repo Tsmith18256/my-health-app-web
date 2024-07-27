@@ -16,7 +16,14 @@
   };
 </script>
 
-<span class="button" {title} on:click on:keyup={onKeyUp} role="button" {tabindex}>
+<span
+  class="button"
+  {title}
+  on:click
+  on:keyup={onKeyUp}
+  role="button"
+  {tabindex}
+>
   <Icon {icon} {size} />
 </span>
 

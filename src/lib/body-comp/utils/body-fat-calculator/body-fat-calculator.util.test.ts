@@ -1,4 +1,8 @@
-import { calculateAveragedBodyFat, calculateNavyBodyFat, calculateSkinfoldBodyFat3Site } from '$lib/body-comp/utils/body-fat-calculator/body-fat-calculator.util';
+import {
+  calculateAveragedBodyFat,
+  calculateNavyBodyFat,
+  calculateSkinfoldBodyFat3Site,
+} from '$lib/body-comp/utils/body-fat-calculator/body-fat-calculator.util';
 import { describe, expect, test } from 'vitest';
 
 describe('Body Fat Calculator util', () => {
@@ -10,7 +14,7 @@ describe('Body Fat Calculator util', () => {
       waistInCm: 87.6,
       chestInMm: 10,
       abInMm: 14,
-      thighInMm: 12
+      thighInMm: 12,
     });
 
     expect(received).toBeCloseTo(0.1453, 4);
@@ -31,7 +35,7 @@ describe('Body Fat Calculator util', () => {
       age: 28,
       chestInMm: 10,
       abInMm: 14,
-      thighInMm: 12
+      thighInMm: 12,
     });
 
     expect(received).toBeCloseTo(0.1069, 4);
