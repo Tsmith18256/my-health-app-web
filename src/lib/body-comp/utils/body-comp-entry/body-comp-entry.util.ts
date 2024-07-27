@@ -10,7 +10,7 @@ import {
   WeightMeasurement,
 } from '$lib/shared/utils/measurements/weight-measurement/weight-measurement.util';
 import { convertMmsToCms } from '$lib/shared/utils/unit-converter/unit-converter.util';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs, { type Dayjs } from 'dayjs';
 import { get } from 'svelte/store';
 
 interface IConstructorProps {
