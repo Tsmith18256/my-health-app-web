@@ -1,4 +1,4 @@
-import { Dayjs } from 'dayjs';
+import type { Dayjs } from 'dayjs';
 
 export const formatDateShort = (date: Dayjs) => {
   return date.format('MMM D, YYYY')
