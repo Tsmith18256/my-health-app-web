@@ -7,27 +7,29 @@
   const bodyFatPercent = entry.getBodyFatPercent();
 </script>
 
-<tr on:click>
+<tr class="cursor-pointer" on:click>
   <td>{formatDateShort(entry.date)}</td>
   <td>{entry.getFormattedWeight()}</td>
-  <td
-    >{#if bodyFatPercent}{formatPercent(bodyFatPercent, {
+  <td>
+    {#if bodyFatPercent}
+      {formatPercent(bodyFatPercent, {
         decimalPlaces: 2,
-      })}{/if}</td
-  >
-  <td class="display-none hidden lg:table-cell"
-    >{#if entry.waistCircumference}{entry.getFormattedWaistCircumference()}{/if}</td
-  >
-  <td class="display-none hidden lg:table-cell"
-    >{entry.getFormattedNeckCircumference()}</td
-  >
-  <td class="display-none hidden xl:table-cell"
-    >{entry.getFormattedChestSkinfold()}</td
-  >
-  <td class="display-none hidden xl:table-cell"
-    >{entry.getFormattedAbSkinfold()}</td
-  >
-  <td class="display-none hidden xl:table-cell"
-    >{entry.getFormattedThighSkinfold()}</td
-  >
+      })}
+    {/if}
+  </td>
+  <td class="display-none hidden lg:table-cell">
+    {#if entry.waistCircumference}{entry.getFormattedWaistCircumference()}{/if}
+  </td>
+  <td class="display-none hidden lg:table-cell">
+    {entry.getFormattedNeckCircumference()}
+  </td>
+  <td class="display-none hidden xl:table-cell">
+    {entry.getFormattedChestSkinfold()}
+  </td>
+  <td class="display-none hidden xl:table-cell">
+    {entry.getFormattedAbSkinfold()}
+  </td>
+  <td class="display-none hidden xl:table-cell">
+    {entry.getFormattedThighSkinfold()}
+  </td>
 </tr>
