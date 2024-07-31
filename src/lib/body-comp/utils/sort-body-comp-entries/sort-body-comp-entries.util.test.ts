@@ -26,6 +26,11 @@ describe('Sort Body Comp Entries by Newest util', () => {
 
     const sorted = sortBodyCompEntriesByNewest(unsorted);
 
-    expect(sorted).toStrictEqual([unsorted[3], unsorted[1], unsorted[0], unsorted[2]]);
+    expect(sorted).toStrictEqual([
+      unsorted[3],
+      unsorted[1],
+      unsorted[0],
+      unsorted[2],
+    ]);
   });
 });

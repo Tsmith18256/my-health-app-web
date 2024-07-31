@@ -39,7 +39,7 @@ const suffixes: Record<LengthUnit, string> = {
   [LengthUnit.Millimetres]: 'mm',
   [LengthUnit.Centimetres]: 'cm',
   [LengthUnit.Inches]: 'in',
-  [LengthUnit.Feet]: 'ft'
+  [LengthUnit.Feet]: 'ft',
 };
 
 export class LengthMeasurement {

@@ -18,7 +18,6 @@ export const CM_PER_IN = 2.54;
 export const MM_PER_CM = 10;
 export const MM_PER_M = 1000;
 
-
 // ------------------
 // ----- WEIGHT -----
 // ------------------
@@ -70,7 +69,6 @@ export const convertMmsToCms = (mms: number): number => {
 export const convertMmsToMs = (mms: number): number => {
   return mms / MM_PER_M;
 };
-
 
 // Imperial -> Metric
 

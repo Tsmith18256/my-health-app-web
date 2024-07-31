@@ -1,35 +1,62 @@
 <script lang="ts">
+  import { Modal, TabGroup, TabAnchor, initializeStores, type ModalComponent } from '@skeletonlabs/skeleton';
+  import { page } from '$app/stores';
   import '$lib/shared/assets/fonts/css/fontawesome.min.css';
   import '$lib/shared/assets/fonts/css/regular.min.css';
   import '$lib/shared/polyfills';
+  import '../app.css';
+    import BodyCompEditEntryModal from '$lib/body-comp/components/body-comp-edit-entry-modal/body-comp-edit-entry-modal.svelte';
+
+  initializeStores();
+
+  const modalRegistry: Record<string, ModalComponent> = {
+    bodyCompEditEntryModal: { ref: BodyCompEditEntryModal }
+  };
 </script>
 
-<slot />
+<Modal components={modalRegistry} />
 
-<style lang="scss">
-  @use '$lib/shared/styles/variables/breakpoints';
-  @use '$lib/shared/styles/variables/colors';
+<div class="grid h-screen grid-rows-[1fr_auto]">
+  <slot />
 
-  :global(*) {
-    margin: 0;
-    padding: 0;
-
-    box-sizing: border-box;
-
-    font-family: sans-serif;
-    color: colors.$text;
-  }
-
-  :global(body) {
-    height: 100vw;
-    background-color: colors.$background;
-
-    @media (min-width: breakpoints.$tablet) {
-      padding: 1rem 2rem;
-    }
-
-    @media (min-width: breakpoints.$desktop-small) {
-      padding: 2rem 3rem;
-    }
-  }
-</style>
+  <nav>
+    <TabGroup
+      justify="justify-center"
+      active="variant-filled-primary"
+      hover="hover:variant-soft-primary"
+      flex="flex-1 lg:flex-none"
+      rounded=""
+      border=""
+      class="bg-surface-100-800-token w-full"
+    >
+      <TabAnchor
+        href="/exercise"
+        selected={$page.url.pathname.startsWith('/exercise')}
+      >
+        <!-- TODO: Update all FA icons to a common component -->
+        <svelte:fragment slot="lead"
+          ><i class="far fa-running" /></svelte:fragment
+        >
+        Exercise
+      </TabAnchor>
+      <TabAnchor
+        href="/nutrition"
+        selected={$page.url.pathname.startsWith('/nutrition')}
+      >
+        <svelte:fragment slot="lead"
+          ><i class="far fa-apple-alt" /></svelte:fragment
+        >
+        Nutrition
+      </TabAnchor>
+      <TabAnchor
+        href="/bodycomp/log"
+        selected={$page.url.pathname.startsWith('/bodycomp')}
+      >
+        <svelte:fragment slot="lead"
+          ><i class="far fa-heartbeat" /></svelte:fragment
+        >
+        Body Comp
+      </TabAnchor>
+    </TabGroup>
+  </nav>
+</div>

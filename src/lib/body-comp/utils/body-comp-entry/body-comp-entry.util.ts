@@ -54,7 +54,10 @@ export class BodyCompEntry {
     if (value === undefined) {
       this._abSkinfold = undefined;
     } else if (!this._abSkinfold) {
-      this._abSkinfold = new LengthMeasurement({ value, unit: LengthUnit.Millimetres });
+      this._abSkinfold = new LengthMeasurement({
+        value,
+        unit: LengthUnit.Millimetres,
+      });
     } else {
       this._abSkinfold.setValue({ value, unit: LengthUnit.Millimetres });
     }
@@ -68,7 +71,10 @@ export class BodyCompEntry {
     if (value === undefined) {
       this._chestSkinfold = undefined;
     } else if (!this._chestSkinfold) {
-      this._chestSkinfold = new LengthMeasurement({ value, unit: LengthUnit.Millimetres });
+      this._chestSkinfold = new LengthMeasurement({
+        value,
+        unit: LengthUnit.Millimetres,
+      });
     } else {
       this._chestSkinfold.setValue({ value, unit: LengthUnit.Millimetres });
     }
@@ -100,7 +106,10 @@ export class BodyCompEntry {
     if (value === undefined) {
       this._thighSkinfold = undefined;
     } else if (!this._thighSkinfold) {
-      this._thighSkinfold = new LengthMeasurement({ value, unit: LengthUnit.Millimetres });
+      this._thighSkinfold = new LengthMeasurement({
+        value,
+        unit: LengthUnit.Millimetres,
+      });
     } else {
       this._thighSkinfold.setValue({ value, unit: LengthUnit.Millimetres });
     }
@@ -142,15 +151,22 @@ export class BodyCompEntry {
     const abSkinfold = this._abSkinfold;
     const chestSkinfold = this._chestSkinfold;
     const thighSkinfold = this._thighSkinfold;
-    const canCalculateBodyFat = waistCircumference && neckCircumference && abSkinfold && chestSkinfold && thighSkinfold;
+    const canCalculateBodyFat =
+      waistCircumference &&
+      neckCircumference &&
+      abSkinfold &&
+      chestSkinfold &&
+      thighSkinfold;
 
     return (
       canCalculateBodyFat &&
       calculateAveragedBodyFat({
         age: get(userAge),
-        heightInCm: convertMmsToCms(get(settings).heightInMm),
+        heightInCm: convertMmsToCms(get(settings).height),
         neckInCm: neckCircumference.getValue({ unit: LengthUnit.Centimetres }),
-        waistInCm: waistCircumference.getValue({ unit: LengthUnit.Centimetres }),
+        waistInCm: waistCircumference.getValue({
+          unit: LengthUnit.Centimetres,
+        }),
         chestInMm: chestSkinfold.getValue({ unit: LengthUnit.Millimetres }),
         abInMm: abSkinfold.getValue({ unit: LengthUnit.Millimetres }),
         thighInMm: thighSkinfold.getValue({ unit: LengthUnit.Millimetres }),
@@ -195,7 +211,9 @@ export class BodyCompEntry {
 
     const unit = getWeightUnit();
 
-    return new WeightMeasurement({ value: fatMass, unit }).getFormatted({ unit });
+    return new WeightMeasurement({ value: fatMass, unit }).getFormatted({
+      unit,
+    });
   }
 
   getFormattedLeanMass(): string | undefined {
@@ -207,7 +225,9 @@ export class BodyCompEntry {
 
     const unit = getWeightUnit();
 
-    return new WeightMeasurement({ value: leanMass, unit }).getFormatted({ unit });
+    return new WeightMeasurement({ value: leanMass, unit }).getFormatted({
+      unit,
+    });
   }
 
   getFormattedNeckCircumference(): string | undefined {

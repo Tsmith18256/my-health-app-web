@@ -14,7 +14,7 @@
 <!-- TODO: Fix these without linter ignores -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-<div class="item-container" on:click role='listitem'>
+<div class="item-container" on:click role="listitem">
   <span class="date-label">{formatDateShort(entry.date)}</span>
 
   <span class="weight-label">{entry.getFormattedWeight()}</span>

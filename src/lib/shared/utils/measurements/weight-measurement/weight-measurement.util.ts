@@ -1,5 +1,12 @@
 import type { ObjectValues } from '$lib/shared/types/object-values';
-import { convertGsToKgs, convertGsToLbs, convertGsToOzs, convertKgsToGs, convertLbsToGs, convertOzsToGs } from '$lib/shared/utils/unit-converter/unit-converter.util';
+import {
+  convertGsToKgs,
+  convertGsToLbs,
+  convertGsToOzs,
+  convertKgsToGs,
+  convertLbsToGs,
+  convertOzsToGs,
+} from '$lib/shared/utils/unit-converter/unit-converter.util';
 
 export const WEIGHT_UNITS = {
   // Metric system
@@ -28,7 +35,7 @@ const suffixes: Record<WeightUnit, string> = {
   [WEIGHT_UNITS.grams]: 'g',
   [WEIGHT_UNITS.kilograms]: 'kg',
   [WEIGHT_UNITS.ounces]: 'oz',
-  [WEIGHT_UNITS.pounds]: 'lbs'
+  [WEIGHT_UNITS.pounds]: 'lbs',
 };
 
 export class WeightMeasurement {
