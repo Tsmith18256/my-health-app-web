@@ -6,7 +6,7 @@
   } from '$lib/body-comp/stores/body-comp-entries/body-comp-entries.store';
   import BodyCompTable from '$lib/body-comp/components/body-comp-table/body-comp-table.svelte';
   import { getModalStore } from '@skeletonlabs/skeleton';
-    import type { BodyCompEntry } from '$lib/body-comp/utils/body-comp-entry/body-comp-entry.util';
+  import type { BodyCompEntry } from '$lib/body-comp/utils/body-comp-entry/body-comp-entry.util';
 
   export let data: PageData;
 
@@ -30,8 +30,8 @@
 </script>
 
 <button
-  type="button"
   class="variant-filled-secondary btn"
+  type="button"
   on:click={() => editEntry()}
 >
   <span><i class="far fa-plus" /></span>
