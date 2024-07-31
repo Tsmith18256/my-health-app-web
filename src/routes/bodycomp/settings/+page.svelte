@@ -1,126 +1,95 @@
 <script lang="ts">
-  import {
-    Button,
-    HEADING_LEVELS,
-    Heading,
-    ToggleButtons,
-    type IToggleButton,
-    TextInput,
-    TEXT_INPUT_TYPES,
-  } from '@tsmith18256/ty-ui';
   import { MEASUREMENT_SYSTEMS } from '$lib/shared/constants/measurement-systems.constants';
   import {
     settings,
     updateSettings,
   } from '$lib/shared/stores/settings/settings.store';
-  import {
-    convertInsToMms,
-    convertMmsToIns,
-  } from '$lib/shared/utils/unit-converter/unit-converter.util';
   import dayjs from 'dayjs';
   import { get } from 'svelte/store';
+  import {
+    LengthMeasurement,
+    LengthUnit,
+  } from '$lib/shared/utils/measurements/length-measurement/length-measurement.util';
 
   let birthday = get(settings).birthday.format('YYYY-MM-DD');
 
-  let heightInIn =
-    Math.round(convertMmsToIns(get(settings).heightInMm) * 10) / 10;
+  let heightUnit =
+    $settings.heightSystem === MEASUREMENT_SYSTEMS.imperial
+      ? LengthUnit.Inches
+      : LengthUnit.Centimetres;
+  let height = get(settings).height.getValue({ unit: heightUnit });
   let { bodyweightSystem, heightSystem, circumferenceSystem } = get(settings);
 
   $: areValuesSameAsSaved =
     birthday === $settings.birthday.format('YYYY-MM-DD') &&
-    Math.round(convertInsToMms(heightInIn)) === $settings.heightInMm &&
+    height == $settings.height.getValue({ unit: heightUnit }) &&
     bodyweightSystem === $settings.bodyweightSystem &&
     heightSystem === $settings.heightSystem &&
     circumferenceSystem === $settings.circumferenceSystem;
 
-  $: isButtonDisabled = !birthday || !heightInIn || areValuesSameAsSaved;
+  $: isButtonDisabled = !birthday || !height || areValuesSameAsSaved;
 
   const save = () => {
-    if (birthday && heightInIn) {
+    if (birthday && height) {
       updateSettings({
         birthday: dayjs(birthday),
-        heightInMm: Math.round(convertInsToMms(heightInIn)),
+        height: new LengthMeasurement({ value: height, unit: heightUnit }),
         bodyweightSystem,
         heightSystem,
         circumferenceSystem,
       });
     }
   };
-
-  const measurementSystemToggles: IToggleButton[] = [
-    {
-      label: 'Imperial',
-      value: MEASUREMENT_SYSTEMS.imperial,
-    },
-    {
-      label: 'Metric',
-      value: MEASUREMENT_SYSTEMS.metric,
-    },
-  ];
 </script>
 
 <div class="container">
-  <Heading level={HEADING_LEVELS.h2}>Settings</Heading>
+  <h1 class="h1">Settings</h1>
 
-  <div class="fields-container">
-    <TextInput
-      id="birthdayField"
-      type={TEXT_INPUT_TYPES.date}
-      label="Birthday"
-      bind:value={birthday}
-    />
-    <TextInput
-      id="heightField"
-      type={TEXT_INPUT_TYPES.number}
-      label="Height (in)"
-      step={0.1}
-      bind:value={heightInIn}
-    />
-  </div>
+  <label class="label">
+    <span>Birthday</span>
+    <input class="input" type="date" bind:value={birthday} />
+  </label>
 
-  <Heading level={HEADING_LEVELS.h3}>Measurement systems</Heading>
+  <label class="label">
+    <span>Height (in)</span>
+    <input class="input" type="number" step="0.1" bind:value={height} />
+  </label>
 
-  <div class="fields-container">
-    <Heading level={HEADING_LEVELS.h4}>Bodyweight</Heading>
-    <ToggleButtons
-      groupName="bodyweightToggles"
-      toggleButtons={measurementSystemToggles}
-      bind:value={bodyweightSystem}
-    />
+  <h2 class="h2">Measurement systems</h2>
 
-    <Heading level={HEADING_LEVELS.h4}>Height</Heading>
-    <ToggleButtons
-      groupName="heightToggles"
-      toggleButtons={measurementSystemToggles}
-      bind:value={heightSystem}
-    />
+  <label class="label">
+    <span>Bodyweight</span>
 
-    <Heading level={HEADING_LEVELS.h4}>Circumferences</Heading>
-    <ToggleButtons
-      groupName="circumferenceToggles"
-      toggleButtons={measurementSystemToggles}
-      bind:value={circumferenceSystem}
-    />
-  </div>
+    <select class="select" bind:value={bodyweightSystem}>
+      <option value={MEASUREMENT_SYSTEMS.imperial}>Imperial</option>
+      <option value={MEASUREMENT_SYSTEMS.metric}>Metric</option>
+    </select>
+  </label>
 
-  <div class="button-container">
-    <Button label="Save Settings" disabled={isButtonDisabled} on:click={save} />
-  </div>
+  <label class="label">
+    <span>Height</span>
+
+    <select class="select" bind:value={heightSystem}>
+      <option value={MEASUREMENT_SYSTEMS.imperial}>Imperial</option>
+      <option value={MEASUREMENT_SYSTEMS.metric}>Metric</option>
+    </select>
+  </label>
+
+  <label class="label">
+    <span>Circumferences</span>
+
+    <select class="select" bind:value={circumferenceSystem}>
+      <option value={MEASUREMENT_SYSTEMS.imperial}>Imperial</option>
+      <option value={MEASUREMENT_SYSTEMS.metric}>Metric</option>
+    </select>
+  </label>
+
+  <button
+    class="variant-filled-secondary btn"
+    type="button"
+    disabled={isButtonDisabled}
+    on:click={save}
+  >
+    Save Settings
+  </button>
 </div>
-
-<style>
-  .button-container {
-    margin-top: 1rem;
-  }
-
-  .container {
-    max-width: 30rem;
-  }
-
-  /* TODO: create a shared component for this. */
-  .fields-container {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-</style>

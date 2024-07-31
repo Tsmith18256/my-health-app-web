@@ -1,4 +1,5 @@
 import type { MeasurementSystem } from '$lib/shared/constants/measurement-systems.types';
+import type { LengthMeasurement } from '$lib/shared/utils/measurements/length-measurement/length-measurement.util';
 import type { Dayjs } from 'dayjs';
 
 export interface ISettings {
@@ -12,7 +13,7 @@ export interface ISettings {
   /**
    * The user's height.
    */
-  heightInMm: number;
+  height: LengthMeasurement;
 
   // ------------------------------------------------
   // Measurement system for each type of measurement.

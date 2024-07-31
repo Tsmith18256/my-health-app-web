@@ -162,7 +162,7 @@ export class BodyCompEntry {
       canCalculateBodyFat &&
       calculateAveragedBodyFat({
         age: get(userAge),
-        heightInCm: convertMmsToCms(get(settings).heightInMm),
+        heightInCm: convertMmsToCms(get(settings).height),
         neckInCm: neckCircumference.getValue({ unit: LengthUnit.Centimetres }),
         waistInCm: waistCircumference.getValue({
           unit: LengthUnit.Centimetres,
