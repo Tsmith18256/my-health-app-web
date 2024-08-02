@@ -1,9 +1,10 @@
+import { describe, expect, test } from 'vitest';
+
 import {
   calculateAveragedBodyFat,
   calculateNavyBodyFat,
   calculateSkinfoldBodyFat3Site,
 } from '$lib/body-comp/utils/body-fat-calculator/body-fat-calculator.util';
-import { describe, expect, test } from 'vitest';
 
 describe('Body Fat Calculator util', () => {
   test('calculates correct averaged body fat', () => {

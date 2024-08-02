@@ -1,3 +1,6 @@
+import dayjs, { type Dayjs } from 'dayjs';
+import { get } from 'svelte/store';
+
 import { calculateAveragedBodyFat } from '$lib/body-comp/utils/body-fat-calculator/body-fat-calculator.util';
 import { MEASUREMENT_SYSTEMS } from '$lib/shared/constants/measurement-systems.constants';
 import { settings, userAge } from '$lib/shared/stores/settings/settings.store';
@@ -10,8 +13,6 @@ import {
   WeightMeasurement,
 } from '$lib/shared/utils/measurements/weight-measurement/weight-measurement.util';
 import { convertMmsToCms } from '$lib/shared/utils/unit-converter/unit-converter.util';
-import dayjs, { type Dayjs } from 'dayjs';
-import { get } from 'svelte/store';
 
 interface IConstructorProps {
   id?: number;
@@ -53,13 +54,13 @@ export class BodyCompEntry {
   set abSkinfold(value: number | undefined) {
     if (value === undefined) {
       this._abSkinfold = undefined;
-    } else if (!this._abSkinfold) {
+    } else if (this._abSkinfold) {
+      this._abSkinfold.setValue({ value, unit: LengthUnit.Millimetres });
+    } else {
       this._abSkinfold = new LengthMeasurement({
         value,
         unit: LengthUnit.Millimetres,
       });
-    } else {
-      this._abSkinfold.setValue({ value, unit: LengthUnit.Millimetres });
     }
   }
 
@@ -70,13 +71,13 @@ export class BodyCompEntry {
   set chestSkinfold(value: number | undefined) {
     if (value === undefined) {
       this._chestSkinfold = undefined;
-    } else if (!this._chestSkinfold) {
+    } else if (this._chestSkinfold) {
+      this._chestSkinfold.setValue({ value, unit: LengthUnit.Millimetres });
+    } else {
       this._chestSkinfold = new LengthMeasurement({
         value,
         unit: LengthUnit.Millimetres,
       });
-    } else {
-      this._chestSkinfold.setValue({ value, unit: LengthUnit.Millimetres });
     }
   }
 
@@ -91,10 +92,10 @@ export class BodyCompEntry {
 
     if (value === undefined) {
       this._neckCircumference = undefined;
-    } else if (!this._neckCircumference) {
-      this._neckCircumference = new LengthMeasurement({ value, unit });
-    } else {
+    } else if (this._neckCircumference) {
       this._neckCircumference.setValue({ value, unit });
+    } else {
+      this._neckCircumference = new LengthMeasurement({ value, unit });
     }
   }
 
@@ -105,13 +106,13 @@ export class BodyCompEntry {
   set thighSkinfold(value: number | undefined) {
     if (value === undefined) {
       this._thighSkinfold = undefined;
-    } else if (!this._thighSkinfold) {
+    } else if (this._thighSkinfold) {
+      this._thighSkinfold.setValue({ value, unit: LengthUnit.Millimetres });
+    } else {
       this._thighSkinfold = new LengthMeasurement({
         value,
         unit: LengthUnit.Millimetres,
       });
-    } else {
-      this._thighSkinfold.setValue({ value, unit: LengthUnit.Millimetres });
     }
   }
 
@@ -126,10 +127,10 @@ export class BodyCompEntry {
 
     if (value === undefined) {
       this._waistCircumference = undefined;
-    } else if (!this._waistCircumference) {
-      this._waistCircumference = new LengthMeasurement({ value, unit });
-    } else {
+    } else if (this._waistCircumference) {
       this._waistCircumference.setValue({ value, unit });
+    } else {
+      this._waistCircumference = new LengthMeasurement({ value, unit });
     }
   }
 
@@ -162,7 +163,7 @@ export class BodyCompEntry {
       canCalculateBodyFat &&
       calculateAveragedBodyFat({
         age: get(userAge),
-        heightInCm: convertMmsToCms(get(settings).height),
+        heightInCm: get(settings).height.getValue({ unit: LengthUnit.Centimetres }),
         neckInCm: neckCircumference.getValue({ unit: LengthUnit.Centimetres }),
         waistInCm: waistCircumference.getValue({
           unit: LengthUnit.Centimetres,
@@ -258,9 +259,9 @@ const getCircumferenceUnit = () => {
 
   if (circumferenceSystem === MEASUREMENT_SYSTEMS.imperial) {
     return LengthUnit.Inches;
-  } else {
-    return LengthUnit.Centimetres;
   }
+
+  return LengthUnit.Centimetres;
 };
 
 const getWeightUnit = () => {
@@ -268,7 +269,7 @@ const getWeightUnit = () => {
 
   if (bodyweightSystem === MEASUREMENT_SYSTEMS.imperial) {
     return WEIGHT_UNITS.pounds;
-  } else {
-    return WEIGHT_UNITS.kilograms;
   }
+
+  return WEIGHT_UNITS.kilograms;
 };

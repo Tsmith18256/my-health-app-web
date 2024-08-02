@@ -1,11 +1,12 @@
-// toSpliced requires the following unsupported versions:
+// Need to polyfill because toSpliced requires the following unsupported versions:
 // - Chrome 110
 // - Safari (iOS) 16
 if (!Array.prototype.toSpliced) {
-  Array.prototype.toSpliced = function (start, deleteCount, ...items) {
+  // eslint-disable-next-line no-extend-native -- Polyfill.
+  Array.prototype.toSpliced = function toSpliced(start, deleteCount, ...items) {
     const cloned = [...this];
 
-    if (deleteCount == undefined) {
+    if (deleteCount === undefined) {
       cloned.splice(start);
     } else {
       cloned.splice(start, deleteCount, ...items);
@@ -15,11 +16,12 @@ if (!Array.prototype.toSpliced) {
   };
 }
 
-// toSorted requires the following unsupported versions:
+// Need to polyfill because toSorted requires the following unsupported versions:
 // - Chrome 110
 // - Safari (iOS) 16
 if (!Array.prototype.toSorted) {
-  Array.prototype.toSorted = function (compareFn) {
+  // eslint-disable-next-line no-extend-native -- Polyfill.
+  Array.prototype.toSorted = function toSorted(compareFn) {
     const cloned = [...this];
 
     cloned.sort(compareFn);

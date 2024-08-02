@@ -1,7 +1,8 @@
-import { BodyCompEntry } from '$lib/body-comp/utils/body-comp-entry/body-comp-entry.util';
-import { sortBodyCompEntriesByNewest } from '$lib/body-comp/utils/sort-body-comp-entries/sort-body-comp-entries.util';
 import dayjs from 'dayjs';
 import { describe, expect, test } from 'vitest';
+
+import { BodyCompEntry } from '$lib/body-comp/utils/body-comp-entry/body-comp-entry.util';
+import { sortBodyCompEntriesByNewest } from '$lib/body-comp/utils/sort-body-comp-entries/sort-body-comp-entries.util';
 
 describe('Sort Body Comp Entries by Newest util', () => {
   test('should sort entries in the correct order', () => {

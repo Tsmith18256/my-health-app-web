@@ -43,10 +43,7 @@ export const calculateSkinfoldBodyFat3Site = (
 
   const totalMm = chestInMm + abInMm + thighInMm;
   const density =
-    1.10938 -
-    0.0008267 * totalMm +
-    0.0000016 * Math.pow(totalMm, 2) -
-    0.0002574 * age;
+    1.10938 - 0.0008267 * totalMm + 0.0000016 * totalMm ** 2 - 0.0002574 * age;
 
   return convertDensityToBodyFat(density);
 };

@@ -1,5 +1,11 @@
 <script lang="ts">
-  import { Modal, TabGroup, TabAnchor, initializeStores, type ModalComponent } from '@skeletonlabs/skeleton';
+  import {
+    Modal,
+    TabGroup,
+    TabAnchor,
+    initializeStores,
+    type ModalComponent,
+  } from '@skeletonlabs/skeleton';
   import { inject } from '@vercel/analytics';
   import { dev } from '$app/environment';
   import { page } from '$app/stores';
@@ -12,7 +18,7 @@
   initializeStores();
 
   const modalRegistry: Record<string, ModalComponent> = {
-    bodyCompEditEntryModal: { ref: BodyCompEditEntryModal }
+    bodyCompEditEntryModal: { ref: BodyCompEditEntryModal },
   };
 
   inject({ mode: dev ? 'development' : 'production' });
