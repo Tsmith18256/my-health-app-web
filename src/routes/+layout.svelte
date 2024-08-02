@@ -1,17 +1,21 @@
 <script lang="ts">
   import { Modal, TabGroup, TabAnchor, initializeStores, type ModalComponent } from '@skeletonlabs/skeleton';
+  import { inject } from '@vercel/analytics';
+  import { dev } from '$app/environment';
   import { page } from '$app/stores';
+  import BodyCompEditEntryModal from '$lib/body-comp/components/body-comp-edit-entry-modal/body-comp-edit-entry-modal.svelte';
   import '$lib/shared/assets/fonts/css/fontawesome.min.css';
   import '$lib/shared/assets/fonts/css/regular.min.css';
   import '$lib/shared/polyfills';
   import '../app.css';
-    import BodyCompEditEntryModal from '$lib/body-comp/components/body-comp-edit-entry-modal/body-comp-edit-entry-modal.svelte';
 
   initializeStores();
 
   const modalRegistry: Record<string, ModalComponent> = {
     bodyCompEditEntryModal: { ref: BodyCompEditEntryModal }
   };
+
+  inject({ mode: dev ? 'development' : 'production' });
 </script>
 
 <Modal components={modalRegistry} />
