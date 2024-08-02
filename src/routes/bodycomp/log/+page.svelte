@@ -20,12 +20,12 @@
 
   const editEntry = (entry?: BodyCompEntry) => {
     modalStore.trigger({
-    type: 'component',
-    component: 'bodyCompEditEntryModal',
-    meta: {
-      entryToEdit: entry
-    }
-  });
+      type: 'component',
+      component: 'bodyCompEditEntryModal',
+      meta: {
+        entryToEdit: entry,
+      },
+    });
   };
 </script>
 

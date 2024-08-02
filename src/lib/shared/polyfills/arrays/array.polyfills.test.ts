@@ -14,6 +14,7 @@ describe('Array polyfills', () => {
     });
 
     afterAll(() => {
+      // eslint-disable-next-line no-extend-native -- Returning to native function after testing polyfill.
       Array.prototype.toSpliced = originalToSpliced;
     });
 
@@ -135,11 +136,13 @@ describe('Array polyfills', () => {
 
         if (isAEven && !isBEven) {
           return -1;
-        } else if (!isAEven && isBEven) {
-          return 1;
-        } else {
-          return 0;
         }
+
+        if (!isAEven && isBEven) {
+          return 1;
+        }
+
+        return 0;
       });
 
       expect(res).toStrictEqual([4, 0, 6, 2, 5, 1, 3, 7]);

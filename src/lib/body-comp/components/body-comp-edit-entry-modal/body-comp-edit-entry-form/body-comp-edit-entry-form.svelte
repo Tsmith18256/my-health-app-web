@@ -1,6 +1,7 @@
 <script lang="ts">
   import dayjs from 'dayjs';
   import { createEventDispatcher } from 'svelte';
+
   import { BodyCompEntry } from '$lib/body-comp/utils/body-comp-entry/body-comp-entry.util';
   import { formatDateIso } from '$lib/shared/utils/formatters/date-formatter/date-formatter.util';
   import { formatPercent } from '$lib/shared/utils/formatters/number-formatter/number-formatter.util';
@@ -20,12 +21,13 @@
   let ab = entryToEdit?.abSkinfold;
   let thigh = entryToEdit?.thighSkinfold;
 
+  // eslint-disable-next-line no-warning-comments
   // TODO: Now that the body fat percentage is coming off the class, this doesn't work because it doesn't update as the
   // form is being edited.
-  let bodyFat = entryToEdit?.getBodyFatPercent();
-  let formattedBodyFat = bodyFat && formatPercent(bodyFat);
-  let leanMass = entryToEdit?.getLeanMass();
-  let fatMass = entryToEdit?.getFatMass();
+  const bodyFat = entryToEdit?.getBodyFatPercent();
+  const formattedBodyFat = bodyFat && formatPercent(bodyFat);
+  const leanMass = entryToEdit?.getLeanMass();
+  const fatMass = entryToEdit?.getFatMass();
 
   const dispatch = createEventDispatcher<{
     submit: BodyCompEntry;
@@ -40,7 +42,7 @@
         new BodyCompEntry({
           id: entryToEdit?.id,
           date: dayjs(date),
-          weight: weight,
+          weight,
           waistCircumference: waist,
           neckCircumference: neck,
           chestSkinfold: chest,
@@ -120,18 +122,26 @@
 {/if}
 
 <!-- TODO: MHA-36 - Use ButtonGroup-->
-<div
-  class="flex flex-row gap-2">
-  <button type="button" class="btn variant-filled-success" disabled={!date || !weight} on:click={submit}>
+<div class="flex flex-row gap-2">
+  <button
+    type="button"
+    class="variant-filled-success btn"
+    disabled={!date || !weight}
+    on:click={submit}
+  >
     {entryToEdit ? 'Save' : 'Submit'}
   </button>
 
-  <button type="button" class="btn variant-filled-surface" on:click={cancel}>
+  <button type="button" class="variant-filled-surface btn" on:click={cancel}>
     Cancel
   </button>
 
   {#if entryToEdit}
-    <button type="button" class="btn variant-filled-error" on:click={deleteEntry}>
+    <button
+      type="button"
+      class="variant-filled-error btn"
+      on:click={deleteEntry}
+    >
       Delete
     </button>
   {/if}

@@ -1,6 +1,7 @@
+import type { Dayjs } from 'dayjs';
+
 import type { MeasurementSystem } from '$lib/shared/constants/measurement-systems.types';
 import type { LengthMeasurement } from '$lib/shared/utils/measurements/length-measurement/length-measurement.util';
-import type { Dayjs } from 'dayjs';
 
 export interface ISettings {
   // ---------------------------
