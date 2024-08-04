@@ -1,7 +1,9 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
+
   import BodyCompTableRow from '$lib/body-comp/components/body-comp-table/body-comp-table-row.svelte/body-comp-table-row.svelte';
   import { BodyCompEntry } from '$lib/body-comp/utils/body-comp-entry/body-comp-entry.util';
+
   import BodyCompTableHeading from './body-comp-table-heading/body-comp-table-heading.svelte';
 
   export let entries: BodyCompEntry[];

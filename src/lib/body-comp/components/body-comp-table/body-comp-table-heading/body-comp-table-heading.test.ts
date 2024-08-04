@@ -1,6 +1,7 @@
-import BodyCompTableHeading from '$lib/body-comp/components/body-comp-table/body-comp-table-heading/body-comp-table-heading.svelte';
 import { render, screen } from '@testing-library/svelte';
 import { describe, expect, test } from 'vitest';
+
+import BodyCompTableHeading from '$lib/body-comp/components/body-comp-table/body-comp-table-heading/body-comp-table-heading.svelte';
 
 describe('Body Comp Table Heading component', () => {
   test('renders correct columns', () => {
