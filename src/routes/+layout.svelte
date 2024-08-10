@@ -14,6 +14,7 @@
   import '$lib/shared/assets/fonts/css/regular.min.css';
   import '$lib/shared/polyfills';
   import '../app.css';
+    import TopBar from '$lib/root/components/top-bar.svelte';
 
   initializeStores();
 
@@ -26,7 +27,9 @@
 
 <Modal components={modalRegistry} />
 
-<div class="grid h-screen grid-rows-[1fr_auto]">
+<div class="grid h-screen grid-rows-[auto_1fr_auto]">
+  <TopBar />
+
   <slot />
 
   <nav>
