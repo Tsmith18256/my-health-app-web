@@ -1,10 +1,11 @@
 <script lang="ts">
-  import { AppBar } from '@skeletonlabs/skeleton';
+  import { AppBar, getDrawerStore } from '@skeletonlabs/skeleton';
 
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
+  import Icon, { IconImage } from '$lib/shared/components/display/icon/icon.svelte';
 
-  // let isDrawerOpen = false;
+  let isDrawerOpen = false;
 
   const navigationButtons = [
     {
@@ -21,7 +22,7 @@
     },
   ] as const;
 
-  // const drawerStore = getDrawerStore();
+  const drawerStore = getDrawerStore();
 
   const getButtonClass = (buttonRoute: string, pathname: string) => {
     if (pathname.startsWith(buttonRoute)) {
@@ -31,24 +32,24 @@
     return 'variant-filled-surface';
   };
 
-  // const toggleDrawer = () => {
-  //   if (isDrawerOpen) {
-  //     drawerStore.close();
-  //   } else {
-  //     drawerStore.open({
-  //       id: 'navigation-drawer',
-  //       width: 'w-20',
-  //       rounded: 'rounded-none'
-  //     });
-  //   }
-  // };
+  const toggleDrawer = () => {
+    if (isDrawerOpen) {
+      drawerStore.close();
+    } else {
+      drawerStore.open({
+        id: 'navigation-drawer',
+        width: 'w-20',
+        rounded: 'rounded-none'
+      });
+    }
+  };
 </script>
 
 <AppBar>
   <svelte:fragment slot="lead">
-    <!-- <button class="btn" type="button" on:click={toggleDrawer}>
-      <i class="far fa-bars" />
-    </button> -->
+    <button class="btn md:hidden" type="button" on:click={toggleDrawer}>
+      <Icon iconImage={IconImage.HamburgerMenu} />
+    </button>
     <h3 class="h3">My Health App</h3>
   </svelte:fragment>
   <svelte:fragment slot="trail">

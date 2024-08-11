@@ -5,6 +5,7 @@
   export const IconImage = {
     BodyComp: 'heartbeat',
     Exercise: 'running',
+    HamburgerMenu: 'bars',
     Log: 'clipboard-list',
     LineChart: 'chart-line',
     Nutrition: 'apple-alt',
