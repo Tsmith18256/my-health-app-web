@@ -39,7 +39,7 @@ const suffixes: Record<WeightUnit, string> = {
 };
 
 export class WeightMeasurement {
-  private valueInGrams: number = 0;
+  private valueInGrams = 0;
 
   constructor(opts?: ISetOpts) {
     if (opts) {
