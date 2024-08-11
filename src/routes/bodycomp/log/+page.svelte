@@ -7,6 +7,7 @@
   import BodyCompTable from '$lib/body-comp/components/body-comp-table/body-comp-table.svelte';
   import { getModalStore } from '@skeletonlabs/skeleton';
   import type { BodyCompEntry } from '$lib/body-comp/utils/body-comp-entry/body-comp-entry.util';
+    import Icon, { IconImage } from '$lib/shared/components/display/icon/icon.svelte';
 
   export let data: PageData;
 
@@ -34,7 +35,7 @@
   type="button"
   on:click={() => editEntry()}
 >
-  <span><i class="far fa-plus" /></span>
+  <span><Icon iconImage={IconImage.Plus} /></span>
   <span>New entry</span>
 </button>
 

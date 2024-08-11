@@ -1,0 +1,14 @@
+{
+  "name": "My Health App",
+  "description": "Track your workouts, body composition, and nutrition.",
+  "short_name": "MHA",
+  "start_url": "/",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    }
+  ]
+}
