@@ -13,7 +13,8 @@
 
   const modalStore = getModalStore();
 
-  const entryToEdit: BodyCompEntry | undefined = $modalStore[0]?.meta.entryToEdit;
+  const entryToEdit: BodyCompEntry | undefined =
+    $modalStore[0]?.meta.entryToEdit;
 
   const onFormSubmit = (e: CustomEvent<BodyCompEntry>) => {
     if (entryToEdit) {

@@ -12,7 +12,6 @@ import {
   WEIGHT_UNITS,
   WeightMeasurement,
 } from '$lib/shared/utils/measurements/weight-measurement/weight-measurement.util';
-import { convertMmsToCms } from '$lib/shared/utils/unit-converter/unit-converter.util';
 
 interface IConstructorProps {
   id?: number;
@@ -163,7 +162,9 @@ export class BodyCompEntry {
       canCalculateBodyFat &&
       calculateAveragedBodyFat({
         age: get(userAge),
-        heightInCm: get(settings).height.getValue({ unit: LengthUnit.Centimetres }),
+        heightInCm: get(settings).height.getValue({
+          unit: LengthUnit.Centimetres,
+        }),
         neckInCm: neckCircumference.getValue({ unit: LengthUnit.Centimetres }),
         waistInCm: waistCircumference.getValue({
           unit: LengthUnit.Centimetres,
