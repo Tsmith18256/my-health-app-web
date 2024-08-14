@@ -1,7 +1,9 @@
 <script lang="ts">
   import { TabAnchor, TabGroup } from '@skeletonlabs/skeleton';
   import { page } from '$app/stores';
-  import Icon, { IconImage } from '$lib/shared/components/display/icon/icon.svelte';
+  import Icon, {
+    IconImage,
+  } from '$lib/shared/components/display/icon/icon.svelte';
 </script>
 
 <nav class="block md:hidden">

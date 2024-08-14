@@ -43,7 +43,7 @@ const suffixes: Record<LengthUnit, string> = {
 };
 
 export class LengthMeasurement {
-  private valueInMillimetres: number = 0;
+  private valueInMillimetres = 0;
 
   constructor(opts?: ISetOpts) {
     if (opts) {

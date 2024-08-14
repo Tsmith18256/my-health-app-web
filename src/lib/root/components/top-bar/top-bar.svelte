@@ -3,7 +3,9 @@
 
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
-  import Icon, { IconImage } from '$lib/shared/components/display/icon/icon.svelte';
+  import Icon, {
+    IconImage,
+  } from '$lib/shared/components/display/icon/icon.svelte';
 
   let isDrawerOpen = false;
 
@@ -39,7 +41,7 @@
       drawerStore.open({
         id: 'navigation-drawer',
         width: 'w-20',
-        rounded: 'rounded-none'
+        rounded: 'rounded-none',
       });
     }
   };
@@ -55,7 +57,10 @@
   <svelte:fragment slot="trail">
     {#each navigationButtons as button}
       <button
-        class="btn {getButtonClass(button.route, $page.url.pathname)} hidden md:flex"
+        class="btn {getButtonClass(
+          button.route,
+          $page.url.pathname,
+        )} hidden md:flex"
         type="button"
         on:click={() => goto(button.route)}
       >

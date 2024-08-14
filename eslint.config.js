@@ -1,41 +1,24 @@
-import js from '@eslint/js';
-import ts from '@typescript-eslint/eslint-plugin';
-import typescriptParser from '@typescript-eslint/parser';
-import prettier from 'eslint-config-prettier';
-import eslintPluginSimpleImportSort from 'eslint-plugin-simple-import-sort';
-import svelte from 'eslint-plugin-svelte';
+import eslint from '@eslint/js';
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import eslintPluginSvelte from 'eslint-plugin-svelte';
 import globals from 'globals';
-import svelteParser from 'svelte-eslint-parser';
+import tseslint from 'typescript-eslint';
 
-const files = ['src/**/*.ts', 'src/**/*.js', 'src/**/*.svelte'];
-
-export default [
+export default tseslint.config(
   {
-    ...js.configs.recommended,
-    files,
-  },
-  {
-    ...ts.configs.strictTypeChecked,
-    ...ts.configs.stylisticTypeChecked,
-    files,
-  },
-  {
-    rules: {
-      ...svelte.configs.recommended.rules,
-    },
-    files,
-  },
-  {
-    ...prettier,
-    files,
-  },
-  {
-    files,
+    files: ['src/**/*.ts'],
+    extends: [
+      eslint.configs.recommended,
+      ...tseslint.configs.strictTypeChecked,
+      ...tseslint.configs.stylisticTypeChecked,
+      eslintPluginPrettierRecommended,
+    ],
     languageOptions: {
       ecmaVersion: 2020,
       sourceType: 'module',
-      parser: typescriptParser,
       parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
         extraFileExtensions: ['.svelte'],
       },
       globals: {
@@ -45,12 +28,7 @@ export default [
       },
     },
     linterOptions: {
-      reportUnusedDisableDirectives: true,
-    },
-    plugins: {
-      '@typescript-eslint': ts,
-      'simple-import-sort': eslintPluginSimpleImportSort,
-      svelte,
+      reportUnusedDisableDirectives: 'error',
     },
     rules: {
       // Base eslint rules.
@@ -63,7 +41,6 @@ export default [
         { ignoreConsecutiveComments: true },
       ],
       complexity: 'error',
-      'consistent-return': 'error',
       'class-methods-use-this': 'error',
       curly: 'error',
       'default-case-last': 'error',
@@ -193,20 +170,8 @@ export default [
       '@typescript-eslint/switch-exhaustiveness-check': 'error',
 
       // simple-import-sort
-      'simple-import-sort/imports': 'error',
-      'simple-import-sort/exports': 'error',
-    },
-  },
-  {
-    files: ['src/**/*.svelte'],
-    languageOptions: {
-      parser: svelteParser,
-      parserOptions: {
-        parser: typescriptParser,
-      },
-      globals: {
-        $$Generic: false,
-      },
+      // 'simple-import-sort/imports': 'error',
+      // 'simple-import-sort/exports': 'error',
     },
   },
   {
@@ -218,4 +183,8 @@ export default [
       'max-statements': 'off',
     },
   },
-];
+  {
+    files: ['*.svelte'],
+    extends: [...eslintPluginSvelte.configs['flat/recommended']],
+  },
+);
