@@ -14,9 +14,9 @@ import {
 } from '$lib/shared/utils/measurements/weight-measurement/weight-measurement.util';
 
 interface IConstructorProps {
-  id?: number;
+  id: number;
   date: Dayjs;
-  weight: number;
+  weightInGrams: number;
   waistCircumference?: number;
   neckCircumference?: number;
   chestSkinfold?: number;
@@ -36,9 +36,12 @@ export class BodyCompEntry {
   private _weight: WeightMeasurement = new WeightMeasurement();
 
   constructor(initialValues: IConstructorProps) {
-    this.id = initialValues.id ?? dayjs().unix();
+    this.id = initialValues.id;
     this.date = initialValues.date;
-    this.weight = initialValues.weight;
+    this._weight.setValue({
+      value: initialValues.weightInGrams,
+      unit: WEIGHT_UNITS.grams,
+    });
     this.waistCircumference = initialValues.waistCircumference;
     this.neckCircumference = initialValues.neckCircumference;
     this.chestSkinfold = initialValues.chestSkinfold;
