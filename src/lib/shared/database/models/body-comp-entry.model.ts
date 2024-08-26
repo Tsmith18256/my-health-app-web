@@ -1,5 +1,5 @@
 import type { IServerBodyCompEntry } from '$lib/body-comp/utils/body-comp-entry/body-comp-entry.util';
-import sql from '$lib/shared/database/db';
+import { sql } from '$lib/shared/database/db';
 
 /**
  * A row in the `body_comp_entries` table.
