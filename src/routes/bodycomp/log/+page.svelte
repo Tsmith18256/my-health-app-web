@@ -1,4 +1,5 @@
 <script lang="ts">
+  import dayjs from 'dayjs';
   import type { PageData } from './$types';
   import {
     addBodyCompEntry,
@@ -6,17 +7,23 @@
   } from '$lib/body-comp/stores/body-comp-entries/body-comp-entries.store';
   import BodyCompTable from '$lib/body-comp/components/body-comp-table/body-comp-table.svelte';
   import { getModalStore } from '@skeletonlabs/skeleton';
-  import type { BodyCompEntry } from '$lib/body-comp/utils/body-comp-entry/body-comp-entry.util';
+  import { BodyCompEntry } from '$lib/body-comp/utils/body-comp-entry/body-comp-entry.util';
   import Icon, {
     IconImage,
   } from '$lib/shared/components/display/icon/icon.svelte';
 
   export let data: PageData;
 
+  let entries = data.entries.map(e => new BodyCompEntry({
+    id: e.id,
+    date: dayjs(e.entry_date),
+    weightInGrams: e.weight_in_grams
+  }));
+
   const modalStore = getModalStore();
 
   if ($bodyCompEntries.length === 0) {
-    data.entries.forEach((entry) => {
+    entries.forEach((entry) => {
       addBodyCompEntry(entry);
     });
   }
