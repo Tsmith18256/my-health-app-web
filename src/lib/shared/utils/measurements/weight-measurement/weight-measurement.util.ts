@@ -8,7 +8,7 @@ import {
   convertOzsToGs,
 } from '$lib/shared/utils/unit-converter/unit-converter.util';
 
-export const WEIGHT_UNITS = {
+export const WeightUnit = {
   // Metric system
   grams: 'GRAMS',
   kilograms: 'KILOGRAMS',
@@ -17,7 +17,7 @@ export const WEIGHT_UNITS = {
   pounds: 'POUNDS',
 } as const;
 
-export type WeightUnit = ObjectValues<typeof WEIGHT_UNITS>;
+export type WeightUnit = ObjectValues<typeof WeightUnit>;
 
 interface IGetOpts {
   unit: WeightUnit;
@@ -32,10 +32,10 @@ interface IGetFormattedOpts extends IGetOpts {
 }
 
 const suffixes: Record<WeightUnit, string> = {
-  [WEIGHT_UNITS.grams]: 'g',
-  [WEIGHT_UNITS.kilograms]: 'kg',
-  [WEIGHT_UNITS.ounces]: 'oz',
-  [WEIGHT_UNITS.pounds]: 'lbs',
+  [WeightUnit.grams]: 'g',
+  [WeightUnit.kilograms]: 'kg',
+  [WeightUnit.ounces]: 'oz',
+  [WeightUnit.pounds]: 'lbs',
 };
 
 export class WeightMeasurement {
@@ -49,29 +49,29 @@ export class WeightMeasurement {
 
   getValue({ unit }: IGetOpts): number {
     switch (unit) {
-      case WEIGHT_UNITS.grams:
+      case WeightUnit.grams:
         return this.valueInGrams;
-      case WEIGHT_UNITS.kilograms:
+      case WeightUnit.kilograms:
         return convertGsToKgs(this.valueInGrams);
-      case WEIGHT_UNITS.ounces:
+      case WeightUnit.ounces:
         return convertGsToOzs(this.valueInGrams);
-      case WEIGHT_UNITS.pounds:
+      case WeightUnit.pounds:
         return convertGsToLbs(this.valueInGrams);
     }
   }
 
   setValue({ value, unit }: ISetOpts): void {
     switch (unit) {
-      case WEIGHT_UNITS.grams:
+      case WeightUnit.grams:
         this.valueInGrams = value;
         break;
-      case WEIGHT_UNITS.kilograms:
+      case WeightUnit.kilograms:
         this.valueInGrams = convertKgsToGs(value);
         break;
-      case WEIGHT_UNITS.ounces:
+      case WeightUnit.ounces:
         this.valueInGrams = convertOzsToGs(value);
         break;
-      case WEIGHT_UNITS.pounds:
+      case WeightUnit.pounds:
         this.valueInGrams = convertLbsToGs(value);
         break;
       default:

@@ -8,7 +8,7 @@ import {
   LengthUnit,
 } from '$lib/shared/utils/measurements/length-measurement/length-measurement.util';
 import {
-  WEIGHT_UNITS,
+  WeightUnit,
   WeightMeasurement,
 } from '$lib/shared/utils/measurements/weight-measurement/weight-measurement.util';
 
@@ -39,7 +39,7 @@ export class BodyCompEntry {
     this.date = dayjs(initialValues.date);
     this._weight.setValue({
       value: initialValues.weightInGrams,
-      unit: WEIGHT_UNITS.grams,
+      unit: WeightUnit.grams,
     });
     this.waistCircumference = initialValues.waistCircumference;
     this.neckCircumference = initialValues.neckCircumference;
@@ -260,7 +260,7 @@ export class BodyCompEntry {
     return {
       id: this.id,
       date: this.date,
-      weightInGrams: this._weight.getValue({ unit: WEIGHT_UNITS.grams }),
+      weightInGrams: this._weight.getValue({ unit: WeightUnit.grams }),
     };
   }
 }
@@ -279,8 +279,8 @@ const getWeightUnit = () => {
   const { bodyweightSystem } = get(settings);
 
   if (bodyweightSystem === MEASUREMENT_SYSTEMS.imperial) {
-    return WEIGHT_UNITS.pounds;
+    return WeightUnit.pounds;
   }
 
-  return WEIGHT_UNITS.kilograms;
+  return WeightUnit.kilograms;
 };
