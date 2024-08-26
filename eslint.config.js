@@ -17,7 +17,7 @@ export default tseslint.config(
       ecmaVersion: 2020,
       sourceType: 'module',
       parserOptions: {
-        projectService: true,
+        project: true,
         tsconfigRootDir: import.meta.dirname,
         extraFileExtensions: ['.svelte'],
       },
