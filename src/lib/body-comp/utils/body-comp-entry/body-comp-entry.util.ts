@@ -1,6 +1,5 @@
-import type { Dayjs } from 'dayjs';
+import dayjs, { type Dayjs } from 'dayjs';
 import { get } from 'svelte/store';
-
 import { calculateAveragedBodyFat } from '$lib/body-comp/utils/body-fat-calculator/body-fat-calculator.util';
 import { MEASUREMENT_SYSTEMS } from '$lib/shared/constants/measurement-systems.constants';
 import { settings, userAge } from '$lib/shared/stores/settings/settings.store';
@@ -13,9 +12,9 @@ import {
   WeightMeasurement,
 } from '$lib/shared/utils/measurements/weight-measurement/weight-measurement.util';
 
-interface IConstructorProps {
+export interface IServerBodyCompEntry {
   id: number;
-  date: Dayjs;
+  date: string;
   weightInGrams: number;
   waistCircumference?: number;
   neckCircumference?: number;
@@ -26,7 +25,7 @@ interface IConstructorProps {
 
 export class BodyCompEntry {
   id: number;
-  date: IConstructorProps['date'];
+  date: Dayjs;
 
   private _abSkinfold: LengthMeasurement | undefined;
   private _chestSkinfold: LengthMeasurement | undefined;
@@ -35,9 +34,9 @@ export class BodyCompEntry {
   private _waistCircumference: LengthMeasurement | undefined;
   private _weight: WeightMeasurement = new WeightMeasurement();
 
-  constructor(initialValues: IConstructorProps) {
+  constructor(initialValues: IServerBodyCompEntry) {
     this.id = initialValues.id;
-    this.date = initialValues.date;
+    this.date = dayjs(initialValues.date);
     this._weight.setValue({
       value: initialValues.weightInGrams,
       unit: WEIGHT_UNITS.grams,
@@ -255,6 +254,14 @@ export class BodyCompEntry {
     const unit = getWeightUnit();
 
     return this._weight.getFormatted({ unit, decimalPlaces: 1 });
+  }
+
+  getServerBodyCompEntry(): IServerBodyCompEntry {
+    return {
+      id: this.id,
+      date: this.date,
+      weightInGrams: this._weight.getValue({ unit: WEIGHT_UNITS.grams }),
+    };
   }
 }
 

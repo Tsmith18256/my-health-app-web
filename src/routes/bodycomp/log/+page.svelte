@@ -1,5 +1,4 @@
 <script lang="ts">
-  import dayjs from 'dayjs';
   import type { PageData } from './$types';
   import {
     addBodyCompEntry,
@@ -16,8 +15,8 @@
 
   let entries = data.entries.map(e => new BodyCompEntry({
     id: e.id,
-    date: dayjs(e.entry_date),
-    weightInGrams: e.weight_in_grams
+    date: e.date,
+    weightInGrams: e.weightInGrams
   }));
 
   const modalStore = getModalStore();
