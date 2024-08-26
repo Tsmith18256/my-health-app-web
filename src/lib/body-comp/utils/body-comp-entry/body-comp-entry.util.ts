@@ -259,7 +259,7 @@ export class BodyCompEntry {
   getServerBodyCompEntry(): IServerBodyCompEntry {
     return {
       id: this.id,
-      date: this.date,
+      date: this.date.toISOString(),
       weightInGrams: this._weight.getValue({ unit: WeightUnit.grams }),
     };
   }
