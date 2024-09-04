@@ -13,11 +13,7 @@
 
   export let data: PageData;
 
-  let entries = data.entries.map(e => new BodyCompEntry({
-    id: e.id,
-    date: e.date,
-    weightInGrams: e.weightInGrams
-  }));
+  let entries = data.entries.map(e => new BodyCompEntry(e));
 
   const modalStore = getModalStore();
 

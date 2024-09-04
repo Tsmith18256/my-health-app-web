@@ -12,12 +12,18 @@ import {
   WeightMeasurement,
 } from '$lib/shared/utils/measurements/weight-measurement/weight-measurement.util';
 
+/**
+ * A body comp entry as loaded from the server. This needs to be a plain JS object, so all numbers are in grams and
+ * millimetres.
+ *
+ * @todo This approach is messy. Should get rid of classes to make it easier to share data with the server.
+ */
 export interface IServerBodyCompEntry {
   id: number;
   date: string;
   weightInGrams: number;
-  waistCircumference?: number;
-  neckCircumference?: number;
+  waistCircumferenceInMm?: number;
+  neckCircumferenceInMm?: number;
   chestSkinfold?: number;
   abSkinfold?: number;
   thighSkinfold?: number;
@@ -41,8 +47,8 @@ export class BodyCompEntry {
       value: initialValues.weightInGrams,
       unit: WeightUnit.grams,
     });
-    this.waistCircumference = initialValues.waistCircumference;
-    this.neckCircumference = initialValues.neckCircumference;
+    this.waistCircumference = initialValues.waistCircumferenceInMm;
+    this.neckCircumference = initialValues.neckCircumferenceInMm;
     this.chestSkinfold = initialValues.chestSkinfold;
     this.abSkinfold = initialValues.abSkinfold;
     this.thighSkinfold = initialValues.thighSkinfold;
@@ -261,6 +267,9 @@ export class BodyCompEntry {
       id: this.id,
       date: this.date.toISOString(),
       weightInGrams: this._weight.getValue({ unit: WeightUnit.grams }),
+      waistCircumferenceInMm: this._waistCircumference?.getValue({
+        unit: LengthUnit.Millimetres,
+      }),
     };
   }
 }
