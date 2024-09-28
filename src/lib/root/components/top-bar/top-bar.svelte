@@ -47,25 +47,27 @@
   };
 </script>
 
-<AppBar>
-  <svelte:fragment slot="lead">
-    <button class="btn md:hidden" type="button" on:click={toggleDrawer}>
-      <Icon iconImage={IconImage.HamburgerMenu} />
-    </button>
-    <h3 class="h3">My Health App</h3>
-  </svelte:fragment>
-  <svelte:fragment slot="trail">
-    {#each navigationButtons as button}
-      <button
-        class="btn {getButtonClass(
-          button.route,
-          $page.url.pathname,
-        )} hidden md:flex"
-        type="button"
-        on:click={() => goto(button.route)}
-      >
-        {button.label}
+<header class="sticky top-0 z-10">
+  <AppBar>
+    <svelte:fragment slot="lead">
+      <button class="btn md:hidden" type="button" on:click={toggleDrawer}>
+        <Icon iconImage={IconImage.HamburgerMenu} />
       </button>
-    {/each}
-  </svelte:fragment>
-</AppBar>
+      <h3 class="h3">My Health App</h3>
+    </svelte:fragment>
+    <svelte:fragment slot="trail">
+      {#each navigationButtons as button}
+        <button
+          class="btn {getButtonClass(
+            button.route,
+            $page.url.pathname,
+          )} hidden md:flex"
+          type="button"
+          on:click={() => goto(button.route)}
+        >
+          {button.label}
+        </button>
+      {/each}
+    </svelte:fragment>
+  </AppBar>
+</header>

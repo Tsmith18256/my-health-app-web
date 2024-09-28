@@ -8,16 +8,22 @@ import {
   LengthUnit,
 } from '$lib/shared/utils/measurements/length-measurement/length-measurement.util';
 import {
-  WEIGHT_UNITS,
+  WeightUnit,
   WeightMeasurement,
 } from '$lib/shared/utils/measurements/weight-measurement/weight-measurement.util';
 
+/**
+ * A body comp entry as loaded from the server. This needs to be a plain JS object, so all numbers are in grams and
+ * millimetres.
+ *
+ * @todo This approach is messy. Should get rid of classes to make it easier to share data with the server.
+ */
 export interface IServerBodyCompEntry {
   id: number;
   date: string;
   weightInGrams: number;
-  waistCircumference?: number;
-  neckCircumference?: number;
+  waistCircumferenceInMm?: number;
+  neckCircumferenceInMm?: number;
   chestSkinfold?: number;
   abSkinfold?: number;
   thighSkinfold?: number;
@@ -39,10 +45,10 @@ export class BodyCompEntry {
     this.date = dayjs(initialValues.date);
     this._weight.setValue({
       value: initialValues.weightInGrams,
-      unit: WEIGHT_UNITS.grams,
+      unit: WeightUnit.grams,
     });
-    this.waistCircumference = initialValues.waistCircumference;
-    this.neckCircumference = initialValues.neckCircumference;
+    this.waistCircumference = initialValues.waistCircumferenceInMm;
+    this.neckCircumference = initialValues.neckCircumferenceInMm;
     this.chestSkinfold = initialValues.chestSkinfold;
     this.abSkinfold = initialValues.abSkinfold;
     this.thighSkinfold = initialValues.thighSkinfold;
@@ -259,8 +265,11 @@ export class BodyCompEntry {
   getServerBodyCompEntry(): IServerBodyCompEntry {
     return {
       id: this.id,
-      date: this.date,
-      weightInGrams: this._weight.getValue({ unit: WEIGHT_UNITS.grams }),
+      date: this.date.toISOString(),
+      weightInGrams: this._weight.getValue({ unit: WeightUnit.grams }),
+      waistCircumferenceInMm: this._waistCircumference?.getValue({
+        unit: LengthUnit.Millimetres,
+      }),
     };
   }
 }
@@ -279,8 +288,8 @@ const getWeightUnit = () => {
   const { bodyweightSystem } = get(settings);
 
   if (bodyweightSystem === MEASUREMENT_SYSTEMS.imperial) {
-    return WEIGHT_UNITS.pounds;
+    return WeightUnit.pounds;
   }
 
-  return WEIGHT_UNITS.kilograms;
+  return WeightUnit.kilograms;
 };

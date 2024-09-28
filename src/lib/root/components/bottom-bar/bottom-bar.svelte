@@ -6,7 +6,7 @@
   } from '$lib/shared/components/display/icon/icon.svelte';
 </script>
 
-<nav class="block md:hidden">
+<nav class="block md:hidden sticky bottom-0 z-10">
   <TabGroup
     class="bg-surface-100-800-token"
     justify="justify-center"
