@@ -2,9 +2,8 @@
   import { AppRail, AppRailAnchor } from '@skeletonlabs/skeleton';
   import { createEventDispatcher } from 'svelte';
   import { page } from '$app/stores';
-  import Icon, {
-    IconImage,
-  } from '$lib/shared/components/display/icon/icon.svelte';
+  import Icon from '$lib/shared/components/display/icon/icon.svelte';
+  import { IconImage } from '$lib/shared/types/icon-image.type';
 
   const dispatch = createEventDispatcher<{ change: void }>();
 

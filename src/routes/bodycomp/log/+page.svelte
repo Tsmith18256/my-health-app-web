@@ -1,15 +1,14 @@
 <script lang="ts">
+  import { getModalStore } from '@skeletonlabs/skeleton';
   import type { PageData } from './$types';
   import {
     addBodyCompEntry,
     bodyCompEntries,
   } from '$lib/body-comp/stores/body-comp-entries/body-comp-entries.store';
   import BodyCompTable from './body-comp-table.svelte';
-  import { getModalStore } from '@skeletonlabs/skeleton';
-  import Icon, {
-    IconImage,
-  } from '$lib/shared/components/display/icon/icon.svelte';
+  import Icon from '$lib/shared/components/display/icon/icon.svelte';
   import type { IBodyCompEntryV2 } from '$lib/body-comp/types/body-comp-entry.type';
+  import { IconImage } from '$lib/shared/types/icon-image.type';
 
   export let data: PageData;
 

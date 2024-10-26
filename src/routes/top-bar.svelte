@@ -3,9 +3,8 @@
 
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
-  import Icon, {
-    IconImage,
-  } from '$lib/shared/components/display/icon/icon.svelte';
+  import Icon from '$lib/shared/components/display/icon/icon.svelte';
+  import { IconImage } from '$lib/shared/types/icon-image.type';
 
   let isDrawerOpen = false;
 
