@@ -1,5 +1,12 @@
 # My Health App Web
 
-## Target Browser Versions
+## Minimum Versions
 
-See the [Polyfills index file](./src/lib/shared/polyfills/index.ts) file for the current supported browser and Node versions.
+| Browser/Service | Target Version | Reason                      |
+| --------------- | -------------- | --------------------------- |
+| Chrome          | >= 110         | `toSorted`, `toSpliced`     |
+| Edge            | >= 110         | `toSorted`, `toSpliced`     |
+| Firefox         | >= 115         | `toSorted`, `toSpliced`     |
+| Node            | 20.x           | Version supported by Vercel |
+| Opera           | >= 96          | `toSorted`, `toSpliced`     |
+| Safari          | >= 16          | `toSorted`, `toSpliced`     |

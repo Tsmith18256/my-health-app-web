@@ -34,15 +34,4 @@
     </svelte:fragment>
     <span>Overview</span>
   </AppRailAnchor>
-  <AppRailAnchor
-    href="/bodycomp/settings"
-    title="Body Composition Settings"
-    selected={$page.url.pathname === '/bodycomp/settings'}
-    on:click={onChange}
-  >
-    <svelte:fragment slot="lead">
-      <Icon iconImage={IconImage.Settings} />
-    </svelte:fragment>
-    <span>Settings</span>
-  </AppRailAnchor>
 </AppRail>

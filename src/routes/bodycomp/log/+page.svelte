@@ -13,6 +13,8 @@
 
   export let data: PageData;
 
+  console.log(data);
+
   let entries = data.entries.map(e => new BodyCompEntry(e));
 
   const modalStore = getModalStore();

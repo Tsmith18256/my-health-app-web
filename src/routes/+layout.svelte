@@ -14,7 +14,6 @@
   import TopBar from '$lib/root/components/top-bar/top-bar.svelte';
   import '$lib/shared/assets/fonts/css/fontawesome.min.css';
   import '$lib/shared/assets/fonts/css/regular.min.css';
-  import '$lib/shared/polyfills';
   import '../app.css';
 
   initializeStores();
