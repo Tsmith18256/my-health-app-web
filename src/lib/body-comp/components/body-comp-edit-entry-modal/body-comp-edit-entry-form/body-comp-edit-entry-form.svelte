@@ -2,18 +2,23 @@
   import dayjs from 'dayjs';
   import { createEventDispatcher } from 'svelte';
 
-  import { BodyCompEntry } from '$lib/body-comp/utils/body-comp-entry/body-comp-entry.util';
   import { formatDateIso } from '$lib/shared/utils/formatters/date-formatter/date-formatter.util';
   import { formatPercent } from '$lib/shared/utils/formatters/number-formatter/number-formatter.util';
+  import type { IBodyCompEntryV2 } from '$lib/body-comp/types/body-comp-entry.type';
+  import { calculateAveragedBodyFat } from '$lib/body-comp/utils/body-fat-calculator/body-fat-calculator.util';
+  import {
+    USER_AGE,
+    USER_HEIGHT,
+  } from '$lib/shared/constants/user-config.constants';
 
   /**
    * The body comp entry to edit. If this is provided, the modal will open in Edit mode; otherwise, it will open in New
    * Entry mode.
    */
-  export let entryToEdit: BodyCompEntry | undefined = undefined;
+  export let entryToEdit: IBodyCompEntryV2 | undefined = undefined;
   $: isEditMode = !!entryToEdit;
 
-  let date = formatDateIso(entryToEdit?.date ?? dayjs());
+  let date = formatDateIso(dayjs(entryToEdit?.date));
   let weight = entryToEdit?.weight;
   let waist = entryToEdit?.waistCircumference;
   let neck = entryToEdit?.neckCircumference;
@@ -24,32 +29,39 @@
   // eslint-disable-next-line no-warning-comments
   // TODO: Now that the body fat percentage is coming off the class, this doesn't work because it doesn't update as the
   // form is being edited.
-  const bodyFat = entryToEdit?.getBodyFatPercent();
-  const formattedBodyFat = bodyFat && formatPercent(bodyFat);
-  const leanMass = entryToEdit?.getLeanMass();
-  const fatMass = entryToEdit?.getFatMass();
+  const bodyFat = calculateAveragedBodyFat({
+    age: USER_AGE,
+    height: USER_HEIGHT,
+    neckCircumference: neck,
+    waistCircumference: waist,
+    chestSkinfold: chest,
+    abSkinfold: ab,
+    thighSkinfold: thigh,
+    weight,
+  });
+  const formattedBodyFat = bodyFat && formatPercent(bodyFat.bodyFatPercent);
+  const leanMass = bodyFat?.leanMass;
+  const fatMass = bodyFat?.fatMass;
 
   const dispatch = createEventDispatcher<{
-    submit: BodyCompEntry;
+    submit: IBodyCompEntryV2;
     cancel: void;
     delete: void;
   }>();
 
   const submit = () => {
     if (date && weight) {
-      dispatch(
-        'submit',
-        new BodyCompEntry({
-          id: entryToEdit?.id,
-          date: dayjs(date),
-          weight,
-          waistCircumference: waist,
-          neckCircumference: neck,
-          chestSkinfold: chest,
-          abSkinfold: ab,
-          thighSkinfold: thigh,
-        }),
-      );
+      dispatch('submit', {
+        id: entryToEdit?.id,
+        abSkinfold: ab,
+        chestSkinfold: chest,
+        date,
+        neckCircumference: neck,
+        thighSkinfold: thigh,
+        waistCircumference: waist,
+        weight,
+      });
+
       reset();
     }
   };

@@ -7,16 +7,16 @@
     deleteBodyCompEntryById,
     updateBodyCompEntry,
   } from '$lib/body-comp/stores/body-comp-entries/body-comp-entries.store';
-  import type { BodyCompEntry } from '$lib/body-comp/utils/body-comp-entry/body-comp-entry.util';
+  import type { IBodyCompEntryV2 } from '$lib/body-comp/types/body-comp-entry.type';
 
   export let parent: any;
 
   const modalStore = getModalStore();
 
-  const entryToEdit: BodyCompEntry | undefined =
+  const entryToEdit: IBodyCompEntryV2 | undefined =
     $modalStore[0]?.meta.entryToEdit;
 
-  const onFormSubmit = (e: CustomEvent<BodyCompEntry>) => {
+  const onFormSubmit = (e: CustomEvent<IBodyCompEntryV2>) => {
     if (entryToEdit) {
       updateBodyCompEntry(e.detail);
     } else {
