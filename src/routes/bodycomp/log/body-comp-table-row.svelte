@@ -1,13 +1,13 @@
 <script lang="ts">
   import type { IBodyCompEntryV2 } from '$lib/body-comp/types/body-comp-entry.type';
-  import { formatDateShort } from '$lib/shared/utils/formatters/date-formatter/date-formatter.util';
-  import { formatPercent } from '$lib/shared/utils/formatters/number-formatter/number-formatter.util';
-  import { formatWeight } from '$lib/shared/utils/formatters/format-weight/format-weight';
+  import { formatDateShort } from '$lib/shared/utils/formatters/format-date.util';
+  import { formatPercent } from '$lib/shared/utils/formatters/format-percent.util';
+  import { formatWeight } from '$lib/shared/utils/formatters/format-weight.util';
   import dayjs from 'dayjs';
   import {
     formatLength,
     LengthUnit,
-  } from '$lib/shared/utils/formatters/format-length/format-length';
+  } from '$lib/shared/utils/formatters/format-length.util';
   import { calculateAveragedBodyFat } from '$lib/body-comp/utils/body-fat-calculator/body-fat-calculator.util';
   import {
     USER_AGE,
