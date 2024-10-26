@@ -1,27 +1,65 @@
+import { convertMmsToCms } from '$lib/shared/utils/unit-converter/unit-converter.util';
+
 /**
- * Calculates body fat percentage based on the given inputs. This functions takes both the US Navy method and the 3-site
+ * Calculates body fat data based on the given inputs. This functions takes both the US Navy method and the 3-site
  * Jackson/Pollock skinfold method and averages them.
  *
- * TODO: Add support for women.
+ * For easier use, all the numbers this function accepts are optional; however, they are all required to compute a body
+ * fat percent. If any value is undefined, undefined will be returned.
  */
-export const calculateAveragedBodyFat = (
-  opts: ICalculateAveragedBodyFatOpts,
-): number => {
-  const navyBf = calculateNavyBodyFat(opts);
-  const skinfoldBf = calculateSkinfoldBodyFat3Site(opts);
+export const calculateAveragedBodyFat = ({
+  abSkinfold,
+  age,
+  chestSkinfold,
+  height,
+  neckCircumference,
+  thighSkinfold,
+  waistCircumference,
+  weight,
+}: ICalculateAveragedBodyFatOpts): IBodyFatData | undefined => {
+  if (
+    !abSkinfold ||
+    !chestSkinfold ||
+    !neckCircumference ||
+    !thighSkinfold ||
+    !waistCircumference ||
+    !weight
+  ) {
+    return undefined;
+  }
 
-  return (navyBf + skinfoldBf) / 2;
+  const navyBf = calculateNavyBodyFat({
+    height,
+    waistCircumference,
+    neckCircumference,
+  });
+  const skinfoldBf = calculateSkinfoldBodyFat3Site({
+    age,
+    abSkinfold,
+    chestSkinfold,
+    thighSkinfold,
+  });
+
+  const bodyFatPercent = (navyBf + skinfoldBf) / 2;
+
+  return {
+    bodyFatPercent,
+    fatMass: weight * bodyFatPercent,
+    leanMass: weight * (1 - bodyFatPercent),
+  };
 };
 
 /**
  * Calculates body fat percentage based on the given inputs, using the US Navy method.
- *
- * TODO: Add support for women.
  */
-export const calculateNavyBodyFat = (
-  opts: ICalculateNavyBodyFatOpts,
-): number => {
-  const { heightInCm, neckInCm, waistInCm } = opts;
+const calculateNavyBodyFat = ({
+  height,
+  neckCircumference,
+  waistCircumference,
+}: ICalculateNavyBodyFatOpts): number => {
+  const heightInCm = convertMmsToCms(height);
+  const neckInCm = convertMmsToCms(neckCircumference);
+  const waistInCm = convertMmsToCms(waistCircumference);
 
   const density =
     1.0324 -
@@ -33,17 +71,16 @@ export const calculateNavyBodyFat = (
 
 /**
  * Calculates body fat percentage based on the given inputs, using the 3-site Jackson/Pollock skinfold method.
- *
- * TODO: Add support for women.
  */
-export const calculateSkinfoldBodyFat3Site = (
-  opts: ICalculateSkinfoldBodyFat3SiteOpts,
-) => {
-  const { age, chestInMm, abInMm, thighInMm } = opts;
-
-  const totalMm = chestInMm + abInMm + thighInMm;
+const calculateSkinfoldBodyFat3Site = ({
+  abSkinfold,
+  age,
+  chestSkinfold,
+  thighSkinfold,
+}: ICalculateSkinfoldBodyFat3SiteOpts) => {
+  const total = chestSkinfold + abSkinfold + thighSkinfold;
   const density =
-    1.10938 - 0.0008267 * totalMm + 0.0000016 * totalMm ** 2 - 0.0002574 * age;
+    1.10938 - 0.0008267 * total + 0.0000016 * total ** 2 - 0.0002574 * age;
 
   return convertDensityToBodyFat(density);
 };
@@ -57,19 +94,26 @@ const convertDensityToBodyFat = (density: number): number => {
   return (495 / density - 450) / 100;
 };
 
-export interface ICalculateAveragedBodyFatOpts
-  extends ICalculateNavyBodyFatOpts,
-    ICalculateSkinfoldBodyFat3SiteOpts {}
+export interface IBodyFatData {
+  bodyFatPercent: number;
+  fatMass: number;
+  leanMass: number;
+}
+
+export type ICalculateAveragedBodyFatOpts = Partial<ICalculateNavyBodyFatOpts> &
+  Partial<ICalculateSkinfoldBodyFat3SiteOpts> &
+  Pick<ICalculateNavyBodyFatOpts, 'height'> &
+  Pick<ICalculateSkinfoldBodyFat3SiteOpts, 'age'> & { weight?: number };
 
 interface ICalculateNavyBodyFatOpts {
-  heightInCm: number;
-  neckInCm: number;
-  waistInCm: number;
+  height: number;
+  neckCircumference: number;
+  waistCircumference: number;
 }
 
 interface ICalculateSkinfoldBodyFat3SiteOpts {
   age: number;
-  chestInMm: number;
-  abInMm: number;
-  thighInMm: number;
+  chestSkinfold: number;
+  abSkinfold: number;
+  thighSkinfold: number;
 }

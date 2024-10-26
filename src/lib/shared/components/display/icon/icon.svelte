@@ -17,7 +17,7 @@
 </script>
 
 <script lang="ts">
-  import type { ObjectValues } from '$lib/shared/types/object-values';
+  import type { ObjectValues } from '$lib/shared/types/object-values.type';
 
   /**
    * The icon to display.

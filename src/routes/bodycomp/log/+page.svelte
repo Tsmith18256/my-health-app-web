@@ -4,26 +4,24 @@
     addBodyCompEntry,
     bodyCompEntries,
   } from '$lib/body-comp/stores/body-comp-entries/body-comp-entries.store';
-  import BodyCompTable from '$lib/body-comp/components/body-comp-table/body-comp-table.svelte';
+  import BodyCompTable from './body-comp-table.svelte';
   import { getModalStore } from '@skeletonlabs/skeleton';
-  import { BodyCompEntry } from '$lib/body-comp/utils/body-comp-entry/body-comp-entry.util';
   import Icon, {
     IconImage,
   } from '$lib/shared/components/display/icon/icon.svelte';
+  import type { IBodyCompEntryV2 } from '$lib/body-comp/types/body-comp-entry.type';
 
   export let data: PageData;
-
-  let entries = data.entries.map(e => new BodyCompEntry(e));
 
   const modalStore = getModalStore();
 
   if ($bodyCompEntries.length === 0) {
-    entries.forEach((entry) => {
+    data.entries.forEach((entry) => {
       addBodyCompEntry(entry);
     });
   }
 
-  const editEntry = (entry?: BodyCompEntry) => {
+  const editEntry = (entry?: IBodyCompEntryV2) => {
     modalStore.trigger({
       type: 'component',
       component: 'bodyCompEditEntryModal',

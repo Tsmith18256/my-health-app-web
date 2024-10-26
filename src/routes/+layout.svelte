@@ -8,13 +8,12 @@
   } from '@skeletonlabs/skeleton';
   import { inject } from '@vercel/analytics';
   import { dev } from '$app/environment';
-  import BodyCompEditEntryModal from '$lib/body-comp/components/body-comp-edit-entry-modal/body-comp-edit-entry-modal.svelte';
-  import BodyCompSideBar from '$lib/body-comp/components/body-comp-side-bar/body-comp-side-bar.svelte';
-  import BottomBar from '$lib/root/components/bottom-bar/bottom-bar.svelte';
-  import TopBar from '$lib/root/components/top-bar/top-bar.svelte';
+  import BodyCompEditEntryModal from './bodycomp/log/body-comp-edit-entry-modal.svelte';
+  import BodyCompSideBar from './bodycomp/log/body-comp-side-bar.svelte';
+  import BottomBar from './bottom-bar.svelte';
+  import TopBar from './top-bar.svelte';
   import '$lib/shared/assets/fonts/css/fontawesome.min.css';
   import '$lib/shared/assets/fonts/css/regular.min.css';
-  import '$lib/shared/polyfills';
   import '../app.css';
 
   initializeStores();

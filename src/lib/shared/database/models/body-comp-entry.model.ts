@@ -1,4 +1,4 @@
-import type { IServerBodyCompEntry } from '$lib/body-comp/utils/body-comp-entry/body-comp-entry.util';
+import type { IBodyCompEntryV2 } from '$lib/body-comp/types/body-comp-entry.type';
 import { sql } from '$lib/shared/database/db';
 
 /**
@@ -18,9 +18,7 @@ interface IBodyCompEntryModel {
 /**
  * Queries all body comp entries from the database.
  */
-export const selectBodyCompEntries = async (): Promise<
-  IServerBodyCompEntry[]
-> => {
+export const selectBodyCompEntries = async (): Promise<IBodyCompEntryV2[]> => {
   const models = await sql<IBodyCompEntryModel[]>`
     SELECT * FROM body_comp_entries
   `;
@@ -29,19 +27,19 @@ export const selectBodyCompEntries = async (): Promise<
 };
 
 const convertModelsToObjects = (
-  models: Parameters<typeof convertModelToObject>[0][],
-): ReturnType<typeof convertModelToObject>[] => {
+  models: IBodyCompEntryModel[],
+): IBodyCompEntryV2[] => {
   return models.map((model) => convertModelToObject(model));
 };
 
 const convertModelToObject = (
   model: IBodyCompEntryModel,
-): IServerBodyCompEntry => ({
+): IBodyCompEntryV2 => ({
   id: model.id,
   date: model.entry_date,
-  weightInGrams: model.weight_in_grams,
-  waistCircumferenceInMm: model.waist_circ_in_mm,
-  neckCircumferenceInMm: model.neck_circ_in_mm,
+  weight: model.weight_in_grams,
+  waistCircumference: model.waist_circ_in_mm,
+  neckCircumference: model.neck_circ_in_mm,
   chestSkinfold: model.chest_skinfold,
   abSkinfold: model.ab_skinfold,
   thighSkinfold: model.thigh_skinfold,
