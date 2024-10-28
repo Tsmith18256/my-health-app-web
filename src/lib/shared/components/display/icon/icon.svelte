@@ -1,10 +1,16 @@
-<script lang="ts">
+<script lang="ts" module>
   import type { IconImage } from '$lib/shared/types/icon-image.type';
 
-  /**
-   * The icon to display.
-   */
-  export let iconImage: IconImage;
+  export interface IIconProps {
+    /**
+     * The icon to display.
+     */
+    iconImage: IconImage;
+  }
+</script>
+
+<script lang="ts">
+  let { iconImage }: IIconProps = $props();
 </script>
 
 <i class="far fa-{iconImage}"></i>

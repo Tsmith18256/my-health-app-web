@@ -1,47 +1,55 @@
+<script lang="ts" module>
+  import type { IBodyCompEntryV2 } from '$lib/body-comp/types/body-comp-entry.type';
+
+  export interface IBodyCompEditEntryFormProps {
+    /**
+     * The body comp entry to edit. If this is provided, the modal will open in Edit mode; otherwise, it will open in New
+     * Entry mode.
+     */
+    entryToEdit?: IBodyCompEntryV2;
+  }
+</script>
+
 <script lang="ts">
   import dayjs from 'dayjs';
   import { createEventDispatcher } from 'svelte';
-
-  import { formatDateIso } from '$lib/shared/utils/formatters/format-date.util';
-  import { formatPercent } from '$lib/shared/utils/formatters/format-percent.util';
-  import type { IBodyCompEntryV2 } from '$lib/body-comp/types/body-comp-entry.type';
   import { calculateAveragedBodyFat } from '$lib/body-comp/utils/body-fat-calculator/body-fat-calculator.util';
   import {
     USER_AGE,
     USER_HEIGHT,
   } from '$lib/shared/constants/user-config.constants';
+  import { formatDateIso } from '$lib/shared/utils/formatters/format-date.util';
+  import { formatPercent } from '$lib/shared/utils/formatters/format-percent.util';
 
-  /**
-   * The body comp entry to edit. If this is provided, the modal will open in Edit mode; otherwise, it will open in New
-   * Entry mode.
-   */
-  export let entryToEdit: IBodyCompEntryV2 | undefined = undefined;
-  $: isEditMode = !!entryToEdit;
+  let { entryToEdit }: IBodyCompEditEntryFormProps = $props();
 
-  let date = formatDateIso(dayjs(entryToEdit?.date));
-  let weight = entryToEdit?.weight;
-  let waist = entryToEdit?.waistCircumference;
-  let neck = entryToEdit?.neckCircumference;
-  let chest = entryToEdit?.chestSkinfold;
-  let ab = entryToEdit?.abSkinfold;
-  let thigh = entryToEdit?.thighSkinfold;
+  const isEditMode = $derived(!!entryToEdit);
 
-  // eslint-disable-next-line no-warning-comments
-  // TODO: Now that the body fat percentage is coming off the class, this doesn't work because it doesn't update as the
-  // form is being edited.
-  const bodyFat = calculateAveragedBodyFat({
-    age: USER_AGE,
-    height: USER_HEIGHT,
-    neckCircumference: neck,
-    waistCircumference: waist,
-    chestSkinfold: chest,
-    abSkinfold: ab,
-    thighSkinfold: thigh,
-    weight,
-  });
-  const formattedBodyFat = bodyFat && formatPercent(bodyFat.bodyFatPercent);
-  const leanMass = bodyFat?.leanMass;
-  const fatMass = bodyFat?.fatMass;
+  let date = $state(formatDateIso(dayjs(entryToEdit?.date)));
+  let weight = $state(entryToEdit?.weight);
+  let waist = $state(entryToEdit?.waistCircumference);
+  let neck = $state(entryToEdit?.neckCircumference);
+  let chest = $state(entryToEdit?.chestSkinfold);
+  let ab = $state(entryToEdit?.abSkinfold);
+  let thigh = $state(entryToEdit?.thighSkinfold);
+
+  const bodyFat = $derived(
+    calculateAveragedBodyFat({
+      age: USER_AGE,
+      height: USER_HEIGHT,
+      neckCircumference: neck,
+      waistCircumference: waist,
+      chestSkinfold: chest,
+      abSkinfold: ab,
+      thighSkinfold: thigh,
+      weight,
+    }),
+  );
+  const formattedBodyFat = $derived(
+    bodyFat && formatPercent(bodyFat.bodyFatPercent),
+  );
+  const leanMass = $derived(bodyFat?.leanMass);
+  const fatMass = $derived(bodyFat?.fatMass);
 
   const dispatch = createEventDispatcher<{
     submit: IBodyCompEntryV2;
@@ -133,18 +141,17 @@
   </div>
 {/if}
 
-<!-- TODO: MHA-36 - Use ButtonGroup-->
 <div class="flex flex-row gap-2">
   <button
     type="button"
     class="variant-filled-success btn"
     disabled={!date || !weight}
-    on:click={submit}
+    onclick={submit}
   >
     {entryToEdit ? 'Save' : 'Submit'}
   </button>
 
-  <button type="button" class="variant-filled-surface btn" on:click={cancel}>
+  <button type="button" class="variant-filled-surface btn" onclick={cancel}>
     Cancel
   </button>
 
@@ -152,7 +159,7 @@
     <button
       type="button"
       class="variant-filled-error btn"
-      on:click={deleteEntry}
+      onclick={deleteEntry}
     >
       Delete
     </button>

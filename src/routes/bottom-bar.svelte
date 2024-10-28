@@ -2,10 +2,10 @@
   import { TabAnchor, TabGroup } from '@skeletonlabs/skeleton';
   import { page } from '$app/stores';
   import Icon from '$lib/shared/components/display/icon/icon.svelte';
-    import { IconImage } from '$lib/shared/types/icon-image.type';
+  import { IconImage } from '$lib/shared/types/icon-image.type';
 </script>
 
-<nav class="block md:hidden sticky bottom-0 z-10">
+<nav class="sticky bottom-0 z-10 block md:hidden">
   <TabGroup
     class="bg-surface-100-800-token"
     justify="justify-center"

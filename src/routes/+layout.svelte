@@ -8,17 +8,17 @@
   } from '@skeletonlabs/skeleton';
   import { inject } from '@vercel/analytics';
   import { dev } from '$app/environment';
+  import '$lib/shared/assets/fonts/css/fontawesome.min.css';
+  import '$lib/shared/assets/fonts/css/regular.min.css';
+  import '../app.css';
   import BodyCompEditEntryModal from './bodycomp/log/body-comp-edit-entry-modal.svelte';
   import BodyCompSideBar from './bodycomp/log/body-comp-side-bar.svelte';
   import BottomBar from './bottom-bar.svelte';
   import TopBar from './top-bar.svelte';
-  import '$lib/shared/assets/fonts/css/fontawesome.min.css';
-  import '$lib/shared/assets/fonts/css/regular.min.css';
-  import '../app.css';
 
   initializeStores();
 
-  let drawerStore = getDrawerStore();
+  const drawerStore = getDrawerStore();
 
   const modalRegistry: Record<string, ModalComponent> = {
     bodyCompEditEntryModal: { ref: BodyCompEditEntryModal },

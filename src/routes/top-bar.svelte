@@ -1,12 +1,9 @@
 <script lang="ts">
   import { AppBar, getDrawerStore } from '@skeletonlabs/skeleton';
-
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
   import Icon from '$lib/shared/components/display/icon/icon.svelte';
   import { IconImage } from '$lib/shared/types/icon-image.type';
-
-  let isDrawerOpen = false;
 
   const navigationButtons = [
     {
@@ -34,15 +31,11 @@
   };
 
   const toggleDrawer = () => {
-    if (isDrawerOpen) {
-      drawerStore.close();
-    } else {
-      drawerStore.open({
-        id: 'navigation-drawer',
-        width: 'w-20',
-        rounded: 'rounded-none',
-      });
-    }
+    drawerStore.open({
+      id: 'navigation-drawer',
+      width: 'w-20',
+      rounded: 'rounded-none',
+    });
   };
 </script>
 
