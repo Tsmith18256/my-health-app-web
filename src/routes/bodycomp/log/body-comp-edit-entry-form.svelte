@@ -1,12 +1,12 @@
 <script lang="ts" module>
-  import type { IBodyCompEntryV2 } from '$lib/body-comp/types/body-comp-entry.type';
+  import type { IBodyCompEntry } from '$lib/body-comp/types/body-comp-entry.type';
 
   export interface IBodyCompEditEntryFormProps {
     /**
      * The body comp entry to edit. If this is provided, the modal will open in Edit mode; otherwise, it will open in New
      * Entry mode.
      */
-    entryToEdit?: IBodyCompEntryV2;
+    entryToEdit?: IBodyCompEntry;
     /**
      * Called when the cancel button is clicked.
      */
@@ -18,7 +18,7 @@
     /**
      * Called when the form is submit. The new or edited entry will be passed.
      */
-    submitEntry: (entry: IBodyCompEntryV2) => void;
+    submitEntry: (entry: IBodyCompEntry) => void;
   }
 </script>
 

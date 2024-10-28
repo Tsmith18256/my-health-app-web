@@ -12,7 +12,7 @@
     addBodyCompEntry,
     bodyCompEntries,
   } from '$lib/body-comp/stores/body-comp-entries/body-comp-entries.store';
-  import type { IBodyCompEntryV2 } from '$lib/body-comp/types/body-comp-entry.type';
+  import type { IBodyCompEntry } from '$lib/body-comp/types/body-comp-entry.type';
   import Icon from '$lib/shared/components/display/icon/icon.svelte';
   import { IconImage } from '$lib/shared/types/icon-image.type';
   import BodyCompTable from './body-comp-table.svelte';
@@ -27,7 +27,7 @@
     });
   }
 
-  const editEntry = (entry?: IBodyCompEntryV2) => {
+  const editEntry = (entry?: IBodyCompEntry) => {
     modalStore.trigger({
       type: 'component',
       component: 'bodyCompEditEntryModal',

@@ -1,4 +1,4 @@
-import type { IBodyCompEntryV2 } from '$lib/body-comp/types/body-comp-entry.type';
+import type { IBodyCompEntry } from '$lib/body-comp/types/body-comp-entry.type';
 import { sql } from '$lib/shared/database/db';
 
 /**
@@ -18,7 +18,7 @@ interface IBodyCompEntryModel {
 /**
  * Queries all body comp entries from the database.
  */
-export const selectBodyCompEntries = async (): Promise<IBodyCompEntryV2[]> => {
+export const selectBodyCompEntries = async (): Promise<IBodyCompEntry[]> => {
   const models = await sql<IBodyCompEntryModel[]>`
     SELECT * FROM body_comp_entries
   `;
@@ -28,13 +28,13 @@ export const selectBodyCompEntries = async (): Promise<IBodyCompEntryV2[]> => {
 
 const convertModelsToObjects = (
   models: IBodyCompEntryModel[],
-): IBodyCompEntryV2[] => {
+): IBodyCompEntry[] => {
   return models.map((model) => convertModelToObject(model));
 };
 
 const convertModelToObject = (
   model: IBodyCompEntryModel,
-): IBodyCompEntryV2 => ({
+): IBodyCompEntry => ({
   id: model.id,
   date: model.entry_date,
   weight: model.weight_in_grams,

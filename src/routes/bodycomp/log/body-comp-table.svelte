@@ -1,15 +1,15 @@
 <script lang="ts" module>
-  import type { IBodyCompEntryV2 } from '$lib/body-comp/types/body-comp-entry.type';
+  import type { IBodyCompEntry } from '$lib/body-comp/types/body-comp-entry.type';
 
   export interface IBodyCompTableProps {
     /**
      * The entries to show in the table.
      */
-    entries: IBodyCompEntryV2[];
+    entries: IBodyCompEntry[];
     /**
      * Called when an entry in the table is clicked.
      */
-    onEntryClick: (entry: IBodyCompEntryV2) => void;
+    onEntryClick: (entry: IBodyCompEntry) => void;
   }
 </script>
 

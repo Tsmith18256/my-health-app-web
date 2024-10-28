@@ -5,7 +5,7 @@
     /**
      * The body comp entry to show in the row.
      */
-    entry: IBodyCompEntryV2;
+    entry: IBodyCompEntry;
     /**
      * The event listener that fires when the table row is clicked.
      */
@@ -15,7 +15,7 @@
 
 <script lang="ts">
   import dayjs from 'dayjs';
-  import type { IBodyCompEntryV2 } from '$lib/body-comp/types/body-comp-entry.type';
+  import type { IBodyCompEntry } from '$lib/body-comp/types/body-comp-entry.type';
   import { calculateAveragedBodyFat } from '$lib/body-comp/utils/body-fat-calculator/body-fat-calculator.util';
   import {
     USER_AGE,

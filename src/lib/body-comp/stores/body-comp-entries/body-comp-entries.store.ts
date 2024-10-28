@@ -1,18 +1,18 @@
 import { writable } from 'svelte/store';
 
 import { sortBodyCompEntriesByNewest } from '$lib/body-comp/utils/sort-body-comp-entries/sort-body-comp-entries.util';
-import type { IBodyCompEntryV2 } from '$lib/body-comp/types/body-comp-entry.type';
+import type { IBodyCompEntry } from '$lib/body-comp/types/body-comp-entry.type';
 import dayjs from 'dayjs';
 
 /**
  * A store containing all the user's body composition entries, sorted by date.
  */
-export const bodyCompEntries = writable<IBodyCompEntryV2[]>([]);
+export const bodyCompEntries = writable<IBodyCompEntry[]>([]);
 
 /**
  * Adds the given entry to the store. An ID will be generated for the new entry.
  */
-export const addBodyCompEntry = (newEntry: IBodyCompEntryV2) => {
+export const addBodyCompEntry = (newEntry: IBodyCompEntry) => {
   bodyCompEntries.update((entries) => {
     const entriesWithNew = entries.concat(newEntry);
 
@@ -23,7 +23,7 @@ export const addBodyCompEntry = (newEntry: IBodyCompEntryV2) => {
 /**
  * Updates the given entry in the store. If no entry with the given ID exists, nothing will be updated.
  */
-export const updateBodyCompEntry = (updatedEntry: IBodyCompEntryV2) => {
+export const updateBodyCompEntry = (updatedEntry: IBodyCompEntry) => {
   let requiresResort = false;
 
   const updatedEntryDate = dayjs(updatedEntry.date);
@@ -45,7 +45,7 @@ export const updateBodyCompEntry = (updatedEntry: IBodyCompEntryV2) => {
 /**
  * Deletes the entry with the given ID from the store. If no entry with the given ID exists, nothing will be deleted.
  */
-export const deleteBodyCompEntryById = (id: IBodyCompEntryV2['id']) => {
+export const deleteBodyCompEntryById = (id: IBodyCompEntry['id']) => {
   bodyCompEntries.update((entries) => {
     const indexToRemove = entries.findIndex((entry) => entry.id === id);
 

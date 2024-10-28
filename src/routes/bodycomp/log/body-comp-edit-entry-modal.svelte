@@ -5,14 +5,14 @@
     deleteBodyCompEntryById,
     updateBodyCompEntry,
   } from '$lib/body-comp/stores/body-comp-entries/body-comp-entries.store';
-  import type { IBodyCompEntryV2 } from '$lib/body-comp/types/body-comp-entry.type';
+  import type { IBodyCompEntry } from '$lib/body-comp/types/body-comp-entry.type';
   import BodyCompEditEntryForm from './body-comp-edit-entry-form.svelte';
 
   const modalStore = getModalStore();
-  const entryToEdit: IBodyCompEntryV2 | undefined =
+  const entryToEdit: IBodyCompEntry | undefined =
     $modalStore[0]?.meta.entryToEdit;
 
-  const submitEntry = (e: IBodyCompEntryV2) => {
+  const submitEntry = (e: IBodyCompEntry) => {
     if (entryToEdit) {
       updateBodyCompEntry(e);
     } else {
