@@ -49,5 +49,5 @@
 
 <BodyCompTable
   entries={$bodyCompEntries}
-  on:entryClick={(e) => editEntry(e.detail)}
+  onEntryClick={editEntry}
 />

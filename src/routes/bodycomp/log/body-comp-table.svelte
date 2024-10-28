@@ -6,23 +6,18 @@
      * The entries to show in the table.
      */
     entries: IBodyCompEntryV2[];
+    /**
+     * Called when an entry in the table is clicked.
+     */
+    onEntryClick: (entry: IBodyCompEntryV2) => void;
   }
 </script>
 
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
   import BodyCompTableHeading from './body-comp-table-heading.svelte';
   import BodyCompTableRow from './body-comp-table-row.svelte';
 
-  let { entries }: IBodyCompTableProps = $props();
-
-  const dispatch = createEventDispatcher<{
-    entryClick: IBodyCompEntryV2;
-  }>();
-
-  const onEntryClick = (entry: IBodyCompEntryV2) => {
-    dispatch('entryClick', entry);
-  };
+  let { entries, onEntryClick }: IBodyCompTableProps = $props();
 </script>
 
 <div class="table-container">

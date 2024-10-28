@@ -1,13 +1,16 @@
+<script lang="ts" module>
+  export interface IBodyCompSideBarProps {
+    onChange: () => void;
+  }
+</script>
+
 <script lang="ts">
   import { AppRail, AppRailAnchor } from '@skeletonlabs/skeleton';
-  import { createEventDispatcher } from 'svelte';
   import { page } from '$app/stores';
   import Icon from '$lib/shared/components/display/icon/icon.svelte';
   import { IconImage } from '$lib/shared/types/icon-image.type';
 
-  const dispatch = createEventDispatcher<{ change: void }>();
-
-  const onChange = () => dispatch('change');
+  let { onChange }: IBodyCompSideBarProps = $props();
 </script>
 
 <AppRail>
@@ -15,7 +18,7 @@
     href="/bodycomp/log"
     title="Body Composition Log"
     selected={$page.url.pathname === '/bodycomp/log'}
-    onclick={onChange}
+    onclick={() => onChange}
   >
     <svelte:fragment slot="lead">
       <Icon iconImage={IconImage.Log} />

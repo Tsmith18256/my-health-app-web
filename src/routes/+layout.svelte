@@ -34,7 +34,7 @@
 <Modal components={modalRegistry} />
 <Drawer>
   {#if $drawerStore.id === 'navigation-drawer'}
-    <BodyCompSideBar on:change={closeDrawer} />
+    <BodyCompSideBar onChange={closeDrawer} />
   {/if}
 </Drawer>
 

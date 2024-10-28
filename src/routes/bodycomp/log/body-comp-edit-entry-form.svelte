@@ -7,12 +7,23 @@
      * Entry mode.
      */
     entryToEdit?: IBodyCompEntryV2;
+    /**
+     * Called when the cancel button is clicked.
+     */
+    cancel: () => void;
+    /**
+     * Called when the delete button is clicked.
+     */
+    deleteEntry: () => void;
+    /**
+     * Called when the form is submit. The new or edited entry will be passed.
+     */
+    submitEntry: (entry: IBodyCompEntryV2) => void;
   }
 </script>
 
 <script lang="ts">
   import dayjs from 'dayjs';
-  import { createEventDispatcher } from 'svelte';
   import { calculateAveragedBodyFat } from '$lib/body-comp/utils/body-fat-calculator/body-fat-calculator.util';
   import {
     USER_AGE,
@@ -21,7 +32,12 @@
   import { formatDateIso } from '$lib/shared/utils/formatters/format-date.util';
   import { formatPercent } from '$lib/shared/utils/formatters/format-percent.util';
 
-  let { entryToEdit }: IBodyCompEditEntryFormProps = $props();
+  let {
+    cancel,
+    deleteEntry,
+    entryToEdit,
+    submitEntry,
+  }: IBodyCompEditEntryFormProps = $props();
 
   const isEditMode = $derived(!!entryToEdit);
 
@@ -51,15 +67,9 @@
   const leanMass = $derived(bodyFat?.leanMass);
   const fatMass = $derived(bodyFat?.fatMass);
 
-  const dispatch = createEventDispatcher<{
-    submit: IBodyCompEntryV2;
-    cancel: void;
-    delete: void;
-  }>();
-
-  const submit = () => {
+  const onSubmitClick = () => {
     if (date && weight) {
-      dispatch('submit', {
+      submitEntry({
         id: entryToEdit?.id,
         abSkinfold: ab,
         chestSkinfold: chest,
@@ -74,13 +84,15 @@
     }
   };
 
-  const cancel = () => {
-    dispatch('cancel');
+  const onCancelClick = () => {
+    cancel();
+
     reset();
   };
 
-  const deleteEntry = () => {
-    dispatch('delete');
+  const onDeleteClick = () => {
+    deleteEntry();
+
     reset();
   };
 
@@ -146,12 +158,12 @@
     type="button"
     class="variant-filled-success btn"
     disabled={!date || !weight}
-    onclick={submit}
+    onclick={onSubmitClick}
   >
-    {entryToEdit ? 'Save' : 'Submit'}
+    {entryToEdit ? 'Save' : 'Create'}
   </button>
 
-  <button type="button" class="variant-filled-surface btn" onclick={cancel}>
+  <button type="button" class="variant-filled-surface btn" onclick={onCancelClick}>
     Cancel
   </button>
 
@@ -159,7 +171,7 @@
     <button
       type="button"
       class="variant-filled-error btn"
-      onclick={deleteEntry}
+      onclick={onDeleteClick}
     >
       Delete
     </button>

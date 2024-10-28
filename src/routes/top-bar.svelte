@@ -42,7 +42,7 @@
 <header class="sticky top-0 z-10">
   <AppBar>
     <svelte:fragment slot="lead">
-      <button class="btn md:hidden" type="button" on:click={toggleDrawer}>
+      <button class="btn md:hidden" type="button" onclick={toggleDrawer}>
         <Icon iconImage={IconImage.HamburgerMenu} />
       </button>
       <h3 class="h3">My Health App</h3>
@@ -55,7 +55,7 @@
             $page.url.pathname,
           )} hidden md:flex"
           type="button"
-          on:click={() => goto(button.route)}
+          onclick={() => goto(button.route)}
         >
           {button.label}
         </button>
