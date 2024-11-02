@@ -1,20 +1,23 @@
+<script lang="ts" module>
+  import type { IBodyCompEntry } from '$lib/body-comp/types/body-comp-entry.type';
+
+  export interface IBodyCompTableProps {
+    /**
+     * The entries to show in the table.
+     */
+    entries: IBodyCompEntry[];
+    /**
+     * Called when an entry in the table is clicked.
+     */
+    onEntryClick: (entry: IBodyCompEntry) => void;
+  }
+</script>
+
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
-
-  import type { IBodyCompEntryV2 } from '$lib/body-comp/types/body-comp-entry.type';
-
   import BodyCompTableHeading from './body-comp-table-heading.svelte';
   import BodyCompTableRow from './body-comp-table-row.svelte';
 
-  export let entries: IBodyCompEntryV2[];
-
-  const dispatch = createEventDispatcher<{
-    entryClick: IBodyCompEntryV2;
-  }>();
-
-  const onEntryClick = (entry: IBodyCompEntryV2) => {
-    dispatch('entryClick', entry);
-  };
+  let { entries, onEntryClick }: IBodyCompTableProps = $props();
 </script>
 
 <div class="table-container">
@@ -23,7 +26,7 @@
 
     <tbody>
       {#each entries as entry}
-        <BodyCompTableRow {entry} on:click={() => onEntryClick(entry)} />
+        <BodyCompTableRow {entry} onclick={() => onEntryClick(entry)} />
       {/each}
     </tbody>
   </table>

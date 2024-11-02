@@ -1,4 +1,4 @@
-export interface IBodyCompEntryV2 {
+export interface IBodyCompEntry {
   id?: number;
   date: string;
   weight: number;

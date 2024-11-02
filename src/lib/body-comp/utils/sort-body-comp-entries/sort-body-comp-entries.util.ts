@@ -1,12 +1,12 @@
-import type { IBodyCompEntryV2 } from '$lib/body-comp/types/body-comp-entry.type';
+import type { IBodyCompEntry } from '$lib/body-comp/types/body-comp-entry.type';
 import dayjs from 'dayjs';
 
 /**
  * Sorts an array of body composition entries by date in descending order (newest entries first).
  */
 export const sortBodyCompEntriesByNewest = (
-  entries: IBodyCompEntryV2[],
-): IBodyCompEntryV2[] => {
+  entries: IBodyCompEntry[],
+): IBodyCompEntry[] => {
   return entries.toSorted((a, b) => {
     const dateA = dayjs(a.date);
     const dateB = dayjs(b.date);

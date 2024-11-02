@@ -1,34 +1,51 @@
+<script lang="ts" module>
+  import type { MouseEventHandler } from 'svelte/elements';
+
+  export interface IBodyCompTableRowProps {
+    /**
+     * The body comp entry to show in the row.
+     */
+    entry: IBodyCompEntry;
+    /**
+     * The event listener that fires when the table row is clicked.
+     */
+    onclick: MouseEventHandler<HTMLTableRowElement>;
+  }
+</script>
+
 <script lang="ts">
-  import type { IBodyCompEntryV2 } from '$lib/body-comp/types/body-comp-entry.type';
-  import { formatDateShort } from '$lib/shared/utils/formatters/format-date.util';
-  import { formatPercent } from '$lib/shared/utils/formatters/format-percent.util';
-  import { formatWeight } from '$lib/shared/utils/formatters/format-weight.util';
   import dayjs from 'dayjs';
-  import {
-    formatLength,
-    LengthUnit,
-  } from '$lib/shared/utils/formatters/format-length.util';
+  import type { IBodyCompEntry } from '$lib/body-comp/types/body-comp-entry.type';
   import { calculateAveragedBodyFat } from '$lib/body-comp/utils/body-fat-calculator/body-fat-calculator.util';
   import {
     USER_AGE,
     USER_HEIGHT,
   } from '$lib/shared/constants/user-config.constants';
+  import { formatDateShort } from '$lib/shared/utils/formatters/format-date.util';
+  import {
+    formatLength,
+    LengthUnit,
+  } from '$lib/shared/utils/formatters/format-length.util';
+  import { formatPercent } from '$lib/shared/utils/formatters/format-percent.util';
+  import { formatWeight } from '$lib/shared/utils/formatters/format-weight.util';
 
-  export let entry: IBodyCompEntryV2;
+  let { entry, onclick }: IBodyCompTableRowProps = $props();
 
-  $: bodyFatData = calculateAveragedBodyFat({
-    abSkinfold: entry.abSkinfold,
-    age: USER_AGE,
-    chestSkinfold: entry.chestSkinfold,
-    height: USER_HEIGHT,
-    neckCircumference: entry.neckCircumference,
-    thighSkinfold: entry.thighSkinfold,
-    waistCircumference: entry.waistCircumference,
-    weight: entry.weight,
-  });
+  const bodyFatData = $derived(
+    calculateAveragedBodyFat({
+      abSkinfold: entry.abSkinfold,
+      age: USER_AGE,
+      chestSkinfold: entry.chestSkinfold,
+      height: USER_HEIGHT,
+      neckCircumference: entry.neckCircumference,
+      thighSkinfold: entry.thighSkinfold,
+      waistCircumference: entry.waistCircumference,
+      weight: entry.weight,
+    }),
+  );
 </script>
 
-<tr class="cursor-pointer" on:click>
+<tr class="cursor-pointer" {onclick}>
   <td>{formatDateShort(dayjs(entry.date))}</td>
   <td>{formatWeight(entry.weight)}</td>
   <td>

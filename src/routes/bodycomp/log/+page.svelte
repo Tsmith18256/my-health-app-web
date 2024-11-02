@@ -1,17 +1,23 @@
-<script lang="ts">
+<script lang="ts" module>
   import type { PageData } from './$types';
+
+  export interface IBodyCompLogPageProps {
+    data: PageData;
+  }
+</script>
+
+<script lang="ts">
+  import { getModalStore } from '@skeletonlabs/skeleton';
   import {
     addBodyCompEntry,
     bodyCompEntries,
   } from '$lib/body-comp/stores/body-comp-entries/body-comp-entries.store';
+  import type { IBodyCompEntry } from '$lib/body-comp/types/body-comp-entry.type';
+  import Icon from '$lib/shared/components/display/icon/icon.svelte';
+  import { IconImage } from '$lib/shared/types/icon-image.type';
   import BodyCompTable from './body-comp-table.svelte';
-  import { getModalStore } from '@skeletonlabs/skeleton';
-  import Icon, {
-    IconImage,
-  } from '$lib/shared/components/display/icon/icon.svelte';
-  import type { IBodyCompEntryV2 } from '$lib/body-comp/types/body-comp-entry.type';
 
-  export let data: PageData;
+  let { data }: IBodyCompLogPageProps = $props();
 
   const modalStore = getModalStore();
 
@@ -21,7 +27,7 @@
     });
   }
 
-  const editEntry = (entry?: IBodyCompEntryV2) => {
+  const editEntry = (entry?: IBodyCompEntry) => {
     modalStore.trigger({
       type: 'component',
       component: 'bodyCompEditEntryModal',
@@ -35,7 +41,7 @@
 <button
   class="variant-filled-secondary btn"
   type="button"
-  on:click={() => editEntry()}
+  onclick={() => editEntry()}
 >
   <span><Icon iconImage={IconImage.Plus} /></span>
   <span>New entry</span>
@@ -43,5 +49,5 @@
 
 <BodyCompTable
   entries={$bodyCompEntries}
-  on:entryClick={(e) => editEntry(e.detail)}
+  onEntryClick={editEntry}
 />
