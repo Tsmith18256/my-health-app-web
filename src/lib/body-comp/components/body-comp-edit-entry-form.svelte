@@ -8,14 +8,6 @@
      */
     entryToEdit?: IBodyCompEntry;
     /**
-     * Called when the cancel button is clicked.
-     */
-    cancel: () => void;
-    /**
-     * Called when the delete button is clicked.
-     */
-    deleteEntry: () => void;
-    /**
      * Called when the form is submit. The new or edited entry will be passed.
      */
     submitEntry: (entry: IBodyCompEntry) => void;
@@ -32,12 +24,8 @@
   import { formatDateIso } from '$lib/shared/utils/formatters/format-date.util';
   import { formatPercent } from '$lib/shared/utils/formatters/format-percent.util';
 
-  let {
-    cancel,
-    deleteEntry,
-    entryToEdit,
-    submitEntry,
-  }: IBodyCompEditEntryFormProps = $props();
+  let { entryToEdit, submitEntry }: IBodyCompEditEntryFormProps =
+    $props();
 
   const isEditMode = $derived(!!entryToEdit);
 
@@ -84,12 +72,6 @@
     }
   };
 
-  const onCancelClick = () => {
-    cancel();
-
-    reset();
-  };
-
   const onDeleteClick = () => {
     deleteEntry();
 
@@ -108,48 +90,56 @@
 
 <h2 class="h2">{isEditMode ? 'Edit' : 'New'} Body Comp Entry</h2>
 
-<label class="label">
-  <span>Date</span>
-  <input class="input" type="date" bind:value={date} />
-</label>
+<section>
+  <label class="label mt-4">
+    <span>Date</span>
+    <input class="input mt-2" type="date" bind:value={date} />
+  </label>
 
-<label class="label">
-  <span>Weight (lbs)</span>
-  <input class="input" type="number" bind:value={weight} />
-</label>
+  <label class="label mt-4">
+    <span>Weight (lbs)</span>
+    <input class="input mt-2" type="number" bind:value={weight} />
+  </label>
+</section>
 
-<label class="label">
-  <span>Waist (in)</span>
-  <input class="input" type="number" bind:value={waist} />
-</label>
+<section class="pt-6">
+  <h3 class="h3">Circumferences</h3>
 
-<label class="label">
-  <span>Neck (in)</span>
-  <input class="input" type="number" bind:value={neck} />
-</label>
+  <label class="label mt-4">
+    <span>Waist (in)</span>
+    <input class="input mt-2" type="number" bind:value={waist} />
+  </label>
 
-<h3 class="h3">Skinfold Sites</h3>
+  <label class="label mt-4">
+    <span>Neck (in)</span>
+    <input class="input mt-2" type="number" bind:value={neck} />
+  </label>
+</section>
 
-<label class="label">
-  <span>Chest (mm)</span>
-  <input class="input" type="number" step="1" bind:value={chest} />
-</label>
+<section class="pt-6">
+  <h3 class="h3">Skinfold Sites</h3>
 
-<label class="label">
-  <span>Ab (mm)</span>
-  <input class="input" type="number" step="1" bind:value={ab} />
-</label>
+  <label class="label mt-4">
+    <span>Chest (mm)</span>
+    <input class="input mt-2" type="number" step="1" bind:value={chest} />
+  </label>
 
-<label class="label">
-  <span>Thigh (mm)</span>
-  <input class="input" type="number" step="1" bind:value={thigh} />
-</label>
+  <label class="label mt-4">
+    <span>Ab (mm)</span>
+    <input class="input mt-2" type="number" step="1" bind:value={ab} />
+  </label>
+
+  <label class="label mt-4">
+    <span>Thigh (mm)</span>
+    <input class="input mt-2" type="number" step="1" bind:value={thigh} />
+  </label>
+</section>
 
 {#if formattedBodyFat}
-  <div class="body-fat-container">
-    <strong class="body-fat-label">Body Fat: {formattedBodyFat}</strong>
-    <strong class="body-fat-label">Lean Body Mass: {leanMass}</strong>
-    <strong class="body-fat-label">Body Fat Mass: {fatMass}</strong>
+  <div class="body-fat-container flex flex-col">
+    <span><strong class="body-fat-label">Body Fat:</strong> {formattedBodyFat}</span>
+    <span><strong class="body-fat-label">Lean Body Mass:</strong> {leanMass}</span>
+    <span><strong class="body-fat-label">Body Fat Mass:</strong> {fatMass}</span>
   </div>
 {/if}
 
@@ -162,18 +152,4 @@
   >
     {entryToEdit ? 'Save' : 'Create'}
   </button>
-
-  <button type="button" class="variant-filled-surface btn" onclick={onCancelClick}>
-    Cancel
-  </button>
-
-  {#if entryToEdit}
-    <button
-      type="button"
-      class="variant-filled-error btn"
-      onclick={onDeleteClick}
-    >
-      Delete
-    </button>
-  {/if}
 </div>

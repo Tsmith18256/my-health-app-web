@@ -6,7 +6,7 @@
     updateBodyCompEntry,
   } from '$lib/body-comp/stores/body-comp-entries/body-comp-entries.store';
   import type { IBodyCompEntry } from '$lib/body-comp/types/body-comp-entry.type';
-  import BodyCompEditEntryForm from './body-comp-edit-entry-form.svelte';
+  import BodyCompEditEntryForm from '../../../lib/body-comp/components/body-comp-edit-entry-form.svelte';
 
   const modalStore = getModalStore();
   const entryToEdit: IBodyCompEntry | undefined =

@@ -11,13 +11,34 @@
   import { formatDateLong } from '$lib/shared/utils/formatters/format-date.util';
   import { formatLength } from '$lib/shared/utils/formatters/format-length.util';
   import { formatWeight } from '$lib/shared/utils/formatters/format-weight.util';
+  import { goToBodyCompLogEntryEdit } from '$lib/shared/utils/go-to-route';
 
   let { data }: IBodyCompLogEntryPageProps = $props();
 
   const entry = $derived(data.entry);
+
+  const deleteEntry = () => {
+    console.log('TODO');
+  };
+
+  const editEntry = () => {
+    // TODO: Fix type def on ID
+    goToBodyCompLogEntryEdit(entry.id!);
+  };
 </script>
 
 <h1 class="h1">{formatDateLong(dayjs(entry.date))}</h1>
+
+<div class="flex flex-row gap-2">
+  <button type="button" class="variant-filled-secondary btn" onclick={editEntry}>
+    Edit Entry
+  </button>
+
+  <button type="button" class="variant-filled-error btn" onclick={deleteEntry}>
+    Delete Entry
+  </button>
+</div>
+
 <div class="h3 mt-12">{formatWeight(entry.weight)}</div>
 
 {#if entry.waistCircumference || entry.neckCircumference}

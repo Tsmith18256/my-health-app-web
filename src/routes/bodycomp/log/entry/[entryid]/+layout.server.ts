@@ -7,7 +7,7 @@ import type { LayoutServerLoad } from './$types.js';
  * Finds the entry by ID from the route param. If the entry is not found, 404 is thrown.
  */
 export const load: LayoutServerLoad<{
-  entry: IBodyCompEntry | undefined;
+  entry: IBodyCompEntry;
 }> = async ({ params }) => {
   const entryId = parseInt(params.entryid, 10);
   const entry = await selectBodyCompEntryById(entryId);
