@@ -15,6 +15,24 @@ interface IBodyCompEntryModel {
   thigh_skinfold?: number;
 }
 
+export const selectBodyCompEntryById = async (
+  id: number,
+): Promise<IBodyCompEntry | undefined> => {
+  if (isNaN(id)) {
+    return undefined;
+  }
+
+  const model = await sql<IBodyCompEntryModel[]>`
+    SELECT * FROM body_comp_entries WHERE id = ${id.toString()} LIMIT 1
+  `;
+
+  if (!model[0]) {
+    return undefined;
+  }
+
+  return convertModelToObject(model[0]);
+};
+
 /**
  * Queries all body comp entries from the database.
  */
