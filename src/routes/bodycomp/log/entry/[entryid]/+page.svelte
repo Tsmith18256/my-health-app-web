@@ -10,7 +10,10 @@
   import dayjs from 'dayjs';
   import { goto } from '$app/navigation';
   import { formatDateLong } from '$lib/shared/utils/formatters/format-date.util';
-  import { formatLength } from '$lib/shared/utils/formatters/format-length.util';
+  import {
+    formatLength,
+    LengthUnit,
+  } from '$lib/shared/utils/formatters/format-length.util';
   import { formatWeight } from '$lib/shared/utils/formatters/format-weight.util';
   import { getBodyCompLogEntryEditRoute } from '$lib/shared/utils/get-route';
 
@@ -47,44 +50,48 @@
 <div class="h3 mt-12">{formatWeight(entry.weight)}</div>
 
 {#if entry.waistCircumference || entry.neckCircumference}
-  <h3 class="h4">Circumferences</h3>
+  <section>
+    <h2 class="h2">Circumferences</h2>
 
-  {#if entry.waistCircumference}
-    <div>
-      <strong>Waist</strong>
-      {formatLength(entry.waistCircumference)}
-    </div>
-  {/if}
+    {#if entry.waistCircumference}
+      <div>
+        <strong>Waist:</strong>
+        {formatLength(entry.waistCircumference)}
+      </div>
+    {/if}
 
-  {#if entry.neckCircumference}
-    <div>
-      <strong>Neck</strong>
-      {formatLength(entry.neckCircumference)}
-    </div>
-  {/if}
+    {#if entry.neckCircumference}
+      <div>
+        <strong>Neck:</strong>
+        {formatLength(entry.neckCircumference)}
+      </div>
+    {/if}
+  </section>
 {/if}
 
 {#if entry.chestSkinfold || entry.abSkinfold || entry.thighSkinfold}
-  <h3 class="h4">Skinfold Sites</h3>
+  <section>
+    <h2 class="h2">Skinfold Sites</h2>
 
-  {#if entry.chestSkinfold}
-    <div>
-      <strong>Chest</strong>
-      {formatLength(entry.chestSkinfold)}
-    </div>
-  {/if}
+    {#if entry.chestSkinfold}
+      <div>
+        <strong>Chest:</strong>
+        {formatLength(entry.chestSkinfold, { unit: LengthUnit.Millimetres })}
+      </div>
+    {/if}
 
-  {#if entry.abSkinfold}
-    <div>
-      <strong>Ab</strong>
-      {formatLength(entry.abSkinfold)}
-    </div>
-  {/if}
+    {#if entry.abSkinfold}
+      <div>
+        <strong>Ab:</strong>
+        {formatLength(entry.abSkinfold, { unit: LengthUnit.Millimetres })}
+      </div>
+    {/if}
 
-  {#if entry.thighSkinfold}
-    <div>
-      <strong>Thigh</strong>
-      {formatLength(entry.thighSkinfold)}
-    </div>
-  {/if}
+    {#if entry.thighSkinfold}
+      <div>
+        <strong>Thigh:</strong>
+        {formatLength(entry.thighSkinfold, { unit: LengthUnit.Millimetres })}
+      </div>
+    {/if}
+  </section>
 {/if}
