@@ -32,9 +32,7 @@ const convertModelsToObjects = (
   return models.map((model) => convertModelToObject(model));
 };
 
-const convertModelToObject = (
-  model: IBodyCompEntryModel,
-): IBodyCompEntry => ({
+const convertModelToObject = (model: IBodyCompEntryModel): IBodyCompEntry => ({
   id: model.id,
   date: model.entry_date,
   weight: model.weight_in_grams,
