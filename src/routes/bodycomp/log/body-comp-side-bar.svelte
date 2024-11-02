@@ -1,6 +1,6 @@
 <script lang="ts" module>
   export interface IBodyCompSideBarProps {
-    onChange: () => void;
+    onChange?: () => void;
   }
 </script>
 
@@ -18,7 +18,7 @@
     href="/bodycomp/log"
     title="Body Composition Log"
     selected={$page.url.pathname === '/bodycomp/log'}
-    onclick={() => onChange}
+    onclick={onChange}
   >
     <svelte:fragment slot="lead">
       <Icon iconImage={IconImage.Log} />

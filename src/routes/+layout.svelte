@@ -16,6 +16,8 @@
   import BottomBar from './bottom-bar.svelte';
   import TopBar from './top-bar.svelte';
 
+  let { children } = $props();
+
   initializeStores();
 
   const drawerStore = getDrawerStore();
@@ -41,7 +43,7 @@
 <div class="grid h-screen grid-rows-[auto_1fr_auto]">
   <TopBar />
 
-  <slot />
+  {@render children()}
 
   <BottomBar />
 </div>
