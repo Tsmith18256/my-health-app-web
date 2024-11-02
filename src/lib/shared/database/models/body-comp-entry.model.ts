@@ -32,12 +32,12 @@ export const insertBodyCompEntry = async (
       thigh_skinfold
     ) VALUES (
       ${inputEntry.date},
-      ${inputEntry.weight},
-      ${inputEntry.waistCircumference ?? null},
-      ${inputEntry.neckCircumference ?? null},
-      ${inputEntry.chestSkinfold ?? null},
-      ${inputEntry.abSkinfold ?? null},
-      ${inputEntry.thighSkinfold ?? null}
+      ${Math.round(inputEntry.weight)},
+      ${inputEntry.waistCircumference === undefined ? null : Math.round(inputEntry.waistCircumference)},
+      ${inputEntry.neckCircumference === undefined ? null : Math.round(inputEntry.neckCircumference)},
+      ${inputEntry.chestSkinfold === undefined ? null : Math.round(inputEntry.chestSkinfold)},
+      ${inputEntry.abSkinfold === undefined ? null : Math.round(inputEntry.abSkinfold)},
+      ${inputEntry.thighSkinfold === undefined ? null : Math.round(inputEntry.thighSkinfold)}
     ) RETURNING *
   `;
 

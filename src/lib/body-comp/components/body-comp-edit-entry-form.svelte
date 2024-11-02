@@ -62,7 +62,13 @@
 
     <label class="label mt-4">
       <span>Weight (lbs)</span>
-      <input class="input mt-2" name="weight" type="number" bind:value={weight} />
+      <input
+        class="input mt-2"
+        name="weight"
+        step="0.1"
+        type="number"
+        bind:value={weight}
+      />
     </label>
   </section>
 
@@ -71,12 +77,24 @@
 
     <label class="label mt-4">
       <span>Waist (in)</span>
-      <input class="input mt-2" type="number" bind:value={waist} />
+      <input
+        class="input mt-2"
+        name="waist"
+        step="0.1"
+        type="number"
+        bind:value={waist}
+      />
     </label>
 
     <label class="label mt-4">
       <span>Neck (in)</span>
-      <input class="input mt-2" type="number" bind:value={neck} />
+      <input
+        class="input mt-2"
+        name="neck"
+        step="0.1"
+        type="number"
+        bind:value={neck}
+      />
     </label>
   </section>
 
@@ -85,17 +103,17 @@
 
     <label class="label mt-4">
       <span>Chest (mm)</span>
-      <input class="input mt-2" type="number" step="1" bind:value={chest} />
+      <input class="input mt-2" name="chest" type="number" bind:value={chest} />
     </label>
 
     <label class="label mt-4">
       <span>Ab (mm)</span>
-      <input class="input mt-2" type="number" step="1" bind:value={ab} />
+      <input class="input mt-2" name="ab" type="number" bind:value={ab} />
     </label>
 
     <label class="label mt-4">
       <span>Thigh (mm)</span>
-      <input class="input mt-2" type="number" step="1" bind:value={thigh} />
+      <input class="input mt-2" name="thigh" type="number" bind:value={thigh} />
     </label>
   </section>
 
@@ -115,7 +133,7 @@
     </div>
   {/if}
 
-  <div class="flex flex-row gap-2 mt-8">
+  <div class="mt-8 flex flex-row gap-2">
     <button
       type="submit"
       class="variant-filled-success btn"
