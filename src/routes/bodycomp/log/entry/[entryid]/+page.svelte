@@ -8,10 +8,11 @@
 
 <script lang="ts">
   import dayjs from 'dayjs';
+  import { goto } from '$app/navigation';
   import { formatDateLong } from '$lib/shared/utils/formatters/format-date.util';
   import { formatLength } from '$lib/shared/utils/formatters/format-length.util';
   import { formatWeight } from '$lib/shared/utils/formatters/format-weight.util';
-  import { goToBodyCompLogEntryEdit } from '$lib/shared/utils/go-to-route';
+  import { getBodyCompLogEntryEditRoute } from '$lib/shared/utils/get-route';
 
   let { data }: IBodyCompLogEntryPageProps = $props();
 
@@ -23,14 +24,18 @@
 
   const editEntry = () => {
     // TODO: Fix type def on ID
-    goToBodyCompLogEntryEdit(entry.id!);
+    goto(getBodyCompLogEntryEditRoute(entry.id!));
   };
 </script>
 
 <h1 class="h1">{formatDateLong(dayjs(entry.date))}</h1>
 
 <div class="flex flex-row gap-2">
-  <button type="button" class="variant-filled-secondary btn" onclick={editEntry}>
+  <button
+    type="button"
+    class="variant-filled-secondary btn"
+    onclick={editEntry}
+  >
     Edit Entry
   </button>
 

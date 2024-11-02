@@ -1,17 +1,14 @@
 <script lang="ts">
   import {
     Drawer,
-    Modal,
     getDrawerStore,
     initializeStores,
-    type ModalComponent,
   } from '@skeletonlabs/skeleton';
   import { inject } from '@vercel/analytics';
   import { dev } from '$app/environment';
   import '$lib/shared/assets/fonts/css/fontawesome.min.css';
   import '$lib/shared/assets/fonts/css/regular.min.css';
   import '../app.css';
-  import BodyCompEditEntryModal from './bodycomp/log/body-comp-edit-entry-modal.svelte';
   import BodyCompSideBar from './bodycomp/log/body-comp-side-bar.svelte';
   import BottomBar from './bottom-bar.svelte';
   import TopBar from './top-bar.svelte';
@@ -22,10 +19,6 @@
 
   const drawerStore = getDrawerStore();
 
-  const modalRegistry: Record<string, ModalComponent> = {
-    bodyCompEditEntryModal: { ref: BodyCompEditEntryModal },
-  };
-
   inject({ mode: dev ? 'development' : 'production' });
 
   const closeDrawer = () => {
@@ -33,7 +26,6 @@
   };
 </script>
 
-<Modal components={modalRegistry} />
 <Drawer>
   {#if $drawerStore.id === 'navigation-drawer'}
     <BodyCompSideBar onChange={closeDrawer} />
