@@ -19,36 +19,52 @@
   } from '$lib/shared/constants/user-config.constants';
   import { formatDateIso } from '$lib/shared/utils/formatters/format-date.util';
   import { formatPercent } from '$lib/shared/utils/formatters/format-percent.util';
+  import {
+    convertGsToLbs,
+    convertInsToMms,
+    convertLbsToGs,
+    convertMmsToIns,
+  } from '$lib/shared/utils/unit-converter/unit-converter.util';
+  import { roundToDecimalPlaces } from '$lib/shared/utils/round-to-decimal-places';
+    import { formatWeight } from '$lib/shared/utils/formatters/format-weight.util';
 
   let { entryToEdit }: IBodyCompEditEntryFormProps = $props();
 
   const isEditMode = $derived(!!entryToEdit);
 
   let date = $state(formatDateIso(dayjs(entryToEdit?.date)));
-  let weight = $state(entryToEdit?.weight);
-  let waist = $state(entryToEdit?.waistCircumference);
-  let neck = $state(entryToEdit?.neckCircumference);
+  let weight = $state(
+    entryToEdit?.weight &&
+      roundToDecimalPlaces(convertGsToLbs(entryToEdit.weight), 1),
+  );
+  let waist = $state(
+    entryToEdit?.waistCircumference &&
+      roundToDecimalPlaces(convertMmsToIns(entryToEdit.waistCircumference), 1),
+  );
+  let neck = $state(entryToEdit?.neckCircumference &&
+    roundToDecimalPlaces(convertMmsToIns(entryToEdit.neckCircumference), 1)
+  );
   let chest = $state(entryToEdit?.chestSkinfold);
   let ab = $state(entryToEdit?.abSkinfold);
   let thigh = $state(entryToEdit?.thighSkinfold);
 
   const bodyFat = $derived(
     calculateAveragedBodyFat({
-      age: USER_AGE,
-      height: USER_HEIGHT,
-      neckCircumference: neck,
-      waistCircumference: waist,
-      chestSkinfold: chest,
       abSkinfold: ab,
+      age: USER_AGE,
+      chestSkinfold: chest,
+      height: USER_HEIGHT,
+      neckCircumference: neck && convertInsToMms(neck),
       thighSkinfold: thigh,
-      weight,
+      waistCircumference: waist && convertInsToMms(waist),
+      weight: weight && convertLbsToGs(weight),
     }),
   );
   const formattedBodyFat = $derived(
     bodyFat && formatPercent(bodyFat.bodyFatPercent),
   );
-  const leanMass = $derived(bodyFat?.leanMass);
-  const fatMass = $derived(bodyFat?.fatMass);
+  const leanMass = $derived(bodyFat && formatWeight(bodyFat.leanMass));
+  const fatMass = $derived(bodyFat && formatWeight(bodyFat.fatMass));
 </script>
 
 <h2 class="h2">{isEditMode ? 'Edit' : 'New'} Body Comp Entry</h2>
@@ -118,7 +134,7 @@
   </section>
 
   {#if formattedBodyFat}
-    <div class="body-fat-container flex flex-col">
+    <div class="body-fat-container flex flex-col mt-8">
       <span
         ><strong class="body-fat-label">Body Fat:</strong>
         {formattedBodyFat}</span
