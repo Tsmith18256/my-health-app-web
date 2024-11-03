@@ -16,6 +16,61 @@ interface IBodyCompEntryModel {
 }
 
 /**
+ * Inserts a new body comp entry into the database. Returns the entry back with the ID.
+ */
+export const insertBodyCompEntry = async (
+  inputEntry: IBodyCompEntry,
+): Promise<IBodyCompEntry> => {
+  const [createdEntry] = await sql<IBodyCompEntryModel[]>`
+    INSERT INTO body_comp_entries (
+      entry_date,
+      weight_in_grams,
+      waist_circ_in_mm,
+      neck_circ_in_mm,
+      chest_skinfold,
+      ab_skinfold,
+      thigh_skinfold
+    ) VALUES (
+      ${inputEntry.date},
+      ${Math.round(inputEntry.weight)},
+      ${inputEntry.waistCircumference === undefined ? null : Math.round(inputEntry.waistCircumference)},
+      ${inputEntry.neckCircumference === undefined ? null : Math.round(inputEntry.neckCircumference)},
+      ${inputEntry.chestSkinfold === undefined ? null : Math.round(inputEntry.chestSkinfold)},
+      ${inputEntry.abSkinfold === undefined ? null : Math.round(inputEntry.abSkinfold)},
+      ${inputEntry.thighSkinfold === undefined ? null : Math.round(inputEntry.thighSkinfold)}
+    ) RETURNING *
+  `;
+
+  if (createdEntry) {
+    return convertModelToObject(createdEntry);
+  }
+
+  throw new Error('Unknown error inserting user');
+};
+
+/**
+ * Queries a single body comp entry from the database by ID. Returns undefined if an entry was not found with the given
+ * ID.
+ */
+export const selectBodyCompEntryById = async (
+  id: number,
+): Promise<IBodyCompEntry | undefined> => {
+  if (isNaN(id)) {
+    return undefined;
+  }
+
+  const model = await sql<IBodyCompEntryModel[]>`
+    SELECT * FROM body_comp_entries WHERE id = ${id.toString()} LIMIT 1
+  `;
+
+  if (!model[0]) {
+    return undefined;
+  }
+
+  return convertModelToObject(model[0]);
+};
+
+/**
  * Queries all body comp entries from the database.
  */
 export const selectBodyCompEntries = async (): Promise<IBodyCompEntry[]> => {
