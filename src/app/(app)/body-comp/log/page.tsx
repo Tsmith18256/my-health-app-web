@@ -4,10 +4,12 @@ import {
 } from "@/app/(app)/body-comp/log/body-comp-row.component";
 import { FloatingActionButton } from "@/app/(app)/body-comp/log/floating-action-button.component";
 import dayjs from "dayjs";
+import Link from "next/link";
 
-const entries: IBodyCompRowProps[] = [];
+const entries: (IBodyCompRowProps & { id: number })[] = [];
 for (let i = 0; i < 20; i++) {
   entries.push({
+    id: i,
     date: dayjs().subtract(i, "day").format("MMMM D, YYYY"),
     weight: `${(Math.random() * 5 + 172.5).toFixed(1)} lbs`,
     bodyFat: `${(Math.random() + 15.2).toFixed(1)}%`,
@@ -18,10 +20,16 @@ export default function BodyCompLogPage() {
   return (
     <>
       {entries.map((entry) => {
-        return <BodyCompRow key={entry.date} {...entry} />;
+        return (
+          <Link key={entry.date} href={`/body-comp/edit/${entry.id}`}>
+            <BodyCompRow {...entry} />
+          </Link>
+        );
       })}
 
-      <FloatingActionButton />
+      <Link href="/body-comp/new">
+        <FloatingActionButton />
+      </Link>
     </>
   );
 }
