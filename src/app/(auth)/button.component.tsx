@@ -6,9 +6,7 @@ export const Button = (props: IButtonProps) => {
 
   return (
     <button
-      className={`bg-orange-400 border-3 font-semibold rounded-lg text-black w-full ${
-        classesBySize[size]
-      }`}
+      className={`bg-orange-400 active:bg-orange-600 border-3 font-semibold rounded-lg text-black w-full ${classesBySize[size]}`}
     >
       {props.children}
     </button>

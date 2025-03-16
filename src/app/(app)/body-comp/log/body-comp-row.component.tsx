@@ -1,8 +1,6 @@
-
-
 export const BodyCompRow = (props: IBodyCompRowProps) => {
   return (
-    <div className="flex justify-between p-4">
+    <div className="active:bg-gray-200 flex justify-between p-4">
       <div className="flex flex-col">
         <span className="text-xs text-gray-500">{props.date}</span>
         <strong className="text-2xl">{props.weight}</strong>

@@ -1,4 +1,5 @@
 import { BodyCompRow, IBodyCompRowProps } from '@/app/(app)/body-comp/log/body-comp-row.component';
+import { FloatingActionButton } from '@/app/(app)/body-comp/log/floating-action-button.component';
 import dayjs from 'dayjs';
 
 const entries: IBodyCompRowProps[] = [];
@@ -16,6 +17,8 @@ export default function BodyCompLogPage() {
       {entries.map((entry) => {
         return <BodyCompRow key={entry.date} {...entry} />;
       })}
+
+      <FloatingActionButton />
     </>
   );
 }
