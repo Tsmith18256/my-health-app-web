@@ -1,5 +1,7 @@
-import { Input } from '@/app/(app)/body-comp/new/input.component';
+import { Input } from "@/app/(app)/body-comp/new/input.component";
+import { Button, ButtonType } from "@/components/button/button.component";
 import { Heading, HeadingLevel } from "@/components/heading/heading.component";
+import Link from "next/link";
 
 export default function NewBodyCompEntryPage() {
   return (
@@ -28,6 +30,16 @@ export default function NewBodyCompEntryPage() {
             <Input id="txtThighSkinfold" label="Thigh" />
           </section>
         </section>
+
+        <footer className="flex gap-3 justify-stretch w-full">
+          <Link className="grow" href="/body-comp/log">
+            <Button>Create</Button>
+          </Link>
+
+          <Link className="grow" href="/body-comp/log">
+            <Button type={ButtonType.Negative}>Cancel</Button>
+          </Link>
+        </footer>
       </form>
     </div>
   );
