@@ -19,13 +19,15 @@ for (let i = 0; i < 20; i++) {
 export default function BodyCompLogPage() {
   return (
     <>
-      {entries.map((entry) => {
-        return (
-          <Link key={entry.date} href={`/body-comp/edit/${entry.id}`}>
-            <BodyCompRow {...entry} />
-          </Link>
-        );
-      })}
+      <main className="mb-20">
+        {entries.map((entry) => {
+          return (
+            <Link key={entry.date} href={`/body-comp/edit/${entry.id}`}>
+              <BodyCompRow {...entry} />
+            </Link>
+          );
+        })}
+      </main>
 
       <Link href="/body-comp/new">
         <FloatingActionButton />
