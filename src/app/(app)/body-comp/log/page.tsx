@@ -34,8 +34,15 @@ export default function BodyCompLogPage() {
       </Link>
 
       <nav className="border-t-3 bottom-0 fixed flex justify-stretch h-18 inset-x-0">
-        <button className="bg-orange-400 grow text-black w-full" disabled>Log</button>
-        <button className="bg-orange-200 active:bg-orange-600 grow text-black w-full">Overview</button>
+        <button className="bg-orange-400 grow text-black w-full" disabled>
+          Log
+        </button>
+        <Link
+          className="bg-orange-200 active:bg-orange-600 grow w-full"
+          href="/body-comp/overview"
+        >
+          <button className="h-full text-block w-full">Overview</button>
+        </Link>
       </nav>
     </>
   );
