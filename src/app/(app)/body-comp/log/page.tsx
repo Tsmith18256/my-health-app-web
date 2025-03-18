@@ -19,7 +19,7 @@ for (let i = 0; i < 20; i++) {
 export default function BodyCompLogPage() {
   return (
     <>
-      <main className="mb-20">
+      <main className="mb-38">
         {entries.map((entry) => {
           return (
             <Link key={entry.date} href={`/body-comp/edit/${entry.id}`}>

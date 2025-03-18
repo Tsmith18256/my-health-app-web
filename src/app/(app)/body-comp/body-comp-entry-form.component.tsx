@@ -1,5 +1,6 @@
 import { Input } from "@/app/(app)/body-comp/input.component";
 import { Button, ButtonType } from "@/components/button/button.component";
+import { Header } from '@/components/header/header.component';
 import { Heading, HeadingLevel } from "@/components/heading/heading.component";
 import Link from "next/link";
 
@@ -10,9 +11,7 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
 
   return (
     <>
-      <header className="pt-6 px-4">
-        <Heading level={HeadingLevel.h1}>{title}</Heading>
-      </header>
+      <Header title={title} />
 
       <form>
         <main className="flex flex-col gap-6 mt-6 pb-4 px-4">
