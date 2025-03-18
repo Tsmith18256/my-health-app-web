@@ -1,5 +1,5 @@
+import { BodyCompEntryForm } from '@/app/(app)/body-comp/body-comp-entry-form.component';
+
 export default function EditBodyCompEntryPage() {
-  return (
-    <span>Edit entry page coming soon!</span>
-  );
+  return <BodyCompEntryForm isEditMode={true} />;
 }
