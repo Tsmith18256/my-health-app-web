@@ -5,8 +5,8 @@ import Link from "next/link";
 
 export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
   const isEditMode = props.isEditMode ?? false;
-  const title = isEditMode ? 'Edit Entry' : 'New Entry';
-  const primaryButtonLabel = isEditMode ? 'Save' : 'Create';
+  const title = isEditMode ? "Edit Entry" : "New Entry";
+  const primaryButtonLabel = isEditMode ? "Save" : "Create";
 
   return (
     <>
@@ -17,22 +17,37 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
       <form>
         <main className="flex flex-col gap-6 mt-6 pb-4 px-4">
           <Input id="txtDate" label="Date" />
-          <Input id="txtWeight" label="Weight" />
+          <Input id="txtWeight" label="Weight" step="0.1" type="number" />
 
           <section className="flex flex-col gap-6">
             <Heading level={HeadingLevel.h2}>Advanced</Heading>
 
             <section className="flex flex-col gap-6">
               <Heading level={HeadingLevel.h3}>Measuring tape</Heading>
-              <Input id="txtNeckCirc" label="Neck" />
-              <Input id="txtWaistCirc" label="Waist" />
+              <Input id="txtNeckCirc" label="Neck" step="0.1" type="number" />
+              <Input id="txtWaistCirc" label="Waist" step="0.1" type="number" />
             </section>
 
             <section className="flex flex-col gap-6">
               <Heading level={HeadingLevel.h3}>Calipers (skinfold)</Heading>
-              <Input id="txtChestSkinfold" label="Chest" />
-              <Input id="txtAbSkinfold" label="Abdominal" />
-              <Input id="txtThighSkinfold" label="Thigh" />
+              <Input
+                id="txtChestSkinfold"
+                label="Chest"
+                step="1"
+                type="number"
+              />
+              <Input
+                id="txtAbSkinfold"
+                label="Abdominal"
+                step="1"
+                type="number"
+              />
+              <Input
+                id="txtThighSkinfold"
+                label="Thigh"
+                step="1"
+                type="number"
+              />
             </section>
           </section>
         </main>
@@ -49,7 +64,7 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
       </form>
     </>
   );
-}
+};
 
 export interface IBodyCompEntryFormProps {
   isEditMode?: boolean;
