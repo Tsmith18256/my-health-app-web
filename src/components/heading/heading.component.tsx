@@ -1,7 +1,7 @@
 import { ObjectValues } from "@/types/ObjectValues";
 
 export const Heading = (props: IHeadingProps) => {
-  const HeadingTag = props.level;
+  const HeadingTag = props.tag ?? props.level;
 
   return (
     <HeadingTag className={`font-semibold ${classNameByHeadingLevel[props.level]}`}>
@@ -24,6 +24,7 @@ export type HeadingLevel = ObjectValues<typeof HeadingLevel>;
 export interface IHeadingProps {
   children: string;
   level: HeadingLevel;
+  tag?: HeadingLevel;
 }
 
 const classNameByHeadingLevel: Record<HeadingLevel, string> = {
