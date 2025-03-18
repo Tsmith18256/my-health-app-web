@@ -32,6 +32,11 @@ export default function BodyCompLogPage() {
       <Link href="/body-comp/new">
         <FloatingActionButton />
       </Link>
+
+      <nav className="border-t-3 bottom-0 fixed flex justify-stretch h-18 inset-x-0">
+        <button className="bg-orange-400 grow text-black w-full" disabled>Log</button>
+        <button className="bg-orange-200 active:bg-orange-600 grow text-black w-full">Overview</button>
+      </nav>
     </>
   );
 }
