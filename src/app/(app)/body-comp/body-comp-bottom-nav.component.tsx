@@ -1,3 +1,4 @@
+import { Icon, IconImage, IconSize } from '@/components/icon/icon.component';
 import Link from "next/link";
 import { ReactNode } from "react";
 
@@ -17,9 +18,17 @@ export const BodyCompBottomNav = (props: IBodyCompBottomNavProps) => {
 };
 
 const renderNavButton = (
-  contents: ReactNode,
+  page: "Log" | "Overview",
   opts: { href: string; isActive: boolean }
 ) => {
+  const contents = (
+    <div className="flex flex-col gap-2">
+      <Icon icon={page === "Log" ? IconImage.Log : IconImage.Overview} size={IconSize.Large} />
+      <span className="text-xs">{page}</span>
+    </div>
+  );
+
+
   if (opts.isActive) {
     return (
       <button className="bg-orange-400 grow text-black w-full" disabled>
