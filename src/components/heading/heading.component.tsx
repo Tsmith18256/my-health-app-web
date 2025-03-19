@@ -1,4 +1,4 @@
-import { ObjectValues } from "@/types/ObjectValues";
+import { ObjectValues } from "@/types/object-values.types";
 
 export const Heading = (props: IHeadingProps) => {
   const HeadingTag = props.tag ?? props.level;

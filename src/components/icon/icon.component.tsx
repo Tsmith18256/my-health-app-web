@@ -1,4 +1,4 @@
-import { ObjectValues } from "@/types/ObjectValues";
+import { ObjectValues } from "@/types/object-values.types";
 
 export const Icon = (props: IIconProps) => {
   const size = props.size ?? IconSize.Medium;

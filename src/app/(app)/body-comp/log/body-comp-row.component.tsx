@@ -1,21 +1,29 @@
-export const BodyCompRow = (props: IBodyCompRowProps) => {
+import { IBodyCompEntry } from "@/database/models/body-comp-entry.model";
+
+export const BodyCompRow = ({ entry }: IBodyCompRowProps) => {
   return (
     <div className="active:bg-gray-200 flex justify-between p-4">
       <div className="flex flex-col">
-        <span className="text-xs text-gray-500">{props.date}</span>
-        <strong className="text-2xl">{props.weight}</strong>
+        <span className="text-xs text-gray-500">{entry.date.format('MMM DD, YYYY')}</span>
+        <strong className="text-2xl">{entry.weight.toFixed(1)} lbs</strong>
       </div>
 
-      <div className="flex flex-col items-end">
-        <span className="text-xs text-gray-500">Body fat</span>
-        <strong className="text-2xl">{props.bodyFat}</strong>
-      </div>
+      {entry.bodyFat && (
+        <div className="flex flex-col items-end">
+          <span className="text-xs text-gray-500">Body fat</span>
+          <strong className="text-2xl">
+            {entry.bodyFat.toLocaleString(undefined, {
+              style: "percent",
+              minimumFractionDigits: 1,
+              maximumFractionDigits: 1,
+            })}
+          </strong>
+        </div>
+      )}
     </div>
   );
 };
 
 export interface IBodyCompRowProps {
-  date: string;
-  weight: string;
-  bodyFat: string;
+  entry: IBodyCompEntry;
 }
