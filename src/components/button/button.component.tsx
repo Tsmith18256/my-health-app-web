@@ -1,5 +1,4 @@
 import { ObjectValues } from "@/types/ObjectValues";
-import { createEnum } from '@/types/type-utilities/create-enum.type-utility';
 import { ComponentProps } from "react";
 
 export const Button = (props: IButtonProps) => {
@@ -15,17 +14,19 @@ export const Button = (props: IButtonProps) => {
   );
 };
 
-export const ButtonSize = createEnum({
+export const ButtonSize = {
+  Small: "Small",
   Medium: "Medium",
   Large: "Large",
-});
+} as const;
 
 export type ButtonSize = ObjectValues<typeof ButtonSize>;
 
-export const ButtonType = createEnum({
+export const ButtonType = {
+  Danger: "Danger",
+  Negative: "Negative",
   Primary: "Primary",
-  Negative: "Negative"
-});
+} as const;
 
 export type ButtonType = ObjectValues<typeof ButtonType>;
 
@@ -36,11 +37,13 @@ export interface IButtonProps
 }
 
 const classesBySize: Record<ButtonSize, string> = {
+  [ButtonSize.Small]: "p-2",
   [ButtonSize.Medium]: "p-3 text-lg",
   [ButtonSize.Large]: "p-4 text-2xl",
 };
 
 const classesByType: Record<ButtonType, string> = {
+  [ButtonType.Danger]: "bg-red-400 active:bg-red-600",
+  [ButtonType.Negative]: "bg-gray-300 active:bg-gray-500",
   [ButtonType.Primary]: "bg-orange-400 active:bg-orange-600",
-  [ButtonType.Negative]: "bg-gray-300 active:bg-gray-500"
 };

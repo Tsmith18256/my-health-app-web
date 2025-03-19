@@ -1,17 +1,31 @@
 import { Input } from "@/app/(app)/body-comp/input.component";
-import { Button, ButtonType } from "@/components/button/button.component";
-import { Header } from '@/components/header/header.component';
+import {
+  Button,
+  ButtonSize,
+  ButtonType,
+} from "@/components/button/button.component";
+import { Header } from "@/components/header/header.component";
 import { Heading, HeadingLevel } from "@/components/heading/heading.component";
 import Link from "next/link";
 
 export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
   const isEditMode = props.isEditMode ?? false;
+
   const title = isEditMode ? "Edit Entry" : "New Entry";
   const primaryButtonLabel = isEditMode ? "Save" : "Create";
+  const headerEndContent = isEditMode ? (
+    <Link href="/body-comp/log">
+      <div className="w-12">
+        <Button size={ButtonSize.Small} type={ButtonType.Danger}>
+          X
+        </Button>
+      </div>
+    </Link>
+  ) : undefined;
 
   return (
     <>
-      <Header title={title} />
+      <Header endContent={headerEndContent} title={title} />
 
       <form>
         <main className="flex flex-col gap-6 mt-6 pb-4 px-4">
