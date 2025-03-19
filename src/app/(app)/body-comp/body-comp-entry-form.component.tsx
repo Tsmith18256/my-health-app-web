@@ -6,7 +6,7 @@ import {
   ButtonSize,
   ButtonAppearance,
 } from "@/components/button/button.component";
-import { FormActionErrorToast } from '@/components/form-action-error-toast/form-action-error-toast.component';
+import { FormActionErrorToast } from "@/components/form-action-error-toast/form-action-error-toast.component";
 import { Header } from "@/components/header/header.component";
 import { Heading, HeadingLevel } from "@/components/heading/heading.component";
 import { Icon, IconImage } from "@/components/icon/icon.component";
@@ -18,10 +18,7 @@ const initialFormState = {
   message: "",
 };
 export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
-  const [state, formAction] = useActionState(
-    props.action,
-    initialFormState
-  );
+  const [state, formAction] = useActionState(props.action, initialFormState);
 
   const isEditMode = props.isEditMode ?? false;
 
@@ -153,5 +150,11 @@ export type IBodyCompEntryFormProps = (
   | IBodyCompEntryFormEditModeProps
   | IBodyCompEntryFormNewModeProps
 ) & {
-  action: Parameters<typeof useActionState<{ message: string }, FormData>>[0];
+  // action: Parameters<typeof useActionState<{ message: string }, FormData>>[0];
+  action:
+    | ((state: { message: string }, payload: FormData) => { message: string })
+    | ((
+        state: { message: string },
+        payload: FormData
+      ) => Promise<{ message: string }>);
 };

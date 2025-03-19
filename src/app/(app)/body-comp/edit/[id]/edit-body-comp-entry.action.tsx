@@ -1,10 +1,16 @@
-'use server';
+"use server";
 
-import { BodyCompEntryId, IBodyCompEntry } from '@/database/models/body-comp-entry.model';
-import dayjs from 'dayjs';
-import { redirect } from 'next/navigation';
+import {
+  BodyCompEntryId,
+  IBodyCompEntry,
+} from "@/database/models/body-comp-entry.model";
+import dayjs from "dayjs";
+import { redirect } from "next/navigation";
 
-export const editBodyCompEntry = async (_: { message: string; }, formData: FormData): Promise<{ message: string } | undefined> => {
+export const editBodyCompEntry = async (
+  _: { message: string },
+  formData: FormData
+): Promise<{ message: string }> => {
   const id = formData.get("entryId");
   const date = formData.get("date");
   const weight = formData.get("weight");
@@ -17,7 +23,7 @@ export const editBodyCompEntry = async (_: { message: string; }, formData: FormD
   if (!id || !date || !weight) {
     // This error shouldn't be possible if the client-side validation runs.
     return {
-      message: 'Missing required field'
+      message: "Missing required field",
     };
   }
 
@@ -34,10 +40,10 @@ export const editBodyCompEntry = async (_: { message: string; }, formData: FormD
     chestSkinfold: chestSkinfold
       ? parseFloat(chestSkinfold.toString())
       : undefined,
-    abSkinfold:
-      abSkinfold ? parseFloat(abSkinfold.toString()) : undefined,
-    thighSkinfold:
-      thighSkinfold ? parseFloat(thighSkinfold.toString()) : undefined,
+    abSkinfold: abSkinfold ? parseFloat(abSkinfold.toString()) : undefined,
+    thighSkinfold: thighSkinfold
+      ? parseFloat(thighSkinfold.toString())
+      : undefined,
   };
 
   console.log("EDITING ENTRY:", entry);
