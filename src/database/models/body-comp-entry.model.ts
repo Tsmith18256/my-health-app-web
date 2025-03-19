@@ -36,6 +36,6 @@ export const selectBodyCompEntries = (): Promise<IBodyCompEntry[]> => {
 
 export const selectBodyCompEntryById = (
   id: BodyCompEntryId
-): IBodyCompEntry | undefined => {
-  return mockEntries.find((entry) => entry.id === id);
+): Promise<IBodyCompEntry | undefined> => {
+  return Promise.resolve(mockEntries.find((entry) => entry.id === id));
 };

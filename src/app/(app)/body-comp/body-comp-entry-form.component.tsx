@@ -7,10 +7,7 @@ import {
 import { Header } from "@/components/header/header.component";
 import { Heading, HeadingLevel } from "@/components/heading/heading.component";
 import { Icon, IconImage } from "@/components/icon/icon.component";
-import {
-  BodyCompEntryId,
-  selectBodyCompEntryById,
-} from "@/database/models/body-comp-entry.model";
+import { IBodyCompEntry } from "@/database/models/body-comp-entry.model";
 import Link from "next/link";
 
 export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
@@ -27,8 +24,7 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
       </div>
     </Link>
   ) : undefined;
-
-  const entry = props.entryId && selectBodyCompEntryById(props.entryId);
+  const entry = props.entry;
 
   return (
     <>
@@ -62,7 +58,13 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
                 step="0.1"
                 type="number"
               />
-              <Input id="txtWaistCirc" defaultValue={entry?.waistCircumference?.toFixed(0)} label="Waist" step="0.1" type="number" />
+              <Input
+                id="txtWaistCirc"
+                defaultValue={entry?.waistCircumference?.toFixed(0)}
+                label="Waist"
+                step="0.1"
+                type="number"
+              />
             </section>
 
             <section className="flex flex-col gap-6">
@@ -109,6 +111,6 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
 export type IBodyCompEntryFormProps =
   | {
       isEditMode: true;
-      entryId: BodyCompEntryId;
+      entry: IBodyCompEntry;
     }
-  | { isEditMode?: false; entryId?: undefined };
+  | { isEditMode?: false; entry?: undefined };
