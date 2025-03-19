@@ -2,13 +2,14 @@ import { Input } from "@/app/(app)/body-comp/input.component";
 import {
   Button,
   ButtonSize,
-  ButtonType,
+  ButtonAppearance,
 } from "@/components/button/button.component";
 import { Header } from "@/components/header/header.component";
 import { Heading, HeadingLevel } from "@/components/heading/heading.component";
 import { Icon, IconImage } from "@/components/icon/icon.component";
 import { IBodyCompEntry } from "@/database/models/body-comp-entry.model";
 import Link from "next/link";
+import { ComponentProps } from "react";
 
 export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
   const isEditMode = props.isEditMode ?? false;
@@ -18,7 +19,7 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
   const headerEndContent = isEditMode ? (
     <Link href="/body-comp/log">
       <div className="text-lg w-12">
-        <Button size={ButtonSize.Small} type={ButtonType.Danger}>
+        <Button size={ButtonSize.Small} appearance={ButtonAppearance.Danger}>
           <Icon icon={IconImage.Trash} />
         </Button>
       </div>
@@ -30,18 +31,23 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
     <>
       <Header endContent={headerEndContent} title={title} />
 
-      <form>
+      <form action={props.action}>
         <main className="flex flex-col gap-6 mt-6 pb-4 px-4">
           <Input
             id="txtDate"
             defaultValue={entry?.date.format("YYYY-MM-DD")}
             label="Date"
+            name="date"
+            required
             type="date"
           />
           <Input
             id="txtWeight"
             defaultValue={entry?.weight.toFixed(1)}
             label="Weight"
+            min="0"
+            name="weight"
+            required
             step="0.1"
             type="number"
           />
@@ -55,6 +61,8 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
                 id="txtNeckCirc"
                 defaultValue={entry?.neckCircumference?.toFixed(0)}
                 label="Neck"
+                min="0"
+                name="neckCircumference"
                 step="0.1"
                 type="number"
               />
@@ -62,6 +70,8 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
                 id="txtWaistCirc"
                 defaultValue={entry?.waistCircumference?.toFixed(0)}
                 label="Waist"
+                min="0"
+                name="waistCircumference"
                 step="0.1"
                 type="number"
               />
@@ -73,6 +83,8 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
                 id="txtChestSkinfold"
                 defaultValue={entry?.chestSkinfold?.toFixed(0)}
                 label="Chest"
+                min="0"
+                name="chestSkinfold"
                 step="1"
                 type="number"
               />
@@ -80,6 +92,8 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
                 id="txtAbSkinfold"
                 defaultValue={entry?.abSkinfold?.toFixed(0)}
                 label="Abdominal"
+                min="0"
+                name="abSkinfold"
                 step="1"
                 type="number"
               />
@@ -87,6 +101,8 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
                 id="txtThighSkinfold"
                 defaultValue={entry?.thighSkinfold?.toFixed(0)}
                 label="Thigh"
+                min="0"
+                name="thighSkinfold"
                 step="1"
                 type="number"
               />
@@ -94,13 +110,13 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
           </section>
         </main>
 
-        <footer className="bg-(--background) border-t border-t-gray-400 bottom-0 flex gap-3 inset-x-0 justify-stretch px-4 py-6 sticky">
-          <Link className="grow" href="/body-comp/log">
-            <Button>{primaryButtonLabel}</Button>
-          </Link>
+        <footer className="bg-(--background) border-t border-t-gray-400 bottom-0 flex gap-3 inset-x-0 justify-stretch p-4 sticky">
+          <div className="grow">
+            <Button type="submit">{primaryButtonLabel}</Button>
+          </div>
 
           <Link className="grow" href="/body-comp/log">
-            <Button type={ButtonType.Negative}>Cancel</Button>
+            <Button appearance={ButtonAppearance.Negative}>Cancel</Button>
           </Link>
         </footer>
       </form>
@@ -108,9 +124,19 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
   );
 };
 
-export type IBodyCompEntryFormProps =
-  | {
-      isEditMode: true;
-      entry: IBodyCompEntry;
-    }
-  | { isEditMode?: false; entry?: undefined };
+interface IBodyCompEntryFormEditModeProps {
+  isEditMode: true;
+  entry: IBodyCompEntry;
+}
+
+interface IBodyCompEntryFormNewModeProps {
+  isEditMode?: false;
+  entry?: undefined;
+}
+
+export type IBodyCompEntryFormProps = (
+  | IBodyCompEntryFormEditModeProps
+  | IBodyCompEntryFormNewModeProps
+) & {
+  action?: ComponentProps<"form">["action"];
+};

@@ -9,26 +9,53 @@ export const Input = (props: IInputProps) => {
       <input
         id={props.id}
         className="border-1 h-14 rounded-lg px-3 width-full"
+        defaultValue={props.defaultValue}
+        min={props.min}
+        name={props.name}
+        required={props.required}
         step={props.step}
         type={type}
-        defaultValue={props.defaultValue}
       />
     </div>
   );
 };
 
-interface IInputNumberProps {
-  type: "number";
-  step?: ComponentProps<"input">["step"];
-}
+type IMinProps =
+  | {
+      type:
+        | "date"
+        | "datetime-local"
+        | "month"
+        | "number"
+        | "range"
+        | "time"
+        | "week";
+      min?: ComponentProps<"input">["min"];
+    }
+  | {
+      min?: undefined;
+    };
 
-interface IInputDateOrTextProps {
-  type?: "date" | "text";
-  step?: undefined;
-}
+type IStepProps =
+  | {
+      type:
+        | "date"
+        | "datetime-local"
+        | "month"
+        | "number"
+        | "range"
+        | "time"
+        | "week";
+      step?: ComponentProps<"input">["step"];
+    }
+  | { step?: undefined };
 
-export type IInputProps = (IInputNumberProps | IInputDateOrTextProps) & {
-  id: string;
-  label: string;
-  defaultValue?: ComponentProps<"input">["defaultValue"];
-};
+export type IInputProps = IMinProps &
+  IStepProps & {
+    id: string;
+    defaultValue?: ComponentProps<"input">["defaultValue"];
+    label: string;
+    name: string;
+    required?: ComponentProps<"input">["required"];
+    type: ComponentProps<"input">["type"];
+  };

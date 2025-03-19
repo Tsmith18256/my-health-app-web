@@ -15,6 +15,8 @@ export interface IBodyCompEntry {
   thighSkinfold?: number;
 }
 
+export type INewBodyCompEntry = Omit<IBodyCompEntry, 'id'>;
+
 const mockEntries: IBodyCompEntry[] = [];
 for (let i = 0; i < 20; i++) {
   mockEntries.push({
