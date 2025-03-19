@@ -6,6 +6,7 @@ import {
   ButtonSize,
   ButtonAppearance,
 } from "@/components/button/button.component";
+import { FormActionErrorToast } from '@/components/form-action-error-toast/form-action-error-toast.component';
 import { Header } from "@/components/header/header.component";
 import { Heading, HeadingLevel } from "@/components/heading/heading.component";
 import { Icon, IconImage } from "@/components/icon/icon.component";
@@ -17,7 +18,7 @@ const initialFormState = {
   message: "",
 };
 export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
-  const [state, formAction, pending] = useActionState(
+  const [state, formAction] = useActionState(
     props.action,
     initialFormState
   );
@@ -40,10 +41,7 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
     <>
       <Header endContent={headerEndContent} title={title} />
 
-      <div>
-        {pending && "Pending..."}
-        {state.message}
-      </div>
+      <FormActionErrorToast error={state} />
 
       <form action={formAction}>
         <Input defaultValue={props.id} name="entryId" type="hidden" />
