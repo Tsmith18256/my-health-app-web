@@ -1,4 +1,5 @@
 import { BodyCompEntryForm } from "@/app/(app)/body-comp/body-comp-entry-form.component";
+import { editBodyCompEntry } from '@/app/(app)/body-comp/edit/[id]/edit-body-comp-entry.action';
 import {
   BodyCompEntryId,
   selectBodyCompEntryById,
@@ -12,7 +13,16 @@ export default async function EditBodyCompEntryPage(
     parseInt(params.id, 10) as BodyCompEntryId
   );
 
-  return <BodyCompEntryForm isEditMode={true} entry={entry!} />;
+  const { date, ...otherEntryFields } = entry!;
+
+  return (
+    <BodyCompEntryForm
+      action={editBodyCompEntry}
+      isEditMode={true}
+      date={date.format("YYYY-MM-DD")}
+      {...otherEntryFields}
+    />
+  );
 }
 
 interface IEditBodyCompEntryPageProps {

@@ -25,7 +25,6 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
       </div>
     </Link>
   ) : undefined;
-  const entry = props.entry;
 
   return (
     <>
@@ -35,7 +34,7 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
         <main className="flex flex-col gap-6 mt-6 pb-4 px-4">
           <Input
             id="txtDate"
-            defaultValue={entry?.date.format("YYYY-MM-DD")}
+            defaultValue={props.date}
             label="Date"
             name="date"
             required
@@ -43,7 +42,7 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
           />
           <Input
             id="txtWeight"
-            defaultValue={entry?.weight.toFixed(1)}
+            defaultValue={props.weight?.toFixed(1)}
             label="Weight"
             min="0"
             name="weight"
@@ -59,7 +58,7 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
               <Heading level={HeadingLevel.h3}>Measuring tape</Heading>
               <Input
                 id="txtNeckCirc"
-                defaultValue={entry?.neckCircumference?.toFixed(0)}
+                defaultValue={props.neckCircumference?.toFixed(0)}
                 label="Neck"
                 min="0"
                 name="neckCircumference"
@@ -68,7 +67,7 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
               />
               <Input
                 id="txtWaistCirc"
-                defaultValue={entry?.waistCircumference?.toFixed(0)}
+                defaultValue={props.waistCircumference?.toFixed(0)}
                 label="Waist"
                 min="0"
                 name="waistCircumference"
@@ -81,7 +80,7 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
               <Heading level={HeadingLevel.h3}>Calipers (skinfold)</Heading>
               <Input
                 id="txtChestSkinfold"
-                defaultValue={entry?.chestSkinfold?.toFixed(0)}
+                defaultValue={props.chestSkinfold?.toFixed(0)}
                 label="Chest"
                 min="0"
                 name="chestSkinfold"
@@ -90,7 +89,7 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
               />
               <Input
                 id="txtAbSkinfold"
-                defaultValue={entry?.abSkinfold?.toFixed(0)}
+                defaultValue={props.abSkinfold?.toFixed(0)}
                 label="Abdominal"
                 min="0"
                 name="abSkinfold"
@@ -99,7 +98,7 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
               />
               <Input
                 id="txtThighSkinfold"
-                defaultValue={entry?.thighSkinfold?.toFixed(0)}
+                defaultValue={props.thighSkinfold?.toFixed(0)}
                 label="Thigh"
                 min="0"
                 name="thighSkinfold"
@@ -124,15 +123,16 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
   );
 };
 
-interface IBodyCompEntryFormEditModeProps {
+interface IBodyCompEntryFormEditModeProps extends Omit<IBodyCompEntry, "date"> {
   isEditMode: true;
-  entry: IBodyCompEntry;
+  date: string;
 }
 
-interface IBodyCompEntryFormNewModeProps {
+type IBodyCompEntryFormNewModeProps = {
+  [K in keyof IBodyCompEntry]?: undefined;
+} & {
   isEditMode?: false;
-  entry?: undefined;
-}
+};
 
 export type IBodyCompEntryFormProps = (
   | IBodyCompEntryFormEditModeProps
