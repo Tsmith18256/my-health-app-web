@@ -31,6 +31,8 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
       <Header endContent={headerEndContent} title={title} />
 
       <form action={props.action}>
+        <Input defaultValue={props.id} name="entryId" type="hidden" />
+
         <main className="flex flex-col gap-6 mt-6 pb-4 px-4">
           <Input
             id="txtDate"

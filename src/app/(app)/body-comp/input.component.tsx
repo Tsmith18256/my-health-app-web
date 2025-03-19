@@ -50,11 +50,18 @@ type IStepProps =
     }
   | { step?: undefined };
 
+type ITypeHiddenProps =
+  | {
+      id: string;
+      label: string;
+      type: Exclude<ComponentProps<"input">["type"], "hidden">;
+    }
+  | { id?: undefined; label?: undefined };
+
 export type IInputProps = IMinProps &
-  IStepProps & {
-    id: string;
+  IStepProps &
+  ITypeHiddenProps & {
     defaultValue?: ComponentProps<"input">["defaultValue"];
-    label: string;
     name: string;
     required?: ComponentProps<"input">["required"];
     type: ComponentProps<"input">["type"];

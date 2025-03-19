@@ -1,10 +1,11 @@
 'use server';
 
-import { INewBodyCompEntry } from '@/database/models/body-comp-entry.model';
+import { BodyCompEntryId, IBodyCompEntry } from '@/database/models/body-comp-entry.model';
 import dayjs from 'dayjs';
 import { redirect } from 'next/navigation';
 
 export const editBodyCompEntry = async (formData: FormData) => {
+  const id = formData.get("entryId");
   const date = formData.get("date");
   const weight = formData.get("weight");
   const neckCircumference = formData.get("neckCircumference");
@@ -13,13 +14,14 @@ export const editBodyCompEntry = async (formData: FormData) => {
   const abSkinfold = formData.get("abSkinfold");
   const thighSkinfold = formData.get("thighSkinfold");
 
-  if (!date || !weight) {
+  if (!id || !date || !weight) {
     console.error("INVALID INPUT");
 
     return;
   }
 
-  const entry: INewBodyCompEntry = {
+  const entry: IBodyCompEntry = {
+    id: parseInt(id.toString(), 10) as BodyCompEntryId,
     date: dayjs(date.toString()),
     weight: parseFloat(weight.toString()),
     neckCircumference: neckCircumference
