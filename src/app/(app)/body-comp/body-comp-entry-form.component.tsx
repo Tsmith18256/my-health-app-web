@@ -6,6 +6,7 @@ import {
 } from "@/components/button/button.component";
 import { Header } from "@/components/header/header.component";
 import { Heading, HeadingLevel } from "@/components/heading/heading.component";
+import { Icon, IconImage } from '@/components/icon/icon.component';
 import Link from "next/link";
 
 export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
@@ -15,9 +16,9 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
   const primaryButtonLabel = isEditMode ? "Save" : "Create";
   const headerEndContent = isEditMode ? (
     <Link href="/body-comp/log">
-      <div className="w-12">
+      <div className="text-lg w-12">
         <Button size={ButtonSize.Small} type={ButtonType.Danger}>
-          X
+          <Icon icon={IconImage.Trash} />
         </Button>
       </div>
     </Link>
