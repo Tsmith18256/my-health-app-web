@@ -1,6 +1,5 @@
 import { Icon, IconImage, IconSize } from '@/components/icon/icon.component';
 import Link from "next/link";
-import { ReactNode } from "react";
 
 export const BodyCompBottomNav = (props: IBodyCompBottomNavProps) => {
   return (
