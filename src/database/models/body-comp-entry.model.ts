@@ -7,7 +7,7 @@ export interface IBodyCompEntry {
   id: BodyCompEntryId;
   date: Dayjs;
   weight: number;
-  bodyFat: number;
+  bodyFat?: number;
   waistCircumference?: number;
   neckCircumference?: number;
   chestSkinfold?: number;
