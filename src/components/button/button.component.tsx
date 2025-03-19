@@ -1,4 +1,4 @@
-import { ObjectValues } from "@/types/ObjectValues";
+import { ObjectValues } from "@/types/object-values.types";
 import { ComponentProps } from "react";
 
 export const Button = (props: IButtonProps) => {
