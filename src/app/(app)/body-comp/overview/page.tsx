@@ -1,7 +1,6 @@
 import { BodyCompBottomNav } from "@/app/(app)/body-comp/body-comp-bottom-nav.component";
 import { Header } from "@/components/header/header.component";
 import { Heading, HeadingLevel } from "@/components/heading/heading.component";
-import Link from "next/link";
 
 export default function OverviewPage() {
   return (
