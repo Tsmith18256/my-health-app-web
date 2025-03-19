@@ -1,3 +1,5 @@
+"use client";
+
 import { Input } from "@/app/(app)/body-comp/input.component";
 import {
   Button,
@@ -9,9 +11,17 @@ import { Heading, HeadingLevel } from "@/components/heading/heading.component";
 import { Icon, IconImage } from "@/components/icon/icon.component";
 import { IBodyCompEntry } from "@/database/models/body-comp-entry.model";
 import Link from "next/link";
-import { ComponentProps } from "react";
+import { useActionState } from "react";
 
+const initialFormState = {
+  message: "",
+};
 export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
+  const [state, formAction, pending] = useActionState(
+    props.action,
+    initialFormState
+  );
+
   const isEditMode = props.isEditMode ?? false;
 
   const title = isEditMode ? "Edit Entry" : "New Entry";
@@ -30,7 +40,12 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
     <>
       <Header endContent={headerEndContent} title={title} />
 
-      <form action={props.action}>
+      <div>
+        {pending && "Pending..."}
+        {state.message}
+      </div>
+
+      <form action={formAction}>
         <Input defaultValue={props.id} name="entryId" type="hidden" />
 
         <main className="flex flex-col gap-6 mt-6 pb-4 px-4">
@@ -140,5 +155,5 @@ export type IBodyCompEntryFormProps = (
   | IBodyCompEntryFormEditModeProps
   | IBodyCompEntryFormNewModeProps
 ) & {
-  action?: ComponentProps<"form">["action"];
+  action: Parameters<typeof useActionState<{ message: string }, FormData>>[0];
 };

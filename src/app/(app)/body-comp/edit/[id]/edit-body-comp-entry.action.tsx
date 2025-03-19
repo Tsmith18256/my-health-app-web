@@ -4,7 +4,7 @@ import { BodyCompEntryId, IBodyCompEntry } from '@/database/models/body-comp-ent
 import dayjs from 'dayjs';
 import { redirect } from 'next/navigation';
 
-export const editBodyCompEntry = async (formData: FormData) => {
+export const editBodyCompEntry = async (_: { message: string; }, formData: FormData): Promise<{ message: string } | undefined> => {
   const id = formData.get("entryId");
   const date = formData.get("date");
   const weight = formData.get("weight");
@@ -15,9 +15,10 @@ export const editBodyCompEntry = async (formData: FormData) => {
   const thighSkinfold = formData.get("thighSkinfold");
 
   if (!id || !date || !weight) {
-    console.error("INVALID INPUT");
-
-    return;
+    // This error shouldn't be possible if the client-side validation runs.
+    return {
+      message: 'Missing required field'
+    };
   }
 
   const entry: IBodyCompEntry = {
