@@ -10,14 +10,14 @@ export default function LoginPage() {
       </div>
 
       <footer className="flex flex-col items-center mb-12 w-full">
-        <Link className="w-full" href="/body-comp/log">
+        <Link className="w-full" href="/sign-up">
           <Button size={ButtonSize.Large}>Sign up</Button>
         </Link>
 
         <div className="flex flex-col items-center mt-6">
           <span className="mb-1 text-sm">Already have an account?</span>
 
-          <Link className="w-40" href="/body-comp/log">
+          <Link className="w-40" href="/sign-in">
             <Button>Login</Button>
           </Link>
         </div>
