@@ -1,4 +1,5 @@
 import { Input } from "@/app/(app)/body-comp/input.component";
+import { saveOnboardingInformation } from '@/app/(auth)/onboarding/save-onboarding-information.action';
 import { Button } from "@/components/button/button.component";
 import { Header } from "@/components/header/header.component";
 import { Option } from "@/components/select/option.component";
@@ -10,7 +11,7 @@ export default function OnboardingPage() {
     <>
       <Header title="Welcome" />
 
-      <form>
+      <form action={saveOnboardingInformation}>
         <main className="flex flex-col gap-6 px-4 mt-6">
           <Input
             id="txtBirthday"
