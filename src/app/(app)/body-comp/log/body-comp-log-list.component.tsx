@@ -4,7 +4,6 @@ import Link from 'next/link';
 
 export const BodyCompLogList = async () => {
   const entries = await selectBodyCompEntries();
-  await wait(2000);
 
   return (
     <>
@@ -17,10 +16,4 @@ export const BodyCompLogList = async () => {
       })}
     </>
   );
-};
-
-const wait = (ms: number): Promise<void> => {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
 };

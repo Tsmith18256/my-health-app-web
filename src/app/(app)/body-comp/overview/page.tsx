@@ -1,11 +1,11 @@
 import { BodyCompBottomNav } from "@/app/(app)/body-comp/body-comp-bottom-nav.component";
 import { OverviewMetricRow } from "@/app/(app)/body-comp/overview/overview-metric-row.component";
-import { OverviewSection } from '@/app/(app)/body-comp/overview/overview-section.component';
+import { OverviewSection } from "@/app/(app)/body-comp/overview/overview-section.component";
 import { Header } from "@/components/header/header.component";
 import { Heading, HeadingLevel } from "@/components/heading/heading.component";
 import { selectBodyCompEntries } from "@/database/models/body-comp-entry.model";
 import { formatDateRelativeToToday } from "@/utils/dates/format-date-relative-to-today.util";
-import { UserButton } from '@clerk/nextjs';
+import { UserButton } from "@clerk/nextjs";
 import dayjs from "dayjs";
 
 export default async function OverviewPage() {
@@ -58,7 +58,7 @@ export default async function OverviewPage() {
     <div className="flex h-12 items-center justify-center w-12">
       <UserButton />
     </div>
-  )
+  );
 
   return (
     <>
@@ -82,7 +82,9 @@ export default async function OverviewPage() {
             <div className="flex flex-col">
               <span className="text-xs text-gray-500">Last 7 days</span>
               <strong className="text-2xl">
-                {last7DaysWeight?.toFixed(1)} lbs
+                {last7DaysWeight
+                  ? `${last7DaysWeight.toFixed(1)} lbs`
+                  : "No data"}
               </strong>
             </div>
           </div>
@@ -152,7 +154,9 @@ export default async function OverviewPage() {
             <OverviewMetricRow
               date={mostRecentThighSkinfoldEntry?.date}
               label="Thigh"
-              value={`${mostRecentThighSkinfoldEntry?.thighSkinfold?.toFixed(0)} mm`}
+              value={`${mostRecentThighSkinfoldEntry?.thighSkinfold?.toFixed(
+                0
+              )} mm`}
             />
           </div>
         </OverviewSection>
