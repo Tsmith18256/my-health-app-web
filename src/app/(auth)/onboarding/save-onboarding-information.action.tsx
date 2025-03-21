@@ -1,18 +1,42 @@
 "use server";
 
-export const saveOnboardingInformation = async (formData: FormData) => {
-  const birthday = formData.get('birthday');
-  const sex = formData.get('sex');
-  const height = formData.get('height');
+import { auth, clerkClient } from "@clerk/nextjs/server";
 
-  console.log('----------');
-  console.log('Submitting onboarding information');
-  console.log('Birthday:');
-  console.log(birthday);
-  console.log();
-  console.log('Sex:');
-  console.log(sex);
-  console.log();
-  console.log('Height:');
-  console.log(height);
+export const saveOnboardingInformation = async (
+  formData: FormData
+): Promise<{ isComplete: boolean; errorMessage?: string }> => {
+  const { userId } = await auth();
+
+  if (!userId) {
+    return {
+      isComplete: false,
+      errorMessage: "No user ID"
+    };
+  }
+
+  const birthday = formData.get("birthday");
+  const sex = formData.get("sex");
+  const height = formData.get("height");
+
+  const client = await clerkClient();
+
+  try {
+    await client.users.updateUser(userId, {
+      publicMetadata: {
+        onboardingComplete: true,
+        birthday,
+        height,
+        sex,
+      },
+    });
+
+    return {
+      isComplete: true,
+    };
+  } catch (err) {
+    return {
+      isComplete: false,
+      errorMessage: err instanceof Error ? err.message : String(err),
+    };
+  }
 };

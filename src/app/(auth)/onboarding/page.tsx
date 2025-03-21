@@ -1,17 +1,37 @@
+"use client";
+
 import { Input } from "@/app/(app)/body-comp/input.component";
-import { saveOnboardingInformation } from '@/app/(auth)/onboarding/save-onboarding-information.action';
+import { saveOnboardingInformation } from "@/app/(auth)/onboarding/save-onboarding-information.action";
 import { Button } from "@/components/button/button.component";
 import { Header } from "@/components/header/header.component";
 import { Option } from "@/components/select/option.component";
 import { Select } from "@/components/select/select.component";
+import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 import { ReactNode } from "react";
 
 export default function OnboardingPage() {
+  const router = useRouter();
+  const { user } = useUser();
+
+  const handleSubmit = async (formData: FormData) => {
+    const res = await saveOnboardingInformation(formData);
+
+    if (res.isComplete) {
+      await user?.reload();
+      router.push('/body-comp/log');
+    }
+
+    if (res.errorMessage) {
+      console.error('OH NO');
+    }
+  };
+
   return (
     <>
       <Header title="Welcome" />
 
-      <form action={saveOnboardingInformation}>
+      <form action={handleSubmit}>
         <main className="flex flex-col gap-6 px-4 mt-6">
           <Input
             id="txtBirthday"
