@@ -1,5 +1,6 @@
 import { sql } from "@/database/db";
 import { Brand } from "@/types/brand.type";
+import { convertUnits, WeightUnit } from "@/utils/units/convert-to-unit.util";
 import dayjs, { Dayjs } from "dayjs";
 
 export type BodyCompEntryId = Brand<number, "BodyCompEntryId">;
@@ -74,7 +75,11 @@ const convertModelToObject = (model: IBodyCompEntryModel): IBodyCompEntry => {
   return {
     id: model.id as BodyCompEntryId,
     date: dayjs(model.entry_date),
-    weight: model.weight_in_grams,
+    weight: convertUnits(
+      model.weight_in_grams,
+      WeightUnit.Grams,
+      WeightUnit.Pounds
+    ),
     bodyFat: 0.156,
     waistCircumference: model.waist_circ_in_mm,
     neckCircumference: model.neck_circ_in_mm,
