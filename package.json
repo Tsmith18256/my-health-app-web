@@ -3,15 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "next dev",
+    "lint": "next lint",
+    "migrate": "node ./migrations/migrate.mjs",
+    "start": "next start"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.12.6",
     "dayjs": "^1.11.13",
     "next": "15.2.2",
+    "postgres": "^3.4.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
@@ -23,6 +25,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.2.2",
+    "postgres-shift": "^0.1.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

@@ -16,5 +16,5 @@ export const formatDateRelativeToToday = (date: Dayjs) => {
     return date.format("dddd");
   }
 
-  return `${difference} days ago`;
+  return date.format('MMM D, YYYY');
 };
