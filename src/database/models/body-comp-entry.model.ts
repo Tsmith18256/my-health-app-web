@@ -8,12 +8,17 @@ import {
   convertWeightUnits,
   WeightUnit,
 } from "@/utils/units/convert-weight-units";
+import {
+  EmailAddress,
+  validateEmailAddress,
+} from "@/utils/validation/validate-email-address";
 import dayjs, { Dayjs } from "dayjs";
 
 export type BodyCompEntryId = Brand<number, "BodyCompEntryId">;
 
 export interface IBodyCompEntry {
   id: BodyCompEntryId;
+  userEmail: EmailAddress;
   date: Dayjs;
   weight: number;
   bodyFat?: number;
@@ -28,6 +33,7 @@ export type INewBodyCompEntry = Omit<IBodyCompEntry, "id">;
 
 interface IBodyCompEntryModel {
   id: number;
+  user_email: string;
   entry_date: string;
   weight_in_grams: number;
   waist_circ_in_mm?: number;
@@ -41,6 +47,7 @@ const mockEntries: IBodyCompEntry[] = [];
 for (let i = 0; i < 20; i++) {
   mockEntries.push({
     id: i as BodyCompEntryId,
+    userEmail: `email${i}@email.com` as EmailAddress,
     date: dayjs().subtract(i, "day"),
     weight: Math.random() * 5 + 172.5,
     bodyFat: (Math.random() + 15.2) / 100,
@@ -81,6 +88,7 @@ export const selectBodyCompEntryById = async (
 const convertModelToObject = (model: IBodyCompEntryModel): IBodyCompEntry => {
   return {
     id: model.id as BodyCompEntryId,
+    userEmail: validateEmailAddress(model.user_email),
     date: dayjs(model.entry_date),
     weight: convertWeightUnits(
       model.weight_in_grams,

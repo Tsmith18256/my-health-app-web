@@ -5,7 +5,7 @@ import { LoadingIndicator } from '@/components/loading-indicator/loading-indicat
 import Link from "next/link";
 import { Suspense } from 'react';
 
-export default function BodyCompLogPage() {
+export async function BodyCompLogPage() {
   return (
     <>
       <main className="mb-38">
