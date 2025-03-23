@@ -73,10 +73,11 @@ export default async function OverviewPage() {
           <div className="grid grid-cols-2 mt-2">
             <div className="flex flex-col">
               <span className="text-xs text-gray-500">
-                {formatDateRelativeToToday(mostRecentWeightEntry.date)}
+                {mostRecentWeightEntry &&
+                  formatDateRelativeToToday(mostRecentWeightEntry.date)}
               </span>
               <strong className="text-2xl">
-                {mostRecentWeightEntry.weight.toFixed(1)} lbs
+                {mostRecentWeightEntry?.weight.toFixed(1)} lbs
               </strong>
             </div>
             <div className="flex flex-col">

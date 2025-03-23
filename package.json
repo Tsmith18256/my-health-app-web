@@ -6,7 +6,7 @@
     "build": "next build",
     "dev": "next dev",
     "lint": "next lint",
-    "migrate": "node ./migrations/migrate.js",
+    "migrate": "node ./migrations/migrate.mjs",
     "start": "next start"
   },
   "dependencies": {
