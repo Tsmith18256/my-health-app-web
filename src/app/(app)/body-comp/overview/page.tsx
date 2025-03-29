@@ -1,9 +1,11 @@
 import { BodyCompBottomNav } from "@/app/(app)/body-comp/body-comp-bottom-nav.component";
 import { OverviewMetricRow } from "@/app/(app)/body-comp/overview/overview-metric-row.component";
+import { OverviewMetricsSection } from "@/app/(app)/body-comp/overview/overview-metrics-section.component";
 import { OverviewSection } from "@/app/(app)/body-comp/overview/overview-section.component";
 import { Header } from "@/components/header/header.component";
 import { Heading, HeadingLevel } from "@/components/heading/heading.component";
 import { selectBodyCompEntries } from "@/database/models/body-comp-entry.model";
+import { LengthUnit } from "@/enums/length-unit.enum";
 import { formatDateRelativeToToday } from "@/utils/dates/format-date-relative-to-today.util";
 import { UserButton } from "@clerk/nextjs";
 import dayjs from "dayjs";
@@ -72,13 +74,18 @@ export default async function OverviewPage() {
 
           <div className="grid grid-cols-2 mt-2">
             <div className="flex flex-col">
-              <span className="text-xs text-gray-500">
-                {mostRecentWeightEntry &&
-                  formatDateRelativeToToday(mostRecentWeightEntry.date)}
-              </span>
-              <strong className="text-2xl">
-                {mostRecentWeightEntry?.weight.toFixed(1)} lbs
-              </strong>
+              <>
+                <span className="text-xs text-gray-500">
+                  {mostRecentWeightEntry
+                    ? formatDateRelativeToToday(mostRecentWeightEntry.date)
+                    : "Most recent"}
+                </span>
+                <strong className="text-2xl">
+                  {mostRecentWeightEntry?.weight
+                    ? `${mostRecentWeightEntry.weight.toFixed(1)} lbs`
+                    : "No data"}
+                </strong>
+              </>
             </div>
             <div className="flex flex-col">
               <span className="text-xs text-gray-500">Last 7 days</span>
@@ -111,55 +118,44 @@ export default async function OverviewPage() {
             })}
           />
 
-          <div className="mt-2">
-            <Heading level={HeadingLevel.h6} tag={HeadingLevel.h3}>
-              Measuring tape
-            </Heading>
-
+          <OverviewMetricsSection title="Measuring tape">
             <OverviewMetricRow
               date={mostRecentNeckCircEntry?.date}
               label="Neck"
-              value={`${mostRecentNeckCircEntry?.neckCircumference?.toFixed(
-                1
-              )}"`}
+              lengthUnit={LengthUnit.Inches}
+              value={mostRecentNeckCircEntry?.neckCircumference?.toFixed(1)}
             />
 
             <OverviewMetricRow
               date={mostRecentWaistCircEntry?.date}
               label="Waist"
-              value={`${mostRecentWaistCircEntry?.waistCircumference?.toFixed(
-                1
-              )}"`}
+              lengthUnit={LengthUnit.Inches}
+              value={mostRecentWaistCircEntry?.waistCircumference?.toFixed(1)}
             />
-          </div>
+          </OverviewMetricsSection>
 
-          <div className="mt-2">
-            <Heading level={HeadingLevel.h6} tag={HeadingLevel.h3}>
-              Calipers (skinfold)
-            </Heading>
-
+          <OverviewMetricsSection title="Calipers (skinfold)">
             <OverviewMetricRow
               date={mostRecentChestSkinfoldEntry?.date}
               label="Chest"
-              value={`${mostRecentChestSkinfoldEntry?.chestSkinfold?.toFixed(
-                0
-              )} mm`}
+              lengthUnit={LengthUnit.Millimeters}
+              value={mostRecentChestSkinfoldEntry?.chestSkinfold?.toFixed(0)}
             />
 
             <OverviewMetricRow
               date={mostRecentAbSkinfoldEntry?.date}
               label="Abdominal"
-              value={`${mostRecentAbSkinfoldEntry?.abSkinfold?.toFixed(0)} mm`}
+              lengthUnit={LengthUnit.Millimeters}
+              value={mostRecentAbSkinfoldEntry?.abSkinfold?.toFixed(0)}
             />
 
             <OverviewMetricRow
               date={mostRecentThighSkinfoldEntry?.date}
               label="Thigh"
-              value={`${mostRecentThighSkinfoldEntry?.thighSkinfold?.toFixed(
-                0
-              )} mm`}
+              lengthUnit={LengthUnit.Millimeters}
+              value={mostRecentThighSkinfoldEntry?.thighSkinfold?.toFixed(0)}
             />
-          </div>
+          </OverviewMetricsSection>
         </OverviewSection>
       </main>
 
