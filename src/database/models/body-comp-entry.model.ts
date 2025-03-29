@@ -30,7 +30,7 @@ export type INewBodyCompEntry = Omit<IBodyCompEntry, "id">;
 interface IBodyCompEntryModel {
   ab_skinfold?: number;
   chest_skinfold?: number;
-  entry_date: string;
+  entry_date: Date;
   id: number;
   neck_circ_in_mm?: number;
   thigh_skinfold?: number;
@@ -107,7 +107,7 @@ export const insertBodyCompEntry = async (
     return convertModelToObject(createdEntry);
   }
 
-  throw new Error('Unknown error inserting user');
+  throw new Error("Unknown error inserting user");
 };
 
 export const selectBodyCompEntries = async (): Promise<IBodyCompEntry[]> => {
@@ -138,22 +138,11 @@ export const selectBodyCompEntryById = async (
 
 const convertModelToObject = (model: IBodyCompEntryModel): IBodyCompEntry => {
   return {
-    id: model.id as BodyCompEntryId,
-    userEmail: validateEmailAddress(model.user_email),
-    date: dayjs(model.entry_date),
-    weight: convertWeightUnits(
-      model.weight_in_grams,
-      WeightUnit.Grams,
-      WeightUnit.Pounds
-    ),
+    abSkinfold: model.ab_skinfold,
     bodyFat: 0.156,
-    waistCircumference:
-      model.waist_circ_in_mm &&
-      convertLengthUnits(
-        model.waist_circ_in_mm,
-        LengthUnit.Millimeters,
-        LengthUnit.Inches
-      ),
+    chestSkinfold: model.chest_skinfold,
+    date: dayjs(model.entry_date.toISOString().substring(0, 10)),
+    id: model.id as BodyCompEntryId,
     neckCircumference:
       model.neck_circ_in_mm &&
       convertLengthUnits(
@@ -161,9 +150,20 @@ const convertModelToObject = (model: IBodyCompEntryModel): IBodyCompEntry => {
         LengthUnit.Millimeters,
         LengthUnit.Inches
       ),
-    chestSkinfold: model.chest_skinfold,
-    abSkinfold: model.ab_skinfold,
     thighSkinfold: model.thigh_skinfold,
+    userEmail: validateEmailAddress(model.user_email),
+    waistCircumference:
+      model.waist_circ_in_mm &&
+      convertLengthUnits(
+        model.waist_circ_in_mm,
+        LengthUnit.Millimeters,
+        LengthUnit.Inches
+      ),
+    weight: convertWeightUnits(
+      model.weight_in_grams,
+      WeightUnit.Grams,
+      WeightUnit.Pounds
+    ),
   };
 };
 
