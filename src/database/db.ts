@@ -7,7 +7,4 @@ const databaseUrl = isDev
 
 export const sql = postgres(databaseUrl, {
   ssl: isDev ? undefined : "verify-full",
-  transform: {
-    undefined: null
-  }
 });

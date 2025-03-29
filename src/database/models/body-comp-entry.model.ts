@@ -28,14 +28,14 @@ export interface IBodyCompEntry {
 export type INewBodyCompEntry = Omit<IBodyCompEntry, "id">;
 
 interface IBodyCompEntryModel {
-  ab_skinfold?: number;
-  chest_skinfold?: number;
+  ab_skinfold: number | null;
+  chest_skinfold: number | null;
   entry_date: Date;
   id: number;
-  neck_circ_in_mm?: number;
-  thigh_skinfold?: number;
+  neck_circ_in_mm: number | null;
+  thigh_skinfold: number | null;
   user_email: string;
-  waist_circ_in_mm?: number;
+  waist_circ_in_mm: number | null;
   weight_in_grams: number;
 }
 
@@ -138,22 +138,22 @@ export const selectBodyCompEntryById = async (
 
 const convertModelToObject = (model: IBodyCompEntryModel): IBodyCompEntry => {
   return {
-    abSkinfold: model.ab_skinfold,
+    abSkinfold: model.ab_skinfold ?? undefined,
     bodyFat: 0.156,
-    chestSkinfold: model.chest_skinfold,
+    chestSkinfold: model.chest_skinfold ?? undefined,
     date: dayjs(model.entry_date.toISOString().substring(0, 10)),
     id: model.id as BodyCompEntryId,
     neckCircumference:
-      model.neck_circ_in_mm &&
+      model.neck_circ_in_mm === null ? undefined :
       convertLengthUnits(
         model.neck_circ_in_mm,
         LengthUnit.Millimeters,
         LengthUnit.Inches
       ),
-    thighSkinfold: model.thigh_skinfold,
+    thighSkinfold: model.thigh_skinfold ?? undefined,
     userEmail: validateEmailAddress(model.user_email),
     waistCircumference:
-      model.waist_circ_in_mm &&
+      model.waist_circ_in_mm === null ? undefined :
       convertLengthUnits(
         model.waist_circ_in_mm,
         LengthUnit.Millimeters,
