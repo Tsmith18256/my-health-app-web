@@ -4,6 +4,8 @@ import {
   BodyCompEntryId,
   IBodyCompEntry,
 } from "@/database/models/body-comp-entry.model";
+import { EmailAddress } from '@/utils/validation/validate-email-address';
+import { currentUser } from '@clerk/nextjs/server';
 import dayjs from "dayjs";
 import { redirect } from "next/navigation";
 
@@ -27,6 +29,15 @@ export const editBodyCompEntry = async (
     };
   }
 
+  const user = await currentUser();
+  const emailAddress = user?.emailAddresses[0]?.emailAddress;
+
+  if (!emailAddress) {
+    return {
+      message: "Authentication failed"
+    };
+  }
+
   const entry: IBodyCompEntry = {
     id: parseInt(id.toString(), 10) as BodyCompEntryId,
     date: dayjs(date.toString()),
@@ -44,6 +55,7 @@ export const editBodyCompEntry = async (
     thighSkinfold: thighSkinfold
       ? parseFloat(thighSkinfold.toString())
       : undefined,
+    userEmail: emailAddress as EmailAddress
   };
 
   console.log("EDITING ENTRY:", entry);

@@ -1,6 +1,8 @@
 "use server";
 
 import { INewBodyCompEntry } from "@/database/models/body-comp-entry.model";
+import { EmailAddress } from "@/utils/validation/validate-email-address";
+import { currentUser } from "@clerk/nextjs/server";
 import dayjs from "dayjs";
 import { redirect } from "next/navigation";
 
@@ -23,6 +25,15 @@ export const createBodyCompEntry = async (
     };
   }
 
+  const user = await currentUser();
+  const emailAddress = user?.emailAddresses[0]?.emailAddress;
+
+  if (!emailAddress) {
+    return {
+      message: "Authentication failed",
+    };
+  }
+
   const entry: INewBodyCompEntry = {
     date: dayjs(date.toString()),
     weight: parseFloat(weight.toString()),
@@ -39,6 +50,7 @@ export const createBodyCompEntry = async (
     thighSkinfold: thighSkinfold
       ? parseFloat(thighSkinfold.toString())
       : undefined,
+    userEmail: emailAddress as EmailAddress,
   };
 
   console.log("INSERTING ENTRY:", entry);

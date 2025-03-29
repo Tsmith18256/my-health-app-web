@@ -1,13 +1,9 @@
 import { sql } from "@/database/db";
+import { LengthUnit } from '@/enums/length-unit.enum';
+import { WeightUnit } from '@/enums/weight-unit.enum';
 import { Brand } from "@/types/brand.type";
-import {
-  convertLengthUnits,
-  LengthUnit,
-} from "@/utils/units/convert-length-units";
-import {
-  convertWeightUnits,
-  WeightUnit,
-} from "@/utils/units/convert-weight-units";
+import { convertLengthUnits } from "@/utils/units/convert-length-units";
+import { convertWeightUnits } from "@/utils/units/convert-weight-units";
 import {
   EmailAddress,
   validateEmailAddress,
