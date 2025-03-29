@@ -1,6 +1,6 @@
 import { sql } from "@/database/db";
-import { LengthUnit } from '@/enums/length-unit.enum';
-import { WeightUnit } from '@/enums/weight-unit.enum';
+import { LengthUnit } from "@/enums/length-unit.enum";
+import { WeightUnit } from "@/enums/weight-unit.enum";
 import { Brand } from "@/types/brand.type";
 import { convertLengthUnits } from "@/utils/units/convert-length-units";
 import { convertWeightUnits } from "@/utils/units/convert-weight-units";
@@ -13,47 +13,102 @@ import dayjs, { Dayjs } from "dayjs";
 export type BodyCompEntryId = Brand<number, "BodyCompEntryId">;
 
 export interface IBodyCompEntry {
-  id: BodyCompEntryId;
-  userEmail: EmailAddress;
-  date: Dayjs;
-  weight: number;
-  bodyFat?: number;
-  waistCircumference?: number;
-  neckCircumference?: number;
-  chestSkinfold?: number;
   abSkinfold?: number;
+  bodyFat?: number;
+  chestSkinfold?: number;
+  date: Dayjs;
+  id: BodyCompEntryId;
+  neckCircumference?: number;
   thighSkinfold?: number;
+  userEmail: EmailAddress;
+  waistCircumference?: number;
+  weight: number;
 }
 
 export type INewBodyCompEntry = Omit<IBodyCompEntry, "id">;
 
 interface IBodyCompEntryModel {
-  id: number;
-  user_email: string;
-  entry_date: string;
-  weight_in_grams: number;
-  waist_circ_in_mm?: number;
-  neck_circ_in_mm?: number;
-  chest_skinfold?: number;
   ab_skinfold?: number;
+  chest_skinfold?: number;
+  entry_date: string;
+  id: number;
+  neck_circ_in_mm?: number;
   thigh_skinfold?: number;
+  user_email: string;
+  waist_circ_in_mm?: number;
+  weight_in_grams: number;
 }
 
-const mockEntries: IBodyCompEntry[] = [];
-for (let i = 0; i < 20; i++) {
-  mockEntries.push({
-    id: i as BodyCompEntryId,
-    userEmail: `email${i}@email.com` as EmailAddress,
-    date: dayjs().subtract(i, "day"),
-    weight: Math.random() * 5 + 172.5,
-    bodyFat: (Math.random() + 15.2) / 100,
-    waistCircumference: Math.random() * 3 + 34,
-    neckCircumference: Math.random() * 1 + 15,
-    chestSkinfold: Math.random() * 3 + 10,
-    abSkinfold: Math.random() * 4 + 14,
-    thighSkinfold: Math.random() * 3 + 14,
-  });
-}
+export const insertBodyCompEntry = async (
+  inputEntry: INewBodyCompEntry
+): Promise<IBodyCompEntry> => {
+  const date = inputEntry.date.format("YYYY-MM-DD");
+  const [createdEntry] = await sql<IBodyCompEntryModel[]>`
+    INSERT INTO body_comp_entries (
+      ab_skinfold,
+      chest_skinfold,
+      entry_date,
+      neck_circ_in_mm,
+      thigh_skinfold,
+      user_email,
+      waist_circ_in_mm,
+      weight_in_grams
+    ) VALUES (
+      ${
+        inputEntry.abSkinfold === undefined
+          ? null
+          : Math.round(inputEntry.abSkinfold)
+      },
+      ${
+        inputEntry.chestSkinfold === undefined
+          ? null
+          : Math.round(inputEntry.chestSkinfold)
+      },
+      ${date},
+      ${
+        inputEntry.neckCircumference === undefined
+          ? null
+          : Math.round(
+              convertLengthUnits(
+                inputEntry.neckCircumference,
+                LengthUnit.Inches,
+                LengthUnit.Millimeters
+              )
+            )
+      },
+      ${
+        inputEntry.thighSkinfold === undefined
+          ? null
+          : Math.round(inputEntry.thighSkinfold)
+      },
+      ${inputEntry.userEmail},
+      ${
+        inputEntry.waistCircumference === undefined
+          ? null
+          : Math.round(
+              convertLengthUnits(
+                inputEntry.waistCircumference,
+                LengthUnit.Inches,
+                LengthUnit.Millimeters
+              )
+            )
+      },
+      ${Math.round(
+        convertWeightUnits(
+          inputEntry.weight,
+          WeightUnit.Pounds,
+          WeightUnit.Grams
+        )
+      )}
+    ) RETURNING *
+  `;
+
+  if (createdEntry) {
+    return convertModelToObject(createdEntry);
+  }
+
+  throw new Error('Unknown error inserting user');
+};
 
 export const selectBodyCompEntries = async (): Promise<IBodyCompEntry[]> => {
   const models = await sql<IBodyCompEntryModel[]>`
