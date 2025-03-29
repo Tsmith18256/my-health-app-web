@@ -1,6 +1,9 @@
 "use server";
 
-import { INewBodyCompEntry } from "@/database/models/body-comp-entry.model";
+import {
+  INewBodyCompEntry,
+  insertBodyCompEntry,
+} from "@/database/models/body-comp-entry.model";
 import { EmailAddress } from "@/utils/validation/validate-email-address";
 import { currentUser } from "@clerk/nextjs/server";
 import dayjs from "dayjs";
@@ -36,6 +39,7 @@ export const createBodyCompEntry = async (
 
   const entry: INewBodyCompEntry = {
     date: dayjs(date.toString()),
+    userEmail: emailAddress as EmailAddress,
     weight: parseFloat(weight.toString()),
     neckCircumference: neckCircumference
       ? parseFloat(neckCircumference.toString())
@@ -50,10 +54,15 @@ export const createBodyCompEntry = async (
     thighSkinfold: thighSkinfold
       ? parseFloat(thighSkinfold.toString())
       : undefined,
-    userEmail: emailAddress as EmailAddress,
   };
 
-  console.log("INSERTING ENTRY:", entry);
+  try {
+    await insertBodyCompEntry(entry);
+  } catch (err) {
+    return {
+      message: err instanceof Error ? err.message : String(err),
+    };
+  }
 
   redirect("/body-comp/log");
 };
