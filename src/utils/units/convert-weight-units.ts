@@ -1,4 +1,4 @@
-import { ObjectValues } from "@/types/object-values.types";
+import { WeightUnit } from '@/enums/weight-unit.enum';
 
 export const convertWeightUnits = (
   amount: number,
@@ -9,12 +9,6 @@ export const convertWeightUnits = (
 
   return grams / gramsPerUnit[to];
 };
-
-export const WeightUnit = {
-  Grams: "g",
-  Pounds: "lb",
-} as const;
-export type WeightUnit = ObjectValues<typeof WeightUnit>;
 
 const gramsPerUnit: Record<WeightUnit, number> = {
   [WeightUnit.Grams]: 1,

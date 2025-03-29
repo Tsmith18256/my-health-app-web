@@ -1,4 +1,4 @@
-import { ObjectValues } from "@/types/object-values.types";
+import { LengthUnit } from '@/enums/length-unit.enum';
 
 export const convertLengthUnits = (
   amount: number,
@@ -9,12 +9,6 @@ export const convertLengthUnits = (
 
   return grams / millimetersPerUnit[to];
 };
-
-export const LengthUnit = {
-  Inches: "in",
-  Millimeters: "mm",
-} as const;
-export type LengthUnit = ObjectValues<typeof LengthUnit>;
 
 const millimetersPerUnit: Record<LengthUnit, number> = {
   [LengthUnit.Inches]: 25.4,
