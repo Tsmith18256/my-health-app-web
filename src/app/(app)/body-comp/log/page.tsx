@@ -1,7 +1,7 @@
-import { BodyCompBottomNav } from "@/app/(app)/body-comp/body-comp-bottom-nav.component";
-import { BodyCompLogList } from '@/app/(app)/body-comp/log/body-comp-log-list.component';
-import { FloatingActionButton } from "@/app/(app)/body-comp/log/floating-action-button.component";
-import { LoadingIndicator } from '@/components/loading-indicator/loading-indicator.component';
+import { BodyCompBottomNav } from "@/body-comp/body-comp-bottom-nav.component";
+import { BodyCompLogList } from '@/body-comp/log/body-comp-log-list.component';
+import { FloatingActionButton } from "@/shared/components/buttons/floating-action-button/floating-action-button.component";
+import { LoadingIndicator } from '@/shared/components/loading-indicator/loading-indicator.component';
 import Link from "next/link";
 import { Suspense } from 'react';
 
