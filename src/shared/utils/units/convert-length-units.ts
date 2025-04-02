@@ -11,6 +11,7 @@ export const convertLengthUnits = (
 };
 
 const millimetersPerUnit: Record<LengthUnit, number> = {
+  [LengthUnit.Centimeters]: 10,
   [LengthUnit.Inches]: 25.4,
   [LengthUnit.Millimeters]: 1
 };
