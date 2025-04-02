@@ -7,11 +7,18 @@ import { Heading, HeadingLevel } from "@/components/heading/heading.component";
 import { selectBodyCompEntries } from "@/database/models/body-comp-entry.model";
 import { LengthUnit } from "@/enums/length-unit.enum";
 import { formatDateRelativeToToday } from "@/utils/dates/format-date-relative-to-today.util";
+import { EmailAddress } from '@/utils/validation/validate-email-address';
 import { UserButton } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs/server";
 import dayjs from "dayjs";
 
 export default async function OverviewPage() {
-  const entries = await selectBodyCompEntries();
+  const user = await currentUser();
+  const userEmail = user?.emailAddresses[0]?.emailAddress as EmailAddress;
+
+  const entries = await selectBodyCompEntries({
+    userEmail,
+  });
   const sortedEntries = entries.toSorted((entryA, entryB) =>
     entryB.date.diff(entryA.date)
   );
