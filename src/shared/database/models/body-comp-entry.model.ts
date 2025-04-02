@@ -114,6 +114,69 @@ export const selectBodyCompEntryById = async (
   return convertModelToObject(model[0]);
 };
 
+export const updateBodyCompEntry = async (
+  inputEntry: IBodyCompEntry
+): Promise<IBodyCompEntry> => {
+  const date = inputEntry.date.format("YYYY-MM-DD");
+  const [updatedEntry] = await sql<IBodyCompEntryModel[]>`
+    UPDATE body_comp_entries SET
+        ab_skinfold = ${
+          inputEntry.abSkinfold === undefined
+            ? null
+            : Math.round(inputEntry.abSkinfold)
+        },
+        chest_skinfold = ${
+          inputEntry.chestSkinfold === undefined
+            ? null
+            : Math.round(inputEntry.chestSkinfold)
+        },
+        entry_date = ${date},
+        neck_circ_in_mm = ${
+          inputEntry.neckCircumference === undefined
+            ? null
+            : Math.round(
+                convertLengthUnits(
+                  inputEntry.neckCircumference,
+                  LengthUnit.Inches,
+                  LengthUnit.Millimeters
+                )
+              )
+        },
+        thigh_skinfold = ${
+          inputEntry.thighSkinfold === undefined
+            ? null
+            : Math.round(inputEntry.thighSkinfold)
+        },
+        user_email = ${inputEntry.userEmail},
+        waist_circ_in_mm = ${
+          inputEntry.waistCircumference === undefined
+            ? null
+            : Math.round(
+                convertLengthUnits(
+                  inputEntry.waistCircumference,
+                  LengthUnit.Inches,
+                  LengthUnit.Millimeters
+                )
+              )
+        },
+        weight_in_grams = ${Math.round(
+          convertWeightUnits(
+            inputEntry.weight,
+            WeightUnit.Pounds,
+            WeightUnit.Grams
+          )
+        )}
+      WHERE id = ${inputEntry.id}
+        RETURNING *
+  `;
+
+  if (updatedEntry) {
+    return convertModelToObject(updatedEntry);
+  }
+
+  throw new Error("Unknown error inserting user");
+};
+
 const convertModelToObject = (model: IBodyCompEntryModel): IBodyCompEntry => {
   return {
     abSkinfold: model.ab_skinfold ?? undefined,

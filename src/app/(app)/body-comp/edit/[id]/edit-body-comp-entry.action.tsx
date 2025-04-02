@@ -3,9 +3,10 @@
 import {
   BodyCompEntryId,
   IBodyCompEntry,
+  updateBodyCompEntry,
 } from "@/shared/database/models/body-comp-entry.model";
-import { EmailAddress } from '@/shared/utils/validation/validate-email-address';
-import { currentUser } from '@clerk/nextjs/server';
+import { EmailAddress } from "@/shared/utils/validation/validate-email-address";
+import { currentUser } from "@clerk/nextjs/server";
 import dayjs from "dayjs";
 import { redirect } from "next/navigation";
 
@@ -34,7 +35,7 @@ export const editBodyCompEntry = async (
 
   if (!emailAddress) {
     return {
-      message: "Authentication failed"
+      message: "Authentication failed",
     };
   }
 
@@ -55,10 +56,16 @@ export const editBodyCompEntry = async (
     thighSkinfold: thighSkinfold
       ? parseFloat(thighSkinfold.toString())
       : undefined,
-    userEmail: emailAddress as EmailAddress
+    userEmail: emailAddress as EmailAddress,
   };
 
-  console.log("EDITING ENTRY:", entry);
+  try {
+    await updateBodyCompEntry(entry);
+  } catch (err) {
+    return {
+      message: err instanceof Error ? err.message : String(err),
+    };
+  }
 
   redirect("/body-comp/log");
 };
