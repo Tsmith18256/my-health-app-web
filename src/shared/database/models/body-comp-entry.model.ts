@@ -10,6 +10,13 @@ import {
 } from "@/shared/utils/validation/validate-email-address";
 import dayjs, { Dayjs } from "dayjs";
 
+export const deleteBodyCompEntryById = async (id: BodyCompEntryId) => {
+  await sql`
+    DELETE FROM body_comp_entries
+      WHERE id = ${id}
+  `;
+};
+
 export const insertBodyCompEntry = async (
   inputEntry: INewBodyCompEntry
 ): Promise<IBodyCompEntry> => {

@@ -2,16 +2,19 @@ import { ObjectValues } from "@/shared/types/object-values.types";
 import { ComponentProps } from "react";
 
 export const Button = (props: IButtonProps) => {
-  const appearance = props.appearance ?? ButtonAppearance.Primary;
-  const size = props.size ?? ButtonSize.Medium;
+  const {
+    appearance = ButtonAppearance.Primary,
+    size = ButtonSize.Medium,
+    ...buttonProps
+  } = props;
+  // const appearance = props.appearance ?? ButtonAppearance.Primary;
+  // const size = props.size ?? ButtonSize.Medium;
 
   return (
     <button
       className={`border-3 font-semibold rounded-lg text-black w-full ${classesBySize[size]} ${classesByAppearance[appearance]}`}
-      type={props.type}
-    >
-      {props.children}
-    </button>
+      {...buttonProps}
+    />
   );
 };
 
@@ -32,7 +35,7 @@ export const ButtonSize = {
 export type ButtonSize = ObjectValues<typeof ButtonSize>;
 
 export interface IButtonProps
-  extends Pick<ComponentProps<"button">, "children" | "type"> {
+  extends Pick<ComponentProps<"button">, "children" | "onClick" | "type"> {
   appearance?: ButtonAppearance;
   size?: ButtonSize;
 }
