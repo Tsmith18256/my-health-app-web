@@ -187,7 +187,6 @@ export const updateBodyCompEntry = async (
 const convertModelToObject = (model: IBodyCompEntryModel): IBodyCompEntry => {
   return {
     abSkinfold: model.ab_skinfold ?? undefined,
-    bodyFat: 0.156,
     chestSkinfold: model.chest_skinfold ?? undefined,
     date: dayjs(model.entry_date.toISOString().substring(0, 10)),
     id: model.id as BodyCompEntryId,
@@ -227,7 +226,6 @@ export type BodyCompEntryId = Brand<number, "BodyCompEntryId">;
 
 export interface IBodyCompEntry {
   abSkinfold?: number;
-  bodyFat?: number;
   chestSkinfold?: number;
   date: Dayjs;
   id: BodyCompEntryId;

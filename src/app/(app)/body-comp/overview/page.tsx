@@ -1,13 +1,17 @@
 import { BodyCompBottomNav } from "@/body-comp/body-comp-bottom-nav.component";
+import { calculateNavyBodyFat } from "@/body-comp/calculate-body-fat";
 import { OverviewMetricRow } from "@/body-comp/overview/overview-metric-row.component";
 import { OverviewMetricsSection } from "@/body-comp/overview/overview-metrics-section.component";
 import { OverviewSection } from "@/body-comp/overview/overview-section.component";
 import { Header } from "@/shared/components/header/header.component";
-import { Heading, HeadingLevel } from "@/shared/components/heading/heading.component";
+import {
+  Heading,
+  HeadingLevel,
+} from "@/shared/components/heading/heading.component";
 import { selectBodyCompEntries } from "@/shared/database/models/body-comp-entry.model";
 import { LengthUnit } from "@/shared/enums/length-unit.enum";
 import { formatDateRelativeToToday } from "@/shared/utils/dates/format-date-relative-to-today.util";
-import { EmailAddress } from '@/shared/utils/validation/validate-email-address';
+import { EmailAddress } from "@/shared/utils/validation/validate-email-address";
 import { UserButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
 import dayjs from "dayjs";
@@ -44,9 +48,14 @@ export default async function OverviewPage() {
       ? undefined
       : last7DaysData.sum / last7DaysData.entries;
 
-  const mostRecentBodyFatEntry = sortedEntries.find(
-    (entry) => entry.bodyFat !== undefined
-  );
+  const mostRecentBodyFatEntry = sortedEntries.find((entry) => {
+    return (
+      calculateNavyBodyFat({
+        height: 71,
+        entry,
+      }) !== null
+    );
+  });
   const mostRecentNeckCircEntry = sortedEntries.find(
     (entry) => entry.neckCircumference !== undefined
   );
@@ -118,11 +127,17 @@ export default async function OverviewPage() {
           <OverviewMetricRow
             date={mostRecentBodyFatEntry?.date}
             label="Body fat"
-            value={mostRecentBodyFatEntry?.bodyFat?.toLocaleString(undefined, {
-              style: "percent",
-              minimumFractionDigits: 1,
-              maximumFractionDigits: 1,
-            })}
+            value={
+              mostRecentBodyFatEntry &&
+              calculateNavyBodyFat({
+                height: 71,
+                entry: mostRecentBodyFatEntry,
+              })?.toLocaleString(undefined, {
+                style: "percent",
+                minimumFractionDigits: 1,
+                maximumFractionDigits: 1,
+              })
+            }
           />
 
           <OverviewMetricsSection title="Measuring tape">
