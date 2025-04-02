@@ -8,30 +8,43 @@ import {
 } from "@/shared/components/buttons/button/button.component";
 import { FormActionErrorToast } from "@/shared/components/forms/form-action-error-toast/form-action-error-toast.component";
 import { Header } from "@/shared/components/header/header.component";
-import { Heading, HeadingLevel } from "@/shared/components/heading/heading.component";
+import {
+  Heading,
+  HeadingLevel,
+} from "@/shared/components/heading/heading.component";
 import { Icon, IconImage } from "@/shared/components/icon/icon.component";
 import { IBodyCompEntry } from "@/shared/database/models/body-comp-entry.model";
 import Link from "next/link";
 import { useActionState } from "react";
+import { deleteBodyCompEntry } from "@/app/(app)/body-comp/edit/[id]/delete-body-comp-entry.action";
+import { useRouter } from 'next/navigation';
 
 const initialFormState = {
   message: "",
 };
 export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
   const [state, formAction] = useActionState(props.action, initialFormState);
+  const router = useRouter();
 
-  const isEditMode = props.isEditMode ?? false;
+  const onDeleteButtonClick = () => {
+    if (props.id) {
+      deleteBodyCompEntry(props.id!);
+      router.replace('/body-comp/log');
+    }
+  };
 
-  const title = isEditMode ? "Edit Entry" : "New Entry";
-  const primaryButtonLabel = isEditMode ? "Save" : "Create";
-  const headerEndContent = isEditMode ? (
-    <Link href="/body-comp/log">
-      <div className="text-lg w-12">
-        <Button size={ButtonSize.Small} appearance={ButtonAppearance.Danger}>
-          <Icon icon={IconImage.Trash} />
-        </Button>
-      </div>
-    </Link>
+  const title = props.isEditMode ? "Edit Entry" : "New Entry";
+  const primaryButtonLabel = props.isEditMode ? "Save" : "Create";
+  const headerEndContent = props.isEditMode ? (
+    <div className="text-lg w-12">
+      <Button
+        appearance={ButtonAppearance.Danger}
+        onClick={onDeleteButtonClick}
+        size={ButtonSize.Small}
+      >
+        <Icon icon={IconImage.Trash} />
+      </Button>
+    </div>
   ) : undefined;
 
   return (
@@ -136,8 +149,8 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
 };
 
 interface IBodyCompEntryFormEditModeProps extends Omit<IBodyCompEntry, "date"> {
-  isEditMode: true;
   date: string;
+  isEditMode: true;
 }
 
 type IBodyCompEntryFormNewModeProps = {
@@ -150,7 +163,6 @@ export type IBodyCompEntryFormProps = (
   | IBodyCompEntryFormEditModeProps
   | IBodyCompEntryFormNewModeProps
 ) & {
-  // action: Parameters<typeof useActionState<{ message: string }, FormData>>[0];
   action:
     | ((state: { message: string }, payload: FormData) => { message: string })
     | ((

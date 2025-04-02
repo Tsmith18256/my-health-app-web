@@ -24,8 +24,8 @@ export default async function EditBodyCompEntryPage(
   return (
     <BodyCompEntryForm
       action={editBodyCompEntry}
-      isEditMode={true}
       date={date.format("YYYY-MM-DD")}
+      isEditMode={true}
       {...otherEntryFields}
     />
   );
