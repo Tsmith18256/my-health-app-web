@@ -1,4 +1,4 @@
-import { Button, ButtonSize } from "@/components/button/button.component";
+import { Button, ButtonSize } from "@/shared/components/buttons/button/button.component";
 import Link from "next/link";
 
 export default function LoginPage() {

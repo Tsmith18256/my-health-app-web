@@ -1,11 +1,11 @@
 "use client";
 
-import { Input } from "@/app/(app)/body-comp/input.component";
+import { Input } from "@/shared/components/forms/input/input.component";
 import { saveOnboardingInformation } from "@/app/(auth)/onboarding/save-onboarding-information.action";
-import { Button } from "@/components/button/button.component";
-import { Header } from "@/components/header/header.component";
-import { Option } from "@/components/select/option.component";
-import { Select } from "@/components/select/select.component";
+import { Button } from "@/shared/components/buttons/button/button.component";
+import { Header } from "@/shared/components/header/header.component";
+import { Option } from "@/shared/components/forms/select/option.component";
+import { Select } from "@/shared/components/forms/select/select.component";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { ReactNode } from "react";

@@ -3,8 +3,8 @@
 import {
   INewBodyCompEntry,
   insertBodyCompEntry,
-} from "@/database/models/body-comp-entry.model";
-import { EmailAddress } from "@/utils/validation/validate-email-address";
+} from "@/shared/database/models/body-comp-entry.model";
+import { EmailAddress } from "@/shared/utils/validation/validate-email-address";
 import { currentUser } from "@clerk/nextjs/server";
 import dayjs from "dayjs";
 import { redirect } from "next/navigation";

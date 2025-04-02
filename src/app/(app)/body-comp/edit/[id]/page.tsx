@@ -1,10 +1,10 @@
-import { BodyCompEntryForm } from "@/app/(app)/body-comp/body-comp-entry-form.component";
+import { BodyCompEntryForm } from "@/body-comp/log/body-comp-entry-form.component";
 import { editBodyCompEntry } from "@/app/(app)/body-comp/edit/[id]/edit-body-comp-entry.action";
 import {
   BodyCompEntryId,
   selectBodyCompEntryById,
-} from "@/database/models/body-comp-entry.model";
-import { EmailAddress } from '@/utils/validation/validate-email-address';
+} from "@/shared/database/models/body-comp-entry.model";
+import { EmailAddress } from '@/shared/utils/validation/validate-email-address';
 import { currentUser } from '@clerk/nextjs/server';
 
 export default async function EditBodyCompEntryPage(
