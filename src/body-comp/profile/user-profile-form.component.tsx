@@ -1,12 +1,13 @@
-import { Button } from '@/shared/components/buttons/button/button.component';
-import { Input } from '@/shared/components/forms/input/input.component';
-import { Option } from '@/shared/components/forms/select/option.component';
-import { Select } from '@/shared/components/forms/select/select.component';
-import { ComponentProps, ReactNode } from 'react';
+import { Button } from "@/shared/components/buttons/button/button.component";
+import { Input } from "@/shared/components/forms/input/input.component";
+import { Option } from "@/shared/components/forms/select/option.component";
+import { Select } from "@/shared/components/forms/select/select.component";
+import { ComponentProps, ReactNode } from "react";
 
 export const UserProfileForm = ({
   action,
-  submitButtonLabel = 'Proceed'
+  isFixedFooter,
+  submitButtonLabel = "Proceed",
 }: IUserProfileFormProps) => {
   return (
     <form action={action}>
@@ -30,10 +31,28 @@ export const UserProfileForm = ({
         </Select>
       </main>
 
-      <footer className="bg-(--background) border-t border-t-gray-400 bottom-0 fixed flex gap-3 inset-x-0 justify-stretch p-4">
-        <Button type="submit">{submitButtonLabel}</Button>
-      </footer>
+      <FooterButton
+        isFixedFooter={isFixedFooter}
+        submitButtonLabel={submitButtonLabel}
+      />
     </form>
+  );
+};
+
+const FooterButton = ({
+  isFixedFooter,
+  submitButtonLabel,
+}: Pick<IUserProfileFormProps, "isFixedFooter" | "submitButtonLabel">) => {
+  const typeSpecificClasses = isFixedFooter
+    ? "border-t border-t-gray-400 bottom-0 fixed inset-x-0"
+    : "mt-8";
+
+  return (
+    <footer
+      className={`bg-(--background) flex gap-3 justify-stretch p-4 ${typeSpecificClasses}`}
+    >
+      <Button type="submit">{submitButtonLabel}</Button>
+    </footer>
   );
 };
 
@@ -55,6 +74,7 @@ const renderHeightOptions = () => {
 };
 
 export interface IUserProfileFormProps {
-  action?: ComponentProps<'form'>['action'];
+  action?: ComponentProps<"form">["action"];
+  isFixedFooter: boolean;
   submitButtonLabel?: string;
 }
