@@ -1,4 +1,4 @@
-import { BodyCompBottomNav } from "@/body-comp/body-comp-bottom-nav.component";
+import { BodyCompBottomNav, BodyCompBottomNavPage } from "@/body-comp/body-comp-bottom-nav.component";
 import { calculateNavyBodyFat } from "@/body-comp/calculate-body-fat";
 import { OverviewMetricRow } from "@/body-comp/overview/overview-metric-row.component";
 import { OverviewMetricsSection } from "@/body-comp/overview/overview-metrics-section.component";
@@ -181,7 +181,7 @@ export default async function OverviewPage() {
         </OverviewSection>
       </main>
 
-      <BodyCompBottomNav currentPage="overview" />
+      <BodyCompBottomNav currentPage={BodyCompBottomNavPage.Overview} />
     </>
   );
 }

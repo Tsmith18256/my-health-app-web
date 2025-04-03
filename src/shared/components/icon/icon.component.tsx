@@ -10,6 +10,7 @@ export const IconImage = {
   Log: "fa-pen",
   Overview: "fa-chart-pie-alt",
   Plus: "fa-plus",
+  Profile: "fa-user",
   Trash: "fa-trash",
 } as const;
 
