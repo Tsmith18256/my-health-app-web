@@ -154,9 +154,9 @@ interface IBodyCompEntryFormEditModeProps extends Omit<IBodyCompEntry, "date"> {
 }
 
 type IBodyCompEntryFormNewModeProps = {
-  [K in keyof IBodyCompEntry]?: undefined;
-} & {
   isEditMode?: false;
+} & {
+  [Key in keyof IBodyCompEntry]?: undefined;
 };
 
 type IBodyCompEntryFormProps = (

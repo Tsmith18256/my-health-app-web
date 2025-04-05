@@ -50,7 +50,7 @@ export default async function ProfilePage() {
       <UserProfileForm
         action={updateProfile}
         isOnboarding={false}
-        userProfile={userProfile}
+        {...userProfile}
       />
 
       <BodyCompBottomNav currentPage={BodyCompBottomNavPage.Profile} />

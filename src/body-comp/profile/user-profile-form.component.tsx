@@ -8,14 +8,16 @@ import { ComponentProps, ReactNode } from "react";
 
 export const UserProfileForm = ({
   action,
+  birthday,
+  height,
   isOnboarding,
-  userProfile,
+  sex,
 }: IUserProfileFormProps) => {
   const defaultBirthday = isOnboarding
     ? "2000-01-01"
-    : userProfile.birthday.format("YYYY-MM-DD");
-  const defaultSex = isOnboarding ? Sex.Male : userProfile.sex;
-  const defaultHeight = isOnboarding ? 70 : userProfile.height;
+    : birthday.format("YYYY-MM-DD");
+  const defaultSex = isOnboarding ? Sex.Male : sex;
+  const defaultHeight = isOnboarding ? 70 : height;
 
   return (
     <form action={action}>
@@ -95,12 +97,13 @@ type IUserProfileFormProps = {
   action?: ComponentProps<"form">["action"];
 } & (IUserProfileFormEditModeProps | IUserProfileFormNewModeProps);
 
-interface IUserProfileFormEditModeProps {
-  isOnboarding: true;
-  userProfile?: false;
+interface IUserProfileFormEditModeProps
+  extends Omit<IUserProfile, "emailAddress"> {
+  isOnboarding?: false;
 }
 
-interface IUserProfileFormNewModeProps {
-  isOnboarding?: false;
-  userProfile: IUserProfile;
+type IUserProfileFormNewModeProps = {
+  isOnboarding: true;
+} & {
+  [Key in keyof Omit<IUserProfile, "emailAddress">]?: undefined;
 }

@@ -102,7 +102,7 @@ const convertModelToObject = (model: IUserProfileModel): IUserProfile => {
       model.height_in_mm,
       LengthUnit.Millimeters,
       LengthUnit.Inches
-    ), 0),
+    ), 1),
     sex: validateSex(model.sex),
   };
 };
