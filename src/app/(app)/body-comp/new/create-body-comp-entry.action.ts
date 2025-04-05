@@ -4,7 +4,7 @@ import {
   INewBodyCompEntry,
   insertBodyCompEntry,
 } from "@/body-comp/body-comp-entry/body-comp-entry.dao";
-import { EmailAddress } from "@/shared/utils/validation/validate-email-address";
+import { EmailAddress } from "@/shared/utils/validation/validate-email-address.util";
 import { currentUser } from "@clerk/nextjs/server";
 import dayjs from "dayjs";
 import { redirect } from "next/navigation";
@@ -48,11 +48,11 @@ export const createBodyCompEntry = async (
       ? parseFloat(waistCircumference.toString())
       : undefined,
     chestSkinfold: chestSkinfold
-      ? parseFloat(chestSkinfold.toString())
+      ? parseInt(chestSkinfold.toString(), 10)
       : undefined,
-    abSkinfold: abSkinfold ? parseFloat(abSkinfold.toString()) : undefined,
+    abSkinfold: abSkinfold ? parseInt(abSkinfold.toString(), 10) : undefined,
     thighSkinfold: thighSkinfold
-      ? parseFloat(thighSkinfold.toString())
+      ? parseInt(thighSkinfold.toString(), 10)
       : undefined,
   };
 

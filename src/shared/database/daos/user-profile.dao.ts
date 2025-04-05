@@ -6,9 +6,13 @@ import { convertLengthUnits } from "@/shared/utils/units/convert-length-units";
 import {
   EmailAddress,
   validateEmailAddress,
-} from "@/shared/utils/validation/validate-email-address";
+} from "@/shared/utils/validation/validate-email-address.util";
 import { Dayjs } from "dayjs";
+import { Sex, validateSex } from "@/shared/utils/validation/validate-sex.util";
 
+/**
+ * Inserts 1 new User Profile entry into the database.
+ */
 export const insertUserProfile = async (
   inputProfile: IUserProfile
 ): Promise<IUserProfile> => {
@@ -21,10 +25,12 @@ export const insertUserProfile = async (
     ) VALUES (
       ${formatDateForDatabaseDate(inputProfile.birthday)},
       ${inputProfile.emailAddress},
-      ${convertLengthUnits(
-        inputProfile.height,
-        LengthUnit.Inches,
-        LengthUnit.Millimeters
+      ${Math.round(
+        convertLengthUnits(
+          inputProfile.height,
+          LengthUnit.Inches,
+          LengthUnit.Millimeters
+        )
       )},
       ${inputProfile.sex}
     ) RETURNING *
@@ -37,6 +43,9 @@ export const insertUserProfile = async (
   throw new Error("Unknown error inserting user profile");
 };
 
+/**
+ * Reads 1 User Profile entry from the database by email.
+ */
 export const selectUserProfileByEmail = async (
   emailAddress: string
 ): Promise<IUserProfile | undefined> => {
@@ -69,14 +78,6 @@ const convertModelToObject = (model: IUserProfileModel): IUserProfile => {
   };
 };
 
-const validateSex = (input: string): Sex => {
-  if (input === "M" || input === "F") {
-    return input as Sex;
-  }
-
-  throw new Error(`(${input}) is not a valid Sex value.`);
-};
-
 /**
  * Represents a user profile entry from the database. The column names/types
  * from the database are converted to a format more friendly for the code base.
@@ -94,5 +95,3 @@ interface IUserProfileModel {
   height_in_mm: number;
   sex: string;
 }
-
-type Sex = "M" | "F";

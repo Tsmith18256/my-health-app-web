@@ -5,7 +5,7 @@ import {
   IBodyCompEntry,
   updateBodyCompEntry,
 } from "@/body-comp/body-comp-entry/body-comp-entry.dao";
-import { EmailAddress } from "@/shared/utils/validation/validate-email-address";
+import { EmailAddress } from "@/shared/utils/validation/validate-email-address.util";
 import { currentUser } from "@clerk/nextjs/server";
 import dayjs from "dayjs";
 import { redirect } from "next/navigation";

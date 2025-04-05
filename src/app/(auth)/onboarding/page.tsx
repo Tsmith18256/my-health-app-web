@@ -19,7 +19,8 @@ export default function OnboardingPage() {
     }
 
     if (res.errorMessage) {
-      console.error('OH NO');
+      console.error('Error submitting Onboarding form:');
+      console.error(res.errorMessage);
     }
   };
 

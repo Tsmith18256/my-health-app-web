@@ -2,6 +2,7 @@ import { Button } from "@/shared/components/buttons/button/button.component";
 import { Input } from "@/shared/components/forms/input/input.component";
 import { Option } from "@/shared/components/forms/select/option.component";
 import { Select } from "@/shared/components/forms/select/select.component";
+import { Sex } from '@/shared/utils/validation/validate-sex.util';
 import { ComponentProps, ReactNode } from "react";
 
 export const UserProfileForm = ({
@@ -22,8 +23,8 @@ export const UserProfileForm = ({
         />
 
         <Select id="ddlSex" label="Sex" name="sex" required>
-          <Option value="male">Male</Option>
-          <Option value="female">Female</Option>
+          <Option value={Sex.Female}>Female</Option>
+          <Option value={Sex.Male}>Male</Option>
         </Select>
 
         <Select id="ddlHeight" label="Height" name="height" required>
@@ -64,7 +65,7 @@ const renderHeightOptions = () => {
     const inches = i % 12;
 
     options.push(
-      <Option key={i} value={`${feet}ft${inches}`}>
+      <Option key={i} value={i.toString()}>
         {`${feet} feet ${inches} inches`}
       </Option>
     );

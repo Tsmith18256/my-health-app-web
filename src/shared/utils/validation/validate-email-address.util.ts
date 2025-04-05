@@ -1,9 +1,5 @@
 import { Brand } from '@/shared/helper-types/brand/brand.type';
 
-export type EmailAddress = Brand<string, "EmailAddress">;
-
-const emailRegex = /^.+@.+\..+$/;
-
 export const validateEmailAddress = (input: string): EmailAddress => {
   if (emailRegex.test(input)) {
     return input as EmailAddress;
@@ -11,3 +7,7 @@ export const validateEmailAddress = (input: string): EmailAddress => {
 
   throw new Error(`(${input}) is not a valid email address`);
 };
+
+const emailRegex = /^.+@.+\..+$/;
+
+export type EmailAddress = Brand<string, "EmailAddress">;

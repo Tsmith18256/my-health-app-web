@@ -9,7 +9,7 @@ import { convertWeightUnits } from "@/shared/utils/units/convert-weight-units";
 import {
   EmailAddress,
   validateEmailAddress,
-} from "@/shared/utils/validation/validate-email-address";
+} from "@/shared/utils/validation/validate-email-address.util";
 import { Dayjs } from "dayjs";
 
 export const deleteBodyCompEntryById = async (id: BodyCompEntryId) => {
