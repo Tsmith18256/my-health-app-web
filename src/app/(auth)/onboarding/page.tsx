@@ -9,7 +9,10 @@ export default function OnboardingPage() {
   const router = useRouter();
   const { user } = useUser();
 
-  const handleSubmit = async (formData: FormData) => {
+  const handleSubmit = async (
+    _: { errorMessage?: string },
+    formData: FormData
+  ): Promise<{ errorMessage?: string }> => {
     const res = await saveOnboardingInformation(formData);
 
     if (res.isComplete) {
@@ -18,9 +21,10 @@ export default function OnboardingPage() {
     }
 
     if (res.errorMessage) {
-      console.error("Error submitting Onboarding form:");
-      console.error(res.errorMessage);
+      return res;
     }
+
+    return {};
   };
 
   return <UserProfileForm action={handleSubmit} isOnboarding={true} />;
