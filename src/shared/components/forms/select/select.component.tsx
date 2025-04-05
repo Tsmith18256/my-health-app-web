@@ -1,24 +1,24 @@
-import { PropsWithChildren } from "react";
+import { ComponentProps, PropsWithChildren } from "react";
 
-export const Select = (props: ISelectProps) => {
+export const Select = ({ children, id, label, ...otherProps }: ISelectProps) => {
   return (
     <div className="flex flex-col">
-      <label htmlFor={props.id}>{props.label}</label>
+      <label htmlFor={id}>{label}</label>
       <select
-        id={props.id}
+        id={id}
         className="border-1 h-14 rounded-lg px-3 width-full"
-        name={props.name}
-        required={props.required}
+        {...otherProps}
       >
-        {props.children}
+        {children}
       </select>
     </div>
   );
 };
 
-export type ISelectProps = PropsWithChildren<{
-  id: string;
-  label: string;
-  name: string;
-  required: boolean;
-}>;
+export type ISelectProps = PropsWithChildren<
+  ComponentProps<"select"> & {
+    id: string;
+    label: string;
+    name: string;
+  }
+>;

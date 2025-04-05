@@ -1,9 +1,9 @@
 import { sql } from "@/shared/database/db";
-import { formatDateForDatabaseDate } from '@/shared/utils/dates/format-date-for-database-date.util';
+import { formatDateForDatabaseDate } from "@/shared/utils/dates/format-date-for-database-date.util";
 import { LengthUnit } from "@/shared/enums/length-unit.enum";
 import { WeightUnit } from "@/shared/enums/weight-unit.enum";
 import { Brand } from "@/shared/helper-types/brand/brand.type";
-import { convertDateToDayjsWithoutTime } from '@/shared/utils/dates/convert-date-to-dayjs-without-time.util';
+import { convertVanillaDateToDayjsWithoutTime } from "@/shared/utils/dates/vanilla/convert-vanilla-date-to-dayjs-without-time.util";
 import { convertLengthUnits } from "@/shared/utils/units/convert-length-units";
 import { convertWeightUnits } from "@/shared/utils/units/convert-weight-units";
 import {
@@ -124,7 +124,6 @@ export const selectBodyCompEntryById = async (
 export const updateBodyCompEntry = async (
   inputEntry: IBodyCompEntry
 ): Promise<IBodyCompEntry> => {
-  const date = inputEntry.date.format("YYYY-MM-DD");
   const [updatedEntry] = await sql<IBodyCompEntryModel[]>`
     UPDATE body_comp_entries SET
         ab_skinfold = ${
@@ -137,7 +136,7 @@ export const updateBodyCompEntry = async (
             ? null
             : Math.round(inputEntry.chestSkinfold)
         },
-        entry_date = ${date},
+        entry_date = ${formatDateForDatabaseDate(inputEntry.date)},
         neck_circ_in_mm = ${
           inputEntry.neckCircumference === undefined
             ? null
@@ -174,21 +173,21 @@ export const updateBodyCompEntry = async (
           )
         )}
       WHERE id = ${inputEntry.id}
-        RETURNING *
+      RETURNING *
   `;
 
   if (updatedEntry) {
     return convertModelToObject(updatedEntry);
   }
 
-  throw new Error("Unknown error inserting body comp entry");
+  throw new Error("Unknown error updating body comp entry");
 };
 
 const convertModelToObject = (model: IBodyCompEntryModel): IBodyCompEntry => {
   return {
     abSkinfold: model.ab_skinfold ?? undefined,
     chestSkinfold: model.chest_skinfold ?? undefined,
-    date: convertDateToDayjsWithoutTime(model.entry_date),
+    date: convertVanillaDateToDayjsWithoutTime(model.entry_date),
     id: model.id as BodyCompEntryId,
     neckCircumference:
       model.neck_circ_in_mm === null

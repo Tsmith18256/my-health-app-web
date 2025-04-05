@@ -159,7 +159,7 @@ type IBodyCompEntryFormNewModeProps = {
   isEditMode?: false;
 };
 
-export type IBodyCompEntryFormProps = (
+type IBodyCompEntryFormProps = (
   | IBodyCompEntryFormEditModeProps
   | IBodyCompEntryFormNewModeProps
 ) & {

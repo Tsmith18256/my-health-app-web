@@ -23,5 +23,5 @@ export default function OnboardingPage() {
     }
   };
 
-  return <UserProfileForm action={handleSubmit} isFixedFooter={true} />;
+  return <UserProfileForm action={handleSubmit} isOnboarding={true} />;
 }

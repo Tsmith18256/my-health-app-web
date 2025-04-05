@@ -1,7 +1,6 @@
 import { sql } from "@/shared/database/db";
 import { formatDateForDatabaseDate } from "@/shared/utils/dates/format-date-for-database-date.util";
 import { LengthUnit } from "@/shared/enums/length-unit.enum";
-import { convertDateToDayjsWithoutTime } from "@/shared/utils/dates/convert-date-to-dayjs-without-time.util";
 import { convertLengthUnits } from "@/shared/utils/units/convert-length-units";
 import {
   EmailAddress,
@@ -9,6 +8,8 @@ import {
 } from "@/shared/utils/validation/validate-email-address.util";
 import { Dayjs } from "dayjs";
 import { Sex, validateSex } from "@/shared/utils/validation/validate-sex.util";
+import { convertVanillaDateToDayjsWithoutTime } from '@/shared/utils/dates/vanilla/convert-vanilla-date-to-dayjs-without-time.util';
+import { roundToDecimalPlaces } from '@/shared/utils/math/round-to-decimal-places.util';
 
 /**
  * Inserts 1 new User Profile entry into the database.
@@ -67,13 +68,13 @@ export const selectUserProfileByEmail = async (
 
 const convertModelToObject = (model: IUserProfileModel): IUserProfile => {
   return {
-    birthday: convertDateToDayjsWithoutTime(model.birthday),
+    birthday: convertVanillaDateToDayjsWithoutTime(model.birthday),
     emailAddress: validateEmailAddress(model.email_address),
-    height: convertLengthUnits(
+    height: roundToDecimalPlaces(convertLengthUnits(
       model.height_in_mm,
       LengthUnit.Millimeters,
       LengthUnit.Inches
-    ),
+    ), 0),
     sex: validateSex(model.sex),
   };
 };
