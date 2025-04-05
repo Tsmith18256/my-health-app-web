@@ -1,4 +1,4 @@
-import { IBodyCompEntry } from "@/shared/database/models/body-comp-entry.model";
+import { IBodyCompEntry } from "@/body-comp/body-comp-entry/body-comp-entry.dao";
 import { LengthUnit } from "@/shared/enums/length-unit.enum";
 import { convertLengthUnits } from "@/shared/utils/units/convert-length-units";
 

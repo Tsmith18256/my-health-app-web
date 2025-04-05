@@ -1,4 +1,4 @@
-import { ObjectValues } from "@/shared/types/object-values.types";
+import { ObjectValues } from "@/shared/helper-types/object-values/object-values.type";
 
 export const Icon = (props: IIconProps) => {
   const size = props.size ?? IconSize.Medium;
@@ -10,6 +10,7 @@ export const IconImage = {
   Log: "fa-pen",
   Overview: "fa-chart-pie-alt",
   Plus: "fa-plus",
+  Profile: "fa-user",
   Trash: "fa-trash",
 } as const;
 

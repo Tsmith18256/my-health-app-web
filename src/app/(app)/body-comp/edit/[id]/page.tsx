@@ -3,8 +3,8 @@ import { editBodyCompEntry } from "@/app/(app)/body-comp/edit/[id]/edit-body-com
 import {
   BodyCompEntryId,
   selectBodyCompEntryById,
-} from "@/shared/database/models/body-comp-entry.model";
-import { EmailAddress } from '@/shared/utils/validation/validate-email-address';
+} from "@/body-comp/body-comp-entry/body-comp-entry.dao";
+import { EmailAddress } from '@/shared/utils/validation/validate-email-address.util';
 import { currentUser } from '@clerk/nextjs/server';
 
 export default async function EditBodyCompEntryPage(

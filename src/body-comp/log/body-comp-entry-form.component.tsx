@@ -13,15 +13,12 @@ import {
   HeadingLevel,
 } from "@/shared/components/heading/heading.component";
 import { Icon, IconImage } from "@/shared/components/icon/icon.component";
-import { IBodyCompEntry } from "@/shared/database/models/body-comp-entry.model";
+import { IBodyCompEntry } from "@/body-comp/body-comp-entry/body-comp-entry.dao";
 import Link from "next/link";
 import { useActionState } from "react";
 import { deleteBodyCompEntry } from "@/app/(app)/body-comp/edit/[id]/delete-body-comp-entry.action";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
-const initialFormState = {
-  message: "",
-};
 export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
   const [state, formAction] = useActionState(props.action, initialFormState);
   const router = useRouter();
@@ -29,7 +26,7 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
   const onDeleteButtonClick = () => {
     if (props.id) {
       deleteBodyCompEntry(props.id!);
-      router.replace('/body-comp/log');
+      router.replace("/body-comp/log");
     }
   };
 
@@ -148,18 +145,22 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
   );
 };
 
+const initialFormState = {
+  message: "",
+};
+
 interface IBodyCompEntryFormEditModeProps extends Omit<IBodyCompEntry, "date"> {
   date: string;
   isEditMode: true;
 }
 
 type IBodyCompEntryFormNewModeProps = {
-  [K in keyof IBodyCompEntry]?: undefined;
-} & {
   isEditMode?: false;
+} & {
+  [Key in keyof IBodyCompEntry]?: undefined;
 };
 
-export type IBodyCompEntryFormProps = (
+type IBodyCompEntryFormProps = (
   | IBodyCompEntryFormEditModeProps
   | IBodyCompEntryFormNewModeProps
 ) & {

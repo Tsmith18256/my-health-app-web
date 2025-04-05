@@ -15,6 +15,6 @@ CREATE TABLE body_comp_entries (
 );
 
 CREATE TRIGGER set_body_comp_entries_updated
-  BEFORE UPDATE ON body_comp_entries
-  FOR EACH ROW
-  EXECUTE PROCEDURE set_updated_at_date();
+    BEFORE UPDATE ON body_comp_entries
+    FOR EACH ROW
+    EXECUTE PROCEDURE set_updated_at_date();

@@ -1,14 +1,16 @@
 import { sql } from "@/shared/database/db";
+import { formatDateForDatabaseDate } from "@/shared/utils/dates/format-date-for-database-date.util";
 import { LengthUnit } from "@/shared/enums/length-unit.enum";
 import { WeightUnit } from "@/shared/enums/weight-unit.enum";
-import { Brand } from "@/shared/types/brand.type";
+import { Brand } from "@/shared/helper-types/brand/brand.type";
+import { convertVanillaDateToDayjsWithoutTime } from "@/shared/utils/dates/vanilla/convert-vanilla-date-to-dayjs-without-time.util";
 import { convertLengthUnits } from "@/shared/utils/units/convert-length-units";
 import { convertWeightUnits } from "@/shared/utils/units/convert-weight-units";
 import {
   EmailAddress,
   validateEmailAddress,
-} from "@/shared/utils/validation/validate-email-address";
-import dayjs, { Dayjs } from "dayjs";
+} from "@/shared/utils/validation/validate-email-address.util";
+import { Dayjs } from "dayjs";
 
 export const deleteBodyCompEntryById = async (id: BodyCompEntryId) => {
   await sql`
@@ -20,7 +22,6 @@ export const deleteBodyCompEntryById = async (id: BodyCompEntryId) => {
 export const insertBodyCompEntry = async (
   inputEntry: INewBodyCompEntry
 ): Promise<IBodyCompEntry> => {
-  const date = inputEntry.date.format("YYYY-MM-DD");
   const [createdEntry] = await sql<IBodyCompEntryModel[]>`
     INSERT INTO body_comp_entries (
       ab_skinfold,
@@ -42,7 +43,7 @@ export const insertBodyCompEntry = async (
           ? null
           : Math.round(inputEntry.chestSkinfold)
       },
-      ${date},
+      ${formatDateForDatabaseDate(inputEntry.date)},
       ${
         inputEntry.neckCircumference === undefined
           ? null
@@ -85,7 +86,7 @@ export const insertBodyCompEntry = async (
     return convertModelToObject(createdEntry);
   }
 
-  throw new Error("Unknown error inserting user");
+  throw new Error("Unknown error inserting body comp entry");
 };
 
 export const selectBodyCompEntries = async (
@@ -108,23 +109,21 @@ export const selectBodyCompEntryById = async (
     return undefined;
   }
 
-  const model = await sql<IBodyCompEntryModel[]>`
+  const [model] = await sql<IBodyCompEntryModel[]>`
     SELECT * FROM body_comp_entries
       WHERE id = ${id.toString()} AND user_email = ${opts.userEmail}
-      LIMIT 1
   `;
 
-  if (!model[0]) {
+  if (!model) {
     return undefined;
   }
 
-  return convertModelToObject(model[0]);
+  return convertModelToObject(model);
 };
 
 export const updateBodyCompEntry = async (
   inputEntry: IBodyCompEntry
 ): Promise<IBodyCompEntry> => {
-  const date = inputEntry.date.format("YYYY-MM-DD");
   const [updatedEntry] = await sql<IBodyCompEntryModel[]>`
     UPDATE body_comp_entries SET
         ab_skinfold = ${
@@ -137,7 +136,7 @@ export const updateBodyCompEntry = async (
             ? null
             : Math.round(inputEntry.chestSkinfold)
         },
-        entry_date = ${date},
+        entry_date = ${formatDateForDatabaseDate(inputEntry.date)},
         neck_circ_in_mm = ${
           inputEntry.neckCircumference === undefined
             ? null
@@ -174,21 +173,21 @@ export const updateBodyCompEntry = async (
           )
         )}
       WHERE id = ${inputEntry.id}
-        RETURNING *
+      RETURNING *
   `;
 
   if (updatedEntry) {
     return convertModelToObject(updatedEntry);
   }
 
-  throw new Error("Unknown error inserting user");
+  throw new Error("Unknown error updating body comp entry");
 };
 
 const convertModelToObject = (model: IBodyCompEntryModel): IBodyCompEntry => {
   return {
     abSkinfold: model.ab_skinfold ?? undefined,
     chestSkinfold: model.chest_skinfold ?? undefined,
-    date: dayjs(model.entry_date.toISOString().substring(0, 10)),
+    date: convertVanillaDateToDayjsWithoutTime(model.entry_date),
     id: model.id as BodyCompEntryId,
     neckCircumference:
       model.neck_circ_in_mm === null

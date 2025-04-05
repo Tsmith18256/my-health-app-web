@@ -1,4 +1,4 @@
-import { BodyCompBottomNav } from "@/body-comp/body-comp-bottom-nav.component";
+import { BodyCompBottomNav, BodyCompBottomNavPage } from "@/body-comp/body-comp-bottom-nav.component";
 import { calculateNavyBodyFat } from "@/body-comp/calculate-body-fat";
 import { OverviewMetricRow } from "@/body-comp/overview/overview-metric-row.component";
 import { OverviewMetricsSection } from "@/body-comp/overview/overview-metrics-section.component";
@@ -8,10 +8,10 @@ import {
   Heading,
   HeadingLevel,
 } from "@/shared/components/heading/heading.component";
-import { selectBodyCompEntries } from "@/shared/database/models/body-comp-entry.model";
+import { selectBodyCompEntries } from "@/body-comp/body-comp-entry/body-comp-entry.dao";
 import { LengthUnit } from "@/shared/enums/length-unit.enum";
 import { formatDateRelativeToToday } from "@/shared/utils/dates/format-date-relative-to-today.util";
-import { EmailAddress } from "@/shared/utils/validation/validate-email-address";
+import { EmailAddress } from "@/shared/utils/validation/validate-email-address.util";
 import { UserButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
 import dayjs from "dayjs";
@@ -181,7 +181,7 @@ export default async function OverviewPage() {
         </OverviewSection>
       </main>
 
-      <BodyCompBottomNav currentPage="overview" />
+      <BodyCompBottomNav currentPage={BodyCompBottomNavPage.Overview} />
     </>
   );
 }

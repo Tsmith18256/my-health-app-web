@@ -1,19 +1,26 @@
-import { ObjectValues } from "@/shared/types/object-values.types";
+import { ObjectValues } from "@/shared/helper-types/object-values/object-values.type";
 import { ComponentProps } from "react";
 
-export const Button = (props: IButtonProps) => {
-  const {
-    appearance = ButtonAppearance.Primary,
-    size = ButtonSize.Medium,
-    ...buttonProps
-  } = props;
-  // const appearance = props.appearance ?? ButtonAppearance.Primary;
-  // const size = props.size ?? ButtonSize.Medium;
-
+export const Button = ({
+  appearance = ButtonAppearance.Primary,
+  size = ButtonSize.Medium,
+  ...buttonProps
+}: IButtonProps) => {
   return (
     <button
-      className={`border-3 font-semibold rounded-lg text-black w-full ${classesBySize[size]} ${classesByAppearance[appearance]}`}
       {...buttonProps}
+      className={`
+        border-3
+        cursor-pointer
+        disabled:bg-gray-700
+        disabled:cursor-not-allowed
+        font-semibold
+        rounded-lg
+        text-black
+        w-full
+        ${classesBySize[size]}
+        ${classesByAppearance[appearance]}
+      `}
     />
   );
 };
@@ -35,7 +42,10 @@ export const ButtonSize = {
 export type ButtonSize = ObjectValues<typeof ButtonSize>;
 
 export interface IButtonProps
-  extends Pick<ComponentProps<"button">, "children" | "onClick" | "type"> {
+  extends Pick<
+    ComponentProps<"button">,
+    "children" | "disabled" | "onClick" | "type"
+  > {
   appearance?: ButtonAppearance;
   size?: ButtonSize;
 }

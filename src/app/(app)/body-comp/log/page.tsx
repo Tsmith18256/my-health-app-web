@@ -1,4 +1,4 @@
-import { BodyCompBottomNav } from "@/body-comp/body-comp-bottom-nav.component";
+import { BodyCompBottomNav, BodyCompBottomNavPage } from "@/body-comp/body-comp-bottom-nav.component";
 import { BodyCompLogList } from '@/body-comp/log/body-comp-log-list.component';
 import { FloatingActionButton } from "@/shared/components/buttons/floating-action-button/floating-action-button.component";
 import { LoadingIndicator } from '@/shared/components/loading-indicator/loading-indicator.component';
@@ -18,7 +18,7 @@ export default function BodyCompLogPage() {
         <FloatingActionButton />
       </Link>
 
-      <BodyCompBottomNav currentPage="log" />
+      <BodyCompBottomNav currentPage={BodyCompBottomNavPage.Log} />
     </>
   );
 }

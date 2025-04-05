@@ -1,5 +1,5 @@
-export const Option = (props: IOptionProps) => {
-  return <option value={props.value}>{props.children}</option>;
+export const Option = ({ children, ...otherProps }: IOptionProps) => {
+  return <option {...otherProps}>{children}</option>;
 };
 
 export interface IOptionProps {
