@@ -16,7 +16,7 @@ export const Select = ({ children, id, label, ...otherProps }: ISelectProps) => 
 };
 
 export type ISelectProps = PropsWithChildren<
-  ComponentProps<"select"> & {
+  Pick<ComponentProps<"select">, "defaultValue" | "required"> & {
     id: string;
     label: string;
     name: string;

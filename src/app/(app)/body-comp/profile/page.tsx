@@ -48,9 +48,10 @@ export default async function ProfilePage() {
       <Header title="Profile" />
 
       <UserProfileForm
-        action={updateProfile}
-        isOnboarding={false}
         {...userProfile}
+        action={updateProfile}
+        birthday={userProfile.birthday.format("YYYY-MM-DD")}
+        isOnboarding={false}
       />
 
       <BodyCompBottomNav currentPage={BodyCompBottomNavPage.Profile} />

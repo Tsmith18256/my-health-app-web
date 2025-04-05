@@ -19,9 +19,6 @@ import { useActionState } from "react";
 import { deleteBodyCompEntry } from "@/app/(app)/body-comp/edit/[id]/delete-body-comp-entry.action";
 import { useRouter } from "next/navigation";
 
-const initialFormState = {
-  message: "",
-};
 export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
   const [state, formAction] = useActionState(props.action, initialFormState);
   const router = useRouter();
@@ -146,6 +143,10 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
       </form>
     </>
   );
+};
+
+const initialFormState = {
+  message: "",
 };
 
 interface IBodyCompEntryFormEditModeProps extends Omit<IBodyCompEntry, "date"> {

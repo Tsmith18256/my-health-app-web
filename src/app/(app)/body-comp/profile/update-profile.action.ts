@@ -5,20 +5,23 @@ import { validateEmailAddress } from "@/shared/utils/validation/validate-email-a
 import { validateSex } from "@/shared/utils/validation/validate-sex.util";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import dayjs from "dayjs";
-import { revalidatePath } from 'next/cache';
+import { revalidatePath } from "next/cache";
 
-export const updateProfile = async (formData: FormData): Promise<void> => {
+export const updateProfile = async (
+  _: { errorMessage?: string },
+  formData: FormData
+): Promise<{ errorMessage?: string }> => {
   const { userId } = await auth();
 
   if (!userId) {
-    throw new Error("No user ID.");
+    return { errorMessage: "No user ID." };
   }
 
   const user = await currentUser();
   const emailAddress = user?.emailAddresses[0]?.emailAddress;
 
   if (!emailAddress) {
-    throw new Error("Authentication failed.");
+    return { errorMessage: "Authentication failed." };
   }
 
   const birthday = formData.get("birthday");
@@ -26,7 +29,7 @@ export const updateProfile = async (formData: FormData): Promise<void> => {
   const sex = formData.get("sex");
 
   if (!birthday || !height || !sex) {
-    throw new Error("Form data incomplete.");
+    return { errorMessage: "Form data incomplete." };
   }
 
   await updateUserProfile({
@@ -37,4 +40,6 @@ export const updateProfile = async (formData: FormData): Promise<void> => {
   });
 
   revalidatePath("/body-comp/profile");
+
+  return {};
 };
