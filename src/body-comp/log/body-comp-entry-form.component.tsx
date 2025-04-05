@@ -17,7 +17,7 @@ import { IBodyCompEntry } from "@/body-comp/body-comp-entry/body-comp-entry.dao"
 import Link from "next/link";
 import { useActionState } from "react";
 import { deleteBodyCompEntry } from "@/app/(app)/body-comp/edit/[id]/delete-body-comp-entry.action";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 const initialFormState = {
   message: "",
@@ -29,7 +29,7 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
   const onDeleteButtonClick = () => {
     if (props.id) {
       deleteBodyCompEntry(props.id!);
-      router.replace('/body-comp/log');
+      router.replace("/body-comp/log");
     }
   };
 

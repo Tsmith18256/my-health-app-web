@@ -66,6 +66,34 @@ export const selectUserProfileByEmail = async (
   return convertModelToObject(model);
 };
 
+/**
+ * Updates the given User Profile entry in the database.
+ */
+export const updateUserProfile = async (
+  inputProfile: IUserProfile
+): Promise<IUserProfile> => {
+  const [updatedProfile] = await sql<IUserProfileModel[]>`
+    UPDATE user_profiles SET
+        birthday = ${formatDateForDatabaseDate(inputProfile.birthday)},
+        height_in_mm = ${Math.round(
+          convertLengthUnits(
+            inputProfile.height,
+            LengthUnit.Inches,
+            LengthUnit.Millimeters
+          )
+        )},
+        sex = ${inputProfile.sex}
+      WHERE email_address = ${inputProfile.emailAddress}
+      RETURNING *
+  `;
+
+  if (updatedProfile) {
+    return convertModelToObject(updatedProfile);
+  }
+
+  throw new Error("Unknown error updating user profile");
+};
+
 const convertModelToObject = (model: IUserProfileModel): IUserProfile => {
   return {
     birthday: convertVanillaDateToDayjsWithoutTime(model.birthday),
