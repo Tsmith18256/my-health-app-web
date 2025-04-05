@@ -8,7 +8,7 @@ import {
   Heading,
   HeadingLevel,
 } from "@/shared/components/heading/heading.component";
-import { selectBodyCompEntries } from "@/shared/database/models/body-comp-entry.model";
+import { selectBodyCompEntries } from "@/body-comp/body-comp-entry/body-comp-entry.dao";
 import { LengthUnit } from "@/shared/enums/length-unit.enum";
 import { formatDateRelativeToToday } from "@/shared/utils/dates/format-date-relative-to-today.util";
 import { EmailAddress } from "@/shared/utils/validation/validate-email-address";

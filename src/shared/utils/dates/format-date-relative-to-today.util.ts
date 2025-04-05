@@ -1,6 +1,6 @@
 import dayjs, { Dayjs } from 'dayjs';
 
-export const formatDateRelativeToToday = (date: Dayjs) => {
+export const formatDateRelativeToToday = (date: Dayjs): string => {
   const difference = dayjs().diff(date, "days");
 
   if (difference === 0) {

@@ -1,5 +1,5 @@
 import { calculateNavyBodyFat } from '@/body-comp/calculate-body-fat';
-import { IBodyCompEntry } from "@/shared/database/models/body-comp-entry.model";
+import { IBodyCompEntry } from "@/body-comp/body-comp-entry/body-comp-entry.dao";
 
 export const BodyCompRow = ({ entry }: IBodyCompRowProps) => {
   const bodyFat = calculateNavyBodyFat({

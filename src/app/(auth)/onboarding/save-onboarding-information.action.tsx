@@ -21,6 +21,8 @@ export const saveOnboardingInformation = async (
   const client = await clerkClient();
 
   try {
+    // If adding more fields to the `publicMetadata` object, update
+    // `clerk-metadata.ts` to add the type defs.
     await client.users.updateUser(userId, {
       publicMetadata: {
         onboardingComplete: true,
