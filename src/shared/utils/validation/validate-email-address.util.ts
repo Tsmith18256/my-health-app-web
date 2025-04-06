@@ -1,4 +1,4 @@
-import { Brand } from '@/shared/helper-types/brand/brand.type';
+import { Brand } from '@/shared/helper-types/brand.type';
 
 export const validateEmailAddress = (input: string): EmailAddress => {
   if (emailRegex.test(input)) {

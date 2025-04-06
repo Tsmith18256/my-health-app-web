@@ -2,7 +2,7 @@ import { sql } from "@/shared/database/db";
 import { formatDateForDatabaseDate } from "@/shared/utils/dates/format-date-for-database-date.util";
 import { LengthUnit } from "@/shared/enums/length-unit.enum";
 import { WeightUnit } from "@/shared/enums/weight-unit.enum";
-import { Brand } from "@/shared/helper-types/brand/brand.type";
+import { Brand } from "@/shared/helper-types/brand.type";
 import { convertVanillaDateToDayjsWithoutTime } from "@/shared/utils/dates/vanilla/convert-vanilla-date-to-dayjs-without-time.util";
 import { convertLengthUnits } from "@/shared/utils/units/convert-length-units";
 import { convertWeightUnits } from "@/shared/utils/units/convert-weight-units";

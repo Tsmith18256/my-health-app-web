@@ -3,7 +3,7 @@ import {
   IconImage,
   IconSize,
 } from "@/shared/components/icon/icon.component";
-import { ObjectValues } from "@/shared/helper-types/object-values/object-values.type";
+import { ObjectValues } from "@/shared/helper-types/object-values.type";
 import Link from "next/link";
 
 export const BodyCompBottomNav = ({ currentPage }: IBodyCompBottomNavProps) => {

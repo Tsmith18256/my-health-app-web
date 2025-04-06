@@ -1,4 +1,4 @@
-import { ObjectValues } from '@/shared/helper-types/object-values/object-values.type';
+import { ObjectValues } from '@/shared/helper-types/object-values.type';
 
 export const validateSex = (input: string): Sex => {
   if (Object.values<string>(Sex).includes(input)) {

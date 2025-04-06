@@ -1,5 +1,7 @@
-import { BodyCompBottomNav, BodyCompBottomNavPage } from "@/body-comp/body-comp-bottom-nav.component";
-import { calculateNavyBodyFat } from "@/body-comp/calculate-body-fat";
+import {
+  BodyCompBottomNav,
+  BodyCompBottomNavPage,
+} from "@/body-comp/body-comp-bottom-nav.component";
 import { OverviewMetricRow } from "@/body-comp/overview/overview-metric-row.component";
 import { OverviewMetricsSection } from "@/body-comp/overview/overview-metrics-section.component";
 import { OverviewSection } from "@/body-comp/overview/overview-section.component";
@@ -11,14 +13,21 @@ import {
 import { selectBodyCompEntries } from "@/body-comp/body-comp-entry/body-comp-entry.dao";
 import { LengthUnit } from "@/shared/enums/length-unit.enum";
 import { formatDateRelativeToToday } from "@/shared/utils/dates/format-date-relative-to-today.util";
-import { EmailAddress } from "@/shared/utils/validation/validate-email-address.util";
 import { UserButton } from "@clerk/nextjs";
-import { currentUser } from "@clerk/nextjs/server";
 import dayjs from "dayjs";
+import { calculateBodyFat } from "@/body-comp/calculate-body-fat";
+import { getAuthSessionDetails } from '@/auth/get-auth-session-details.util';
+import { selectUserProfileByEmail } from '@/shared/database/daos/user-profile.dao';
+import { ErrorCode, ErrorWithCode } from '@/shared/errors/error-with-code.type';
+import { getAgeFromBirthday } from '@/shared/utils/dates/get-age-from-birthday.util';
 
 export default async function OverviewPage() {
-  const user = await currentUser();
-  const userEmail = user?.emailAddresses[0]?.emailAddress as EmailAddress;
+  const userEmail = (await getAuthSessionDetails()).emailAddress;
+  const userProfile = await selectUserProfileByEmail(userEmail);
+
+  if (!userProfile) {
+    throw new ErrorWithCode(ErrorCode.AuthFailed);
+  }
 
   const entries = await selectBodyCompEntries({
     userEmail,
@@ -50,9 +59,10 @@ export default async function OverviewPage() {
 
   const mostRecentBodyFatEntry = sortedEntries.find((entry) => {
     return (
-      calculateNavyBodyFat({
-        height: 71,
+      calculateBodyFat({
+        age: getAgeFromBirthday(userProfile.birthday),
         entry,
+        height: userProfile.height,
       }) !== null
     );
   });
@@ -129,10 +139,11 @@ export default async function OverviewPage() {
             label="Body fat"
             value={
               mostRecentBodyFatEntry &&
-              calculateNavyBodyFat({
-                height: 71,
+              calculateBodyFat({
+                age: getAgeFromBirthday(userProfile.birthday),
                 entry: mostRecentBodyFatEntry,
-              })?.toLocaleString(undefined, {
+                height: userProfile.height,
+              })?.bodyFatPercent.toLocaleString(undefined, {
                 style: "percent",
                 minimumFractionDigits: 1,
                 maximumFractionDigits: 1,

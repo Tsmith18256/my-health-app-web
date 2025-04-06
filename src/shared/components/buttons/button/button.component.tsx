@@ -1,4 +1,4 @@
-import { ObjectValues } from "@/shared/helper-types/object-values/object-values.type";
+import { ObjectValues } from "@/shared/helper-types/object-values.type";
 import { ComponentProps } from "react";
 
 export const Button = ({
