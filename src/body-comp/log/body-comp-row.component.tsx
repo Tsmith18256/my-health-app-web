@@ -1,10 +1,11 @@
-import { calculateNavyBodyFat } from '@/body-comp/calculate-body-fat';
 import { IBodyCompEntry } from "@/body-comp/body-comp-entry/body-comp-entry.dao";
+import { calculateBodyFat } from '@/body-comp/calculate-body-fat';
 
 export const BodyCompRow = ({ entry }: IBodyCompRowProps) => {
-  const bodyFat = calculateNavyBodyFat({
-    height: 71,
+  const bodyFat = calculateBodyFat({
+    age: 29,
     entry,
+    height: 70.5
   });
 
   return (
@@ -18,7 +19,7 @@ export const BodyCompRow = ({ entry }: IBodyCompRowProps) => {
         <div className="flex flex-col items-end">
           <span className="text-xs text-gray-500">Body fat</span>
           <strong className="text-2xl">
-            {bodyFat.toLocaleString(undefined, {
+            {bodyFat.bodyFatPercent.toLocaleString(undefined, {
               style: "percent",
               minimumFractionDigits: 1,
               maximumFractionDigits: 1,

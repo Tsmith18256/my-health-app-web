@@ -1,11 +1,55 @@
 import { IBodyCompEntry } from "@/body-comp/body-comp-entry/body-comp-entry.dao";
 import { LengthUnit } from "@/shared/enums/length-unit.enum";
+import { ObjectValues } from "@/shared/helper-types/object-values/object-values.type";
+import { calculateAverage } from "@/shared/utils/math/calculate-average.util";
 import { convertLengthUnits } from "@/shared/utils/units/convert-length-units";
 
-export const calculateNavyBodyFat = ({
+/**
+ * Calculates the user's body fat for the given body composition entry.
+ *
+ * Based on how much information is defined in the body composition entry, the
+ * most optimal method of calculating body fat available will be used. See the
+ * `BodyFatMethod` enum for the list of possible methods.
+ *
+ * If not enough fields are defined to use any method, null will be returned.
+ */
+export const calculateBodyFat = (
+  opts: ICalculateBodyFatOpts
+): IBodyFatResult | null => {
+  const navyBf = calculateNavyBodyFat(opts);
+  const skinfoldBf = calculateSkinfoldBodyFat3Site(opts);
+
+  if (navyBf && skinfoldBf) {
+    return getResultsObject({
+      bodyFatPercent: calculateAverage(navyBf, skinfoldBf),
+      method: BodyFatMethod.Combined,
+      weight: opts.entry.weight,
+    });
+  }
+
+  if (navyBf) {
+    return getResultsObject({
+      bodyFatPercent: navyBf,
+      method: BodyFatMethod.Navy,
+      weight: opts.entry.weight,
+    });
+  }
+
+  if (skinfoldBf) {
+    return getResultsObject({
+      bodyFatPercent: skinfoldBf,
+      method: BodyFatMethod.Skinfold3Site,
+      weight: opts.entry.weight,
+    });
+  }
+
+  return null;
+};
+
+const calculateNavyBodyFat = ({
   height,
   entry: { neckCircumference, waistCircumference },
-}: ICalculateNavyBodyFatOpts) => {
+}: ICalculateNavyBodyFatOpts): number | null => {
   if (!neckCircumference || !waistCircumference) {
     return null;
   }
@@ -34,16 +78,97 @@ export const calculateNavyBodyFat = ({
   return convertDensityToBodyFat(density);
 };
 
-/**
- * Takes a body density number, which is the raw output of both body fat calculation methods, and converts it to a body
- * fat percentage.
- */
+const calculateSkinfoldBodyFat3Site = ({
+  age,
+  entry: { abSkinfold, chestSkinfold, thighSkinfold },
+}: ICalculateSkinfoldBodyFat3SiteOpts): number | null => {
+  if (!abSkinfold || !chestSkinfold || !thighSkinfold) {
+    return null;
+  }
+
+  const total = abSkinfold + chestSkinfold + thighSkinfold;
+  const density =
+    1.10938 - 0.0008267 * total + 0.0000016 * total ** 2 - 0.0002574 * age;
+
+  return convertDensityToBodyFat(density);
+};
+
 const convertDensityToBodyFat = (density: number): number => {
   // Convert to 0-100 percentage, then divide by 100 to get 0.0-1.0 percentage;
   return (495 / density - 450) / 100;
 };
 
-export interface ICalculateNavyBodyFatOpts {
+const getResultsObject = ({
+  bodyFatPercent,
+  method,
+  weight,
+}: Pick<IBodyFatResult, "bodyFatPercent" | "method"> &
+  Pick<IBodyCompEntry, "weight">): IBodyFatResult => {
+  const fatMass = weight * bodyFatPercent;
+
+  return {
+    bodyFatPercent,
+    method,
+    fatMass,
+    leanMass: weight - fatMass,
+  };
+};
+
+/**
+ * Enum of the available methods of calculating body fat.
+ */
+export const BodyFatMethod = {
+  /**
+   * The corresponding body fat was computed using an average of the Navy and
+   * 3-site Jackson-Pollock skinfold methods.
+   *
+   * This is the most optimal method of calculating body fat.
+   */
+  Combined: "combined",
+  /**
+   * The corresponding body fat was computed using the Navy method.
+   *
+   * This method has a tendency to overestimate body fat in lean individuals.
+   * Source:
+   * https://legionathletics.com/body-fat-calculator/#:~:text=It%20tends%20to%20overestimate%20body%20fat%20in%20lean%20individuals
+   *
+   * Calculator:
+   * https://www.omnicalculator.com/health/navy-body-fat
+   */
+  Navy: "navy",
+  /**
+   * The corresponding body fat was computed using the 3-site Jackson-Pollock
+   * skinfold method.
+   *
+   * This method can be inaccurate in lean individuals.
+   * Source:
+   * https://legionathletics.com/body-fat-calculator/#:~:text=The%20equations%20that%20convert%20skin%20thickness%20into%20a%20body%20fat%20percentage%20can%20also
+   *
+   * Calculator:
+   * https://www.trainermetrics.com/fitness-assessment-calculations/body-fat-3-site-skinfold-jackson-pollock/
+   */
+  Skinfold3Site: "skinfold3site",
+} as const;
+export type BodyFatMethod = ObjectValues<typeof BodyFatMethod>;
+
+type ICalculateBodyFatOpts = ICalculateNavyBodyFatOpts &
+  ICalculateSkinfoldBodyFat3SiteOpts;
+
+interface ICalculateNavyBodyFatOpts extends ICalculateBodyFatBaseOpts {
   height: number;
+}
+
+interface ICalculateSkinfoldBodyFat3SiteOpts extends ICalculateBodyFatBaseOpts {
+  age: number;
+}
+
+interface ICalculateBodyFatBaseOpts {
   entry: IBodyCompEntry;
+}
+
+interface IBodyFatResult {
+  bodyFatPercent: number;
+  fatMass: number;
+  leanMass: number;
+  method: BodyFatMethod;
 }

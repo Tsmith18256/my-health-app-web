@@ -1,5 +1,7 @@
-import { BodyCompBottomNav, BodyCompBottomNavPage } from "@/body-comp/body-comp-bottom-nav.component";
-import { calculateNavyBodyFat } from "@/body-comp/calculate-body-fat";
+import {
+  BodyCompBottomNav,
+  BodyCompBottomNavPage,
+} from "@/body-comp/body-comp-bottom-nav.component";
 import { OverviewMetricRow } from "@/body-comp/overview/overview-metric-row.component";
 import { OverviewMetricsSection } from "@/body-comp/overview/overview-metrics-section.component";
 import { OverviewSection } from "@/body-comp/overview/overview-section.component";
@@ -15,6 +17,7 @@ import { EmailAddress } from "@/shared/utils/validation/validate-email-address.u
 import { UserButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
 import dayjs from "dayjs";
+import { calculateBodyFat } from "@/body-comp/calculate-body-fat";
 
 export default async function OverviewPage() {
   const user = await currentUser();
@@ -50,9 +53,10 @@ export default async function OverviewPage() {
 
   const mostRecentBodyFatEntry = sortedEntries.find((entry) => {
     return (
-      calculateNavyBodyFat({
-        height: 71,
+      calculateBodyFat({
+        age: 29,
         entry,
+        height: 70.5,
       }) !== null
     );
   });
@@ -129,10 +133,11 @@ export default async function OverviewPage() {
             label="Body fat"
             value={
               mostRecentBodyFatEntry &&
-              calculateNavyBodyFat({
-                height: 71,
+              calculateBodyFat({
+                age: 29,
                 entry: mostRecentBodyFatEntry,
-              })?.toLocaleString(undefined, {
+                height: 70.5,
+              })?.bodyFatPercent.toLocaleString(undefined, {
                 style: "percent",
                 minimumFractionDigits: 1,
                 maximumFractionDigits: 1,
