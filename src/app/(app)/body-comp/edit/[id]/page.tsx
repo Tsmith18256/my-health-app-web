@@ -1,25 +1,27 @@
 import { BodyCompEntryForm } from "@/body-comp/log/body-comp-entry-form.component";
 import { editBodyCompEntry } from "@/app/(app)/body-comp/edit/[id]/edit-body-comp-entry.action";
-import {
-  BodyCompEntryId,
-  selectBodyCompEntryById,
-} from "@/body-comp/body-comp-entry/body-comp-entry.dao";
-import { EmailAddress } from '@/shared/utils/validation/validate-email-address.util';
-import { currentUser } from '@clerk/nextjs/server';
+import { selectBodyCompEntryById } from "@/body-comp/body-comp-entry/body-comp-entry.dao";
+import { PageWithParamsProps } from "@/shared/helper-types/page-with-params-props.type";
+import { getAuthSessionDetails } from '@/auth/get-auth-session-details.util';
+import { notFound } from 'next/navigation';
 
+/**
+ * Page for editing a body composition entry.
+ */
 export default async function EditBodyCompEntryPage(
-  props: IEditBodyCompEntryPageProps
+  props: PageWithParamsProps<"id">
 ) {
-  const user = await currentUser();
-  const userEmail = user?.emailAddresses[0]?.emailAddress as EmailAddress;
-
+  const userEmail = (await getAuthSessionDetails()).emailAddress
   const params = await props.params;
-  const entry = await selectBodyCompEntryById(
-    parseInt(params.id, 10) as BodyCompEntryId,
-    { userEmail }
-  );
+  const entry = await selectBodyCompEntryById(parseInt(params.id, 10), {
+    userEmail,
+  });
 
-  const { date, ...otherEntryFields } = entry!;
+  if (!entry) {
+    return notFound();
+  }
+
+  const { date, ...otherEntryFields } = entry;
 
   return (
     <BodyCompEntryForm
@@ -29,8 +31,4 @@ export default async function EditBodyCompEntryPage(
       {...otherEntryFields}
     />
   );
-}
-
-interface IEditBodyCompEntryPageProps {
-  params: Promise<{ id: string }>;
 }
