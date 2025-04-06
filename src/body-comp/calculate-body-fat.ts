@@ -1,6 +1,7 @@
 import { IBodyCompEntry } from "@/body-comp/body-comp-entry/body-comp-entry.dao";
 import { LengthUnit } from "@/shared/enums/length-unit.enum";
-import { ObjectValues } from "@/shared/helper-types/object-values/object-values.type";
+import { ObjectValues } from "@/shared/helper-types/object-values.type";
+import { Prettify } from '@/shared/helper-types/prettify.type';
 import { calculateAverage } from "@/shared/utils/math/calculate-average.util";
 import { convertLengthUnits } from "@/shared/utils/units/convert-length-units";
 
@@ -151,8 +152,8 @@ export const BodyFatMethod = {
 } as const;
 export type BodyFatMethod = ObjectValues<typeof BodyFatMethod>;
 
-type ICalculateBodyFatOpts = ICalculateNavyBodyFatOpts &
-  ICalculateSkinfoldBodyFat3SiteOpts;
+type ICalculateBodyFatOpts = Prettify<ICalculateNavyBodyFatOpts &
+  ICalculateSkinfoldBodyFat3SiteOpts>;
 
 interface ICalculateNavyBodyFatOpts extends ICalculateBodyFatBaseOpts {
   height: number;

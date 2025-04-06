@@ -1,17 +1,22 @@
-import { IBodyCompEntry } from "@/body-comp/body-comp-entry/body-comp-entry.dao";
-import { calculateBodyFat } from '@/body-comp/calculate-body-fat';
+import { calculateBodyFat } from "@/body-comp/calculate-body-fat";
 
-export const BodyCompRow = ({ entry }: IBodyCompRowProps) => {
+export const BodyCompRow = ({
+  age,
+  entry,
+  height,
+}: Parameters<typeof calculateBodyFat>[0]) => {
   const bodyFat = calculateBodyFat({
-    age: 29,
+    age,
     entry,
-    height: 70.5
+    height,
   });
 
   return (
     <div className="active:bg-gray-200 flex justify-between p-4">
       <div className="flex flex-col">
-        <span className="text-xs text-gray-500">{entry.date.format('MMM DD, YYYY')}</span>
+        <span className="text-xs text-gray-500">
+          {entry.date.format("MMM DD, YYYY")}
+        </span>
         <strong className="text-2xl">{entry.weight.toFixed(1)} lbs</strong>
       </div>
 
@@ -30,7 +35,3 @@ export const BodyCompRow = ({ entry }: IBodyCompRowProps) => {
     </div>
   );
 };
-
-export interface IBodyCompRowProps {
-  entry: IBodyCompEntry;
-}
