@@ -41,7 +41,7 @@ export const ButtonSize = {
 
 export type ButtonSize = ObjectValues<typeof ButtonSize>;
 
-export interface IButtonProps
+interface IButtonProps
   extends Pick<
     ComponentProps<"button">,
     "children" | "disabled" | "onClick" | "type"

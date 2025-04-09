@@ -134,6 +134,7 @@ export default async function OverviewPage() {
             Other metrics
           </Heading>
 
+          {/* @todo Simplify this and use formatPercent function */}
           <OverviewMetricRow
             date={mostRecentBodyFatEntry?.date}
             label="Body fat"

@@ -1,5 +1,5 @@
 import { BodyCompEntryForm } from "@/body-comp/log/body-comp-entry-form.component";
-import { editBodyCompEntry } from "@/app/(app)/body-comp/edit/[id]/edit-body-comp-entry.action";
+import { editBodyCompEntry } from "@/app/(app)/body-comp/[id]/edit/edit-body-comp-entry.action";
 import { selectBodyCompEntryById } from "@/body-comp/body-comp-entry/body-comp-entry.dao";
 import { PageWithParamsProps } from "@/shared/helper-types/page-with-params-props.type";
 import { getAuthSessionDetails } from '@/auth/get-auth-session-details.util';
