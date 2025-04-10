@@ -6,26 +6,27 @@ import { LengthUnit } from "@/shared/enums/length-unit.enum";
 export const OverviewSkinfoldSection = ({
   abEntry,
   chestEntry,
+  showDates,
   thighEntry,
 }: IOverviewSkinfoldSectionProps) => {
   return (
     <OverviewMetricsSection title="Skinfold (calipers)">
       <OverviewMetricRow
-        date={chestEntry?.date}
+        date={showDates ? chestEntry?.date : undefined}
         label="Chest"
         unit={LengthUnit.Millimeters}
         value={chestEntry?.chestSkinfold}
       />
 
       <OverviewMetricRow
-        date={abEntry?.date}
+        date={showDates ? abEntry?.date : undefined}
         label="Abdominal"
         unit={LengthUnit.Millimeters}
         value={abEntry?.abSkinfold}
       />
 
       <OverviewMetricRow
-        date={thighEntry?.date}
+        date={showDates ? thighEntry?.date : undefined}
         label="Thigh"
         unit={LengthUnit.Millimeters}
         value={thighEntry?.thighSkinfold}
@@ -43,6 +44,10 @@ interface IOverviewSkinfoldSectionProps {
    * The body comp entry to display chest skinfold for.
    */
   chestEntry?: IBodyCompEntry;
+  /**
+   * Whether or not to show the entry date on each row.
+   */
+  showDates?: boolean;
   /**
    * The body comp entry to display thigh skinfold for.
    */
