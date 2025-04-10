@@ -2,6 +2,7 @@ import { getAuthSessionDetails } from "@/auth/get-auth-session-details.util";
 import { selectBodyCompEntryById } from "@/body-comp/body-comp-entry/body-comp-entry.dao";
 import { calculateBodyFatForCurrentUser } from "@/body-comp/calculate-body-fat-for-current-user.action";
 import { OverviewMetricRow } from '@/body-comp/overview/overview-metric-row.component';
+import { OverviewMetricsSection } from '@/body-comp/overview/overview-metrics-section.component';
 import { OverviewSection } from '@/body-comp/overview/overview-section.component';
 import { HeaderButton } from "@/shared/components/header/header-button/header-button.component";
 import { Header } from "@/shared/components/header/header.component";
@@ -57,6 +58,15 @@ export default async function ViewBodyCompEntry(
             </Heading>
           </div>
         )}
+
+        <OverviewSection>
+          <OverviewMetricsSection title="Measuring tape">
+            <OverviewMetricRow
+
+            />
+          </OverviewMetricsSection>
+
+        </OverviewSection>
       </main>
     </>
   );

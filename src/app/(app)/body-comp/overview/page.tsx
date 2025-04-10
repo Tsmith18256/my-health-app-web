@@ -16,10 +16,11 @@ import { formatDateRelativeToToday } from "@/shared/utils/dates/format-date-rela
 import { UserButton } from "@clerk/nextjs";
 import dayjs from "dayjs";
 import { calculateBodyFat } from "@/body-comp/calculate-body-fat";
-import { getAuthSessionDetails } from '@/auth/get-auth-session-details.util';
-import { selectUserProfileByEmail } from '@/shared/database/daos/user-profile.dao';
-import { ErrorCode, ErrorWithCode } from '@/shared/errors/error-with-code.type';
-import { getAgeFromBirthday } from '@/shared/utils/dates/get-age-from-birthday.util';
+import { getAuthSessionDetails } from "@/auth/get-auth-session-details.util";
+import { selectUserProfileByEmail } from "@/shared/database/daos/user-profile.dao";
+import { ErrorCode, ErrorWithCode } from "@/shared/errors/error-with-code.type";
+import { getAgeFromBirthday } from "@/shared/utils/dates/get-age-from-birthday.util";
+import { findByFieldValue } from "@/shared/utils/objects/find-by-field-value.util";
 
 export default async function OverviewPage() {
   const userEmail = (await getAuthSessionDetails()).emailAddress;
@@ -66,9 +67,11 @@ export default async function OverviewPage() {
       }) !== null
     );
   });
-  const mostRecentNeckCircEntry = sortedEntries.find(
-    (entry) => entry.neckCircumference !== undefined
-  );
+  const mostRecentNeckCircEntry = findByFieldValue(sortedEntries, {
+    inequality: true,
+    key: "neckCircumference",
+    value: undefined,
+  });
   const mostRecentWaistCircEntry = sortedEntries.find(
     (entry) => entry.waistCircumference !== undefined
   );
