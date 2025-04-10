@@ -1,4 +1,6 @@
 import { calculateBodyFat } from "@/body-comp/calculate-body-fat";
+import { formatPercent } from '@/shared/utils/formatting/format-percent.util';
+import Link from "next/link";
 
 export const BodyCompRow = ({
   age,
@@ -12,7 +14,10 @@ export const BodyCompRow = ({
   });
 
   return (
-    <div className="active:bg-gray-200 flex justify-between p-4">
+    <Link
+      className="active:bg-gray-200 flex justify-between p-4"
+      href={`/body-comp/${entry.id}`}
+    >
       <div className="flex flex-col">
         <span className="text-xs text-gray-500">
           {entry.date.format("MMM DD, YYYY")}
@@ -24,14 +29,10 @@ export const BodyCompRow = ({
         <div className="flex flex-col items-end">
           <span className="text-xs text-gray-500">Body fat</span>
           <strong className="text-2xl">
-            {bodyFat.bodyFatPercent.toLocaleString(undefined, {
-              style: "percent",
-              minimumFractionDigits: 1,
-              maximumFractionDigits: 1,
-            })}
+            {formatPercent(bodyFat.bodyFatPercent)}
           </strong>
         </div>
       )}
-    </div>
+    </Link>
   );
 };

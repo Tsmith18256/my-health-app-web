@@ -7,8 +7,9 @@ export const Icon = (props: IIconProps) => {
 };
 
 export const IconImage = {
-  Log: "fa-pen",
-  Overview: "fa-chart-pie-alt",
+  Edit: "fa-pen",
+  Log: "fa-book",
+  Overview: "fa-chart-line-down",
   Plus: "fa-plus",
   Profile: "fa-user",
   Trash: "fa-trash",

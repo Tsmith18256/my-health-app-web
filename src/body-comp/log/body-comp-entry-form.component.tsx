@@ -3,7 +3,6 @@
 import { Input } from "@/shared/components/forms/input/input.component";
 import {
   Button,
-  ButtonSize,
   ButtonAppearance,
 } from "@/shared/components/buttons/button/button.component";
 import { FormActionErrorToast } from "@/shared/components/forms/form-action-error-toast/form-action-error-toast.component";
@@ -12,12 +11,13 @@ import {
   Heading,
   HeadingLevel,
 } from "@/shared/components/heading/heading.component";
-import { Icon, IconImage } from "@/shared/components/icon/icon.component";
+import { IconImage } from "@/shared/components/icon/icon.component";
 import { IBodyCompEntry } from "@/body-comp/body-comp-entry/body-comp-entry.dao";
 import Link from "next/link";
 import { useActionState } from "react";
-import { deleteBodyCompEntry } from "@/app/(app)/body-comp/edit/[id]/delete-body-comp-entry.action";
+import { deleteBodyCompEntry } from "@/app/(app)/body-comp/[id]/edit/delete-body-comp-entry.action";
 import { useRouter } from "next/navigation";
+import { HeaderButton } from "@/shared/components/header/header-button/header-button.component";
 
 export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
   const [state, formAction] = useActionState(props.action, initialFormState);
@@ -33,15 +33,11 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
   const title = props.isEditMode ? "Edit Entry" : "New Entry";
   const primaryButtonLabel = props.isEditMode ? "Save" : "Create";
   const headerEndContent = props.isEditMode ? (
-    <div className="text-lg w-12">
-      <Button
-        appearance={ButtonAppearance.Danger}
-        onClick={onDeleteButtonClick}
-        size={ButtonSize.Small}
-      >
-        <Icon icon={IconImage.Trash} />
-      </Button>
-    </div>
+    <HeaderButton
+      appearance={ButtonAppearance.Danger}
+      icon={IconImage.Trash}
+      onClick={onDeleteButtonClick}
+    />
   ) : undefined;
 
   return (
