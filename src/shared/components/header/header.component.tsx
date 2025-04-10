@@ -4,7 +4,7 @@ import { ReactNode } from 'react';
 export const Header = (props: IHeaderProps) => {
   const endContent = props.endContent;
   return (
-    <header className="flex justify-between pt-6 px-4">
+    <header className="flex items-center justify-between pt-6 px-4">
       <Heading level={HeadingLevel.h1}>{props.title}</Heading>
 
       {endContent}

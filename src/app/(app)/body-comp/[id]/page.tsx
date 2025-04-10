@@ -1,9 +1,10 @@
 import { getAuthSessionDetails } from "@/auth/get-auth-session-details.util";
 import { selectBodyCompEntryById } from "@/body-comp/body-comp-entry/body-comp-entry.dao";
+import { BodyFatMethod } from "@/body-comp/calculate-body-fat";
 import { calculateBodyFatForCurrentUser } from "@/body-comp/calculate-body-fat-for-current-user.action";
-import { OverviewMetricRow } from '@/body-comp/overview/overview-metric-row.component';
-import { OverviewMetricsSection } from '@/body-comp/overview/overview-metrics-section.component';
-import { OverviewSection } from '@/body-comp/overview/overview-section.component';
+import { OverviewSkinfoldSection } from "@/body-comp/overview/overview-calipers-section.component";
+import { OverviewMeasuringTapeSection } from "@/body-comp/overview/overview-measuring-tape-section.component";
+import { OverviewSection } from "@/body-comp/overview/overview-section.component";
 import { HeaderButton } from "@/shared/components/header/header-button/header-button.component";
 import { Header } from "@/shared/components/header/header.component";
 import {
@@ -48,26 +49,62 @@ export default async function ViewBodyCompEntry(
         title={entry.date.format("MMM DD, YYYY")}
       />
 
-      <main className="mt-12 px-4">
-        <strong className="text-7xl">{formatWeight(entry.weight)}</strong>
+      <main className="mb-12 mt-12 px-4">
+        <div className="mb-8">
+          <strong className="text-7xl">{formatWeight(entry.weight)}</strong>
 
-        {bodyFat && (
-          <div className="mt-2">
+          <div className="mt-4">
             <Heading level={HeadingLevel.h2}>
-              Body fat: {formatPercent(bodyFat.bodyFatPercent)}
+              {bodyFat ? formatPercent(bodyFat.bodyFatPercent) : "Unknown"} body
+              fat
             </Heading>
+
+            <sub
+              className={
+                bodyFat?.method
+                  ? colorClassByMethod[bodyFat.method]
+                  : "text-red-600"
+              }
+            >
+              {bodyFat
+                ? `${emojiByMethod[bodyFat.method]} Calculated using ${
+                    methodNames[bodyFat.method]
+                  } method`
+                : "❌ Enter all measurements in at least 1 category to calculate your body fat"}
+            </sub>
           </div>
-        )}
+        </div>
 
         <OverviewSection>
-          <OverviewMetricsSection title="Measuring tape">
-            <OverviewMetricRow
+          <OverviewMeasuringTapeSection neckEntry={entry} waistEntry={entry} />
 
-            />
-          </OverviewMetricsSection>
-
+          <OverviewSkinfoldSection
+            abEntry={entry}
+            chestEntry={entry}
+            thighEntry={entry}
+          />
         </OverviewSection>
       </main>
     </>
   );
 }
+
+const colorClassByMethod = {
+  [BodyFatMethod.Combined]: "text-green-600",
+  [BodyFatMethod.Navy]: "text-orange-600",
+  [BodyFatMethod.Skinfold3Site]: "text-orange-600",
+} as const satisfies BodyFatMethodStringRecord;
+
+const emojiByMethod = {
+  [BodyFatMethod.Combined]: "✅",
+  [BodyFatMethod.Navy]: "⚠️",
+  [BodyFatMethod.Skinfold3Site]: "⚠️",
+} as const satisfies BodyFatMethodStringRecord;
+
+const methodNames = {
+  [BodyFatMethod.Combined]: "combined",
+  [BodyFatMethod.Navy]: "Navy",
+  [BodyFatMethod.Skinfold3Site]: "skinfold",
+} as const satisfies BodyFatMethodStringRecord;
+
+type BodyFatMethodStringRecord = Record<BodyFatMethod, string>;

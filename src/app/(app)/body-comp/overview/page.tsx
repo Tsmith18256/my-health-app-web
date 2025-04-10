@@ -3,7 +3,6 @@ import {
   BodyCompBottomNavPage,
 } from "@/body-comp/body-comp-bottom-nav.component";
 import { OverviewMetricRow } from "@/body-comp/overview/overview-metric-row.component";
-import { OverviewMetricsSection } from "@/body-comp/overview/overview-metrics-section.component";
 import { OverviewSection } from "@/body-comp/overview/overview-section.component";
 import { Header } from "@/shared/components/header/header.component";
 import {
@@ -11,7 +10,6 @@ import {
   HeadingLevel,
 } from "@/shared/components/heading/heading.component";
 import { selectBodyCompEntries } from "@/body-comp/body-comp-entry/body-comp-entry.dao";
-import { LengthUnit } from "@/shared/enums/length-unit.enum";
 import { formatDateRelativeToToday } from "@/shared/utils/dates/format-date-relative-to-today.util";
 import { UserButton } from "@clerk/nextjs";
 import dayjs from "dayjs";
@@ -20,7 +18,8 @@ import { getAuthSessionDetails } from "@/auth/get-auth-session-details.util";
 import { selectUserProfileByEmail } from "@/shared/database/daos/user-profile.dao";
 import { ErrorCode, ErrorWithCode } from "@/shared/errors/error-with-code.type";
 import { getAgeFromBirthday } from "@/shared/utils/dates/get-age-from-birthday.util";
-import { findByFieldValue } from "@/shared/utils/objects/find-by-field-value.util";
+import { OverviewMeasuringTapeSection } from "@/body-comp/overview/overview-measuring-tape-section.component";
+import { OverviewSkinfoldSection } from "@/body-comp/overview/overview-calipers-section.component";
 
 export default async function OverviewPage() {
   const userEmail = (await getAuthSessionDetails()).emailAddress;
@@ -67,11 +66,9 @@ export default async function OverviewPage() {
       }) !== null
     );
   });
-  const mostRecentNeckCircEntry = findByFieldValue(sortedEntries, {
-    inequality: true,
-    key: "neckCircumference",
-    value: undefined,
-  });
+  const mostRecentNeckCircEntry = sortedEntries.find(
+    (entry) => entry.neckCircumference !== undefined
+  );
   const mostRecentWaistCircEntry = sortedEntries.find(
     (entry) => entry.waistCircumference !== undefined
   );
@@ -137,62 +134,30 @@ export default async function OverviewPage() {
             Other metrics
           </Heading>
 
-          {/* @todo Simplify this and use formatPercent function */}
           <OverviewMetricRow
             date={mostRecentBodyFatEntry?.date}
             label="Body fat"
+            unit="percent"
             value={
               mostRecentBodyFatEntry &&
               calculateBodyFat({
                 age: getAgeFromBirthday(userProfile.birthday),
                 entry: mostRecentBodyFatEntry,
                 height: userProfile.height,
-              })?.bodyFatPercent.toLocaleString(undefined, {
-                style: "percent",
-                minimumFractionDigits: 1,
-                maximumFractionDigits: 1,
-              })
+              })?.bodyFatPercent
             }
           />
 
-          <OverviewMetricsSection title="Measuring tape">
-            <OverviewMetricRow
-              date={mostRecentNeckCircEntry?.date}
-              label="Neck"
-              lengthUnit={LengthUnit.Inches}
-              value={mostRecentNeckCircEntry?.neckCircumference?.toFixed(1)}
-            />
+          <OverviewMeasuringTapeSection
+            neckEntry={mostRecentNeckCircEntry}
+            waistEntry={mostRecentWaistCircEntry}
+          />
 
-            <OverviewMetricRow
-              date={mostRecentWaistCircEntry?.date}
-              label="Waist"
-              lengthUnit={LengthUnit.Inches}
-              value={mostRecentWaistCircEntry?.waistCircumference?.toFixed(1)}
-            />
-          </OverviewMetricsSection>
-
-          <OverviewMetricsSection title="Calipers (skinfold)">
-            <OverviewMetricRow
-              date={mostRecentChestSkinfoldEntry?.date}
-              label="Chest"
-              lengthUnit={LengthUnit.Millimeters}
-              value={mostRecentChestSkinfoldEntry?.chestSkinfold?.toFixed(0)}
-            />
-
-            <OverviewMetricRow
-              date={mostRecentAbSkinfoldEntry?.date}
-              label="Abdominal"
-              lengthUnit={LengthUnit.Millimeters}
-              value={mostRecentAbSkinfoldEntry?.abSkinfold?.toFixed(0)}
-            />
-
-            <OverviewMetricRow
-              date={mostRecentThighSkinfoldEntry?.date}
-              label="Thigh"
-              lengthUnit={LengthUnit.Millimeters}
-              value={mostRecentThighSkinfoldEntry?.thighSkinfold?.toFixed(0)}
-            />
-          </OverviewMetricsSection>
+          <OverviewSkinfoldSection
+            abEntry={mostRecentAbSkinfoldEntry}
+            chestEntry={mostRecentChestSkinfoldEntry}
+            thighEntry={mostRecentThighSkinfoldEntry}
+          />
         </OverviewSection>
       </main>
 

@@ -4,7 +4,11 @@ export const Heading = (props: IHeadingProps) => {
   const HeadingTag = props.tag ?? props.level;
 
   return (
-    <HeadingTag className={`font-semibold ${classNameByHeadingLevel[props.level]}`}>
+    <HeadingTag
+      className={`font-semibold ${
+        classNameByHeadingLevel[props.level]
+      } leading-none`}
+    >
       {props.children}
     </HeadingTag>
   );
