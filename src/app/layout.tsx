@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
-import { FONTS_CLASS_NAME } from '@/app/fonts/fonts';
+import { iconFont } from '@/app/fonts/fonts';
 
 export const metadata: Metadata = {
   title: "Cool fitness app",
   description: "So many gainz",
 };
+
+export const fontsClassName = `${iconFont.variable}`;
 
 export default function RootLayout({
   children,
@@ -16,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en" className={FONTS_CLASS_NAME}>
+      <html lang="en" className={fontsClassName}>
         <body className="antialiased">{children}</body>
       </html>
     </ClerkProvider>
