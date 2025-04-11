@@ -1,6 +1,6 @@
 "use client";
 
-import { saveOnboardingInformation } from "@/app/(auth)/onboarding/save-onboarding-information.action";
+import { saveOnboardingInformation } from "@/app/(onboarding)/onboarding/save-onboarding-information.action";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { UserProfileForm } from "@/body-comp/profile/user-profile-form.component";
