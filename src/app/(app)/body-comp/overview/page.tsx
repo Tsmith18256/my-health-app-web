@@ -11,7 +11,6 @@ import {
 } from "@/shared/components/heading/heading.component";
 import { selectBodyCompEntries } from "@/body-comp/body-comp-entry/body-comp-entry.dao";
 import { formatDateRelativeToToday } from "@/shared/utils/dates/format-date-relative-to-today.util";
-import { UserButton } from "@clerk/nextjs";
 import dayjs from "dayjs";
 import { calculateBodyFat } from "@/body-comp/calculate-body-fat";
 import { getAuthSessionDetails } from "@/auth/get-auth-session-details.util";
