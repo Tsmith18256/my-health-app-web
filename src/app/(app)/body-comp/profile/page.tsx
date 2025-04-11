@@ -6,6 +6,7 @@ import {
 import { UserProfileForm } from "@/body-comp/profile/user-profile-form.component";
 import { Header } from "@/shared/components/header/header.component";
 import { selectUserProfileByEmail } from "@/shared/database/daos/user-profile.dao";
+import { UserButton } from '@clerk/nextjs';
 import { auth, clerkClient, currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
@@ -43,9 +44,15 @@ export default async function ProfilePage() {
     redirect("/onboarding");
   }
 
+  const headerEndContent = (
+    <div className="flex h-12 items-center justify-center w-12">
+      <UserButton />
+    </div>
+  );
+
   return (
     <>
-      <Header title="Profile" />
+      <Header title="Profile" endContent={headerEndContent} />
 
       <UserProfileForm
         {...userProfile}

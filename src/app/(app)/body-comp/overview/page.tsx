@@ -82,15 +82,9 @@ export default async function OverviewPage() {
     (entry) => entry.thighSkinfold !== undefined
   );
 
-  const headerEndContent = (
-    <div className="flex h-12 items-center justify-center w-12">
-      <UserButton />
-    </div>
-  );
-
   return (
     <>
-      <Header endContent={headerEndContent} title="Overview" />
+      <Header title="Overview" />
 
       <main className="flex flex-col gap-6 mb-18 mt-6 pb-4 px-4">
         <OverviewSection>

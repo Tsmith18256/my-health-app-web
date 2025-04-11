@@ -7,7 +7,13 @@ const isOnboardingRoute = createRouteMatcher(["/onboarding"]);
 export default clerkMiddleware(async (auth, req) => {
   const isPublic = isPublicRoute(req);
   if (!isPublic) {
-    await auth.protect();
+    const welcomeUrl = new URL("/welcome", req.url);
+    const bodyCompUrl = new URL("/body-comp/log");
+
+    await auth.protect(undefined, {
+      unauthenticatedUrl: welcomeUrl.toString(),
+      unauthorizedUrl: bodyCompUrl.toString(),
+    });
   }
 
   const { sessionClaims, userId } = await auth();
