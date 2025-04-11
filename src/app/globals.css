@@ -1,6 +1,5 @@
 @import "tailwindcss";
 @import "./fonts/fontawesome.min.css";
-@import "./fonts/regular.min.css";
 
 :root {
   --background: #ffffff;
