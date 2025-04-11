@@ -8,7 +8,7 @@ export default clerkMiddleware(async (auth, req) => {
   const isPublic = isPublicRoute(req);
   if (!isPublic) {
     const welcomeUrl = new URL("/welcome", req.url);
-    const bodyCompUrl = new URL("/body-comp/log");
+    const bodyCompUrl = new URL("/body-comp/log", req.url);
 
     await auth.protect(undefined, {
       unauthenticatedUrl: welcomeUrl.toString(),
