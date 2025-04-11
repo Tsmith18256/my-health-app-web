@@ -1,7 +1,5 @@
+import { redirect } from 'next/navigation';
+
 export default function HomePage() {
-  return (
-    <div>
-      Hello
-    </div>
-  );
+  redirect('/body-comp/log');
 }
