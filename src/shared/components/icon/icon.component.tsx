@@ -1,3 +1,4 @@
+import { ICON_FONT_VARIABLE } from "@/app/fonts/fonts";
 import { ObjectValues } from "@/shared/helper-types/object-values.type";
 
 export const Icon = (props: IIconProps) => {
@@ -5,7 +6,7 @@ export const Icon = (props: IIconProps) => {
 
   return (
     <i
-      className={`far font-(family-name:--font-family-font-awesome) font-normal ${props.icon} ${size}`}
+      className={`far font-(family-name:${ICON_FONT_VARIABLE}) font-normal ${props.icon} ${size}`}
     />
   );
 };
