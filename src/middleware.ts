@@ -1,4 +1,4 @@
-import { deviceRedirectsMiddleware } from '@/middlewares/deviceRedirectsMiddleware';
+import { deviceRedirectsMiddleware } from '@/middlewares/device-redirects-middleware';
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 

@@ -1,4 +1,4 @@
-import { BodyCompRow } from "@/features/body-comp/log/body-comp-row.component";
+import { BodyCompLogRow } from "@/features/body-comp/log/body-comp-log-list/body-comp-log-row.component";
 import { selectBodyCompEntries } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
 import { getAuthSessionDetails } from "@/features/auth/get-auth-session-details.util";
 import { selectUserProfileByEmail } from "@/shared/database/daos/user-profile.dao";
@@ -18,10 +18,10 @@ export const BodyCompLogList = async () => {
   });
 
   return (
-    <>
+    <div className="flex flex-col">
       {entries.map((entry) => {
         return (
-          <BodyCompRow
+          <BodyCompLogRow
             key={entry.id}
             age={getAgeFromBirthday(userProfile.birthday)}
             entry={entry}
@@ -29,6 +29,6 @@ export const BodyCompLogList = async () => {
           />
         );
       })}
-    </>
+    </div>
   );
 };
