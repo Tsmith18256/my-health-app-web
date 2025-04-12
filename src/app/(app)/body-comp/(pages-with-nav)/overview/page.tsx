@@ -1,7 +1,3 @@
-import {
-  BodyCompBottomNav,
-  BodyCompBottomNavPage,
-} from "@/features/body-comp/body-comp-bottom-nav.component";
 import { Header } from "@/shared/components/header/header.component";
 import { Suspense } from "react";
 import { LoadingIndicator } from "@/shared/components/loading-indicator/loading-indicator.component";
@@ -15,8 +11,6 @@ export default async function OverviewPage() {
       <Suspense fallback={<LoadingIndicator />}>
         <OverviewPageBody />
       </Suspense>
-
-      <BodyCompBottomNav currentPage={BodyCompBottomNavPage.Overview} />
     </>
   );
 }

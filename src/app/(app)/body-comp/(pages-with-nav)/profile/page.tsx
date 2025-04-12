@@ -1,8 +1,4 @@
-import { updateProfile } from "@/app/(app)/body-comp/profile/update-profile.action";
-import {
-  BodyCompBottomNav,
-  BodyCompBottomNavPage,
-} from "@/features/body-comp/body-comp-bottom-nav.component";
+import { updateProfile } from "@/app/(app)/body-comp/(pages-with-nav)/profile/update-profile.action";
 import { UserProfileForm } from "@/features/body-comp/profile/user-profile-form.component";
 import { Header } from "@/shared/components/header/header.component";
 import { selectUserProfileByEmail } from "@/shared/database/daos/user-profile.dao";
@@ -60,8 +56,6 @@ export default async function ProfilePage() {
         birthday={userProfile.birthday.format("YYYY-MM-DD")}
         isOnboarding={false}
       />
-
-      <BodyCompBottomNav currentPage={BodyCompBottomNavPage.Profile} />
     </>
   );
 }

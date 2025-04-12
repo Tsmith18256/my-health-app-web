@@ -1,45 +1,44 @@
+"use client";
+
 import {
   Icon,
   IconImage,
   IconSize,
 } from "@/shared/components/icon/icon.component";
-import { ObjectValues } from "@/shared/helper-types/object-values.type";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 
-export const BodyCompBottomNav = ({ currentPage }: IBodyCompBottomNavProps) => {
+export const BodyCompBottomNav = () => {
+  // This is only used from the layout file so we don't need to validate that
+  // the string is an expected pathname.
+  const pathname = usePathname() as BodyCompPathname;
+  const router = useRouter();
+
+  if (!pathname) {
+    router.replace("/body-comp/log");
+  }
+
   return (
     <nav className="border-t-3 bottom-0 fixed flex justify-stretch h-18 inset-x-0">
-      {renderNavButton(BodyCompBottomNavPage.Log, {
-        href: "/body-comp/log",
-        isActive: currentPage === BodyCompBottomNavPage.Log,
-      })}
-      {renderNavButton(BodyCompBottomNavPage.Overview, {
-        href: "/body-comp/overview",
-        isActive: currentPage === BodyCompBottomNavPage.Overview,
-      })}
-      {renderNavButton(BodyCompBottomNavPage.Profile, {
-        href: "/body-comp/profile",
-        isActive: currentPage === BodyCompBottomNavPage.Profile,
-      })}
+      {renderNavButton("/body-comp/log", pathname)}
+      {renderNavButton("/body-comp/overview", pathname)}
+      {renderNavButton("/body-comp/profile", pathname)}
     </nav>
   );
 };
 
 const renderNavButton = (
-  page: BodyCompBottomNavPage,
-  opts: { href: string; isActive: boolean }
+  href: BodyCompPathname,
+  currentPath: BodyCompPathname
 ) => {
   const contents = (
     <div className="flex flex-col gap-2">
-      <Icon
-        icon={iconImageMap[page]}
-        size={IconSize.Large}
-      />
-      <span className="text-xs">{page}</span>
+      <Icon icon={pathnameIconRecord[href]} size={IconSize.Large} />
+      <span className="text-xs">{pathnameLabelRecord[href]}</span>
     </div>
   );
 
-  if (opts.isActive) {
+  if (href === currentPath) {
     return (
       <button className="bg-orange-400 grow text-black w-full" disabled>
         {contents}
@@ -50,27 +49,23 @@ const renderNavButton = (
   return (
     <Link
       className="bg-orange-200 active:bg-orange-600 grow w-full"
-      href={opts.href}
+      href={href}
     >
       <button className="h-full text-block w-full">{contents}</button>
     </Link>
   );
 };
 
-export const BodyCompBottomNavPage = {
-  Log: "Log",
-  Overview: "Overview",
-  Profile: "Profile",
-} as const;
+type BodyCompPathname = `/body-comp/${"log" | "overview" | "profile"}`;
 
-export type BodyCompBottomNavPage = ObjectValues<typeof BodyCompBottomNavPage>;
+const pathnameIconRecord: Record<BodyCompPathname, IconImage> = {
+  "/body-comp/log": IconImage.Log,
+  "/body-comp/overview": IconImage.Overview,
+  "/body-comp/profile": IconImage.Profile,
+};
 
-export interface IBodyCompBottomNavProps {
-  currentPage: BodyCompBottomNavPage;
-}
-
-const iconImageMap: Record<BodyCompBottomNavPage, IconImage> = {
-  [BodyCompBottomNavPage.Log]: IconImage.Log,
-  [BodyCompBottomNavPage.Overview]: IconImage.Overview,
-  [BodyCompBottomNavPage.Profile]: IconImage.Profile,
+const pathnameLabelRecord: Record<BodyCompPathname, string> = {
+  "/body-comp/log": "Log",
+  "/body-comp/overview": "Overview",
+  "/body-comp/profile": "Profile",
 };
