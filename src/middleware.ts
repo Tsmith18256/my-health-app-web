@@ -1,3 +1,4 @@
+import { deviceRedirectsMiddleware } from '@/middlewares/deviceRedirectsMiddleware';
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
@@ -34,6 +35,10 @@ export default clerkMiddleware(async (auth, req) => {
       return NextResponse.redirect(onboardingUrl);
     }
   }
+
+  console.log('Helllooo');
+
+  return deviceRedirectsMiddleware(req);
 });
 
 export const config = {
