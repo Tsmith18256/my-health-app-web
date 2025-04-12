@@ -7,7 +7,7 @@ import { Suspense } from 'react';
 export default function BodyCompLogPage() {
   return (
     <>
-      <main className="mb-38">
+      <main className="mb-38 py-4">
         <Suspense fallback={<LoadingIndicator />}>
           <BodyCompLogList />
         </Suspense>

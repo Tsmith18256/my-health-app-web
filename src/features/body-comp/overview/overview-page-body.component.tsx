@@ -77,7 +77,7 @@ export default async function OverviewPageBody() {
   );
 
   return (
-    <main className="flex flex-col gap-6 mb-18 mt-6 pb-4 px-4">
+    <main className="flex flex-col gap-6">
       <OverviewSection>
         <Heading level={HeadingLevel.h5} tag={HeadingLevel.h2}>
           Weight

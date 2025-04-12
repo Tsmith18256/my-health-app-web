@@ -15,7 +15,7 @@ export const BodyCompRow = ({
 
   return (
     <Link
-      className="active:bg-gray-200 flex justify-between p-4"
+      className="active:bg-gray-200 flex justify-between py-4"
       href={`/body-comp/${entry.id}`}
     >
       <div className="flex flex-col">

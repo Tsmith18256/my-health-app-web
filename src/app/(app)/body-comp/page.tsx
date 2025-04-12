@@ -9,13 +9,17 @@ export default function BodyCompPage() {
     <>
       <Header title="Body Composition" />
 
-      <Suspense fallback={<LoadingIndicator />}>
-        <OverviewPageBody />
-      </Suspense>
+      <div className="gap-8 grid grid-cols-[1fr_auto] mt-8 px-4">
+        <Suspense fallback={<LoadingIndicator />}>
+          <BodyCompLogList />
+        </Suspense>
 
-      <Suspense fallback={<LoadingIndicator />}>
-        <BodyCompLogList />
-      </Suspense>
+        <div className="min-w-128">
+          <Suspense fallback={<LoadingIndicator />}>
+            <OverviewPageBody />
+          </Suspense>
+        </div>
+      </div>
     </>
   );
 }
