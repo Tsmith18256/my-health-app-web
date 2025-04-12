@@ -12,7 +12,7 @@ import {
   HeadingLevel,
 } from "@/shared/components/heading/heading.component";
 import { IconImage } from "@/shared/components/icon/icon.component";
-import { IBodyCompEntry } from "@/body-comp/body-comp-entry/body-comp-entry.dao";
+import { IBodyCompEntry } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
 import Link from "next/link";
 import { useActionState } from "react";
 import { deleteBodyCompEntry } from "@/app/(app)/body-comp/[id]/edit/delete-body-comp-entry.action";

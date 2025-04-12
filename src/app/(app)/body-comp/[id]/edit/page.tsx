@@ -1,8 +1,8 @@
-import { BodyCompEntryForm } from "@/body-comp/log/body-comp-entry-form.component";
+import { BodyCompEntryForm } from "@/features/body-comp/log/body-comp-entry-form.component";
 import { editBodyCompEntry } from "@/app/(app)/body-comp/[id]/edit/edit-body-comp-entry.action";
-import { selectBodyCompEntryById } from "@/body-comp/body-comp-entry/body-comp-entry.dao";
+import { selectBodyCompEntryById } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
 import { PageWithParamsProps } from "@/shared/helper-types/page-with-params-props.type";
-import { getAuthSessionDetails } from '@/auth/get-auth-session-details.util';
+import { getAuthSessionDetails } from '@/features/auth/get-auth-session-details.util';
 import { notFound } from 'next/navigation';
 
 /**

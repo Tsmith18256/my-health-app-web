@@ -2,8 +2,8 @@ import { updateProfile } from "@/app/(app)/body-comp/profile/update-profile.acti
 import {
   BodyCompBottomNav,
   BodyCompBottomNavPage,
-} from "@/body-comp/body-comp-bottom-nav.component";
-import { UserProfileForm } from "@/body-comp/profile/user-profile-form.component";
+} from "@/features/body-comp/body-comp-bottom-nav.component";
+import { UserProfileForm } from "@/features/body-comp/profile/user-profile-form.component";
 import { Header } from "@/shared/components/header/header.component";
 import { selectUserProfileByEmail } from "@/shared/database/daos/user-profile.dao";
 import { UserButton } from '@clerk/nextjs';

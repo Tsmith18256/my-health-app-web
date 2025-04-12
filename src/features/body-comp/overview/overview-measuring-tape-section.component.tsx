@@ -1,6 +1,6 @@
-import { IBodyCompEntry } from '@/body-comp/body-comp-entry/body-comp-entry.dao';
-import { OverviewMetricRow } from '@/body-comp/overview/overview-metric-row.component';
-import { OverviewMetricsSection } from '@/body-comp/overview/overview-metrics-section.component';
+import { IBodyCompEntry } from '@/features/body-comp/body-comp-entry/body-comp-entry.dao';
+import { OverviewMetricRow } from '@/features/body-comp/overview/overview-section/overview-metric-row.component';
+import { OverviewMetricsSection } from '@/features/body-comp/overview/overview-section/overview-metrics-section.component';
 
 export const OverviewMeasuringTapeSection = ({ neckEntry, showDates, waistEntry }: IOverviewMeasuringTapeSectionProps) => {
   return (

@@ -1,10 +1,10 @@
-import { getAuthSessionDetails } from "@/auth/get-auth-session-details.util";
-import { selectBodyCompEntryById } from "@/body-comp/body-comp-entry/body-comp-entry.dao";
-import { BodyFatMethod } from "@/body-comp/calculate-body-fat";
-import { calculateBodyFatForCurrentUser } from "@/body-comp/calculate-body-fat-for-current-user.action";
-import { OverviewSkinfoldSection } from "@/body-comp/overview/overview-calipers-section.component";
-import { OverviewMeasuringTapeSection } from "@/body-comp/overview/overview-measuring-tape-section.component";
-import { OverviewSection } from "@/body-comp/overview/overview-section.component";
+import { getAuthSessionDetails } from "@/features/auth/get-auth-session-details.util";
+import { selectBodyCompEntryById } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
+import { BodyFatMethod } from "@/features/body-comp/calculate-body-fat";
+import { calculateBodyFatForCurrentUser } from "@/features/body-comp/calculate-body-fat-for-current-user.action";
+import { OverviewSkinfoldSection } from "@/features/body-comp/overview/overview-calipers-section.component";
+import { OverviewMeasuringTapeSection } from "@/features/body-comp/overview/overview-measuring-tape-section.component";
+import { OverviewSection } from "@/features/body-comp/overview/overview-section/overview-section.component";
 import { HeaderButton } from "@/shared/components/header/header-button/header-button.component";
 import { Header } from "@/shared/components/header/header.component";
 import {

@@ -1,6 +1,6 @@
-import { getAuthSessionDetails } from "@/auth/get-auth-session-details.util";
-import { IBodyCompEntry } from "@/body-comp/body-comp-entry/body-comp-entry.dao";
-import { calculateBodyFat } from "@/body-comp/calculate-body-fat";
+import { getAuthSessionDetails } from "@/features/auth/get-auth-session-details.util";
+import { IBodyCompEntry } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
+import { calculateBodyFat } from "@/features/body-comp/calculate-body-fat";
 import { selectUserProfileByEmail } from "@/shared/database/daos/user-profile.dao";
 import { getAgeFromBirthday } from "@/shared/utils/dates/get-age-from-birthday.util";
 
