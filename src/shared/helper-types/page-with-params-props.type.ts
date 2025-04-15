@@ -1,5 +1,4 @@
 import { Prettify } from "@/shared/helper-types/prettify.type";
-import { PropsWithChildren } from "react";
 
 /**
  * Helper type for creating prop types for Next pages that take params. Simply
@@ -8,8 +7,6 @@ import { PropsWithChildren } from "react";
  *
  * eg: `PageWithParamsProps<'id'>`
  */
-export type PageWithParamsProps<TParams extends string> = Prettify<
-  PropsWithChildren<{
-    params: Promise<Record<TParams, string>>;
-  }>
->;
+export type PageWithParamsProps<TParams extends string> = Prettify<{
+  params: Promise<Record<TParams, string>>;
+}>;
