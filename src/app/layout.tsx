@@ -9,8 +9,6 @@ export const metadata: Metadata = {
   description: "So many gainz",
 };
 
-export const fontsClassName = `${iconFont.variable}`;
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -18,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en" className={fontsClassName}>
+      <html lang="en" className={iconFont.variable}>
         <body className="antialiased">{children}</body>
       </html>
     </ClerkProvider>
