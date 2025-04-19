@@ -4,6 +4,14 @@ import { NextResponse } from "next/server";
 const isPublicRoute = createRouteMatcher(["/welcome", "/sign-in(.*)"]);
 const isOnboardingRoute = createRouteMatcher(["/onboarding"]);
 
+/**
+ * The middleware used for authentication. Authentication for this application
+ * is done with Clerk: https://clerk.com/
+ *
+ * Note that if any of the redirects on this page are changed, it's likely that
+ * environment variables need to change too. See the `.env` file or the Vercel
+ * environment variables to see what might need to change.
+ */
 export default clerkMiddleware(async (auth, req) => {
   const isPublic = isPublicRoute(req);
   if (!isPublic) {
