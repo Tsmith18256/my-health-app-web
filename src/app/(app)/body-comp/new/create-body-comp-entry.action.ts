@@ -3,7 +3,7 @@
 import {
   INewBodyCompEntry,
   insertBodyCompEntry,
-} from "@/body-comp/body-comp-entry/body-comp-entry.dao";
+} from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
 import { EmailAddress } from "@/shared/utils/validation/validate-email-address.util";
 import { currentUser } from "@clerk/nextjs/server";
 import dayjs from "dayjs";
