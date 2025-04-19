@@ -1,6 +1,6 @@
-import { BodyCompRow } from "@/body-comp/log/body-comp-row.component";
-import { selectBodyCompEntries } from "@/body-comp/body-comp-entry/body-comp-entry.dao";
-import { getAuthSessionDetails } from "@/auth/get-auth-session-details.util";
+import { BodyCompRow } from "@/features/body-comp/log/body-comp-row.component";
+import { selectBodyCompEntries } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
+import { getAuthSessionDetails } from "@/features/auth/get-auth-session-details.util";
 import { selectUserProfileByEmail } from "@/shared/database/daos/user-profile.dao";
 import { ErrorCode, ErrorWithCode } from "@/shared/errors/error-with-code.type";
 import { getAgeFromBirthday } from "@/shared/utils/dates/get-age-from-birthday.util";

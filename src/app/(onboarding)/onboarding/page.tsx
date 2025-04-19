@@ -3,7 +3,7 @@
 import { saveOnboardingInformation } from "@/app/(onboarding)/onboarding/save-onboarding-information.action";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { UserProfileForm } from "@/body-comp/profile/user-profile-form.component";
+import { UserProfileForm } from "@/features/body-comp/profile/user-profile-form.component";
 
 export default function OnboardingPage() {
   const router = useRouter();

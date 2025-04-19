@@ -1,25 +1,25 @@
 import {
   BodyCompBottomNav,
   BodyCompBottomNavPage,
-} from "@/body-comp/body-comp-bottom-nav.component";
-import { OverviewMetricRow } from "@/body-comp/overview/overview-metric-row.component";
-import { OverviewSection } from "@/body-comp/overview/overview-section.component";
+} from "@/features/body-comp/body-comp-bottom-nav.component";
+import { OverviewMetricRow } from "@/features/body-comp/overview/overview-metric-row.component";
+import { OverviewSection } from "@/features/body-comp/overview/overview-section.component";
 import { Header } from "@/shared/components/header/header.component";
 import {
   Heading,
   HeadingLevel,
 } from "@/shared/components/heading/heading.component";
-import { selectBodyCompEntries } from "@/body-comp/body-comp-entry/body-comp-entry.dao";
+import { selectBodyCompEntries } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
 import { formatDateRelativeToToday } from "@/shared/utils/dates/format-date-relative-to-today.util";
 import { UserButton } from "@clerk/nextjs";
 import dayjs from "dayjs";
-import { calculateBodyFat } from "@/body-comp/calculate-body-fat";
-import { getAuthSessionDetails } from "@/auth/get-auth-session-details.util";
+import { calculateBodyFat } from "@/features/body-comp/calculate-body-fat";
+import { getAuthSessionDetails } from "@/features/auth/get-auth-session-details.util";
 import { selectUserProfileByEmail } from "@/shared/database/daos/user-profile.dao";
 import { ErrorCode, ErrorWithCode } from "@/shared/errors/error-with-code.type";
 import { getAgeFromBirthday } from "@/shared/utils/dates/get-age-from-birthday.util";
-import { OverviewMeasuringTapeSection } from "@/body-comp/overview/overview-measuring-tape-section.component";
-import { OverviewSkinfoldSection } from "@/body-comp/overview/overview-calipers-section.component";
+import { OverviewMeasuringTapeSection } from "@/features/body-comp/overview/overview-measuring-tape-section.component";
+import { OverviewSkinfoldSection } from "@/features/body-comp/overview/overview-calipers-section.component";
 
 export default async function OverviewPage() {
   const userEmail = (await getAuthSessionDetails()).emailAddress;

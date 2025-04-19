@@ -1,4 +1,4 @@
-import { calculateBodyFat } from "@/body-comp/calculate-body-fat";
+import { calculateBodyFat } from "@/features/body-comp/calculate-body-fat";
 import { formatPercent } from '@/shared/utils/formatting/format-percent.util';
 import Link from "next/link";
 
