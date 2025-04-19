@@ -1,19 +1,25 @@
-import { Button, ButtonSize } from "@/shared/components/buttons/button/button.component";
+import {
+  Button,
+  ButtonSize,
+} from "@/shared/components/buttons/button/button.component";
+import { Heading, HeadingLevel } from '@/shared/components/heading/heading.component';
 import Link from "next/link";
 
 export default function LoginPage() {
   return (
-    <main className="fixed flex flex-col inset-0 items-center p-8 text-center">
-      <div className="flex flex-col justify-center grow">
-        <h1 className="font-bold text-5xl">Fitness</h1>
-        <h1 className="font-bold text-5xl">App</h1>
+    <main className="fixed flex flex-col inset-0 items-center justify-center p-8 text-center sm:gap-8">
+      <div className="flex flex-col grow justify-center sm:flex-none">
+        <Heading level={HeadingLevel.h1}>
+          Fitness App
+        </Heading>
       </div>
 
-      <footer className="flex flex-col items-center mb-12 w-full">
-        <Link className="w-full" href="/sign-in">
-          <Button size={ButtonSize.Large}>Get started</Button>
-        </Link>
-      </footer>
+      <Link
+        className="flex flex-col items-center mb-12 w-full sm:w-64"
+        href="/sign-in"
+      >
+        <Button size={ButtonSize.Large}>Get started</Button>
+      </Link>
     </main>
   );
 }
