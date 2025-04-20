@@ -1,16 +1,14 @@
 import { ObjectValues } from "@/shared/helper-types/object-values.type";
 import { ComponentProps } from "react";
 
-export const Heading = (props: IHeadingProps) => {
-  const HeadingTag = props.tag ?? props.level;
+export const Heading = ({ children, className, level, tag }: IHeadingProps) => {
+  const HeadingTag = tag ?? level;
 
   return (
     <HeadingTag
-      className={`font-semibold ${
-        classNameByHeadingLevel[props.level]
-      } leading-none`}
+      className={`font-semibold ${classNameByHeadingLevel[level]} leading-none ${className}`}
     >
-      {props.children}
+      {children}
     </HeadingTag>
   );
 };
@@ -26,7 +24,8 @@ export const HeadingLevel = {
 
 export type HeadingLevel = ObjectValues<typeof HeadingLevel>;
 
-export interface IHeadingProps extends Pick<ComponentProps<"h1">, "children"> {
+export interface IHeadingProps
+  extends Pick<ComponentProps<"h1">, "children" | "className"> {
   level: HeadingLevel;
   tag?: HeadingLevel;
 }
