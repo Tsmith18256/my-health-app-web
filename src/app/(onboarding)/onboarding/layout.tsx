@@ -1,10 +1,13 @@
-import { Header } from "@/shared/components/header/header.component";
 import { selectUserProfileByEmail } from "@/shared/database/daos/user-profile.dao";
 import { auth, clerkClient, currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { PropsWithChildren } from "react";
+import { ReactNode } from "react";
 
-export default async function OnboardingLayout(props: PropsWithChildren) {
+export default async function OnboardingLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
   /*
    * Start by checking the Clerk session to see if the onboarding has been
    * completed.
@@ -47,11 +50,5 @@ export default async function OnboardingLayout(props: PropsWithChildren) {
     }
   }
 
-  return (
-    <>
-      <Header title="Welcome" />
-
-      {props.children}
-    </>
-  );
+  return <>{children}</>;
 }
