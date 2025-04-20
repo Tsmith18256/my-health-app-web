@@ -2,14 +2,24 @@ import {
   Button,
   ButtonSize,
 } from "@/shared/components/buttons/button/button.component";
-import { Heading, HeadingLevel } from '@/shared/components/heading/heading.component';
+import {
+  Heading,
+  HeadingLevel,
+} from "@/shared/components/heading/heading.component";
 import Link from "next/link";
 
 export default function LoginPage() {
   return (
     <main className="fixed flex flex-col inset-0 items-center justify-center p-8 text-center sm:gap-8">
       <div className="flex flex-col grow justify-center sm:flex-none">
-        <Heading level={HeadingLevel.h1}>
+        {/*
+         * Applying a super high word-spacing forces a line break after every
+         * word.
+         */}
+        <Heading
+          className="word-spacing-[9999rem] sm:word-spacing-normal"
+          level={HeadingLevel.h1}
+        >
           Fitness App
         </Heading>
       </div>
