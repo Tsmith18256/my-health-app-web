@@ -1,7 +1,9 @@
+"use client";
+
 import { LengthUnit } from "@/shared/enums/length-unit.enum";
 import { formatDateRelativeToToday } from "@/shared/utils/dates/format-date-relative-to-today.util";
 import { formatLength } from "@/shared/utils/formatting/format-length.util";
-import { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 
 export const OverviewMetricRow = ({
   date,
@@ -15,13 +17,13 @@ export const OverviewMetricRow = ({
     <div className="flex items-end justify-between">
       <div className="flex flex-col">
         <span className="text-xs text-gray-500">{label}</span>
-        <strong className="text-2xl">
-          {text}
-        </strong>
+        <strong className="text-2xl">{text}</strong>
       </div>
 
       {date && (
-        <span className="text-xl">{formatDateRelativeToToday(date)}</span>
+        <span className="text-xl">
+          {formatDateRelativeToToday(dayjs(date))}
+        </span>
       )}
     </div>
   );
@@ -47,7 +49,7 @@ const getText = ({
 };
 
 export interface IOverviewMetricRowProps {
-  date?: Dayjs;
+  date?: string;
   label: string;
   unit?: LengthUnit | "percent";
   value?: number;

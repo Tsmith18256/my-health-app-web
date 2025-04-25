@@ -12,21 +12,21 @@ export const OverviewSkinfoldSection = ({
   return (
     <OverviewMetricsSection title="Skinfold (calipers)">
       <OverviewMetricRow
-        date={showDates ? chestEntry?.date : undefined}
+        date={showDates ? chestEntry?.date.toISOString() : undefined}
         label="Chest"
         unit={LengthUnit.Millimeters}
         value={chestEntry?.chestSkinfold}
       />
 
       <OverviewMetricRow
-        date={showDates ? abEntry?.date : undefined}
+        date={showDates ? abEntry?.date.toISOString() : undefined}
         label="Abdominal"
         unit={LengthUnit.Millimeters}
         value={abEntry?.abSkinfold}
       />
 
       <OverviewMetricRow
-        date={showDates ? thighEntry?.date : undefined}
+        date={showDates ? thighEntry?.date.toISOString() : undefined}
         label="Thigh"
         unit={LengthUnit.Millimeters}
         value={thighEntry?.thighSkinfold}
