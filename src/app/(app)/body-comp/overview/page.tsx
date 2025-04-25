@@ -34,7 +34,7 @@ export default async function OverviewPage() {
     userEmail,
   });
   const sortedEntries = entries.toSorted((entryA, entryB) =>
-    entryB.date.diff(entryA.date)
+    dayjs(entryB.date).diff(dayjs(entryA.date))
   );
 
   const mostRecentWeightEntry = sortedEntries[0];
@@ -42,7 +42,7 @@ export default async function OverviewPage() {
   const sevenDaysAgo = dayjs().subtract(7, "days");
   const last7DaysData = sortedEntries.slice(0, 7).reduce(
     (acc, entry) => {
-      if (entry.date.isAfter(sevenDaysAgo)) {
+      if (dayjs(entry.date).isAfter(sevenDaysAgo)) {
         return {
           entries: acc.entries + 1,
           sum: acc.sum + entry.weight,
@@ -61,7 +61,7 @@ export default async function OverviewPage() {
   const mostRecentBodyFatEntry = sortedEntries.find((entry) => {
     return (
       calculateBodyFat({
-        age: getAgeFromBirthday(userProfile.birthday),
+        age: getAgeFromBirthday(dayjs(userProfile.birthday)),
         entry,
         height: userProfile.height,
       }) !== null
@@ -101,7 +101,7 @@ export default async function OverviewPage() {
 
           <div className="grid grid-cols-2 mt-2">
             <OverviewCondensedItem
-              date={mostRecentWeightEntry?.date.toISOString()}
+              date={mostRecentWeightEntry?.date}
               valueText={
                 mostRecentWeightEntry?.weight === undefined
                   ? undefined
@@ -130,13 +130,13 @@ export default async function OverviewPage() {
           </Heading>
 
           <OverviewMetricRow
-            date={mostRecentBodyFatEntry?.date.toISOString()}
+            date={mostRecentBodyFatEntry?.date}
             label="Body fat"
             unit="percent"
             value={
               mostRecentBodyFatEntry &&
               calculateBodyFat({
-                age: getAgeFromBirthday(userProfile.birthday),
+                age: getAgeFromBirthday(dayjs(userProfile.birthday)),
                 entry: mostRecentBodyFatEntry,
                 height: userProfile.height,
               })?.bodyFatPercent

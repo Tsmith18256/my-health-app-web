@@ -1,5 +1,6 @@
 import { calculateBodyFat } from "@/features/body-comp/calculate-body-fat";
 import { formatPercent } from '@/shared/utils/formatting/format-percent.util';
+import dayjs from 'dayjs';
 import Link from "next/link";
 
 export const BodyCompRow = ({
@@ -20,7 +21,7 @@ export const BodyCompRow = ({
     >
       <div className="flex flex-col">
         <span className="text-xs text-gray-500">
-          {entry.date.format("MMM DD, YYYY")}
+          {dayjs(entry.date).format("MMM DD, YYYY")}
         </span>
         <strong className="text-2xl">{entry.weight.toFixed(1)} lbs</strong>
       </div>

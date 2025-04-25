@@ -4,7 +4,6 @@ import { insertUserProfile } from "@/shared/database/daos/user-profile.dao";
 import { validateEmailAddress } from "@/shared/utils/validation/validate-email-address.util";
 import { validateSex } from "@/shared/utils/validation/validate-sex.util";
 import { auth, clerkClient, currentUser } from "@clerk/nextjs/server";
-import dayjs from "dayjs";
 
 export const saveOnboardingInformation = async (
   formData: FormData
@@ -41,7 +40,7 @@ export const saveOnboardingInformation = async (
 
   try {
     await insertUserProfile({
-      birthday: dayjs(birthday.toString()),
+      birthday: birthday.toString(),
       emailAddress: validateEmailAddress(emailAddress),
       height: parseFloat(height.toString()),
       sex: validateSex(sex.toString()),

@@ -4,7 +4,6 @@ import { updateUserProfile } from "@/shared/database/daos/user-profile.dao";
 import { validateEmailAddress } from "@/shared/utils/validation/validate-email-address.util";
 import { validateSex } from "@/shared/utils/validation/validate-sex.util";
 import { auth, currentUser } from "@clerk/nextjs/server";
-import dayjs from "dayjs";
 import { revalidatePath } from "next/cache";
 
 export const updateProfile = async (
@@ -33,7 +32,7 @@ export const updateProfile = async (
   }
 
   await updateUserProfile({
-    birthday: dayjs(birthday.toString()),
+    birthday: birthday.toString(),
     emailAddress: validateEmailAddress(emailAddress),
     height: parseFloat(height.toString()),
     sex: validateSex(sex.toString()),

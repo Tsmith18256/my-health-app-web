@@ -7,7 +7,6 @@ import {
 } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
 import { EmailAddress } from "@/shared/utils/validation/validate-email-address.util";
 import { currentUser } from "@clerk/nextjs/server";
-import dayjs from "dayjs";
 import { redirect } from "next/navigation";
 
 export const editBodyCompEntry = async (
@@ -41,7 +40,7 @@ export const editBodyCompEntry = async (
 
   const entry: IBodyCompEntry = {
     id: parseInt(id.toString(), 10) as BodyCompEntryId,
-    date: dayjs(date.toString()),
+    date: date.toString(),
     weight: parseFloat(weight.toString()),
     neckCircumference: neckCircumference
       ? parseFloat(neckCircumference.toString())
