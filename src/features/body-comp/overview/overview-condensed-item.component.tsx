@@ -8,6 +8,10 @@ export const OverviewCondensedItem = ({
   label,
   valueText,
 }: IOverviewCondensedItemProps) => {
+  if (!label) {
+    console.log("ENTRY DATE:", date);
+  }
+
   const dateText = date
     ? formatDateRelativeToToday(dayjs(date))
     : "Most recent";
