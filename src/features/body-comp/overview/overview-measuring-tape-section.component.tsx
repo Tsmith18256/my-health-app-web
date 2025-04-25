@@ -6,13 +6,13 @@ export const OverviewMeasuringTapeSection = ({ neckEntry, showDates, waistEntry 
   return (
     <OverviewMetricsSection title="Measuring tape">
       <OverviewMetricRow
-        date={showDates ? neckEntry?.date : undefined}
+        date={showDates ? neckEntry?.date.toISOString() : undefined}
         label="Neck"
         value={neckEntry?.neckCircumference}
       />
 
       <OverviewMetricRow
-        date={showDates ? waistEntry?.date : undefined}
+        date={showDates ? waistEntry?.date.toISOString() : undefined}
         label="Waist"
         value={waistEntry?.waistCircumference}
       />
