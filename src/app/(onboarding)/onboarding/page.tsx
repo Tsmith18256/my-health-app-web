@@ -32,9 +32,9 @@ export default function OnboardingPage() {
   };
 
   return (
-    <div className="sm:flex sm:flex-col sm:h-screen sm:justify-center sm:mx-auto sm:w-128">
+    <div className="tab:flex tab:flex-col tab:h-screen tab:justify-center tab:mx-auto tab:w-128">
       <Heading
-        className="pt-6 px-4 sm:p-0 sm:text-center"
+        className="pt-6 px-4 tab:p-0 tab:text-center"
         level={HeadingLevel.h1}
       >
         Welcome

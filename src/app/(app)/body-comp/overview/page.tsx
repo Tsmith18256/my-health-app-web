@@ -12,7 +12,7 @@ import {
 import { selectBodyCompEntries } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
 import { UserButton } from "@clerk/nextjs";
 import dayjs from "dayjs";
-import { calculateBodyFat } from "@/features/body-comp/calculate-body-fat";
+import { calculateBodyFat } from "@/features/body-comp/calculate-body-fat.util";
 import { getAuthSessionDetails } from "@/features/auth/get-auth-session-details.util";
 import { selectUserProfileByEmail } from "@/shared/database/daos/user-profile.dao";
 import { ErrorCode, ErrorWithCode } from "@/shared/errors/error-with-code.type";

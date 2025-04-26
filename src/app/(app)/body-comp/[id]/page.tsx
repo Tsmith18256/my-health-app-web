@@ -1,6 +1,6 @@
 import { getAuthSessionDetails } from "@/features/auth/get-auth-session-details.util";
 import { selectBodyCompEntryById } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
-import { BodyFatMethod } from "@/features/body-comp/calculate-body-fat";
+import { BodyFatMethod } from "@/features/body-comp/calculate-body-fat.util";
 import { calculateBodyFatForCurrentUser } from "@/features/body-comp/calculate-body-fat-for-current-user.action";
 import { OverviewSkinfoldSection } from "@/features/body-comp/overview/overview-calipers-section.component";
 import { OverviewMeasuringTapeSection } from "@/features/body-comp/overview/overview-measuring-tape-section.component";
