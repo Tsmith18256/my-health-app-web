@@ -10,7 +10,6 @@ import {
   HeadingLevel,
 } from "@/shared/components/heading/heading.component";
 import { selectBodyCompEntries } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
-import { formatDateRelativeToToday } from "@/shared/utils/dates/format-date-relative-to-today.util";
 import { UserButton } from "@clerk/nextjs";
 import dayjs from "dayjs";
 import { calculateBodyFat } from "@/features/body-comp/calculate-body-fat";
@@ -20,6 +19,8 @@ import { ErrorCode, ErrorWithCode } from "@/shared/errors/error-with-code.type";
 import { getAgeFromBirthday } from "@/shared/utils/dates/get-age-from-birthday.util";
 import { OverviewMeasuringTapeSection } from "@/features/body-comp/overview/overview-measuring-tape-section.component";
 import { OverviewSkinfoldSection } from "@/features/body-comp/overview/overview-calipers-section.component";
+import { OverviewCondensedItem } from "@/features/body-comp/overview/overview-condensed-item.component";
+import { formatWeight } from "@/shared/utils/formatting/format-weight.util";
 
 export default async function OverviewPage() {
   const userEmail = (await getAuthSessionDetails()).emailAddress;
@@ -33,7 +34,7 @@ export default async function OverviewPage() {
     userEmail,
   });
   const sortedEntries = entries.toSorted((entryA, entryB) =>
-    entryB.date.diff(entryA.date)
+    dayjs(entryB.date).diff(dayjs(entryA.date))
   );
 
   const mostRecentWeightEntry = sortedEntries[0];
@@ -41,7 +42,7 @@ export default async function OverviewPage() {
   const sevenDaysAgo = dayjs().subtract(7, "days");
   const last7DaysData = sortedEntries.slice(0, 7).reduce(
     (acc, entry) => {
-      if (entry.date.isAfter(sevenDaysAgo)) {
+      if (dayjs(entry.date).isAfter(sevenDaysAgo)) {
         return {
           entries: acc.entries + 1,
           sum: acc.sum + entry.weight,
@@ -60,7 +61,7 @@ export default async function OverviewPage() {
   const mostRecentBodyFatEntry = sortedEntries.find((entry) => {
     return (
       calculateBodyFat({
-        age: getAgeFromBirthday(userProfile.birthday),
+        age: getAgeFromBirthday(dayjs(userProfile.birthday)),
         entry,
         height: userProfile.height,
       }) !== null
@@ -99,28 +100,22 @@ export default async function OverviewPage() {
           </Heading>
 
           <div className="grid grid-cols-2 mt-2">
-            <div className="flex flex-col">
-              <>
-                <span className="text-xs text-gray-500">
-                  {mostRecentWeightEntry
-                    ? formatDateRelativeToToday(mostRecentWeightEntry.date)
-                    : "Most recent"}
-                </span>
-                <strong className="text-2xl">
-                  {mostRecentWeightEntry?.weight
-                    ? `${mostRecentWeightEntry.weight.toFixed(1)} lbs`
-                    : "No data"}
-                </strong>
-              </>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-xs text-gray-500">Last 7 days</span>
-              <strong className="text-2xl">
-                {last7DaysWeight
-                  ? `${last7DaysWeight.toFixed(1)} lbs`
-                  : "No data"}
-              </strong>
-            </div>
+            <OverviewCondensedItem
+              date={mostRecentWeightEntry?.date}
+              valueText={
+                mostRecentWeightEntry?.weight === undefined
+                  ? undefined
+                  : `${mostRecentWeightEntry.weight.toFixed(1)} lbs`
+              }
+            />
+            <OverviewCondensedItem
+              label="Last 7 days"
+              valueText={
+                last7DaysWeight === undefined
+                  ? undefined
+                  : formatWeight(last7DaysWeight)
+              }
+            />
           </div>
 
           <div className="bg-white border-3 flex flex-col h-46 items-center justify-center w-full">
@@ -141,7 +136,7 @@ export default async function OverviewPage() {
             value={
               mostRecentBodyFatEntry &&
               calculateBodyFat({
-                age: getAgeFromBirthday(userProfile.birthday),
+                age: getAgeFromBirthday(dayjs(userProfile.birthday)),
                 entry: mostRecentBodyFatEntry,
                 height: userProfile.height,
               })?.bodyFatPercent

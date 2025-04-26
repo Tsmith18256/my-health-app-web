@@ -50,7 +50,7 @@ export default async function ProfilePage() {
       <UserProfileForm
         {...userProfile}
         action={updateProfile}
-        birthday={userProfile.birthday.format("YYYY-MM-DD")}
+        birthday={userProfile.birthday}
         isOnboarding={false}
       />
 

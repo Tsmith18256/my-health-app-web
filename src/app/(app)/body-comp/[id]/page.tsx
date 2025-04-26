@@ -15,6 +15,7 @@ import { IconImage } from "@/shared/components/icon/icon.component";
 import { PageWithParamsProps } from "@/shared/helper-types/page-with-params-props.type";
 import { formatPercent } from "@/shared/utils/formatting/format-percent.util";
 import { formatWeight } from "@/shared/utils/formatting/format-weight.util";
+import dayjs from 'dayjs';
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -46,7 +47,7 @@ export default async function ViewBodyCompEntry(
     <>
       <Header
         endContent={headerEndContent}
-        title={entry.date.format("MMM DD, YYYY")}
+        title={dayjs(entry.date).format("MMM DD, YYYY")}
       />
 
       <main className="mb-12 mt-12 px-4">

@@ -1,15 +1,13 @@
 import { sql } from "@/shared/database/db";
-import { formatDateForDatabaseDate } from "@/shared/utils/dates/format-date-for-database-date.util";
 import { LengthUnit } from "@/shared/enums/length-unit.enum";
 import { convertLengthUnits } from "@/shared/utils/units/convert-length-units";
 import {
   EmailAddress,
   validateEmailAddress,
 } from "@/shared/utils/validation/validate-email-address.util";
-import { Dayjs } from "dayjs";
 import { Sex, validateSex } from "@/shared/utils/validation/validate-sex.util";
-import { convertVanillaDateToDayjsWithoutTime } from '@/shared/utils/dates/vanilla/convert-vanilla-date-to-dayjs-without-time.util';
 import { roundToDecimalPlaces } from '@/shared/utils/math/round-to-decimal-places.util';
+import { formatVanillaDateWithoutTime } from '@/shared/utils/dates/vanilla/format-vanilla-date-without-time';
 
 /**
  * Inserts 1 new User Profile entry into the database.
@@ -24,7 +22,7 @@ export const insertUserProfile = async (
       height_in_mm,
       sex
     ) VALUES (
-      ${formatDateForDatabaseDate(inputProfile.birthday)},
+      ${inputProfile.birthday},
       ${inputProfile.emailAddress},
       ${Math.round(
         convertLengthUnits(
@@ -74,7 +72,7 @@ export const updateUserProfile = async (
 ): Promise<IUserProfile> => {
   const [updatedProfile] = await sql<IUserProfileModel[]>`
     UPDATE user_profiles SET
-        birthday = ${formatDateForDatabaseDate(inputProfile.birthday)},
+        birthday = ${inputProfile.birthday},
         height_in_mm = ${Math.round(
           convertLengthUnits(
             inputProfile.height,
@@ -96,7 +94,7 @@ export const updateUserProfile = async (
 
 const convertModelToObject = (model: IUserProfileModel): IUserProfile => {
   return {
-    birthday: convertVanillaDateToDayjsWithoutTime(model.birthday),
+    birthday: formatVanillaDateWithoutTime(model.birthday),
     emailAddress: validateEmailAddress(model.email_address),
     height: roundToDecimalPlaces(convertLengthUnits(
       model.height_in_mm,
@@ -112,7 +110,7 @@ const convertModelToObject = (model: IUserProfileModel): IUserProfile => {
  * from the database are converted to a format more friendly for the code base.
  */
 export interface IUserProfile {
-  birthday: Dayjs;
+  birthday: string;
   emailAddress: EmailAddress;
   height: number;
   sex: Sex;

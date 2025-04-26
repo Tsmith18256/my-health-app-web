@@ -3,6 +3,7 @@ import { IBodyCompEntry } from "@/features/body-comp/body-comp-entry/body-comp-e
 import { calculateBodyFat } from "@/features/body-comp/calculate-body-fat";
 import { selectUserProfileByEmail } from "@/shared/database/daos/user-profile.dao";
 import { getAgeFromBirthday } from "@/shared/utils/dates/get-age-from-birthday.util";
+import dayjs from 'dayjs';
 
 /**
  * Calculates the body fat from the given body comp entry. This is a convenience
@@ -20,7 +21,7 @@ export const calculateBodyFatForCurrentUser = async (
   }
 
   return calculateBodyFat({
-    age: getAgeFromBirthday(userProfile.birthday),
+    age: getAgeFromBirthday(dayjs(userProfile.birthday)),
     entry: bodyCompEntry,
     height: userProfile.height,
   });

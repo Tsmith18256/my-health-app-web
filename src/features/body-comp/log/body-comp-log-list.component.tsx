@@ -4,6 +4,7 @@ import { getAuthSessionDetails } from "@/features/auth/get-auth-session-details.
 import { selectUserProfileByEmail } from "@/shared/database/daos/user-profile.dao";
 import { ErrorCode, ErrorWithCode } from "@/shared/errors/error-with-code.type";
 import { getAgeFromBirthday } from "@/shared/utils/dates/get-age-from-birthday.util";
+import dayjs from 'dayjs';
 
 export const BodyCompLogList = async () => {
   const userEmail = (await getAuthSessionDetails()).emailAddress;
@@ -23,7 +24,7 @@ export const BodyCompLogList = async () => {
         return (
           <BodyCompRow
             key={entry.id}
-            age={getAgeFromBirthday(userProfile.birthday)}
+            age={getAgeFromBirthday(dayjs(userProfile.birthday))}
             entry={entry}
             height={userProfile.height}
           />

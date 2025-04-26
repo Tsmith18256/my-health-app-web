@@ -1,16 +1,14 @@
 import { sql } from "@/shared/database/db";
-import { formatDateForDatabaseDate } from "@/shared/utils/dates/format-date-for-database-date.util";
 import { LengthUnit } from "@/shared/enums/length-unit.enum";
 import { WeightUnit } from "@/shared/enums/weight-unit.enum";
 import { Brand } from "@/shared/helper-types/brand.type";
-import { convertVanillaDateToDayjsWithoutTime } from "@/shared/utils/dates/vanilla/convert-vanilla-date-to-dayjs-without-time.util";
+import { formatVanillaDateWithoutTime } from "@/shared/utils/dates/vanilla/format-vanilla-date-without-time";
 import { convertLengthUnits } from "@/shared/utils/units/convert-length-units";
 import { convertWeightUnits } from "@/shared/utils/units/convert-weight-units";
 import {
   EmailAddress,
   validateEmailAddress,
 } from "@/shared/utils/validation/validate-email-address.util";
-import { Dayjs } from "dayjs";
 
 export const deleteBodyCompEntryById = async (id: BodyCompEntryId) => {
   await sql`
@@ -43,7 +41,7 @@ export const insertBodyCompEntry = async (
           ? null
           : Math.round(inputEntry.chestSkinfold)
       },
-      ${formatDateForDatabaseDate(inputEntry.date)},
+      ${inputEntry.date},
       ${
         inputEntry.neckCircumference === undefined
           ? null
@@ -136,7 +134,7 @@ export const updateBodyCompEntry = async (
             ? null
             : Math.round(inputEntry.chestSkinfold)
         },
-        entry_date = ${formatDateForDatabaseDate(inputEntry.date)},
+        entry_date = ${inputEntry.date},
         neck_circ_in_mm = ${
           inputEntry.neckCircumference === undefined
             ? null
@@ -187,7 +185,7 @@ const convertModelToObject = (model: IBodyCompEntryModel): IBodyCompEntry => {
   return {
     abSkinfold: model.ab_skinfold ?? undefined,
     chestSkinfold: model.chest_skinfold ?? undefined,
-    date: convertVanillaDateToDayjsWithoutTime(model.entry_date),
+    date: formatVanillaDateWithoutTime(model.entry_date),
     id: model.id as BodyCompEntryId,
     neckCircumference:
       model.neck_circ_in_mm === null
@@ -226,7 +224,7 @@ export type BodyCompEntryId = Brand<number, "BodyCompEntryId">;
 export interface IBodyCompEntry {
   abSkinfold?: number;
   chestSkinfold?: number;
-  date: Dayjs;
+  date: string;
   id: BodyCompEntryId;
   neckCircumference?: number;
   thighSkinfold?: number;
