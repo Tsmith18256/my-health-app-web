@@ -1,8 +1,9 @@
-import { BODY_COMP_LOG_GRID_CLASSES } from '@/features/body-comp/log/list/row/body-comp-log-row.component';
+import styles from './body-comp-log-headers.module.css';
+import rowStyles from './row/body-comp-log-row.module.css';
 
 export const BodyCompLogHeaders = () => {
   return (
-    <div className={`font-bold hidden ${BODY_COMP_LOG_GRID_CLASSES}`}>
+    <div className={`${styles.container} ${rowStyles.grid}`}>
       <span>Date</span>
       <span>Weight</span>
       <span className="hidden dt-sm:block">Last 7 days</span>

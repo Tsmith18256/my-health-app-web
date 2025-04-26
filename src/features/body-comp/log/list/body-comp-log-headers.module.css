@@ -1,0 +1,11 @@
+.container {
+  display: none;
+  font-weight: bold;
+}
+
+/* Tablet */
+@media (width >= 48rem) {
+  .container {
+    display: grid;
+  }
+}

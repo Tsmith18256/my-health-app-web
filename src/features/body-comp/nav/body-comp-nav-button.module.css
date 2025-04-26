@@ -28,6 +28,7 @@
   }
 }
 
+/* Desktop small */
 @media (width >= 64rem) {
   .button {
     flex-direction: row;

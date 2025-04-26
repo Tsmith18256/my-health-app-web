@@ -7,9 +7,7 @@ import { formatPercent } from "@/shared/utils/formatting/format-percent.util";
 import { formatWeight } from "@/shared/utils/formatting/format-weight.util";
 import dayjs from "dayjs";
 import Link from "next/link";
-
-export const BODY_COMP_LOG_GRID_CLASSES =
-  "tab:grid tab:grid-cols-[2fr_repeat(2,_1fr)] dt-sm:grid-cols-[2fr_repeat(3,_1fr)] dt-md:grid-cols-[2fr_repeat(5,_1fr)] dt-lg:grid-cols-[2fr_repeat(8,_1fr)]";
+import styles from './body-comp-log-row.module.css';
 
 export const BodyCompLogRow = ({
   age,
@@ -25,7 +23,7 @@ export const BodyCompLogRow = ({
 
   return (
     <Link
-      className={`active:bg-gray-200 flex justify-between p-4 tab:px-0 ${BODY_COMP_LOG_GRID_CLASSES}`}
+      className={`${styles.container} ${styles.grid}`}
       href={`/body-comp/${entry.id}`}
     >
       <BodyCompLogCell

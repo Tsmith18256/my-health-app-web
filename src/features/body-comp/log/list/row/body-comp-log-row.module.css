@@ -1,0 +1,43 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+
+  padding: calc(4 * var(--spacing));
+
+  &:active {
+    background-color: var(--color-gray-200);
+  }
+}
+
+/* Tablet */
+@media (width >= 48rem) {
+  .container {
+    padding-inline: 0;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 2fr repeat(2, 1fr);
+  }
+}
+
+/* Desktop small */
+@media (width >= 64rem) {
+  .grid {
+    grid-template-columns: 2fr repeat(3, 1fr);
+  }
+}
+
+/* Desktop medium */
+@media (width >= 96rem) {
+  .grid {
+    grid-template-columns: 2fr repeat(5, 1fr);
+  }
+}
+
+/* Desktop large */
+@media (width >= 120rem) {
+  .grid {
+    grid-template-columns: 2fr repeat(8, 1fr)
+  }
+}
