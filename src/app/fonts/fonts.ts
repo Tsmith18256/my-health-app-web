@@ -3,7 +3,7 @@ import localFont from 'next/font/local';
 export const iconFont = localFont({
   src: [
     {
-      path: './fonts/fa-regular-400.woff2',
+      path: './fa-regular-400.woff2',
       style: 'normal',
       weight: '400,'
     },

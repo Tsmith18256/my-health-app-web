@@ -73,7 +73,7 @@ const FooterButton = ({
 }: Pick<IUserProfileFormProps, "isOnboarding"> &
   Pick<ComponentProps<typeof Button>, "disabled">) => {
   const typeSpecificClasses = isOnboarding
-    ? "border-t border-t-gray-400 bottom-0 fixed inset-x-0 sm:border-none sm:mt-8 sm:static"
+    ? "border-t border-t-gray-400 bottom-0 fixed inset-x-0 md:border-none md:mt-8 md:static"
     : "mt-8";
 
   const label = isOnboarding ? "Proceed" : "Save";
