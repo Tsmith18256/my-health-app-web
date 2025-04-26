@@ -1,6 +1,7 @@
 "use server";
 
 import { updateUserProfile } from "@/shared/database/daos/user-profile.dao";
+import { MeasurementSystem } from '@/shared/enums/measurement-system.enum';
 import { validateEmailAddress } from "@/shared/utils/validation/validate-email-address.util";
 import { validateSex } from "@/shared/utils/validation/validate-sex.util";
 import { auth, currentUser } from "@clerk/nextjs/server";
@@ -34,7 +35,9 @@ export const updateProfile = async (
     birthday: birthday.toString(),
     emailAddress: validateEmailAddress(emailAddress),
     height: parseFloat(height.toString()),
+    lengthSystem: MeasurementSystem.Imperial,
     sex: validateSex(sex.toString()),
+    weightSystem: MeasurementSystem.Metric
   });
 
   revalidatePath("/body-comp/profile");

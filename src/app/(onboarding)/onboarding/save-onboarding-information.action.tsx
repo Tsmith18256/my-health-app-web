@@ -3,6 +3,7 @@
 import { getAuthSessionDetails } from "@/features/auth/get-auth-session-details.util";
 import { insertUserProfile } from "@/shared/database/daos/user-profile.dao";
 import { IFormActionResult } from "@/shared/helper-types/form-action-result.type";
+import { MeasurementSystem } from '@/shared/enums/measurement-system.enum';
 import { validateEmailAddress } from "@/shared/utils/validation/validate-email-address.util";
 import { validateSex } from "@/shared/utils/validation/validate-sex.util";
 
@@ -26,7 +27,9 @@ export const saveOnboardingInformation = async (
       birthday: birthday.toString(),
       emailAddress: validateEmailAddress(emailAddress),
       height: parseFloat(height.toString()),
+      lengthSystem: MeasurementSystem.Imperial,
       sex: validateSex(sex.toString()),
+      weightSystem: MeasurementSystem.Metric
     });
 
     await updateUserMetadata({

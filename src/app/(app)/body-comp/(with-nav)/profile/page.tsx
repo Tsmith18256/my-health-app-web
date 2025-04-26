@@ -26,7 +26,9 @@ export default async function ProfilePage() {
         action={updateProfile}
         defaultBirthday={userProfile.birthday}
         defaultHeight={userProfile.height}
+        defaultLengthSystem={userProfile.lengthSystem}
         defaultSex={userProfile.sex}
+        defaultWeightSystem={userProfile.weightSystem}
         isOnboarding={false}
       />
     </>

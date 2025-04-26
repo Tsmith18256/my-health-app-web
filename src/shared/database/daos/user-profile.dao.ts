@@ -8,6 +8,7 @@ import {
 import { Sex, validateSex } from "@/shared/utils/validation/validate-sex.util";
 import { roundToDecimalPlaces } from '@/shared/utils/math/round-to-decimal-places.util';
 import { formatVanillaDateWithoutTime } from '@/shared/utils/dates/vanilla/format-vanilla-date-without-time';
+import { MeasurementSystem } from '@/shared/enums/measurement-system.enum';
 
 /**
  * Inserts 1 new User Profile entry into the database.
@@ -20,10 +21,13 @@ export const insertUserProfile = async (
       birthday,
       email_address,
       height_in_mm,
-      sex
+      length_system,
+      sex,
+      weight_system
     ) VALUES (
       ${inputProfile.birthday},
       ${inputProfile.emailAddress},
+      ${inputProfile.lengthSystem}
       ${Math.round(
         convertLengthUnits(
           inputProfile.height,
@@ -31,7 +35,8 @@ export const insertUserProfile = async (
           LengthUnit.Millimeters
         )
       )},
-      ${inputProfile.sex}
+      ${inputProfile.sex},
+      ${inputProfile.weightSystem}
     ) RETURNING *
   `;
 
@@ -101,7 +106,9 @@ const convertModelToObject = (model: IUserProfileModel): IUserProfile => {
       LengthUnit.Millimeters,
       LengthUnit.Inches
     ), 1),
+    lengthSystem: model.length_system,
     sex: validateSex(model.sex),
+    weightSystem: model.weight_system
   };
 };
 
@@ -113,12 +120,16 @@ export interface IUserProfile {
   birthday: string;
   emailAddress: EmailAddress;
   height: number;
+  lengthSystem: MeasurementSystem;
   sex: Sex;
+  weightSystem: MeasurementSystem;
 }
 
 interface IUserProfileModel {
   birthday: Date;
   email_address: string;
   height_in_mm: number;
+  length_system: string;
   sex: string;
+  weight_system: string;
 }
