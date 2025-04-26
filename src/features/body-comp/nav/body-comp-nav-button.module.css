@@ -1,0 +1,44 @@
+.button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: calc(var(--spacing) * 2);
+
+  flex-grow: 1;
+  width: 100%;
+
+  background-color: var(--color-orange-200);
+  color: var(--color-black);
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--color-orange-200);
+  }
+
+  &:active {
+    background-color: var(--color-orange-600);
+  }
+
+  &:disabled {
+    background-color: var(--color-orange-400);
+
+    cursor: default;
+  }
+}
+
+@media (width >= 64rem) {
+  .button {
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    gap: calc(var(--spacing) * 4);
+
+    width: calc(var(--spacing) * 40);
+    flex-grow: 0;
+
+    padding: calc(var(--spacing) * 2) calc(var(--spacing) * 4);
+
+    background-color: initial;
+  }
+}

@@ -1,7 +1,3 @@
-import {
-  BodyCompBottomNav,
-  BodyCompBottomNavPage,
-} from "@/features/body-comp/body-comp-bottom-nav.component";
 import { OverviewMetricRow } from "@/features/body-comp/overview/overview-metric-row.component";
 import { OverviewSection } from "@/features/body-comp/overview/overview-section.component";
 import { Header } from "@/shared/components/header/header.component";
@@ -155,8 +151,6 @@ export default async function OverviewPage() {
           />
         </OverviewSection>
       </main>
-
-      <BodyCompBottomNav currentPage={BodyCompBottomNavPage.Overview} />
     </>
   );
 }
