@@ -1,0 +1,12 @@
+@theme {
+  /* Remove all default breakpoints */
+  --breakpoint-*: initial;
+  /* Tablet */
+  --breakpoint-tab: 48rem;
+  /* Desktop small */
+  --breakpoint-dt-sm: 64rem;
+  /* Desktop medium */
+  --breakpoint-dt-md: 96rem;
+  /* Desktop large */
+  --breakpoint-dt-lg: 120rem;
+}

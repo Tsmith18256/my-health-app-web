@@ -20,7 +20,7 @@ export const BodyCompLogList = async () => {
   });
 
   return (
-    <div className="md:px-4 md:py-8">
+    <div className="tab:px-4 tab:py-8">
       <BodyCompLogHeaders />
 
       {entries.map((entry) => {
