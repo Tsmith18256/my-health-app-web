@@ -4,6 +4,10 @@
 
   padding: calc(4 * var(--spacing));
 
+  &:hover {
+    background-color: var(--color-gray-100);
+  }
+
   &:active {
     background-color: var(--color-gray-200);
   }
@@ -11,10 +15,6 @@
 
 /* Tablet */
 @media (width >= 48rem) {
-  .container {
-    padding-inline: 0;
-  }
-
   .grid {
     display: grid;
     grid-template-columns: 2fr repeat(2, 1fr);

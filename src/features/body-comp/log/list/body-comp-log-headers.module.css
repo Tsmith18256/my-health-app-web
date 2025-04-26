@@ -1,5 +1,7 @@
 .container {
   display: none;
+  padding-inline: calc(4 * var(--spacing));
+
   font-weight: bold;
 }
 
