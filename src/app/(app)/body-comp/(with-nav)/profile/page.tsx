@@ -1,39 +1,18 @@
 import { updateProfile } from "@/app/(app)/body-comp/(with-nav)/profile/update-profile.action";
+import { getAuthSessionDetails } from "@/features/auth/get-auth-session-details.util";
 import { UserProfileForm } from "@/features/body-comp/profile/user-profile-form.component";
 import { Header } from "@/shared/components/header/header.component";
 import { selectUserProfileByEmail } from "@/shared/database/daos/user-profile.dao";
-import { auth, clerkClient, currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
 export default async function ProfilePage() {
-  const { userId } = await auth();
-
-  if (!userId) {
-    return {
-      isComplete: false,
-      errorMessage: "No user ID.",
-    };
-  }
-
-  const user = await currentUser();
-  const emailAddress = user?.emailAddresses[0]?.emailAddress;
-
-  if (!emailAddress) {
-    return {
-      isComplete: false,
-      errorMessage: "Authentication failed.",
-    };
-  }
+  const { emailAddress, updateUserMetadata } = await getAuthSessionDetails();
 
   const userProfile = await selectUserProfileByEmail(emailAddress);
   if (!userProfile) {
-    const client = await clerkClient();
-    // If adding more fields to the `publicMetadata` object, update
-    // `clerk-metadata.ts` to add the type defs.
-    await client.users.updateUser(userId, {
-      publicMetadata: {
-        onboardingComplete: false,
-      },
+
+    await updateUserMetadata({
+      onboardingComplete: false,
     });
 
     redirect("/onboarding");
@@ -44,9 +23,10 @@ export default async function ProfilePage() {
       <Header title="Profile" />
 
       <UserProfileForm
-        {...userProfile}
         action={updateProfile}
-        birthday={userProfile.birthday}
+        defaultBirthday={userProfile.birthday}
+        defaultHeight={userProfile.height}
+        defaultSex={userProfile.sex}
         isOnboarding={false}
       />
     </>

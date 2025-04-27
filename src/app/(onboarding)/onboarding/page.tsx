@@ -8,13 +8,13 @@ import {
   Heading,
   HeadingLevel,
 } from "@/shared/components/heading/heading.component";
+import { Sex } from "@/shared/utils/validation/validate-sex.util";
 
 export default function OnboardingPage() {
   const router = useRouter();
   const { user } = useUser();
 
   const handleSubmit = async (
-    _: { errorMessage?: string },
     formData: FormData
   ): Promise<{ errorMessage?: string }> => {
     const res = await saveOnboardingInformation(formData);
@@ -39,7 +39,13 @@ export default function OnboardingPage() {
       >
         Welcome
       </Heading>
-      <UserProfileForm action={handleSubmit} isOnboarding={true} />
+      <UserProfileForm
+        action={handleSubmit}
+        defaultBirthday="2000-01-01"
+        defaultHeight={70}
+        defaultSex={Sex.Male}
+        isOnboarding={true}
+      />
     </div>
   );
 }

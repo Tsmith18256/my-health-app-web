@@ -1,13 +1,14 @@
 "use server";
 
 import { insertUserProfile } from "@/shared/database/daos/user-profile.dao";
+import { IFormActionResult } from '@/shared/helper-types/form-action-result.type';
 import { validateEmailAddress } from "@/shared/utils/validation/validate-email-address.util";
 import { validateSex } from "@/shared/utils/validation/validate-sex.util";
 import { auth, clerkClient, currentUser } from "@clerk/nextjs/server";
 
 export const saveOnboardingInformation = async (
   formData: FormData
-): Promise<{ isComplete: boolean; errorMessage?: string }> => {
+): Promise<IFormActionResult & { isComplete: boolean; }> => {
   const { userId } = await auth();
 
   if (!userId) {

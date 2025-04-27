@@ -7,28 +7,43 @@ import { Option } from "@/shared/components/forms/select/option.component";
 import { Select } from "@/shared/components/forms/select/select.component";
 import { IUserProfile } from "@/shared/database/daos/user-profile.dao";
 import { Sex } from "@/shared/utils/validation/validate-sex.util";
-import { ComponentProps, ReactNode, useActionState } from "react";
+import { ComponentProps, ReactNode, useCallback, useState } from "react";
 
 export const UserProfileForm = ({
   action,
-  birthday,
-  height,
+  defaultBirthday,
+  defaultHeight,
   isOnboarding,
-  sex,
+  defaultSex,
 }: IUserProfileFormProps) => {
-  const [state, formAction, pending] = useActionState(action, {});
+  const [formState, setFormState] = useState<{ errorMessage?: string }>({});
+  const [isPending, setIsPending] = useState(false);
 
-  const defaultBirthday = isOnboarding ? "2000-01-01" : birthday;
-  const defaultSex = isOnboarding ? Sex.Male : sex;
-  const defaultHeight = isOnboarding ? 70 : height;
+  const onSubmit = useCallback<
+    NonNullable<ComponentProps<"form">["onSubmit"]>
+  >(async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+
+    setIsPending(true);
+    const res = await action(formData);
+
+    setFormState(res);
+    setIsPending(false);
+  }, [action]);
 
   return (
     <>
       <FormActionErrorToast
-        error={state.errorMessage ? { message: state.errorMessage } : undefined}
+        error={
+          formState.errorMessage
+            ? { message: formState.errorMessage }
+            : undefined
+        }
       />
 
-      <form action={formAction}>
+      <form onSubmit={onSubmit}>
         <main className="flex flex-col gap-6 px-4 mt-6">
           <Input
             id="txtBirthday"
@@ -61,7 +76,7 @@ export const UserProfileForm = ({
           </Select>
         </main>
 
-        <FooterButton disabled={pending} isOnboarding={isOnboarding} />
+        <FooterButton disabled={isPending} isOnboarding={isOnboarding} />
       </form>
     </>
   );
@@ -106,26 +121,14 @@ const renderHeightOptions = () => {
   return options;
 };
 
-type IUserProfileFormProps = {
-  action:
-    | ((
-        state: { errorMessage?: string },
-        payload: FormData
-      ) => { errorMessage?: string })
-    | ((
-        state: { errorMessage?: string },
-        payload: FormData
-      ) => Promise<{ errorMessage?: string }>);
-} & (IUserProfileFormEditModeProps | IUserProfileFormNewModeProps);
-
-interface IUserProfileFormEditModeProps
-  extends Omit<IUserProfile, "birthday" | "emailAddress"> {
-  birthday: string;
-  isOnboarding?: false;
+interface IUserProfileFormProps extends IDefaultValues {
+  action(formData: FormData): Promise<{ errorMessage?: string }>;
+  isOnboarding?: boolean;
 }
 
-type IUserProfileFormNewModeProps = {
-  isOnboarding: true;
-} & {
-  [Key in keyof Omit<IUserProfile, "emailAddress">]?: undefined;
+type IDefaultValues = {
+  [Key in keyof Omit<
+    IUserProfile,
+    "emailAddress"
+  > as `default${Capitalize<Key>}`]: IUserProfile[Key];
 };

@@ -7,7 +7,6 @@ import { auth, currentUser } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 
 export const updateProfile = async (
-  _: { errorMessage?: string },
   formData: FormData
 ): Promise<{ errorMessage?: string }> => {
   const { userId } = await auth();

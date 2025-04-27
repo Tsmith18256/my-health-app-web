@@ -1,4 +1,6 @@
-export {}
+import { IUserMetadata } from "@/features/auth/user-metadata.type";
+
+export {};
 
 declare global {
   /**
@@ -7,8 +9,6 @@ declare global {
    * https://clerk.com/docs/references/nextjs/add-onboarding-flow
    */
   interface CustomJwtSessionClaims {
-    metadata?: {
-      onboardingComplete?: boolean;
-    }
+    metadata?: IUserMetadata;
   }
 }
