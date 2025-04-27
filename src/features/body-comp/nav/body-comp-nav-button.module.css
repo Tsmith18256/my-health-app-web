@@ -42,5 +42,9 @@
     padding: calc(var(--spacing) * 2) calc(var(--spacing) * 4);
 
     background-color: initial;
+
+    &:disabled {
+      border: 3px solid black;
+    }
   }
 }
