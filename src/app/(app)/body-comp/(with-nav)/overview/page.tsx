@@ -59,7 +59,7 @@ export default async function OverviewPage() {
       calculateBodyFat({
         age: getAgeFromBirthday(dayjs(userProfile.birthday)),
         entry,
-        height: userProfile.height,
+        heightInMm: userProfile.heightInMm,
       }) !== null
     );
   });
@@ -134,7 +134,7 @@ export default async function OverviewPage() {
               calculateBodyFat({
                 age: getAgeFromBirthday(dayjs(userProfile.birthday)),
                 entry: mostRecentBodyFatEntry,
-                height: userProfile.height,
+                heightInMm: userProfile.heightInMm,
               })?.bodyFatPercent
             }
           />

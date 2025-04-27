@@ -48,7 +48,7 @@ export const calculateBodyFat = (
 };
 
 const calculateNavyBodyFat = ({
-  height,
+  heightInMm: heightInMm,
   entry: { neckCircumference, waistCircumference },
 }: ICalculateNavyBodyFatOpts): number | null => {
   if (!neckCircumference || !waistCircumference) {
@@ -56,8 +56,8 @@ const calculateNavyBodyFat = ({
   }
 
   const heightInCm = convertLengthUnits(
-    height,
-    LengthUnit.Inches,
+    heightInMm,
+    LengthUnit.Millimeters,
     LengthUnit.Centimeters
   );
   const neckInCm = convertLengthUnits(
@@ -156,7 +156,7 @@ type ICalculateBodyFatOpts = Prettify<ICalculateNavyBodyFatOpts &
   ICalculateSkinfoldBodyFat3SiteOpts>;
 
 interface ICalculateNavyBodyFatOpts extends ICalculateBodyFatBaseOpts {
-  height: number;
+  heightInMm: number;
 }
 
 interface ICalculateSkinfoldBodyFat3SiteOpts extends ICalculateBodyFatBaseOpts {

@@ -7,18 +7,18 @@ import { formatPercent } from "@/shared/utils/formatting/format-percent.util";
 import { formatWeight } from "@/shared/utils/formatting/format-weight.util";
 import dayjs from "dayjs";
 import Link from "next/link";
-import styles from './body-comp-log-row.module.css';
+import styles from "./body-comp-log-row.module.css";
 
 export const BodyCompLogRow = ({
   age,
   entry,
-  height,
+  heightInMm: height,
 }: Parameters<typeof calculateBodyFat>[0]) => {
   const formattedDate = dayjs(entry.date).format("MMM DD, YYYY");
   const bodyFat = calculateBodyFat({
     age,
     entry,
-    height,
+    heightInMm: height,
   });
 
   return (
@@ -52,41 +52,45 @@ export const BodyCompLogRow = ({
       {entry.neckCircumference && (
         <BodyCompLogCell
           minimumBreakpoint={Breakpoint.DesktopMedium}
-          valueText={formatLength(
-            entry.neckCircumference,
-            LengthUnit.Centimeters
-          )}
+          valueText={formatLength(entry.neckCircumference, {
+            unit: LengthUnit.Centimeters,
+          })}
         />
       )}
 
       {entry.waistCircumference && (
         <BodyCompLogCell
           minimumBreakpoint={Breakpoint.DesktopMedium}
-          valueText={formatLength(
-            entry.waistCircumference,
-            LengthUnit.Centimeters
-          )}
+          valueText={formatLength(entry.waistCircumference, {
+            unit: LengthUnit.Centimeters,
+          })}
         />
       )}
 
       {entry.chestSkinfold && (
         <BodyCompLogCell
           minimumBreakpoint={Breakpoint.DesktopLarge}
-          valueText={formatLength(entry.chestSkinfold, LengthUnit.Millimeters)}
+          valueText={formatLength(entry.chestSkinfold, {
+            unit: LengthUnit.Millimeters,
+          })}
         />
       )}
 
       {entry.abSkinfold && (
         <BodyCompLogCell
           minimumBreakpoint={Breakpoint.DesktopLarge}
-          valueText={formatLength(entry.abSkinfold, LengthUnit.Millimeters)}
+          valueText={formatLength(entry.abSkinfold, {
+            unit: LengthUnit.Millimeters,
+          })}
         />
       )}
 
       {entry.thighSkinfold && (
         <BodyCompLogCell
           minimumBreakpoint={Breakpoint.DesktopLarge}
-          valueText={formatLength(entry.thighSkinfold, LengthUnit.Millimeters)}
+          valueText={formatLength(entry.thighSkinfold, {
+            unit: LengthUnit.Millimeters,
+          })}
         />
       )}
     </Link>

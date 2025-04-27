@@ -25,7 +25,7 @@ export default async function ProfilePage() {
       <UserProfileForm
         action={updateProfile}
         defaultBirthday={userProfile.birthday}
-        defaultHeight={userProfile.height}
+        defaultHeightInMm={userProfile.heightInMm}
         defaultLengthSystem={userProfile.lengthSystem}
         defaultSex={userProfile.sex}
         defaultWeightSystem={userProfile.weightSystem}

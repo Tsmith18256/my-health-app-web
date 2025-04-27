@@ -23,6 +23,6 @@ export const calculateBodyFatForCurrentUser = async (
   return calculateBodyFat({
     age: getAgeFromBirthday(dayjs(userProfile.birthday)),
     entry: bodyCompEntry,
-    height: userProfile.height,
+    heightInMm: userProfile.heightInMm,
   });
 };

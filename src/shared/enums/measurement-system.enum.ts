@@ -6,6 +6,6 @@ import { ObjectValues } from '@/shared/helper-types/object-values.type';
 export const MeasurementSystem = {
   Imperial: 'imperial',
   Metric: 'metric'
-};
+} as const;
 
 export type MeasurementSystem = ObjectValues<typeof MeasurementSystem>;

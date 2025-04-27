@@ -1,46 +1,18 @@
 "use server";
 
+import { parseAndSaveUserProfileForm } from '@/features/body-comp/profile/parse-and-save-user-profile-form.util';
 import { updateUserProfile } from "@/shared/database/daos/user-profile.dao";
-import { MeasurementSystem } from '@/shared/enums/measurement-system.enum';
-import { validateEmailAddress } from "@/shared/utils/validation/validate-email-address.util";
-import { validateSex } from "@/shared/utils/validation/validate-sex.util";
-import { auth, currentUser } from "@clerk/nextjs/server";
-import { revalidatePath } from "next/cache";
 
 export const updateProfile = async (
   formData: FormData
 ): Promise<{ errorMessage?: string }> => {
-  const { userId } = await auth();
+  try {
+    await parseAndSaveUserProfileForm(formData, updateUserProfile);
 
-  if (!userId) {
-    return { errorMessage: "No user ID." };
+    return {};
+  } catch (err) {
+    return {
+      errorMessage: err instanceof Error ? err.message : String(err),
+    };
   }
-
-  const user = await currentUser();
-  const emailAddress = user?.emailAddresses[0]?.emailAddress;
-
-  if (!emailAddress) {
-    return { errorMessage: "Authentication failed." };
-  }
-
-  const birthday = formData.get("birthday");
-  const height = formData.get("height");
-  const sex = formData.get("sex");
-
-  if (!birthday || !height || !sex) {
-    return { errorMessage: "Form data incomplete." };
-  }
-
-  await updateUserProfile({
-    birthday: birthday.toString(),
-    emailAddress: validateEmailAddress(emailAddress),
-    height: parseFloat(height.toString()),
-    lengthSystem: MeasurementSystem.Imperial,
-    sex: validateSex(sex.toString()),
-    weightSystem: MeasurementSystem.Metric
-  });
-
-  revalidatePath("/body-comp/profile");
-
-  return {};
 };

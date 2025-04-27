@@ -5,9 +5,12 @@ import { LengthUnit } from "@/shared/enums/length-unit.enum";
  */
 export const formatLength = (
   length: number,
-  unit: LengthUnit = LengthUnit.Inches
+  {
+    fractionDigits: fractionDigitsOverride,
+    unit = LengthUnit.Inches,
+  }: IFormatLengthOptions
 ) => {
-  const fractionDigits = fractionDigitsMap[unit];
+  const fractionDigits = fractionDigitsOverride ?? fractionDigitsMap[unit];
   const suffix = unitSuffixMap[unit];
 
   return `${length.toFixed(fractionDigits)}${suffix}`;
@@ -24,3 +27,8 @@ const unitSuffixMap = {
   [LengthUnit.Inches]: '"',
   [LengthUnit.Millimeters]: " mm",
 } as const satisfies Record<LengthUnit, string>;
+
+interface IFormatLengthOptions {
+  fractionDigits?: number;
+  unit?: LengthUnit;
+}

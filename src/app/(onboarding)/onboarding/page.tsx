@@ -43,7 +43,7 @@ export default function OnboardingPage() {
       <UserProfileForm
         action={handleSubmit}
         defaultBirthday="2000-01-01"
-        defaultHeight={70}
+        defaultHeightInMm={70}
         defaultLengthSystem={MeasurementSystem.Imperial}
         defaultSex={Sex.Male}
         defaultWeightSystem={MeasurementSystem.Metric}

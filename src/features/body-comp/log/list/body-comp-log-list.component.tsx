@@ -29,7 +29,7 @@ export const BodyCompLogList = async () => {
             key={entry.id}
             age={getAgeFromBirthday(dayjs(userProfile.birthday))}
             entry={entry}
-            height={userProfile.height}
+            heightInMm={userProfile.heightInMm}
           />
         );
       })}
