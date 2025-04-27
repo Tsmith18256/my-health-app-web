@@ -8,27 +8,27 @@ import {
   Heading,
   HeadingLevel,
 } from "@/shared/components/heading/heading.component";
+import { Sex } from "@/shared/utils/validation/validate-sex.util";
+import { ComponentProps } from "react";
 
 export default function OnboardingPage() {
   const router = useRouter();
   const { user } = useUser();
 
-  const handleSubmit = async (
-    _: { errorMessage?: string },
+  const handleSubmit: ComponentProps<typeof UserProfileForm>["action"] = async (
     formData: FormData
-  ): Promise<{ errorMessage?: string }> => {
+  ) => {
     const res = await saveOnboardingInformation(formData);
 
-    if (res.isComplete) {
+    if (!res.errorMessage) {
+      // Doing a normal server-side redirect after updating the user's auth
+      // metadata does not reload the updated metadata. Making this a
+      // client-side page and calling reload here fixes that issue.
       await user?.reload();
       router.push("/body-comp/log");
     }
 
-    if (res.errorMessage) {
-      return res;
-    }
-
-    return {};
+    return res;
   };
 
   return (
@@ -39,7 +39,13 @@ export default function OnboardingPage() {
       >
         Welcome
       </Heading>
-      <UserProfileForm action={handleSubmit} isOnboarding={true} />
+      <UserProfileForm
+        action={handleSubmit}
+        defaultBirthday="2000-01-01"
+        defaultHeight={70}
+        defaultSex={Sex.Male}
+        isOnboarding={true}
+      />
     </div>
   );
 }
