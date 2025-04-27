@@ -1,32 +1,15 @@
 "use server";
 
+import { getAuthSessionDetails } from "@/features/auth/get-auth-session-details.util";
 import { insertUserProfile } from "@/shared/database/daos/user-profile.dao";
-import { IFormActionResult } from '@/shared/helper-types/form-action-result.type';
+import { IFormActionResult } from "@/shared/helper-types/form-action-result.type";
 import { validateEmailAddress } from "@/shared/utils/validation/validate-email-address.util";
 import { validateSex } from "@/shared/utils/validation/validate-sex.util";
-import { auth, clerkClient, currentUser } from "@clerk/nextjs/server";
 
 export const saveOnboardingInformation = async (
   formData: FormData
-): Promise<IFormActionResult & { isComplete: boolean; }> => {
-  const { userId } = await auth();
-
-  if (!userId) {
-    return {
-      isComplete: false,
-      errorMessage: "No user ID.",
-    };
-  }
-
-  const user = await currentUser();
-  const emailAddress = user?.emailAddresses[0]?.emailAddress;
-
-  if (!emailAddress) {
-    return {
-      isComplete: false,
-      errorMessage: "Authentication failed.",
-    };
-  }
+): Promise<IFormActionResult> => {
+  const { emailAddress, updateUserMetadata } = await getAuthSessionDetails();
 
   const birthday = formData.get("birthday");
   const height = formData.get("height");
@@ -34,7 +17,6 @@ export const saveOnboardingInformation = async (
 
   if (!birthday || !height || !sex) {
     return {
-      isComplete: false,
       errorMessage: "Form data incomplete.",
     };
   }
@@ -47,21 +29,13 @@ export const saveOnboardingInformation = async (
       sex: validateSex(sex.toString()),
     });
 
-    const client = await clerkClient();
-    // If adding more fields to the `publicMetadata` object, update
-    // `clerk-metadata.ts` to add the type defs.
-    await client.users.updateUser(userId, {
-      publicMetadata: {
-        onboardingComplete: true,
-      },
+    await updateUserMetadata({
+      onboardingComplete: true,
     });
 
-    return {
-      isComplete: true,
-    };
+    return {};
   } catch (err) {
     return {
-      isComplete: false,
       errorMessage: err instanceof Error ? err.message : String(err),
     };
   }
