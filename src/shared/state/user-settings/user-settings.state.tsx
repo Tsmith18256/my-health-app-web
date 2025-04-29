@@ -1,16 +1,20 @@
+"use client";
+
 import { MeasurementSystem } from "@/shared/enums/measurement-system.enum";
 import { Sex } from "@/shared/utils/validation/validate-sex.util";
 import { createContext, ReactNode, useContext, useRef } from "react";
 import { create, useStore } from "zustand";
 
-export const UserSettingsContext = createContext<
-  ReturnType<typeof createSettingsStore> | undefined
->(undefined);
-
-export const UserSettingsProvider = ({ children }: { children: ReactNode }) => {
+export const UserSettingsProvider = ({
+  children,
+  initialValues,
+}: {
+  children: ReactNode;
+  initialValues: ISettingsState;
+}) => {
   const storeRef = useRef<ReturnType<typeof createSettingsStore> | null>(null);
   if (storeRef.current === null) {
-    storeRef.current = createSettingsStore();
+    storeRef.current = createSettingsStore(initialValues);
   }
 
   return (
@@ -20,22 +24,18 @@ export const UserSettingsProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const createSettingsStore = () => {
+const createSettingsStore = (initialValues: ISettingsState) => {
   return create<
     ISettingsState & { setUserSettings(newSettings: ISettingsState): void }
   >((set) => ({
-    birthday: new Date(),
-    heightInMm: 0,
-    lengthSystem: MeasurementSystem.Imperial,
-    sex: Sex.Male,
-    weightSystem: MeasurementSystem.Imperial,
+    ...initialValues,
     setUserSettings(newState: ISettingsState) {
       set(newState);
     },
   }));
 };
 
-export const useUserSettingsStore = () => {
+export const useUserSettings = () => {
   const userSettingsContext = useContext(UserSettingsContext);
 
   if (!userSettingsContext) {
@@ -47,8 +47,12 @@ export const useUserSettingsStore = () => {
   return useStore(userSettingsContext);
 };
 
+const UserSettingsContext = createContext<
+  ReturnType<typeof createSettingsStore> | undefined
+>(undefined);
+
 interface ISettingsState {
-  birthday: Date;
+  birthday: string;
   heightInMm: number;
   lengthSystem: MeasurementSystem;
   sex: Sex;

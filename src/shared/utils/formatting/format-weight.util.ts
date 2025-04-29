@@ -8,6 +8,7 @@ export const formatWeight = (
   weightInG: number,
   { unit = WeightUnit.Pounds }: IFormatWeightOptions = {}
 ) => {
+  console.log(unit);
   const converted = convertWeightUnits(weightInG, WeightUnit.Grams, unit);
   const fractionDigits = fractionDigitsByUnit[unit];
   const suffix = suffixByUnit[unit];
@@ -17,11 +18,13 @@ export const formatWeight = (
 
 const fractionDigitsByUnit: Record<WeightUnit, number> = {
   [WeightUnit.Grams]: 0,
+  [WeightUnit.Kilograms]: 1,
   [WeightUnit.Pounds]: 1,
 };
 
 const suffixByUnit: Record<WeightUnit, string> = {
   [WeightUnit.Grams]: " g",
+  [WeightUnit.Kilograms]: " kg",
   [WeightUnit.Pounds]: " lbs",
 };
 

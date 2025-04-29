@@ -10,7 +10,6 @@ export default async function ProfilePage() {
 
   const userProfile = await selectUserProfileByEmail(emailAddress);
   if (!userProfile) {
-
     await updateUserMetadata({
       onboardingComplete: false,
     });
