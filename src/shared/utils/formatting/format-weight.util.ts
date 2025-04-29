@@ -8,7 +8,6 @@ export const formatWeight = (
   weightInG: number,
   { unit = WeightUnit.Pounds }: IFormatWeightOptions = {}
 ) => {
-  console.log(unit);
   const converted = convertWeightUnits(weightInG, WeightUnit.Grams, unit);
   const fractionDigits = fractionDigitsByUnit[unit];
   const suffix = suffixByUnit[unit];

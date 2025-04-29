@@ -42,7 +42,7 @@ export const UserProfileForm = ({
       const newValue = e.target.value as MeasurementSystem;
       setLengthSystem(newValue);
 
-      const newHeight = newValue === MeasurementSystem.Imperial ? 70 : 175;
+      const newHeight = newValue === MeasurementSystem.Imperial ? 70 : 1750;
       setHeight(newHeight.toFixed(1));
     },
     [setLengthSystem]
@@ -182,7 +182,7 @@ const renderHeightOptions = (lengthSystem: MeasurementSystem) => {
       );
     }
   } else if (lengthSystem === MeasurementSystem.Metric) {
-    for (let i = 150; i < 210; i += 1) {
+    for (let i = 1500; i < 2100; i += 10) {
       options.push(
         <Option key={i} value={i.toFixed(1)}>
           {formatLength(i, { fractionDigits: 0, unit: LengthUnit.Centimeters })}

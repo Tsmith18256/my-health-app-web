@@ -1,3 +1,5 @@
+"use client";
+
 import { calculateBodyFat } from "@/features/body-comp/calculate-body-fat.util";
 import { BodyCompLogCell } from "@/features/body-comp/log/list/row/body-comp-log-cell.component";
 import { Breakpoint } from "@/shared/enums/breakpoint.enum";
@@ -8,17 +10,29 @@ import { formatWeight } from "@/shared/utils/formatting/format-weight.util";
 import dayjs from "dayjs";
 import Link from "next/link";
 import styles from "./body-comp-log-row.module.css";
+import { useUserSettings } from "@/shared/state/user-settings/user-settings.state";
+import { getAgeFromBirthday } from "@/shared/utils/dates/get-age-from-birthday.util";
+import { WeightUnit } from "@/shared/enums/weight-unit.enum";
+import { MeasurementSystem } from "@/shared/enums/measurement-system.enum";
+import { IBodyCompEntry } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
 
-export const BodyCompLogRow = ({
-  age,
-  entry,
-  heightInMm: height,
-}: Parameters<typeof calculateBodyFat>[0]) => {
+export const BodyCompLogRow = ({ entry }: { entry: IBodyCompEntry }) => {
+  const { birthday, heightInMm, lengthSystem, weightSystem } =
+    useUserSettings();
+  const weightUnit =
+    weightSystem === MeasurementSystem.Imperial
+      ? WeightUnit.Pounds
+      : WeightUnit.Kilograms;
+  const lengthUnit =
+    lengthSystem === MeasurementSystem.Imperial
+      ? LengthUnit.Inches
+      : LengthUnit.Centimeters;
+
   const formattedDate = dayjs(entry.date).format("MMM DD, YYYY");
   const bodyFat = calculateBodyFat({
-    age,
+    age: getAgeFromBirthday(dayjs(birthday)),
     entry,
-    heightInMm: height,
+    heightInMm,
   });
 
   return (
@@ -33,7 +47,7 @@ export const BodyCompLogRow = ({
 
       <BodyCompLogCell
         label={formattedDate}
-        valueText={formatWeight(entry.weightInG)}
+        valueText={formatWeight(entry.weightInG, { unit: weightUnit })}
       />
 
       <BodyCompLogCell
@@ -52,14 +66,18 @@ export const BodyCompLogRow = ({
       {entry.neckCircumferenceInMm && (
         <BodyCompLogCell
           minimumBreakpoint={Breakpoint.DesktopMedium}
-          valueText={formatLength(entry.neckCircumferenceInMm)}
+          valueText={formatLength(entry.neckCircumferenceInMm, {
+            unit: lengthUnit,
+          })}
         />
       )}
 
       {entry.waistCircumferenceInMm && (
         <BodyCompLogCell
           minimumBreakpoint={Breakpoint.DesktopMedium}
-          valueText={formatLength(entry.waistCircumferenceInMm)}
+          valueText={formatLength(entry.waistCircumferenceInMm, {
+            unit: lengthUnit,
+          })}
         />
       )}
 

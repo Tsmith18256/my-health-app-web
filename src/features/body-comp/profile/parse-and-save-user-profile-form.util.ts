@@ -28,7 +28,7 @@ export const parseAndSaveUserProfileForm = async (
     parseFloat(height),
     validatedLengthSystem === MeasurementSystem.Imperial
       ? LengthUnit.Inches
-      : LengthUnit.Centimeters,
+      : LengthUnit.Millimeters,
     LengthUnit.Millimeters
   ));
 
