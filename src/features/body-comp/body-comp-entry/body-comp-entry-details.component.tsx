@@ -5,13 +5,14 @@ import {
   BodyFatMethod,
   calculateBodyFat,
 } from "@/features/body-comp/calculate-body-fat.util";
-import { OverviewSkinfoldSection } from "@/features/body-comp/overview/overview-calipers-section.component";
+import { OverviewSkinfoldSection } from "@/features/body-comp/overview/overview-skinfold-section.component";
 import { OverviewMeasuringTapeSection } from "@/features/body-comp/overview/overview-measuring-tape-section.component";
 import { OverviewSection } from "@/features/body-comp/overview/overview-section.component";
 import {
   Heading,
   HeadingLevel,
 } from "@/shared/components/heading/heading.component";
+import { LengthUnit } from "@/shared/enums/length-unit.enum";
 import { MeasurementSystem } from "@/shared/enums/measurement-system.enum";
 import { WeightUnit } from "@/shared/enums/weight-unit.enum";
 import { useUserSettings } from "@/shared/state/user-settings/user-settings.state";
@@ -21,12 +22,16 @@ import { formatWeight } from "@/shared/utils/formatting/format-weight.util";
 import dayjs from "dayjs";
 
 export const BodyCompEntryDetails = ({ entry }: { entry: IBodyCompEntry }) => {
-  const state = useUserSettings();
+  const userProfile = useUserSettings();
+  const lengthUnit =
+    userProfile.lengthSystem === MeasurementSystem.Imperial
+      ? LengthUnit.Inches
+      : LengthUnit.Centimeters;
 
   const bodyFat = calculateBodyFat({
-    age: getAgeFromBirthday(dayjs(state.birthday)),
+    age: getAgeFromBirthday(dayjs(userProfile.birthday)),
     entry,
-    heightInMm: state.heightInMm,
+    heightInMm: userProfile.heightInMm,
   });
 
   return (
@@ -35,7 +40,7 @@ export const BodyCompEntryDetails = ({ entry }: { entry: IBodyCompEntry }) => {
         <strong className="text-7xl">
           {formatWeight(entry.weightInG, {
             unit:
-              state.weightSystem === MeasurementSystem.Imperial
+              userProfile.weightSystem === MeasurementSystem.Imperial
                 ? WeightUnit.Pounds
                 : WeightUnit.Kilograms,
           })}
@@ -64,7 +69,11 @@ export const BodyCompEntryDetails = ({ entry }: { entry: IBodyCompEntry }) => {
       </div>
 
       <OverviewSection>
-        <OverviewMeasuringTapeSection neckEntry={entry} waistEntry={entry} />
+        <OverviewMeasuringTapeSection
+          lengthUnit={lengthUnit}
+          neckEntry={entry}
+          waistEntry={entry}
+        />
 
         <OverviewSkinfoldSection
           abEntry={entry}
