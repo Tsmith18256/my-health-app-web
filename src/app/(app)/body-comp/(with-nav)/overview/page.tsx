@@ -41,7 +41,7 @@ export default async function OverviewPage() {
       if (dayjs(entry.date).isAfter(sevenDaysAgo)) {
         return {
           entries: acc.entries + 1,
-          sum: acc.sum + entry.weight,
+          sum: acc.sum + entry.weightInG,
         };
       }
 
@@ -64,10 +64,10 @@ export default async function OverviewPage() {
     );
   });
   const mostRecentNeckCircEntry = sortedEntries.find(
-    (entry) => entry.neckCircumference !== undefined
+    (entry) => entry.neckCircumferenceInMm !== undefined
   );
   const mostRecentWaistCircEntry = sortedEntries.find(
-    (entry) => entry.waistCircumference !== undefined
+    (entry) => entry.waistCircumferenceInMm !== undefined
   );
   const mostRecentChestSkinfoldEntry = sortedEntries.find(
     (entry) => entry.chestSkinfold !== undefined
@@ -99,9 +99,9 @@ export default async function OverviewPage() {
             <OverviewCondensedItem
               date={mostRecentWeightEntry?.date}
               valueText={
-                mostRecentWeightEntry?.weight === undefined
+                mostRecentWeightEntry?.weightInG === undefined
                   ? undefined
-                  : `${mostRecentWeightEntry.weight.toFixed(1)} lbs`
+                  : formatWeight(mostRecentWeightEntry.weightInG)
               }
             />
             <OverviewCondensedItem

@@ -24,7 +24,7 @@ export const calculateBodyFat = (
     return getResultsObject({
       bodyFatPercent: calculateAverage(navyBf, skinfoldBf),
       method: BodyFatMethod.Combined,
-      weight: opts.entry.weight,
+      weightInG: opts.entry.weightInG,
     });
   }
 
@@ -32,7 +32,7 @@ export const calculateBodyFat = (
     return getResultsObject({
       bodyFatPercent: navyBf,
       method: BodyFatMethod.Navy,
-      weight: opts.entry.weight,
+      weightInG: opts.entry.weightInG,
     });
   }
 
@@ -40,7 +40,7 @@ export const calculateBodyFat = (
     return getResultsObject({
       bodyFatPercent: skinfoldBf,
       method: BodyFatMethod.Skinfold3Site,
-      weight: opts.entry.weight,
+      weightInG: opts.entry.weightInG,
     });
   }
 
@@ -49,9 +49,9 @@ export const calculateBodyFat = (
 
 const calculateNavyBodyFat = ({
   heightInMm: heightInMm,
-  entry: { neckCircumference, waistCircumference },
+  entry: { neckCircumferenceInMm, waistCircumferenceInMm },
 }: ICalculateNavyBodyFatOpts): number | null => {
-  if (!neckCircumference || !waistCircumference) {
+  if (!neckCircumferenceInMm || !waistCircumferenceInMm) {
     return null;
   }
 
@@ -61,13 +61,13 @@ const calculateNavyBodyFat = ({
     LengthUnit.Centimeters
   );
   const neckInCm = convertLengthUnits(
-    neckCircumference,
-    LengthUnit.Inches,
+    neckCircumferenceInMm,
+    LengthUnit.Millimeters,
     LengthUnit.Centimeters
   );
   const waistInCm = convertLengthUnits(
-    waistCircumference,
-    LengthUnit.Inches,
+    waistCircumferenceInMm,
+    LengthUnit.Millimeters,
     LengthUnit.Centimeters
   );
 
@@ -102,16 +102,16 @@ const convertDensityToBodyFat = (density: number): number => {
 const getResultsObject = ({
   bodyFatPercent,
   method,
-  weight,
+  weightInG,
 }: Pick<IBodyFatResult, "bodyFatPercent" | "method"> &
-  Pick<IBodyCompEntry, "weight">): IBodyFatResult => {
-  const fatMass = weight * bodyFatPercent;
+  Pick<IBodyCompEntry, "weightInG">): IBodyFatResult => {
+  const fatMass = weightInG * bodyFatPercent;
 
   return {
     bodyFatPercent,
     method,
     fatMass,
-    leanMass: weight - fatMass,
+    leanMass: weightInG - fatMass,
   };
 };
 

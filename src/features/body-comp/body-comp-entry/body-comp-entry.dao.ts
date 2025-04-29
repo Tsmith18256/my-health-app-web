@@ -1,10 +1,6 @@
 import { sql } from "@/shared/database/db";
-import { LengthUnit } from "@/shared/enums/length-unit.enum";
-import { WeightUnit } from "@/shared/enums/weight-unit.enum";
 import { Brand } from "@/shared/helper-types/brand.type";
 import { formatVanillaDateWithoutTime } from "@/shared/utils/dates/vanilla/format-vanilla-date-without-time";
-import { convertLengthUnits } from "@/shared/utils/units/convert-length-units";
-import { convertWeightUnits } from "@/shared/utils/units/convert-weight-units";
 import {
   EmailAddress,
   validateEmailAddress,
@@ -43,15 +39,9 @@ export const insertBodyCompEntry = async (
       },
       ${inputEntry.date},
       ${
-        inputEntry.neckCircumference === undefined
+        inputEntry.neckCircumferenceInMm === undefined
           ? null
-          : Math.round(
-              convertLengthUnits(
-                inputEntry.neckCircumference,
-                LengthUnit.Inches,
-                LengthUnit.Millimeters
-              )
-            )
+          : Math.round(inputEntry.neckCircumferenceInMm)
       },
       ${
         inputEntry.thighSkinfold === undefined
@@ -60,23 +50,11 @@ export const insertBodyCompEntry = async (
       },
       ${inputEntry.userEmail},
       ${
-        inputEntry.waistCircumference === undefined
+        inputEntry.waistCircumferenceInMm === undefined
           ? null
-          : Math.round(
-              convertLengthUnits(
-                inputEntry.waistCircumference,
-                LengthUnit.Inches,
-                LengthUnit.Millimeters
-              )
-            )
+          : Math.round(inputEntry.waistCircumferenceInMm)
       },
-      ${Math.round(
-        convertWeightUnits(
-          inputEntry.weight,
-          WeightUnit.Pounds,
-          WeightUnit.Grams
-        )
-      )}
+      ${Math.round(inputEntry.weightInG)}
     ) RETURNING *
   `;
 
@@ -136,15 +114,9 @@ export const updateBodyCompEntry = async (
         },
         entry_date = ${inputEntry.date},
         neck_circ_in_mm = ${
-          inputEntry.neckCircumference === undefined
+          inputEntry.neckCircumferenceInMm === undefined
             ? null
-            : Math.round(
-                convertLengthUnits(
-                  inputEntry.neckCircumference,
-                  LengthUnit.Inches,
-                  LengthUnit.Millimeters
-                )
-              )
+            : Math.round(inputEntry.neckCircumferenceInMm)
         },
         thigh_skinfold = ${
           inputEntry.thighSkinfold === undefined
@@ -153,23 +125,11 @@ export const updateBodyCompEntry = async (
         },
         user_email = ${inputEntry.userEmail},
         waist_circ_in_mm = ${
-          inputEntry.waistCircumference === undefined
+          inputEntry.waistCircumferenceInMm === undefined
             ? null
-            : Math.round(
-                convertLengthUnits(
-                  inputEntry.waistCircumference,
-                  LengthUnit.Inches,
-                  LengthUnit.Millimeters
-                )
-              )
+            : Math.round(inputEntry.waistCircumferenceInMm)
         },
-        weight_in_grams = ${Math.round(
-          convertWeightUnits(
-            inputEntry.weight,
-            WeightUnit.Pounds,
-            WeightUnit.Grams
-          )
-        )}
+        weight_in_grams = ${Math.round(inputEntry.weightInG)}
       WHERE id = ${inputEntry.id}
       RETURNING *
   `;
@@ -187,29 +147,11 @@ const convertModelToObject = (model: IBodyCompEntryModel): IBodyCompEntry => {
     chestSkinfold: model.chest_skinfold ?? undefined,
     date: formatVanillaDateWithoutTime(model.entry_date),
     id: model.id as BodyCompEntryId,
-    neckCircumference:
-      model.neck_circ_in_mm === null
-        ? undefined
-        : convertLengthUnits(
-            model.neck_circ_in_mm,
-            LengthUnit.Millimeters,
-            LengthUnit.Inches
-          ),
+    neckCircumferenceInMm: model.neck_circ_in_mm ?? undefined,
     thighSkinfold: model.thigh_skinfold ?? undefined,
     userEmail: validateEmailAddress(model.user_email),
-    waistCircumference:
-      model.waist_circ_in_mm === null
-        ? undefined
-        : convertLengthUnits(
-            model.waist_circ_in_mm,
-            LengthUnit.Millimeters,
-            LengthUnit.Inches
-          ),
-    weight: convertWeightUnits(
-      model.weight_in_grams,
-      WeightUnit.Grams,
-      WeightUnit.Pounds
-    ),
+    waistCircumferenceInMm: model.waist_circ_in_mm ?? undefined,
+    weightInG: model.weight_in_grams,
   };
 };
 
@@ -226,18 +168,14 @@ export interface IBodyCompEntry {
   chestSkinfold?: number;
   date: string;
   id: BodyCompEntryId;
-  neckCircumference?: number;
+  neckCircumferenceInMm?: number;
   thighSkinfold?: number;
   userEmail: EmailAddress;
-  waistCircumference?: number;
-  weight: number;
+  waistCircumferenceInMm?: number;
+  weightInG: number;
 }
 
 export type INewBodyCompEntry = Omit<IBodyCompEntry, "id">;
-
-export interface ISelectBodyCompEntriesOpts {
-  userEmail: EmailAddress;
-}
 
 interface IBodyCompEntryModel {
   ab_skinfold: number | null;
@@ -249,4 +187,8 @@ interface IBodyCompEntryModel {
   user_email: string;
   waist_circ_in_mm: number | null;
   weight_in_grams: number;
+}
+
+interface ISelectBodyCompEntriesOpts {
+  userEmail: EmailAddress;
 }

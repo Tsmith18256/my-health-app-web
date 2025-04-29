@@ -60,7 +60,7 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
           />
           <Input
             id="txtWeight"
-            defaultValue={props.weight?.toFixed(1)}
+            defaultValue={props.weightInG?.toFixed(1)}
             label="Weight"
             min="0"
             name="weight"
@@ -76,7 +76,7 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
               <Heading level={HeadingLevel.h3}>Measuring tape</Heading>
               <Input
                 id="txtNeckCirc"
-                defaultValue={props.neckCircumference?.toFixed(0)}
+                defaultValue={props.neckCircumferenceInMm?.toFixed(0)}
                 label="Neck"
                 min="0"
                 name="neckCircumference"
@@ -85,7 +85,7 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
               />
               <Input
                 id="txtWaistCirc"
-                defaultValue={props.waistCircumference?.toFixed(0)}
+                defaultValue={props.waistCircumferenceInMm?.toFixed(0)}
                 label="Waist"
                 min="0"
                 name="waistCircumference"

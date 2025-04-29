@@ -41,11 +41,11 @@ export const editBodyCompEntry = async (
   const entry: IBodyCompEntry = {
     id: parseInt(id.toString(), 10) as BodyCompEntryId,
     date: date.toString(),
-    weight: parseFloat(weight.toString()),
-    neckCircumference: neckCircumference
+    weightInG: parseFloat(weight.toString()),
+    neckCircumferenceInMm: neckCircumference
       ? parseFloat(neckCircumference.toString())
       : undefined,
-    waistCircumference: waistCircumference
+    waistCircumferenceInMm: waistCircumference
       ? parseFloat(waistCircumference.toString())
       : undefined,
     chestSkinfold: chestSkinfold

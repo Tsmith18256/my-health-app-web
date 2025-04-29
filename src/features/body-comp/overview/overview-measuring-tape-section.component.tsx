@@ -8,13 +8,13 @@ export const OverviewMeasuringTapeSection = ({ neckEntry, showDates, waistEntry 
       <OverviewMetricRow
         date={showDates ? neckEntry?.date : undefined}
         label="Neck"
-        value={neckEntry?.neckCircumference}
+        value={neckEntry?.neckCircumferenceInMm}
       />
 
       <OverviewMetricRow
         date={showDates ? waistEntry?.date : undefined}
         label="Waist"
-        value={waistEntry?.waistCircumference}
+        value={waistEntry?.waistCircumferenceInMm}
       />
     </OverviewMetricsSection>
   );

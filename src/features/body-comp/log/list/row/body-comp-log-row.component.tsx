@@ -33,7 +33,7 @@ export const BodyCompLogRow = ({
 
       <BodyCompLogCell
         label={formattedDate}
-        valueText={formatWeight(entry.weight)}
+        valueText={formatWeight(entry.weightInG)}
       />
 
       <BodyCompLogCell
@@ -49,21 +49,17 @@ export const BodyCompLogRow = ({
         />
       )}
 
-      {entry.neckCircumference && (
+      {entry.neckCircumferenceInMm && (
         <BodyCompLogCell
           minimumBreakpoint={Breakpoint.DesktopMedium}
-          valueText={formatLength(entry.neckCircumference, {
-            unit: LengthUnit.Centimeters,
-          })}
+          valueText={formatLength(entry.neckCircumferenceInMm)}
         />
       )}
 
-      {entry.waistCircumference && (
+      {entry.waistCircumferenceInMm && (
         <BodyCompLogCell
           minimumBreakpoint={Breakpoint.DesktopMedium}
-          valueText={formatLength(entry.waistCircumference, {
-            unit: LengthUnit.Centimeters,
-          })}
+          valueText={formatLength(entry.waistCircumferenceInMm)}
         />
       )}
 

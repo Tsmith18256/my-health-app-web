@@ -52,7 +52,7 @@ export default async function ViewBodyCompEntry(
 
       <main className="mb-12 mt-12 px-4">
         <div className="mb-8">
-          <strong className="text-7xl">{formatWeight(entry.weight)}</strong>
+          <strong className="text-7xl">{formatWeight(entry.weightInG)}</strong>
 
           <div className="mt-4">
             <Heading level={HeadingLevel.h2}>
