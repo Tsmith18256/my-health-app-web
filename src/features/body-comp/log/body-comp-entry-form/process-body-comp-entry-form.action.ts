@@ -2,8 +2,11 @@
 
 import { getAuthSessionDetails } from "@/features/auth/get-auth-session-details.util";
 import {
+  BodyCompEntryId,
+  IBodyCompEntry,
   INewBodyCompEntry,
   insertBodyCompEntry,
+  updateBodyCompEntry,
 } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
 import { selectUserProfileByEmail } from "@/shared/database/daos/user-profile.dao";
 import { LengthUnit } from "@/shared/enums/length-unit.enum";
@@ -12,9 +15,14 @@ import { WeightUnit } from "@/shared/enums/weight-unit.enum";
 import { convertLengthUnits } from "@/shared/utils/units/convert-length-units";
 import { convertWeightUnits } from "@/shared/utils/units/convert-weight-units";
 import { EmailAddress } from "@/shared/utils/validation/validate-email-address.util";
-import { redirect } from "next/navigation";
+import { permanentRedirect, redirect } from "next/navigation";
 
-export const createBodyCompEntry = async (
+/**
+ * Shared form action used by the body comp entry form. If an entry ID is passed
+ * from the form, the entry will be edited. Otherwise, a new entry will be
+ * created.
+ */
+export const processBodyCompEntryForm = async (
   _: { message: string },
   formData: FormData
 ): Promise<{ message: string }> => {
@@ -28,6 +36,7 @@ export const createBodyCompEntry = async (
     redirect("/onboarding");
   }
 
+  const id = formData.get("entryId");
   const date = formData.get("date");
   const weight = formData.get("weight");
   const neckCircumference = formData.get("neckCircumference");
@@ -52,7 +61,7 @@ export const createBodyCompEntry = async (
       ? LengthUnit.Inches
       : LengthUnit.Centimeters;
 
-  const entry: INewBodyCompEntry = {
+  const entryWithoutId: INewBodyCompEntry = {
     date: date.toString(),
     userEmail: emailAddress as EmailAddress,
     weightInG: convertWeightUnits(
@@ -83,13 +92,36 @@ export const createBodyCompEntry = async (
       : undefined,
   };
 
+  let idString: string;
   try {
-    await insertBodyCompEntry(entry);
+    if (id) {
+      // Edit entry behaviour.
+      idString = id.toString();
+      const entryWithId: IBodyCompEntry = {
+        ...entryWithoutId,
+        id: parseInt(idString, 10) as BodyCompEntryId,
+      };
+
+      await updateBodyCompEntry(entryWithId);
+    } else {
+      // Create new entry behaviour.
+      const { id: newEntryId } = await insertBodyCompEntry(entryWithoutId);
+
+      idString = newEntryId.toString();
+    }
   } catch (err) {
     return {
       message: err instanceof Error ? err.message : String(err),
     };
   }
 
-  redirect("/body-comp/log");
+  const redirectUrl = `/body-comp/${idString}`;
+  if (id) {
+    // Redirect if in edit mode (back button will return to edit form).
+    redirect(redirectUrl);
+  } else {
+    // Permanent redirect if in new mode (back button will return to page before
+    // new entry form).
+    permanentRedirect(redirectUrl);
+  }
 };

@@ -24,10 +24,10 @@ import { WeightUnit } from "@/shared/enums/weight-unit.enum";
 import { LengthUnit } from "@/shared/enums/length-unit.enum";
 import { convertWeightUnits } from "@/shared/utils/units/convert-weight-units";
 import { convertLengthUnits } from "@/shared/utils/units/convert-length-units";
+import { processBodyCompEntryForm } from "@/features/body-comp/log/body-comp-entry-form/process-body-comp-entry-form.action";
 
 export const BodyCompEntryForm = ({
   abSkinfold,
-  action,
   chestSkinfold,
   date,
   id,
@@ -37,7 +37,10 @@ export const BodyCompEntryForm = ({
   waistCircumferenceInMm,
   weightInG,
 }: IBodyCompEntryFormProps) => {
-  const [state, formAction] = useActionState(action, initialFormState);
+  const [state, formAction] = useActionState(
+    processBodyCompEntryForm,
+    initialFormState
+  );
   const router = useRouter();
 
   const { weightSystem, lengthSystem } = useUserSettings();
@@ -207,14 +210,6 @@ type IBodyCompEntryFormNewModeProps = {
   [Key in keyof IBodyCompEntry]?: undefined;
 };
 
-type IBodyCompEntryFormProps = (
+type IBodyCompEntryFormProps =
   | IBodyCompEntryFormEditModeProps
-  | IBodyCompEntryFormNewModeProps
-) & {
-  action:
-    | ((state: { message: string }, payload: FormData) => { message: string })
-    | ((
-        state: { message: string },
-        payload: FormData
-      ) => Promise<{ message: string }>);
-};
+  | IBodyCompEntryFormNewModeProps;
