@@ -1,17 +1,33 @@
 "use server";
 
+import { getAuthSessionDetails } from "@/features/auth/get-auth-session-details.util";
 import {
   INewBodyCompEntry,
   insertBodyCompEntry,
 } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
+import { selectUserProfileByEmail } from "@/shared/database/daos/user-profile.dao";
+import { LengthUnit } from "@/shared/enums/length-unit.enum";
+import { MeasurementSystem } from "@/shared/enums/measurement-system.enum";
+import { WeightUnit } from "@/shared/enums/weight-unit.enum";
+import { convertLengthUnits } from "@/shared/utils/units/convert-length-units";
+import { convertWeightUnits } from "@/shared/utils/units/convert-weight-units";
 import { EmailAddress } from "@/shared/utils/validation/validate-email-address.util";
-import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
 export const createBodyCompEntry = async (
   _: { message: string },
   formData: FormData
 ): Promise<{ message: string }> => {
+  const { emailAddress, updateUserMetadata } = await getAuthSessionDetails();
+  const userProfile = await selectUserProfileByEmail(emailAddress);
+  if (!userProfile) {
+    await updateUserMetadata({
+      onboardingComplete: false,
+    });
+
+    redirect("/onboarding");
+  }
+
   const date = formData.get("date");
   const weight = formData.get("weight");
   const neckCircumference = formData.get("neckCircumference");
@@ -27,24 +43,36 @@ export const createBodyCompEntry = async (
     };
   }
 
-  const user = await currentUser();
-  const emailAddress = user?.emailAddresses[0]?.emailAddress;
-
-  if (!emailAddress) {
-    return {
-      message: "Authentication failed",
-    };
-  }
+  const weightUnit =
+    userProfile.weightSystem === MeasurementSystem.Imperial
+      ? WeightUnit.Pounds
+      : WeightUnit.Kilograms;
+  const lengthUnit =
+    userProfile.lengthSystem === MeasurementSystem.Imperial
+      ? LengthUnit.Inches
+      : LengthUnit.Centimeters;
 
   const entry: INewBodyCompEntry = {
     date: date.toString(),
     userEmail: emailAddress as EmailAddress,
-    weightInG: parseFloat(weight.toString()),
+    weightInG: convertWeightUnits(
+      parseFloat(weight.toString()),
+      weightUnit,
+      WeightUnit.Grams
+    ),
     neckCircumferenceInMm: neckCircumference
-      ? parseFloat(neckCircumference.toString())
+      ? convertLengthUnits(
+          parseFloat(neckCircumference.toString()),
+          lengthUnit,
+          LengthUnit.Millimeters
+        )
       : undefined,
     waistCircumferenceInMm: waistCircumference
-      ? parseFloat(waistCircumference.toString())
+      ? convertLengthUnits(
+          parseFloat(waistCircumference.toString()),
+          lengthUnit,
+          LengthUnit.Millimeters
+        )
       : undefined,
     chestSkinfold: chestSkinfold
       ? parseInt(chestSkinfold.toString(), 10)
