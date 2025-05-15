@@ -1,6 +1,7 @@
 import { getAuthSessionDetails } from "@/features/auth/get-auth-session-details.util";
 import { BodyCompEntryDetails } from "@/features/body-comp/body-comp-entry/body-comp-entry-details.component";
 import { selectBodyCompEntryById } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
+import { ButtonAppearance } from "@/shared/components/buttons/button/button.component";
 import { HeaderButton } from "@/shared/components/header/header-button/header-button.component";
 import { Header } from "@/shared/components/header/header.component";
 import { IconImage } from "@/shared/components/icon/icon.component";
@@ -25,6 +26,15 @@ export default async function ViewBodyCompEntry(
     return notFound();
   }
 
+  const headerStartContent = (
+    <Link href="/body-comp/log">
+      <HeaderButton
+        appearance={ButtonAppearance.Negative}
+        icon={IconImage.Back}
+      />
+    </Link>
+  );
+
   const headerEndContent = (
     <Link href={`/body-comp/${params.id}/edit`}>
       <HeaderButton icon={IconImage.Edit} />
@@ -35,6 +45,7 @@ export default async function ViewBodyCompEntry(
     <>
       <Header
         endContent={headerEndContent}
+        startContent={headerStartContent}
         title={dayjs(entry.date).format("MMM DD, YYYY")}
       />
 

@@ -11,6 +11,7 @@ export const Icon = (props: IIconProps) => {
 };
 
 export const IconImage = {
+  Back: 'fa-arrow-left',
   Edit: "fa-pen",
   Log: "fa-book",
   Overview: "fa-chart-line-down",
