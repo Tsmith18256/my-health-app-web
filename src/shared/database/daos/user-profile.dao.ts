@@ -25,7 +25,7 @@ export const insertUserProfile = async (
     ) VALUES (
       ${inputProfile.birthday},
       ${inputProfile.emailAddress},
-      ${inputProfile.lengthSystem}
+      ${inputProfile.lengthSystem},
       ${inputProfile.heightInMm},
       ${inputProfile.sex},
       ${inputProfile.weightSystem}
