@@ -45,7 +45,7 @@ const getText = ({
     });
   }
 
-  return formatLength(value, unit);
+  return formatLength(value, { unit });
 };
 
 export interface IOverviewMetricRowProps {

@@ -10,6 +10,7 @@ import {
 } from "@/shared/components/heading/heading.component";
 import { Sex } from "@/shared/utils/validation/validate-sex.util";
 import { ComponentProps } from "react";
+import { MeasurementSystem } from '@/shared/enums/measurement-system.enum';
 
 export default function OnboardingPage() {
   const router = useRouter();
@@ -42,8 +43,10 @@ export default function OnboardingPage() {
       <UserProfileForm
         action={handleSubmit}
         defaultBirthday="2000-01-01"
-        defaultHeight={70}
+        defaultHeightInMm={70}
+        defaultLengthSystem={MeasurementSystem.Imperial}
         defaultSex={Sex.Male}
+        defaultWeightSystem={MeasurementSystem.Metric}
         isOnboarding={true}
       />
     </div>

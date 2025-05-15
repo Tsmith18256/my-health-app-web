@@ -1,6 +1,5 @@
-import { BodyCompEntryForm } from '@/features/body-comp/log/body-comp-entry-form.component';
-import { createBodyCompEntry } from '@/app/(app)/body-comp/new/create-body-comp-entry.action';
+import { BodyCompEntryForm } from '@/features/body-comp/log/body-comp-entry-form/body-comp-entry-form.component';
 
 export default function NewBodyCompEntryPage() {
-  return <BodyCompEntryForm action={createBodyCompEntry} />;
+  return <BodyCompEntryForm />;
 }

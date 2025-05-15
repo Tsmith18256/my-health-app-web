@@ -10,7 +10,6 @@ export default async function ProfilePage() {
 
   const userProfile = await selectUserProfileByEmail(emailAddress);
   if (!userProfile) {
-
     await updateUserMetadata({
       onboardingComplete: false,
     });
@@ -25,8 +24,10 @@ export default async function ProfilePage() {
       <UserProfileForm
         action={updateProfile}
         defaultBirthday={userProfile.birthday}
-        defaultHeight={userProfile.height}
+        defaultHeightInMm={userProfile.heightInMm}
+        defaultLengthSystem={userProfile.lengthSystem}
         defaultSex={userProfile.sex}
+        defaultWeightSystem={userProfile.weightSystem}
         isOnboarding={false}
       />
     </>

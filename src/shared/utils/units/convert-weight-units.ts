@@ -12,5 +12,6 @@ export const convertWeightUnits = (
 
 const gramsPerUnit: Record<WeightUnit, number> = {
   [WeightUnit.Grams]: 1,
+  [WeightUnit.Kilograms]: 1000,
   [WeightUnit.Pounds]: 453.5924,
 };

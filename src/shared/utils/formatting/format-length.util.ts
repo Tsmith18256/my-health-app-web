@@ -1,26 +1,42 @@
 import { LengthUnit } from "@/shared/enums/length-unit.enum";
+import { convertLengthUnits } from "@/shared/utils/units/convert-length-units";
 
 /**
  * Formats the given length into string format for display in the UI.
  */
 export const formatLength = (
-  length: number,
-  unit: LengthUnit = LengthUnit.Inches
+  lengthInMm: number,
+  {
+    fractionDigits: fractionDigitsOverride,
+    unit = LengthUnit.Inches,
+  }: IFormatLengthOptions = {}
 ) => {
-  const fractionDigits = fractionDigitsMap[unit];
-  const suffix = unitSuffixMap[unit];
+  const converted = convertLengthUnits(
+    lengthInMm,
+    LengthUnit.Millimeters,
+    unit
+  );
+  const fractionDigits = fractionDigitsOverride ?? fractionDigitsByUnit[unit];
+  const suffix = suffixByUnit[unit];
 
-  return `${length.toFixed(fractionDigits)}${suffix}`;
+  const str = `${converted.toFixed(fractionDigits)}${suffix}`;
+
+  return str;
 };
 
-const fractionDigitsMap = {
+const fractionDigitsByUnit: Record<LengthUnit, number> = {
   [LengthUnit.Centimeters]: 1,
   [LengthUnit.Inches]: 1,
   [LengthUnit.Millimeters]: 0,
-} as const satisfies Record<LengthUnit, number>;
+};
 
-const unitSuffixMap = {
+const suffixByUnit: Record<LengthUnit, string> = {
   [LengthUnit.Centimeters]: " cm",
   [LengthUnit.Inches]: '"',
   [LengthUnit.Millimeters]: " mm",
-} as const satisfies Record<LengthUnit, string>;
+};
+
+interface IFormatLengthOptions {
+  fractionDigits?: number;
+  unit?: LengthUnit;
+}

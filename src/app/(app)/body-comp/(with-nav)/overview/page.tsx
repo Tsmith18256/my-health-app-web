@@ -1,10 +1,4 @@
-import { OverviewMetricRow } from "@/features/body-comp/overview/overview-metric-row.component";
-import { OverviewSection } from "@/features/body-comp/overview/overview-section.component";
 import { Header } from "@/shared/components/header/header.component";
-import {
-  Heading,
-  HeadingLevel,
-} from "@/shared/components/heading/heading.component";
 import { selectBodyCompEntries } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
 import { UserButton } from "@clerk/nextjs";
 import dayjs from "dayjs";
@@ -13,10 +7,7 @@ import { getAuthSessionDetails } from "@/features/auth/get-auth-session-details.
 import { selectUserProfileByEmail } from "@/shared/database/daos/user-profile.dao";
 import { ErrorCode, ErrorWithCode } from "@/shared/errors/error-with-code.type";
 import { getAgeFromBirthday } from "@/shared/utils/dates/get-age-from-birthday.util";
-import { OverviewMeasuringTapeSection } from "@/features/body-comp/overview/overview-measuring-tape-section.component";
-import { OverviewSkinfoldSection } from "@/features/body-comp/overview/overview-calipers-section.component";
-import { OverviewCondensedItem } from "@/features/body-comp/overview/overview-condensed-item.component";
-import { formatWeight } from "@/shared/utils/formatting/format-weight.util";
+import { OverviewPageContents } from "@/features/body-comp/overview/overview-page-contents.component";
 
 export default async function OverviewPage() {
   const userEmail = (await getAuthSessionDetails()).emailAddress;
@@ -41,7 +32,7 @@ export default async function OverviewPage() {
       if (dayjs(entry.date).isAfter(sevenDaysAgo)) {
         return {
           entries: acc.entries + 1,
-          sum: acc.sum + entry.weight,
+          sum: acc.sum + entry.weightInG,
         };
       }
 
@@ -59,15 +50,15 @@ export default async function OverviewPage() {
       calculateBodyFat({
         age: getAgeFromBirthday(dayjs(userProfile.birthday)),
         entry,
-        height: userProfile.height,
+        heightInMm: userProfile.heightInMm,
       }) !== null
     );
   });
   const mostRecentNeckCircEntry = sortedEntries.find(
-    (entry) => entry.neckCircumference !== undefined
+    (entry) => entry.neckCircumferenceInMm !== undefined
   );
   const mostRecentWaistCircEntry = sortedEntries.find(
-    (entry) => entry.waistCircumference !== undefined
+    (entry) => entry.waistCircumferenceInMm !== undefined
   );
   const mostRecentChestSkinfoldEntry = sortedEntries.find(
     (entry) => entry.chestSkinfold !== undefined
@@ -90,66 +81,16 @@ export default async function OverviewPage() {
       <Header endContent={headerEndContent} title="Overview" />
 
       <main className="flex flex-col gap-6 mb-18 mt-6 pb-4 px-4">
-        <OverviewSection>
-          <Heading level={HeadingLevel.h5} tag={HeadingLevel.h2}>
-            Weight
-          </Heading>
-
-          <div className="grid grid-cols-2 mt-2">
-            <OverviewCondensedItem
-              date={mostRecentWeightEntry?.date}
-              valueText={
-                mostRecentWeightEntry?.weight === undefined
-                  ? undefined
-                  : `${mostRecentWeightEntry.weight.toFixed(1)} lbs`
-              }
-            />
-            <OverviewCondensedItem
-              label="Last 7 days"
-              valueText={
-                last7DaysWeight === undefined
-                  ? undefined
-                  : formatWeight(last7DaysWeight)
-              }
-            />
-          </div>
-
-          <div className="bg-white border-3 flex flex-col h-46 items-center justify-center w-full">
-            <div>PLACEHOLDER</div>
-            <div>FOR GRAPH</div>
-          </div>
-        </OverviewSection>
-
-        <OverviewSection>
-          <Heading level={HeadingLevel.h5} tag={HeadingLevel.h2}>
-            Other metrics
-          </Heading>
-
-          <OverviewMetricRow
-            date={mostRecentBodyFatEntry?.date}
-            label="Body fat"
-            unit="percent"
-            value={
-              mostRecentBodyFatEntry &&
-              calculateBodyFat({
-                age: getAgeFromBirthday(dayjs(userProfile.birthday)),
-                entry: mostRecentBodyFatEntry,
-                height: userProfile.height,
-              })?.bodyFatPercent
-            }
-          />
-
-          <OverviewMeasuringTapeSection
-            neckEntry={mostRecentNeckCircEntry}
-            waistEntry={mostRecentWaistCircEntry}
-          />
-
-          <OverviewSkinfoldSection
-            abEntry={mostRecentAbSkinfoldEntry}
-            chestEntry={mostRecentChestSkinfoldEntry}
-            thighEntry={mostRecentThighSkinfoldEntry}
-          />
-        </OverviewSection>
+        <OverviewPageContents
+          last7DaysWeight={last7DaysWeight}
+          mostRecentAbSkinfoldEntry={mostRecentAbSkinfoldEntry}
+          mostRecentBodyFatEntry={mostRecentBodyFatEntry}
+          mostRecentChestSkinfoldEntry={mostRecentChestSkinfoldEntry}
+          mostRecentNeckCircEntry={mostRecentNeckCircEntry}
+          mostRecentThighSkinfoldEntry={mostRecentThighSkinfoldEntry}
+          mostRecentWaistCircEntry={mostRecentWaistCircEntry}
+          mostRecentWeightEntry={mostRecentWeightEntry}
+        />
       </main>
     </>
   );

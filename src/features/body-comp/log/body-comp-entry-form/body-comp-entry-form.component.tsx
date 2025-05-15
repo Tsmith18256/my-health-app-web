@@ -18,21 +18,51 @@ import { useActionState } from "react";
 import { deleteBodyCompEntry } from "@/app/(app)/body-comp/[id]/edit/delete-body-comp-entry.action";
 import { useRouter } from "next/navigation";
 import { HeaderButton } from "@/shared/components/header/header-button/header-button.component";
+import { useUserSettings } from "@/shared/state/user-settings/user-settings.state";
+import { MeasurementSystem } from "@/shared/enums/measurement-system.enum";
+import { WeightUnit } from "@/shared/enums/weight-unit.enum";
+import { LengthUnit } from "@/shared/enums/length-unit.enum";
+import { convertWeightUnits } from "@/shared/utils/units/convert-weight-units";
+import { convertLengthUnits } from "@/shared/utils/units/convert-length-units";
+import { processBodyCompEntryForm } from "@/features/body-comp/log/body-comp-entry-form/process-body-comp-entry-form.action";
 
-export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
-  const [state, formAction] = useActionState(props.action, initialFormState);
+export const BodyCompEntryForm = ({
+  abSkinfold,
+  chestSkinfold,
+  date,
+  id,
+  isEditMode,
+  neckCircumferenceInMm,
+  thighSkinfold,
+  waistCircumferenceInMm,
+  weightInG,
+}: IBodyCompEntryFormProps) => {
+  const [state, formAction] = useActionState(
+    processBodyCompEntryForm,
+    initialFormState
+  );
   const router = useRouter();
 
+  const { weightSystem, lengthSystem } = useUserSettings();
+  const weightUnit =
+    weightSystem === MeasurementSystem.Imperial
+      ? WeightUnit.Pounds
+      : WeightUnit.Kilograms;
+  const lengthUnit =
+    lengthSystem === MeasurementSystem.Imperial
+      ? LengthUnit.Inches
+      : LengthUnit.Centimeters;
+
   const onDeleteButtonClick = () => {
-    if (props.id) {
-      deleteBodyCompEntry(props.id!);
+    if (id) {
+      deleteBodyCompEntry(id);
       router.replace("/body-comp/log");
     }
   };
 
-  const title = props.isEditMode ? "Edit Entry" : "New Entry";
-  const primaryButtonLabel = props.isEditMode ? "Save" : "Create";
-  const headerEndContent = props.isEditMode ? (
+  const title = isEditMode ? "Edit Entry" : "New Entry";
+  const primaryButtonLabel = isEditMode ? "Save" : "Create";
+  const headerEndContent = isEditMode ? (
     <HeaderButton
       appearance={ButtonAppearance.Danger}
       icon={IconImage.Trash}
@@ -47,12 +77,12 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
       <FormActionErrorToast error={state} />
 
       <form action={formAction}>
-        <Input defaultValue={props.id} name="entryId" type="hidden" />
+        <Input defaultValue={id} name="entryId" type="hidden" />
 
         <main className="flex flex-col gap-6 mt-6 pb-4 px-4">
           <Input
             id="txtDate"
-            defaultValue={props.date}
+            defaultValue={date}
             label="Date"
             name="date"
             required
@@ -60,7 +90,15 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
           />
           <Input
             id="txtWeight"
-            defaultValue={props.weight?.toFixed(1)}
+            defaultValue={
+              weightInG
+                ? convertWeightUnits(
+                    weightInG,
+                    WeightUnit.Grams,
+                    weightUnit
+                  ).toFixed(1)
+                : undefined
+            }
             label="Weight"
             min="0"
             name="weight"
@@ -76,7 +114,15 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
               <Heading level={HeadingLevel.h3}>Measuring tape</Heading>
               <Input
                 id="txtNeckCirc"
-                defaultValue={props.neckCircumference?.toFixed(0)}
+                defaultValue={
+                  neckCircumferenceInMm
+                    ? convertLengthUnits(
+                        neckCircumferenceInMm,
+                        LengthUnit.Millimeters,
+                        lengthUnit
+                      ).toFixed(1)
+                    : undefined
+                }
                 label="Neck"
                 min="0"
                 name="neckCircumference"
@@ -85,7 +131,15 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
               />
               <Input
                 id="txtWaistCirc"
-                defaultValue={props.waistCircumference?.toFixed(0)}
+                defaultValue={
+                  waistCircumferenceInMm
+                    ? convertLengthUnits(
+                        waistCircumferenceInMm,
+                        LengthUnit.Millimeters,
+                        lengthUnit
+                      ).toFixed(1)
+                    : undefined
+                }
                 label="Waist"
                 min="0"
                 name="waistCircumference"
@@ -98,7 +152,7 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
               <Heading level={HeadingLevel.h3}>Calipers (skinfold)</Heading>
               <Input
                 id="txtChestSkinfold"
-                defaultValue={props.chestSkinfold?.toFixed(0)}
+                defaultValue={chestSkinfold?.toFixed(0)}
                 label="Chest"
                 min="0"
                 name="chestSkinfold"
@@ -107,7 +161,7 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
               />
               <Input
                 id="txtAbSkinfold"
-                defaultValue={props.abSkinfold?.toFixed(0)}
+                defaultValue={abSkinfold?.toFixed(0)}
                 label="Abdominal"
                 min="0"
                 name="abSkinfold"
@@ -116,7 +170,7 @@ export const BodyCompEntryForm = (props: IBodyCompEntryFormProps) => {
               />
               <Input
                 id="txtThighSkinfold"
-                defaultValue={props.thighSkinfold?.toFixed(0)}
+                defaultValue={thighSkinfold?.toFixed(0)}
                 label="Thigh"
                 min="0"
                 name="thighSkinfold"
@@ -156,14 +210,6 @@ type IBodyCompEntryFormNewModeProps = {
   [Key in keyof IBodyCompEntry]?: undefined;
 };
 
-type IBodyCompEntryFormProps = (
+type IBodyCompEntryFormProps =
   | IBodyCompEntryFormEditModeProps
-  | IBodyCompEntryFormNewModeProps
-) & {
-  action:
-    | ((state: { message: string }, payload: FormData) => { message: string })
-    | ((
-        state: { message: string },
-        payload: FormData
-      ) => Promise<{ message: string }>);
-};
+  | IBodyCompEntryFormNewModeProps;
