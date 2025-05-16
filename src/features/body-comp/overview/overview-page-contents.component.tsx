@@ -13,10 +13,11 @@ import { OverviewMeasuringTapeSection } from "@/features/body-comp/overview/over
 import { OverviewSkinfoldSection } from "@/features/body-comp/overview/overview-skinfold-section.component";
 import { OverviewCondensedItem } from "@/features/body-comp/overview/overview-condensed-item.component";
 import { formatWeight } from "@/shared/utils/formatting/format-weight.util";
-import { IBodyCompEntry } from '@/features/body-comp/body-comp-entry/body-comp-entry.dao';
-import { useUserSettings } from '@/shared/state/user-settings/user-settings.state';
-import { MeasurementSystem } from '@/shared/enums/measurement-system.enum';
-import { LengthUnit } from '@/shared/enums/length-unit.enum';
+import { IBodyCompEntry } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
+import { useUserSettings } from "@/shared/state/user-settings/user-settings.state";
+import { MeasurementSystem } from "@/shared/enums/measurement-system.enum";
+import { LengthUnit } from "@/shared/enums/length-unit.enum";
+import { WeightUnit } from "@/shared/enums/weight-unit.enum";
 
 export const OverviewPageContents = ({
   last7DaysWeight,
@@ -28,11 +29,16 @@ export const OverviewPageContents = ({
   mostRecentWaistCircEntry,
   mostRecentWeightEntry,
 }: IOverviewPageContentsProps) => {
-  const userProfile = useUserSettings();
+  const { birthday, heightInMm, lengthSystem, weightSystem } =
+    useUserSettings();
+  const weightUnit =
+    weightSystem === MeasurementSystem.Imperial
+      ? WeightUnit.Pounds
+      : WeightUnit.Kilograms;
   const lengthUnit =
-      userProfile.lengthSystem === MeasurementSystem.Imperial
-        ? LengthUnit.Inches
-        : LengthUnit.Centimeters;
+    lengthSystem === MeasurementSystem.Imperial
+      ? LengthUnit.Inches
+      : LengthUnit.Centimeters;
 
   return (
     <>
@@ -47,7 +53,9 @@ export const OverviewPageContents = ({
             valueText={
               mostRecentWeightEntry?.weightInG === undefined
                 ? undefined
-                : formatWeight(mostRecentWeightEntry.weightInG)
+                : formatWeight(mostRecentWeightEntry.weightInG, {
+                    unit: weightUnit,
+                  })
             }
           />
           <OverviewCondensedItem
@@ -55,7 +63,9 @@ export const OverviewPageContents = ({
             valueText={
               last7DaysWeight === undefined
                 ? undefined
-                : formatWeight(last7DaysWeight)
+                : formatWeight(last7DaysWeight, {
+                    unit: weightUnit,
+                  })
             }
           />
         </div>
@@ -78,9 +88,9 @@ export const OverviewPageContents = ({
           value={
             mostRecentBodyFatEntry &&
             calculateBodyFat({
-              age: getAgeFromBirthday(dayjs(userProfile.birthday)),
+              age: getAgeFromBirthday(dayjs(birthday)),
               entry: mostRecentBodyFatEntry,
-              heightInMm: userProfile.heightInMm,
+              heightInMm,
             })?.bodyFatPercent
           }
         />
