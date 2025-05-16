@@ -9,6 +9,7 @@ import { IUserProfile } from "@/shared/database/daos/user-profile.dao";
 import { LengthUnit } from "@/shared/enums/length-unit.enum";
 import { MeasurementSystem } from "@/shared/enums/measurement-system.enum";
 import { formatLength } from "@/shared/utils/formatting/format-length.util";
+import { roundToInterval } from '@/shared/utils/math/round-to-interval/round-to-interval.util';
 import { convertLengthUnits } from "@/shared/utils/units/convert-length-units";
 import { Sex } from "@/shared/utils/validation/validate-sex.util";
 import { ComponentProps, ReactNode, useCallback, useState } from "react";
@@ -31,7 +32,7 @@ export const UserProfileForm = ({
       LengthUnit.Millimeters,
       lengthSystem === MeasurementSystem.Imperial
         ? LengthUnit.Inches
-        : LengthUnit.Centimeters
+        : LengthUnit.Millimeters
     ).toFixed(1)
   );
 
@@ -42,10 +43,19 @@ export const UserProfileForm = ({
       const newValue = e.target.value as MeasurementSystem;
       setLengthSystem(newValue);
 
-      const newHeight = newValue === MeasurementSystem.Imperial ? 70 : 1750;
+      const isSwitchingToImperial = newValue === MeasurementSystem.Imperial;
+      const unroundedNewHeight = convertLengthUnits(
+        parseFloat(height),
+        isSwitchingToImperial ? LengthUnit.Centimeters : LengthUnit.Inches,
+        isSwitchingToImperial ? LengthUnit.Inches : LengthUnit.Millimeters
+      );
+
+      const roundingInterval = isSwitchingToImperial ? 0.5 : 10;
+      const newHeight = roundToInterval(unroundedNewHeight, roundingInterval);
+
       setHeight(newHeight.toFixed(1));
     },
-    [setLengthSystem]
+    [height, setLengthSystem]
   );
 
   const onHeightChange = useCallback<
