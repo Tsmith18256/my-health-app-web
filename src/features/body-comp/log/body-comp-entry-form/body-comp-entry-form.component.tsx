@@ -25,6 +25,10 @@ import { LengthUnit } from "@/shared/enums/length-unit.enum";
 import { convertWeightUnits } from "@/shared/utils/units/convert-weight-units";
 import { convertLengthUnits } from "@/shared/utils/units/convert-length-units";
 import { processBodyCompEntryForm } from "@/features/body-comp/log/body-comp-entry-form/process-body-comp-entry-form.action";
+import {
+  getUiString,
+  UiStringKey,
+} from "@/shared/utils/strings/get-ui-string.util";
 
 export const BodyCompEntryForm = ({
   abSkinfold,
@@ -60,8 +64,14 @@ export const BodyCompEntryForm = ({
     }
   };
 
-  const title = isEditMode ? "Edit Entry" : "New Entry";
-  const primaryButtonLabel = isEditMode ? "Save" : "Create";
+  const titleKey = isEditMode
+    ? UiStringKey.PageHeadingEditBodyCompEntry
+    : UiStringKey.PageHeadingNewBodyCompEntry;
+
+  const primaryButtonKey = isEditMode
+    ? UiStringKey.ButtonLabelSave
+    : UiStringKey.ButtonLabelCreate;
+
   const headerEndContent = isEditMode ? (
     <HeaderButton
       appearance={ButtonAppearance.Danger}
@@ -72,7 +82,7 @@ export const BodyCompEntryForm = ({
 
   return (
     <>
-      <Header endContent={headerEndContent} title={title} />
+      <Header endContent={headerEndContent} title={getUiString(titleKey)} />
 
       <FormActionErrorToast error={state} />
 
@@ -83,7 +93,7 @@ export const BodyCompEntryForm = ({
           <Input
             id="txtDate"
             defaultValue={date}
-            label="Date"
+            label={getUiString(UiStringKey.LabelDate)}
             name="date"
             required
             type="date"
@@ -99,7 +109,9 @@ export const BodyCompEntryForm = ({
                   ).toFixed(1)
                 : undefined
             }
-            label="Weight"
+            label={getUiString(UiStringKey.FormLabelWeight, {
+              unit: weightUnit,
+            })}
             min="0"
             name="weight"
             required
@@ -108,10 +120,14 @@ export const BodyCompEntryForm = ({
           />
 
           <section className="flex flex-col gap-6">
-            <Heading level={HeadingLevel.h2}>Advanced</Heading>
+            <Heading level={HeadingLevel.h2}>
+              {getUiString(UiStringKey.SectionHeadingAdvanced)}
+            </Heading>
 
             <section className="flex flex-col gap-6">
-              <Heading level={HeadingLevel.h3}>Measuring tape</Heading>
+              <Heading level={HeadingLevel.h3}>
+                {getUiString(UiStringKey.SectionHeadingMeasuringTape)}
+              </Heading>
               <Input
                 id="txtNeckCirc"
                 defaultValue={
@@ -123,7 +139,9 @@ export const BodyCompEntryForm = ({
                       ).toFixed(1)
                     : undefined
                 }
-                label="Neck"
+                label={getUiString(UiStringKey.FormLabelNeck, {
+                  unit: lengthUnit,
+                })}
                 min="0"
                 name="neckCircumference"
                 step="0.1"
@@ -140,7 +158,9 @@ export const BodyCompEntryForm = ({
                       ).toFixed(1)
                     : undefined
                 }
-                label="Waist"
+                label={getUiString(UiStringKey.FormLabelWaist, {
+                  unit: lengthUnit
+                })}
                 min="0"
                 name="waistCircumference"
                 step="0.1"
@@ -153,7 +173,7 @@ export const BodyCompEntryForm = ({
               <Input
                 id="txtChestSkinfold"
                 defaultValue={chestSkinfold?.toFixed(0)}
-                label="Chest"
+                label={getUiString(UiStringKey.FormLabelChest)}
                 min="0"
                 name="chestSkinfold"
                 step="1"
@@ -162,7 +182,7 @@ export const BodyCompEntryForm = ({
               <Input
                 id="txtAbSkinfold"
                 defaultValue={abSkinfold?.toFixed(0)}
-                label="Abdominal"
+                label={getUiString(UiStringKey.FormLabelAb)}
                 min="0"
                 name="abSkinfold"
                 step="1"
@@ -171,7 +191,7 @@ export const BodyCompEntryForm = ({
               <Input
                 id="txtThighSkinfold"
                 defaultValue={thighSkinfold?.toFixed(0)}
-                label="Thigh"
+                label={getUiString(UiStringKey.FormLabelThigh)}
                 min="0"
                 name="thighSkinfold"
                 step="1"
@@ -183,7 +203,7 @@ export const BodyCompEntryForm = ({
 
         <footer className="bg-(--background) border-t border-t-gray-400 bottom-0 flex gap-3 inset-x-0 justify-stretch p-4 sticky">
           <div className="grow">
-            <Button type="submit">{primaryButtonLabel}</Button>
+            <Button type="submit">{getUiString(primaryButtonKey)}</Button>
           </div>
 
           <Link className="grow" href="/body-comp/log">
