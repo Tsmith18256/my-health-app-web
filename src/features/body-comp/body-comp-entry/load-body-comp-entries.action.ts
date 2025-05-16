@@ -5,7 +5,9 @@ import { selectBodyCompEntries } from "@/features/body-comp/body-comp-entry/body
 import { selectUserProfileByEmail } from "@/shared/database/daos/user-profile.dao";
 import { ErrorCode, ErrorWithCode } from "@/shared/errors/error-with-code.type";
 
-export const loadBodyCompEntries = async () => {
+export const loadBodyCompEntries = async (
+  opts: ILoadBodyCompEntriesOpts = {}
+) => {
   const { emailAddress } = await getAuthSessionDetails();
   const userProfile = await selectUserProfileByEmail(emailAddress);
 
@@ -14,6 +16,12 @@ export const loadBodyCompEntries = async () => {
   }
 
   return selectBodyCompEntries({
+    ...opts,
     userEmail: emailAddress,
   });
 };
+
+type ILoadBodyCompEntriesOpts = Pick<
+  Parameters<typeof selectBodyCompEntries>[0],
+  "limit" | "offset"
+>;
