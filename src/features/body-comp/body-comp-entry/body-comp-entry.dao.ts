@@ -1,6 +1,7 @@
 import { sql } from "@/shared/database/db";
 import { Brand } from "@/shared/helper-types/brand.type";
 import { formatVanillaDateWithoutTime } from "@/shared/utils/dates/vanilla/format-vanilla-date-without-time";
+import { clampNumber } from "@/shared/utils/math/clamp-number/clamp-number.util";
 import {
   EmailAddress,
   validateEmailAddress,
@@ -65,16 +66,32 @@ export const insertBodyCompEntry = async (
   throw new Error("Unknown error inserting body comp entry");
 };
 
-export const selectBodyCompEntries = async (
-  opts: ISelectBodyCompEntriesOpts
-): Promise<IBodyCompEntry[]> => {
-  const models = await sql<IBodyCompEntryModel[]>`
-    SELECT * FROM body_comp_entries
-      WHERE user_email = ${opts.userEmail}
+export const selectBodyCompEntries = async ({
+  limit = 100,
+  offset = 0,
+  userEmail,
+}: ISelectBodyCompEntriesOpts): Promise<{
+  entries: IBodyCompEntry[];
+  totalCount: number;
+}> => {
+  const clampedLimit = clampNumber(limit, 1, 100);
+  const fixedOffset = Math.max(offset, 0);
+
+  const models = await sql<IModelWithTotalCount[]>`
+    SELECT *, count(*) OVER() AS total_count
+        FROM body_comp_entries
+      WHERE user_email = ${userEmail}
       ORDER BY entry_date DESC
+      LIMIT ${clampedLimit}
+      OFFSET ${fixedOffset}
   `;
 
-  return convertModelsToObjects(models);
+  const totalCount = models[0] ? parseInt(models[0].total_count) : 0;
+
+  return {
+    entries: convertModelsToObjects(models),
+    totalCount,
+  };
 };
 
 export const selectBodyCompEntryById = async (
@@ -189,6 +206,12 @@ interface IBodyCompEntryModel {
   weight_in_grams: number;
 }
 
+interface IModelWithTotalCount extends IBodyCompEntryModel {
+  total_count: string;
+}
+
 interface ISelectBodyCompEntriesOpts {
+  limit?: number;
+  offset?: number;
   userEmail: EmailAddress;
 }

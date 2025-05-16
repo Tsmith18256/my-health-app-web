@@ -17,7 +17,7 @@ export default async function OverviewPage() {
     throw new ErrorWithCode(ErrorCode.AuthFailed);
   }
 
-  const entries = await selectBodyCompEntries({
+  const { entries } = await selectBodyCompEntries({
     userEmail,
   });
   const sortedEntries = entries.toSorted((entryA, entryB) =>
