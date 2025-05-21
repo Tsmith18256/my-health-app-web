@@ -10,7 +10,7 @@ import { LengthUnit } from "@/shared/enums/length-unit.enum";
 import { MeasurementSystem } from "@/shared/enums/measurement-system.enum";
 import { formatLength } from "@/shared/utils/formatting/format-length.util";
 import { roundToInterval } from '@/shared/utils/math/round-to-interval/round-to-interval.util';
-import { convertLengthUnits } from "@/shared/utils/units/convert-length-units";
+import { convertLengthUnits } from "@/shared/utils/units/convert-length-units.util";
 import { Sex } from "@/shared/utils/validation/validate-sex.util";
 import { ComponentProps, ReactNode, useCallback, useState } from "react";
 

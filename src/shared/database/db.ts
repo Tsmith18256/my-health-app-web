@@ -5,6 +5,16 @@ const databaseUrl =
   process.env.DATABASE_URL ??
   "postgres://postgres:postgres@localhost:5432/myhealthapp";
 
-export const sql = postgres(databaseUrl, {
+declare const globalThis: {
+  postgresGlobal: ReturnType<typeof postgres>;
+} & typeof global;
+
+export const sql = globalThis.postgresGlobal ?? postgres(databaseUrl, {
   ssl: isDev ? undefined : "verify-full",
 });
+
+if (isDev) {
+  // Storing the SQL connection as singleton persists it across hot reloads.
+  // This avoids making tons of connections to the database.
+  globalThis.postgresGlobal = sql;
+}

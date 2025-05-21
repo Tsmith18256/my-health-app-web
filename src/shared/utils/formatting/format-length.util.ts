@@ -1,5 +1,6 @@
 import { LengthUnit } from "@/shared/enums/length-unit.enum";
-import { convertLengthUnits } from "@/shared/utils/units/convert-length-units";
+import { convertLengthUnits } from "@/shared/utils/units/convert-length-units.util";
+import { getLengthUnitAbbrevation } from "@/shared/utils/units/get-length-unit-abbreviation.util";
 
 /**
  * Formats the given length into string format for display in the UI.
@@ -17,11 +18,16 @@ export const formatLength = (
     unit
   );
   const fractionDigits = fractionDigitsOverride ?? fractionDigitsByUnit[unit];
-  const suffix = suffixByUnit[unit];
 
-  const str = `${converted.toFixed(fractionDigits)}${suffix}`;
+  const multiplier = 10 ** fractionDigits;
+  const rounded = Math.round(converted * multiplier) / multiplier;
+  const isPlural = rounded !== 1;
+  const override = isPlural
+    ? pluralSuffixOverrideByUnit[unit]
+    : singularSuffixOverrideByUnit[unit];
+  const suffix = override ?? ` ${getLengthUnitAbbrevation(unit, isPlural)}`;
 
-  return str;
+  return `${converted.toFixed(fractionDigits)}${suffix}`;
 };
 
 const fractionDigitsByUnit: Record<LengthUnit, number> = {
@@ -30,10 +36,12 @@ const fractionDigitsByUnit: Record<LengthUnit, number> = {
   [LengthUnit.Millimeters]: 0,
 };
 
-const suffixByUnit: Record<LengthUnit, string> = {
-  [LengthUnit.Centimeters]: " cm",
+const singularSuffixOverrideByUnit: Partial<Record<LengthUnit, string>> = {
   [LengthUnit.Inches]: '"',
-  [LengthUnit.Millimeters]: " mm",
+};
+
+const pluralSuffixOverrideByUnit: Partial<Record<LengthUnit, string>> = {
+  [LengthUnit.Inches]: '"',
 };
 
 interface IFormatLengthOptions {

@@ -12,8 +12,8 @@ import { selectUserProfileByEmail } from "@/shared/database/daos/user-profile.da
 import { LengthUnit } from "@/shared/enums/length-unit.enum";
 import { MeasurementSystem } from "@/shared/enums/measurement-system.enum";
 import { WeightUnit } from "@/shared/enums/weight-unit.enum";
-import { convertLengthUnits } from "@/shared/utils/units/convert-length-units";
-import { convertWeightUnits } from "@/shared/utils/units/convert-weight-units";
+import { convertLengthUnits } from "@/shared/utils/units/convert-length-units.util";
+import { convertWeightUnits } from "@/shared/utils/units/convert-weight-units.util";
 import { EmailAddress } from "@/shared/utils/validation/validate-email-address.util";
 import { permanentRedirect, redirect } from "next/navigation";
 

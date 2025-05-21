@@ -3,7 +3,7 @@ import { LengthUnit } from "@/shared/enums/length-unit.enum";
 import { ObjectValues } from "@/shared/helper-types/object-values.type";
 import { Prettify } from '@/shared/helper-types/prettify.type';
 import { calculateAverage } from "@/shared/utils/math/calculate-average.util";
-import { convertLengthUnits } from "@/shared/utils/units/convert-length-units";
+import { convertLengthUnits } from "@/shared/utils/units/convert-length-units.util";
 
 /**
  * Calculates the user's body fat for the given body composition entry.

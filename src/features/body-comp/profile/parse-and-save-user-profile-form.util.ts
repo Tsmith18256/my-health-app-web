@@ -3,7 +3,7 @@ import { IUserProfile } from "@/shared/database/daos/user-profile.dao";
 import { LengthUnit } from "@/shared/enums/length-unit.enum";
 import { MeasurementSystem } from "@/shared/enums/measurement-system.enum";
 import { ErrorCode, ErrorWithCode } from "@/shared/errors/error-with-code.type";
-import { convertLengthUnits } from "@/shared/utils/units/convert-length-units";
+import { convertLengthUnits } from "@/shared/utils/units/convert-length-units.util";
 import { validateMeasurementSystem } from "@/shared/utils/validation/validate-measurement-system.util";
 import { validateSex } from "@/shared/utils/validation/validate-sex.util";
 
