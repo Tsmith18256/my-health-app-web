@@ -22,13 +22,15 @@ import { useUserSettings } from "@/shared/state/user-settings/user-settings.stat
 import { MeasurementSystem } from "@/shared/enums/measurement-system.enum";
 import { WeightUnit } from "@/shared/enums/weight-unit.enum";
 import { LengthUnit } from "@/shared/enums/length-unit.enum";
-import { convertWeightUnits } from "@/shared/utils/units/convert-weight-units";
-import { convertLengthUnits } from "@/shared/utils/units/convert-length-units";
+import { convertWeightUnits } from "@/shared/utils/units/convert-weight-units.util";
+import { convertLengthUnits } from "@/shared/utils/units/convert-length-units.util";
 import { processBodyCompEntryForm } from "@/features/body-comp/log/body-comp-entry-form/process-body-comp-entry-form.action";
 import {
   getUiString,
   UiStringKey,
 } from "@/shared/utils/strings/get-ui-string.util";
+import { getWeightUnitAbbreviation } from "@/shared/utils/units/get-weight-unit-abbreviation.util";
+import { getLengthUnitAbbrevation } from '@/shared/utils/units/get-length-unit-abbreviation.util';
 
 export const BodyCompEntryForm = ({
   abSkinfold,
@@ -110,7 +112,7 @@ export const BodyCompEntryForm = ({
                 : undefined
             }
             label={getUiString(UiStringKey.FormLabelWeight, {
-              unit: weightUnit,
+              unit: getWeightUnitAbbreviation(weightUnit),
             })}
             min="0"
             name="weight"
@@ -140,7 +142,7 @@ export const BodyCompEntryForm = ({
                     : undefined
                 }
                 label={getUiString(UiStringKey.FormLabelNeck, {
-                  unit: lengthUnit,
+                  unit: getLengthUnitAbbrevation(lengthUnit),
                 })}
                 min="0"
                 name="neckCircumference"
@@ -159,7 +161,7 @@ export const BodyCompEntryForm = ({
                     : undefined
                 }
                 label={getUiString(UiStringKey.FormLabelWaist, {
-                  unit: lengthUnit
+                  unit: getLengthUnitAbbrevation(lengthUnit),
                 })}
                 min="0"
                 name="waistCircumference"

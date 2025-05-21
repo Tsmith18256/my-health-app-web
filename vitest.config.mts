@@ -38,8 +38,6 @@ export default defineConfig({
         "src/shared/utils/formatting/use-formatted-weight.hook.ts",
         "src/shared/utils/dates/format-date-relative-to-today.util.ts",
         "src/shared/state/user-settings/user-settings.state.tsx",
-        "src/shared/utils/formatting/format-length.util.ts",
-        "src/shared/utils/formatting/format-weight.util.ts",
         "src/features/body-comp/overview/overview-section.component.tsx",
         "src/features/body-comp/profile/user-profile-form.component.tsx",
         "src/shared/components/loading-indicator/loading-indicator.component.tsx",
