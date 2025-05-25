@@ -3,26 +3,26 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: calc(var(--spacing) * 2);
+  gap: 0.5rem;
 
   flex-grow: 1;
   width: 100%;
 
-  background-color: var(--color-orange-200);
-  color: var(--color-black);
+  background-color: var(--color-primary-light);
+  color: var(--color-text);
 
   cursor: pointer;
 
   &:hover {
-    background-color: var(--color-orange-200);
+    background-color: var(--color-primary-light);
   }
 
   &:active {
-    background-color: var(--color-orange-600);
+    background-color: var(--color-primary-dark);
   }
 
   &:disabled {
-    background-color: var(--color-orange-400);
+    background-color: var(--color-primary);
 
     cursor: default;
   }
@@ -34,12 +34,12 @@
     flex-direction: row;
     justify-content: start;
     align-items: center;
-    gap: calc(var(--spacing) * 4);
+    gap: 1rem;
 
-    width: calc(var(--spacing) * 40);
+    width: 10rem;
     flex-grow: 0;
 
-    padding: calc(var(--spacing) * 2) calc(var(--spacing) * 4);
+    padding: 0.5rem 1rem;
 
     background-color: initial;
 

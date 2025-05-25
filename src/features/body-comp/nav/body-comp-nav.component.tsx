@@ -1,9 +1,10 @@
 import { BodyCompNavButton } from '@/features/body-comp/nav/body-comp-nav-button.component';
 import { ObjectValues } from "@/shared/helper-types/object-values.type";
+import styles from './body-comp-nav.module.css';
 
 export const BodyCompNav = () => {
   return (
-    <nav className="border-t-3 bottom-0 fixed flex justify-stretch h-18 inset-x-0 dt-sm:border-t-0 dt-sm:h-auto dt-sm:mx-4 dt-sm:my-6 dt-sm:static">
+    <nav className={styles.nav}>
       <BodyCompNavButton
         href="/body-comp/log"
         page={BodyCompNavPage.Log}

@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "./fonts/fontawesome.min.css";
 @import "./styles/breakpoints.css";
+@import "./styles/colors.css";
+@import "./styles/dimensions.css";
 @import "./styles/utilities.css";
 
 :root {
