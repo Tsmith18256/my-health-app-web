@@ -1,3 +1,9 @@
 :root {
+  --floating-action-button-inset: 1rem;
+  --floating-action-button-size: 4rem;
+  --floating-action-button-space: calc(
+    var(--floating-action-button-size) +
+      (2 * var(--floating-action-button-inset))
+  );
   --nav-bar-height-mobile: 4rem;
 }

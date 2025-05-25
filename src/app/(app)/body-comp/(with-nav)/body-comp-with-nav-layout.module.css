@@ -1,0 +1,5 @@
+.container {
+  margin-bottom: calc(
+    var(--nav-bar-height-mobile) + var(--floating-action-button-space)
+  );
+}
