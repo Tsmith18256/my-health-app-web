@@ -1,4 +1,4 @@
-import { wait } from "@/shared/utils/wait";
+import { wait } from "@/shared/utils/wait.util";
 import { afterEach } from "node:test";
 import { beforeEach, expect, it, vi } from "vitest";
 

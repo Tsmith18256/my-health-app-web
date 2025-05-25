@@ -13,9 +13,13 @@ const eslintConfig = [
   ...compat.config({
     extends: ["next/core-web-vitals", "next/typescript"],
     rules: {
-      'no-shadow': 'error'
-    }
-  })
+      "no-restricted-imports": ["error", {
+        name: "@testing-library/react",
+        message: "Import from testing/react-testing-library/test.util"
+      }],
+      "no-shadow": "error",
+    },
+  }),
 ];
 
 export default eslintConfig;
