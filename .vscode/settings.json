@@ -1,8 +1,5 @@
 {
   "editor.rulers": [
     80
-  ],
-  "files.associations": {
-    "*.css": "tailwindcss"
-  }
+  ]
 }

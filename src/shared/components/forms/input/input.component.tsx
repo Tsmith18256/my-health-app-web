@@ -1,14 +1,15 @@
 import { ComponentProps } from "react";
+import styles from './input.module.css';
 
 export const Input = (props: IInputProps) => {
   const type = props.type ?? "text";
 
   return (
-    <div className="flex flex-col">
+    <div className={styles.container}>
       <label htmlFor={props.id}>{props.label}</label>
       <input
         id={props.id}
-        className="border-1 h-14 rounded-lg px-3 width-full"
+        className={styles.input}
         defaultValue={props.defaultValue}
         min={props.min}
         name={props.name}
