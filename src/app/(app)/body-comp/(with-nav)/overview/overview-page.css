@@ -1,0 +1,7 @@
+/*
+ * Styles for the user avatar button from Clerk.
+ */
+.cl-userButtonAvatarBox {
+  height: 2rem;
+  width: 2rem;
+}
