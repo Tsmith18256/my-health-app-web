@@ -31,6 +31,8 @@ import {
 } from "@/shared/utils/strings/get-ui-string.util";
 import { getWeightUnitAbbreviation } from "@/shared/utils/units/get-weight-unit-abbreviation.util";
 import { getLengthUnitAbbrevation } from '@/shared/utils/units/get-length-unit-abbreviation.util';
+import { formatDateWithoutTime } from '@/shared/utils/dates/format-date-without-time.util';
+import dayjs from 'dayjs';
 
 export const BodyCompEntryForm = ({
   abSkinfold,
@@ -94,7 +96,7 @@ export const BodyCompEntryForm = ({
         <main className="flex flex-col gap-6 mt-6 pb-4 px-4">
           <Input
             id="txtDate"
-            defaultValue={date}
+            defaultValue={date ?? formatDateWithoutTime(dayjs())}
             label={getUiString(UiStringKey.LabelDate)}
             name="date"
             required
