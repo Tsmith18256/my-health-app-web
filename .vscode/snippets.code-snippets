@@ -1,0 +1,91 @@
+{
+	"Media Query Desktop Large": {
+		"scope": "css",
+		"prefix": [
+			"media-dt-lg"
+		],
+		"body": [
+			"/* Desktop Large */",
+			"@media (width >= 120rem) {",
+			"\t$1",
+			"}"
+		]
+	},
+	"Media Query Desktop Medium": {
+		"scope": "css",
+		"prefix": [
+			"media-dt-md"
+		],
+		"body": [
+			"/* Desktop Medium */",
+			"@media (width >= 96rem) {",
+			"\t$1",
+			"}"
+		]
+	},
+	"Media Query Desktop Small": {
+		"scope": "css",
+		"prefix": [
+			"media-dt-sm"
+		],
+		"body": [
+			"/* Desktop Small */",
+			"@media (width >= 64rem) {",
+			"\t$1",
+			"}"
+		]
+	},
+	"Media Query Tablet": {
+		"scope": "css",
+		"prefix": [
+			"media-tablet"
+		],
+		"body": [
+			"/* Tablet */",
+			"@media (width >= 48rem) {",
+			"\t$1",
+			"}"
+		]
+	},
+	"Next Page": {
+		"scope": "typescriptreact",
+		"prefix": [
+			"next-page"
+		],
+		"body": [
+			/*
+			 * Designed for a directory name in kebab case format. The regex will grab
+			 * the name of the current folder and convert it to pascal case, then
+			 * insert that in front of the word "Page" for the component name.
+			 *
+			 * eg: `/pages/home` directory creates a component called `HomePage`.
+			 */
+			"export default function ${TM_DIRECTORY/(^.+\\/)([a-z\\-]+)/${2:/pascalcase}/}Page() {",
+			"\treturn (",
+			"\t\t$1",
+			"\t);",
+			"}"
+		],
+		"description": "The boilerplate for a new Next.js page component."
+	},
+	"React Component": {
+		"scope": "typescriptreact",
+		"prefix": [
+			"react-component"
+		],
+		"body": [
+			/*
+			 * Designed for a filename in kebab case format and possibly with a
+			 * ".component" or other qualifier on the end. The regex will replace the
+			 * initial kebab-case with pascal case and remove anything after a period
+			 * (including the period).
+			 */
+			"export const ${TM_FILENAME_BASE/([[a-z\\-]+)(\\..+$)/${1:/pascalcase}/} = () => {",
+			"\treturn (",
+			"\t\t$1",
+			"\t);",
+			"}"
+		],
+		"description": "The boilerplate for a new React component."
+	}
+}
