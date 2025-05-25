@@ -5,6 +5,7 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   plugins: [tsconfigPaths(), react()],
   test: {
+    clearMocks: true,
     coverage: {
       include: ["src/**"],
       exclude: [
@@ -94,5 +95,6 @@ export default defineConfig({
     },
     environment: "jsdom",
     include: ["src/**/*.test.ts?(x)"],
+    setupFiles: ["src/testing/vitest/vitest-setup.ts"]
   },
 });

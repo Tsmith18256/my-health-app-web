@@ -1,20 +1,30 @@
 import { ComponentProps } from "react";
+import styles from "./input.module.css";
+import { TestId } from '@/testing/test-id.enum';
 
-export const Input = (props: IInputProps) => {
-  const type = props.type ?? "text";
-
+export const Input = ({
+  defaultValue,
+  id,
+  label,
+  min,
+  name,
+  required,
+  step,
+  type,
+}: IInputProps) => {
   return (
-    <div className="flex flex-col">
-      <label htmlFor={props.id}>{props.label}</label>
+    <div className={styles.container}>
+      <label htmlFor={id} data-testid={TestId.InputLabel}>{label}</label>
       <input
-        id={props.id}
-        className="border-1 h-14 rounded-lg px-3 width-full"
-        defaultValue={props.defaultValue}
-        min={props.min}
-        name={props.name}
-        required={props.required}
-        step={props.step}
-        type={type}
+        id={id}
+        className={styles.input}
+        defaultValue={defaultValue}
+        min={min}
+        name={name}
+        required={required}
+        step={step}
+        data-testid={TestId.InputField}
+        type={type ?? "text"}
       />
     </div>
   );
@@ -54,7 +64,7 @@ type ITypeHiddenProps =
   | {
       id: string;
       label: string;
-      type: Exclude<ComponentProps<"input">["type"], "hidden">;
+      type?: Exclude<ComponentProps<"input">["type"], "hidden">;
     }
   | { id?: undefined; label?: undefined };
 
@@ -64,5 +74,5 @@ export type IInputProps = IMinProps &
     defaultValue?: ComponentProps<"input">["defaultValue"];
     name: string;
     required?: ComponentProps<"input">["required"];
-    type: ComponentProps<"input">["type"];
+    type?: ComponentProps<"input">["type"];
   };
