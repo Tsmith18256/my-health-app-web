@@ -30,9 +30,10 @@ import {
   UiStringKey,
 } from "@/shared/utils/strings/get-ui-string.util";
 import { getWeightUnitAbbreviation } from "@/shared/utils/units/get-weight-unit-abbreviation.util";
-import { getLengthUnitAbbrevation } from '@/shared/utils/units/get-length-unit-abbreviation.util';
-import { formatDateWithoutTime } from '@/shared/utils/dates/format-date-without-time.util';
-import dayjs from 'dayjs';
+import { getLengthUnitAbbrevation } from "@/shared/utils/units/get-length-unit-abbreviation.util";
+import { formatDateWithoutTime } from "@/shared/utils/dates/format-date-without-time.util";
+import dayjs from "dayjs";
+import styles from "./body-comp-entry-form.module.css";
 
 export const BodyCompEntryForm = ({
   abSkinfold,
@@ -93,7 +94,7 @@ export const BodyCompEntryForm = ({
       <form action={formAction}>
         <Input defaultValue={id} name="entryId" type="hidden" />
 
-        <main className="flex flex-col gap-6 mt-6 pb-4 px-4">
+        <main className={styles["main-container"]}>
           <Input
             id="txtDate"
             defaultValue={date ?? formatDateWithoutTime(dayjs())}
@@ -102,6 +103,7 @@ export const BodyCompEntryForm = ({
             required
             type="date"
           />
+
           <Input
             id="txtWeight"
             defaultValue={
@@ -123,12 +125,12 @@ export const BodyCompEntryForm = ({
             type="number"
           />
 
-          <section className="flex flex-col gap-6">
+          <section className={styles["section-container"]}>
             <Heading level={HeadingLevel.h2}>
               {getUiString(UiStringKey.SectionHeadingAdvanced)}
             </Heading>
 
-            <section className="flex flex-col gap-6">
+            <section className={styles["section-container"]}>
               <Heading level={HeadingLevel.h3}>
                 {getUiString(UiStringKey.SectionHeadingMeasuringTape)}
               </Heading>
@@ -172,7 +174,7 @@ export const BodyCompEntryForm = ({
               />
             </section>
 
-            <section className="flex flex-col gap-6">
+            <section className={styles["section-container"]}>
               <Heading level={HeadingLevel.h3}>Calipers (skinfold)</Heading>
               <Input
                 id="txtChestSkinfold"
@@ -205,12 +207,12 @@ export const BodyCompEntryForm = ({
           </section>
         </main>
 
-        <footer className="bg-(--background) border-t border-t-gray-400 bottom-0 flex gap-3 inset-x-0 justify-stretch p-4 sticky">
-          <div className="grow">
+        <footer className={styles.footer}>
+          <div className={styles["footer-button"]}>
             <Button type="submit">{getUiString(primaryButtonKey)}</Button>
           </div>
 
-          <Link className="grow" href="/body-comp/log">
+          <Link className={styles["footer-button"]} href="/body-comp/log">
             <Button appearance={ButtonAppearance.Negative}>Cancel</Button>
           </Link>
         </footer>
