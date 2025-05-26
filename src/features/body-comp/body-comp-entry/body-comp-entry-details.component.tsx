@@ -1,13 +1,14 @@
 "use client";
 
+import dayjs from "dayjs";
 import { IBodyCompEntry } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
 import {
   BodyFatMethod,
   calculateBodyFat,
 } from "@/features/body-comp/calculate-body-fat.util";
-import { OverviewSkinfoldSection } from "@/features/body-comp/overview/overview-skinfold-section.component";
 import { OverviewMeasuringTapeSection } from "@/features/body-comp/overview/overview-measuring-tape-section.component";
 import { OverviewSection } from "@/features/body-comp/overview/overview-section.component";
+import { OverviewSkinfoldSection } from "@/features/body-comp/overview/overview-skinfold-section.component";
 import {
   Heading,
   HeadingLevel,
@@ -19,7 +20,7 @@ import { useUserSettings } from "@/shared/state/user-settings/user-settings.stat
 import { getAgeFromBirthday } from "@/shared/utils/dates/get-age-from-birthday.util";
 import { formatPercent } from "@/shared/utils/formatting/format-percent.util";
 import { formatWeight } from "@/shared/utils/formatting/format-weight.util";
-import dayjs from "dayjs";
+import styles from './body-comp-entry-details.module.css';
 
 export const BodyCompEntryDetails = ({ entry }: { entry: IBodyCompEntry }) => {
   const userProfile = useUserSettings();
@@ -36,8 +37,8 @@ export const BodyCompEntryDetails = ({ entry }: { entry: IBodyCompEntry }) => {
 
   return (
     <>
-      <div className="mb-8">
-        <strong className="text-7xl">
+      <section className={styles['weight-section-container']}>
+        <strong className={styles.bodyweight}>
           {formatWeight(entry.weightInG, {
             unit:
               userProfile.weightSystem === MeasurementSystem.Imperial
@@ -46,27 +47,23 @@ export const BodyCompEntryDetails = ({ entry }: { entry: IBodyCompEntry }) => {
           })}
         </strong>
 
-        <div className="mt-4">
+        <div className={styles['body-fat-container']}>
           <Heading level={HeadingLevel.h2}>
             {bodyFat ? formatPercent(bodyFat.bodyFatPercent) : "Unknown"} body
             fat
           </Heading>
 
           <sub
-            className={
-              bodyFat?.method
-                ? colorClassByMethod[bodyFat.method]
-                : "text-red-600"
-            }
+            className={getBodyFatMessageClassName(bodyFat?.method)}
           >
             {bodyFat
-              ? `${emojiByMethod[bodyFat.method]} Calculated using ${
-                  methodNames[bodyFat.method]
+              ? `${bodyFatEmojiByMethod[bodyFat.method]} Calculated using ${
+                  bodyFatMethodNames[bodyFat.method]
                 } method`
               : "❌ Enter all measurements in at least 1 category to calculate your body fat"}
           </sub>
         </div>
-      </div>
+      </section>
 
       <OverviewSection>
         <OverviewMeasuringTapeSection
@@ -85,19 +82,25 @@ export const BodyCompEntryDetails = ({ entry }: { entry: IBodyCompEntry }) => {
   );
 };
 
-const colorClassByMethod = {
-  [BodyFatMethod.Combined]: "text-green-600",
-  [BodyFatMethod.Navy]: "text-orange-600",
-  [BodyFatMethod.Skinfold3Site]: "text-orange-600",
-} as const satisfies BodyFatMethodStringRecord;
+const getBodyFatMessageClassName = (method?: BodyFatMethod) => {
+  if (!method) {
+    return styles['body-fat-method-none'];
+  }
 
-const emojiByMethod = {
+  if (method === BodyFatMethod.Combined) {
+    return styles['body-fat-method-combined'];
+  }
+
+  return styles['body-fat-method-single'];
+};
+
+const bodyFatEmojiByMethod = {
   [BodyFatMethod.Combined]: "✅",
   [BodyFatMethod.Navy]: "⚠️",
   [BodyFatMethod.Skinfold3Site]: "⚠️",
 } as const satisfies BodyFatMethodStringRecord;
 
-const methodNames = {
+const bodyFatMethodNames = {
   [BodyFatMethod.Combined]: "combined",
   [BodyFatMethod.Navy]: "Navy",
   [BodyFatMethod.Skinfold3Site]: "skinfold",
