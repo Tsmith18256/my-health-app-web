@@ -1,0 +1,7 @@
+.loading-indicator {
+  flex-grow: 1;
+  height: 100%;
+  margin-block: 2rem;
+  text-align: center;
+  width: 100%;
+}

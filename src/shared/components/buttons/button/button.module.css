@@ -1,0 +1,51 @@
+.appearance-danger {
+  background-color: var(--color-error);
+
+  &:active {
+    background-color: var(--color-error-dark);
+  }
+}
+
+.appearance-negative {
+  background-color: var(--color-negative);
+
+  &:active {
+    background-color: var(--color-negative-dark);
+  }
+}
+
+.appearance-primary {
+  background-color: var(--color-primary);
+
+  &:active {
+    background-color: var(--color-primary-dark);
+  }
+}
+
+.button {
+  border: 3px solid black;
+  border-radius: 0.5rem;
+  color: var(--color-text);
+  cursor: pointer;
+  font-weight: 600;
+  width: 100%;
+
+  &:disabled {
+    background-color: #364153;
+    cursor: not-allowed;
+  }
+}
+
+.size-large {
+  font-size: 1.5rem;
+  padding: 1rem;
+}
+
+.size-medium {
+  font-size: 1.125rem;
+  padding: 0.5rem;
+}
+
+.size-small {
+  padding: 0.25rem;
+}

@@ -1,6 +1,8 @@
+import styles from './loading-indicator.module.css';
+
 export const LoadingIndicator = () => {
   return (
-    <div className="grow h-full my-8 text-center w-full">
+    <div className={styles['loading-indicator']}>
       Loading...
     </div>
   );
