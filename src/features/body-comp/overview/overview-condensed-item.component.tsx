@@ -2,6 +2,7 @@
 
 import { formatDateRelativeToToday } from "@/shared/utils/dates/format-date-relative-to-today.util";
 import dayjs from "dayjs";
+import styles from './overview-condensed-item.module.css';
 
 export const OverviewCondensedItem = ({
   date,
@@ -14,9 +15,9 @@ export const OverviewCondensedItem = ({
   const eyebrowText = label ?? dateText;
 
   return (
-    <div className="flex flex-col">
-      <span className="text-xs text-gray-500">{eyebrowText}</span>
-      <strong className="text-2xl">{valueText ?? "No data"}</strong>
+    <div className={styles.container}>
+      <span className={styles.eyebrow}>{eyebrowText}</span>
+      <strong className={styles.value}>{valueText ?? "No data"}</strong>
     </div>
   );
 };
