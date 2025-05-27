@@ -23,12 +23,18 @@
 }
 
 .button {
-  border: 3px solid black;
-  border-radius: 0.5rem;
+  box-shadow: var(--dimension-2) var(--dimension-4) var(--dimension-4)
+    var(--color-shadow);
   color: var(--color-text);
   cursor: pointer;
   font-weight: 600;
+  transition: box-shadow 0.125s linear, scale 0.125s linear;
   width: 100%;
+
+  &:active {
+    box-shadow: var(--dimension-1) var(--dimension-2) var(--dimension-2) var(--color-shadow);
+    scale: 0.97;
+  }
 
   &:disabled {
     background-color: #364153;
@@ -38,14 +44,14 @@
 
 .size-large {
   font-size: 1.5rem;
-  padding: 1rem;
+  padding: var(--dimension-32);
 }
 
 .size-medium {
-  font-size: 1.125rem;
-  padding: 0.5rem;
+  font-size: 1.25rem;
+  padding: var(--dimension-16);
 }
 
 .size-small {
-  padding: 0.25rem;
+  padding: var(--dimension-8);
 }

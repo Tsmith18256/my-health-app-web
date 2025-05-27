@@ -6,9 +6,10 @@
   --color-error-dark: #9F0712;
   --color-negative: #D1D5DC;
   --color-negative-dark: #6B7280;
-  --color-primary: #FF8904;
+  --color-primary: oklch(0.7633 0.1644 62.66);
   --color-primary-dark: #F54A00;
   --color-primary-light: #FFD6A8;
+  --color-shadow: rgba(0 0 0 / 0.25);
   --color-success: #00A63E;
   --color-text: #000;
   --color-text-light: #6B7280;

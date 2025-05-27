@@ -1,3 +1,4 @@
+import { Quicksand } from 'next/font/google';
 import localFont from 'next/font/local';
 
 export const iconFont = localFont({
@@ -12,4 +13,10 @@ export const iconFont = localFont({
   adjustFontFallback: false,
   display: 'block',
   variable: '--font-family-font-awesome'
+});
+
+export const defaultFont = Quicksand({
+  display: 'block',
+  subsets: ['latin'],
+  variable: '--font-family-default'
 });
