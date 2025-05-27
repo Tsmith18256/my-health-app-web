@@ -1,6 +1,8 @@
 * {
+  background-color: initial;
   border: 0;
   box-sizing: border-box;
+  color: inherit;
   font: inherit;
   font-size: 100%;
   margin: 0;
@@ -24,7 +26,6 @@ section {
 }
 
 a {
-  color: inherit;
   text-decoration: none;
 }
 

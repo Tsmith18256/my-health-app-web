@@ -3,6 +3,13 @@
 @import "./styles/colors.css";
 @import "./styles/dimensions.css";
 
+:root {
+  /*
+   * @todo - change this to `light dark` when dark theme is ready.
+   */
+  color-scheme: light;
+}
+
 body {
   background: var(--color-background);
   color: var(--color-text);
