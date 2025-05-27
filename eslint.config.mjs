@@ -11,12 +11,19 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   ...compat.config({
-    extends: ["next/core-web-vitals", "next/typescript"],
+    extends: [
+      "next/core-web-vitals",
+      "next/typescript",
+      "plugin:storybook/recommended",
+    ],
     rules: {
-      "no-restricted-imports": ["error", {
-        name: "@testing-library/react",
-        message: "Import from testing/react-testing-library/test.util"
-      }],
+      "no-restricted-imports": [
+        "error",
+        {
+          name: "@testing-library/react",
+          message: "Import from testing/react-testing-library/test.util",
+        },
+      ],
       "no-shadow": "error",
     },
   }),

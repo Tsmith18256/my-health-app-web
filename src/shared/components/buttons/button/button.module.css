@@ -20,6 +20,10 @@
   &:active {
     background-color: var(--color-primary-dark);
   }
+
+  &:hover {
+    background-color: var(--color-primary-dark);
+  }
 }
 
 .button {
@@ -28,7 +32,7 @@
   color: var(--color-text);
   cursor: pointer;
   font-weight: 600;
-  transition: box-shadow 0.125s linear, scale 0.125s linear;
+  transition: box-shadow 50ms linear, scale 50ms linear;
   width: 100%;
 
   &:active {
@@ -37,8 +41,15 @@
   }
 
   &:disabled {
-    background-color: #364153;
+    background-color: var(--color-disabled);
+    box-shadow: none;
+    color: var(--color-text-light);
     cursor: not-allowed;
+    scale: initial;
+  }
+
+  &:focus {
+    outline: 2px solid var(--color-accent);
   }
 }
 
