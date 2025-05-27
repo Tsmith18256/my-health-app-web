@@ -1,4 +1,5 @@
 import { Breakpoint } from "@/shared/enums/breakpoint.enum";
+import styles from './body-comp-log-cell.module.css';
 
 export const BodyCompLogCell = ({
   alignEndOnMobile,
@@ -6,23 +7,23 @@ export const BodyCompLogCell = ({
   minimumBreakpoint = Breakpoint.Mobile,
   valueText,
 }: IBodyCompLogCellProps) => {
-  const textAlignClass = alignEndOnMobile ? "text-end tab:text-start" : "";
+  const textAlignClass = alignEndOnMobile ? styles['align-end-on-mobile'] : "";
   const visibilityClass = visibilityClassesByBreakpoint[minimumBreakpoint];
 
   return (
-    <div className={`flex flex-col ${textAlignClass} ${visibilityClass}`}>
-      <span className="text-gray-500 text-xs tab:hidden">{label}</span>
-      <strong className="text-2xl tab:text-xl">{valueText}</strong>
+    <div className={`${styles.cell} ${textAlignClass} ${visibilityClass}`}>
+      <span className={styles.label}>{label}</span>
+      <strong className={styles.value}>{valueText}</strong>
     </div>
   );
 };
 
 const visibilityClassesByBreakpoint: Record<Breakpoint, string> = {
-  [Breakpoint.Mobile]: "",
-  [Breakpoint.Tablet]: "hidden tab:block",
-  [Breakpoint.DesktopSmall]: "hidden dt-sm:block",
-  [Breakpoint.DesktopMedium]: "hidden dt-md:block",
-  [Breakpoint.DesktopLarge]: "hidden dt-lg:block",
+  [Breakpoint.Mobile]: styles['cell-mobile']!,
+  [Breakpoint.Tablet]: styles['cell-tablet']!,
+  [Breakpoint.DesktopSmall]: styles['cell-desktop-small']!,
+  [Breakpoint.DesktopMedium]: styles['cell-desktop-medium']!,
+  [Breakpoint.DesktopLarge]: styles['cell-desktop-large']!,
 };
 
 type IBodyCompLogCellProps = {

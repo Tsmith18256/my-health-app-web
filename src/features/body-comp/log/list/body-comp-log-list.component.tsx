@@ -1,11 +1,12 @@
 "use client";
 
-import { BodyCompLogRow } from "@/features/body-comp/log/list/row/body-comp-log-row.component";
+import { useCallback, useState } from "react";
 import { IBodyCompEntry } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
+import { loadBodyCompEntries } from "@/features/body-comp/body-comp-entry/load-body-comp-entries.action";
+import { BodyCompLogRow } from "@/features/body-comp/log/list/row/body-comp-log-row.component";
 import { BodyCompLogHeaders } from "@/features/body-comp/log/list/body-comp-log-headers.component";
 import { InfiniteScrollContainer } from "@/shared/components/infinite-scroll-container/infinite-scroll-container.component";
-import { useCallback, useState } from "react";
-import { loadBodyCompEntries } from "@/features/body-comp/body-comp-entry/load-body-comp-entries.action";
+import styles from './body-comp-log-list.module.css';
 
 const pageSize = 20;
 
@@ -31,7 +32,7 @@ export const BodyCompLogList = () => {
   const hasMore = total === null || entries.length < total;
 
   return (
-    <div className="tab:py-8 dt-sm:p-4">
+    <div className={styles.container}>
       <BodyCompLogHeaders />
 
       <InfiniteScrollContainer

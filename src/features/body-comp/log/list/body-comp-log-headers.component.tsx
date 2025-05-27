@@ -12,29 +12,41 @@ export const BodyCompLogHeaders = () => {
 
       <span>{getUiString(UiStringKey.ColumnHeaderWeight)}</span>
 
-      <span className="hidden dt-sm:block">
+      <span
+        className={`${styles["responsive-column-header"]} ${styles["header-desktop-small"]}`}
+      >
         {getUiString(UiStringKey.ColumnHeaderLast7Days)}
       </span>
 
       <span>{getUiString(UiStringKey.ColumnHeaderBodyFat)}</span>
 
-      <span className="hidden dt-md:block">
+      <span
+        className={`${styles["responsive-column-header"]} ${styles["header-desktop-medium"]}`}
+      >
         {getUiString(UiStringKey.ColumnHeaderNeck)}
       </span>
 
-      <span className="hidden dt-md:block">
+      <span
+        className={`${styles["responsive-column-header"]} ${styles["header-desktop-medium"]}`}
+      >
         {getUiString(UiStringKey.ColumnHeaderWaist)}
       </span>
 
-      <span className="hidden dt-lg:block">
+      <span
+        className={`${styles["responsive-column-header"]} ${styles["header-desktop-large"]}`}
+      >
         {getUiString(UiStringKey.ColumnHeaderChest)}
       </span>
 
-      <span className="hidden dt-lg:block">
+      <span
+        className={`${styles["responsive-column-header"]} ${styles["header-desktop-large"]}`}
+      >
         {getUiString(UiStringKey.ColumnHeaderAb)}
       </span>
 
-      <span className="hidden dt-lg:block">
+      <span
+        className={`${styles["responsive-column-header"]} ${styles["header-desktop-large"]}`}
+      >
         {getUiString(UiStringKey.ColumnHeaderThigh)}
       </span>
     </div>
