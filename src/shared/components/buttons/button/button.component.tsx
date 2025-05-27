@@ -1,6 +1,7 @@
 import { ComponentProps } from "react";
 import { ObjectValues } from "@/shared/helper-types/object-values.type";
 import styles from './button.module.css';
+import { TestId } from '@/testing/test-id.enum';
 
 /**
  * The main button component used throughout the app.
@@ -18,6 +19,7 @@ export const Button = ({
         ${classesBySize[size]}
         ${classesByAppearance[appearance]}
       `}
+      data-testid={TestId.Button}
     />
   );
 };
