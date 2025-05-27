@@ -28,6 +28,10 @@
   }
 }
 
+.label {
+  font-size: 0.75rem;
+}
+
 /* Desktop small */
 @media (width >= 64rem) {
   .button {

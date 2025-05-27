@@ -32,7 +32,7 @@ export const BodyCompNavButton = ({
       onClick={onClick}
     >
       <Icon icon={iconImageMap[page]} size={IconSize.Large} />
-      <span className="text-xs">{page}</span>
+      <span className={styles.label}>{page}</span>
     </button>
   );
 };
