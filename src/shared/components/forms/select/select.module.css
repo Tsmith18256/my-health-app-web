@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.select {
+  border: 1px solid black;
+  height: 4rem;
+  border-radius: 0.5rem;
+  padding-inline: 1rem;
+  width: 100%;
+}

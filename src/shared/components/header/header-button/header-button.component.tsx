@@ -1,9 +1,10 @@
+import { ComponentProps } from "react";
 import {
   Button,
   ButtonSize,
 } from "@/shared/components/buttons/button/button.component";
 import { Icon } from "@/shared/components/icon/icon.component";
-import { ComponentProps } from "react";
+import styles from './header-button.module.css';
 
 export const HeaderButton = ({
   appearance,
@@ -11,7 +12,7 @@ export const HeaderButton = ({
   onClick,
 }: IHeaderButtonProps) => {
   return (
-    <div className="text-lg w-12">
+    <div className={styles['button-wrapper']}>
       <Button appearance={appearance} onClick={onClick} size={ButtonSize.Small}>
         <Icon icon={icon} />
       </Button>
