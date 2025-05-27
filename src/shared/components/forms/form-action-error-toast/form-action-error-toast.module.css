@@ -1,0 +1,15 @@
+.container {
+  align-items: center;
+  background-color: var(--color-error);
+  border: 3px solid black;
+  border-radius: 0.5rem;
+  display: flex;
+  font-size: 1.125rem;
+  font-weight: bold;
+  height: 4rem;
+  inset-block-end: 2rem;
+  inset-inline: 1rem;
+  padding-inline: 1rem;
+  position: fixed;
+  z-index: 90;
+}

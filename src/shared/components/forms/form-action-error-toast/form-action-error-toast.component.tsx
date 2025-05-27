@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import styles from './form-action-error-toast.module.css';
 
 export const FormActionErrorToast = (props: IFormActionErrorToastProps) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -17,7 +18,7 @@ export const FormActionErrorToast = (props: IFormActionErrorToastProps) => {
   }
 
   return (
-    <div className="bg-red-600 border-3 bottom-8 fixed flex font-bold h-14 inset-x-4 items-center px-4 rounded-lg text-lg z-90">
+    <div className={styles.container}>
       {message}
     </div>
   );
