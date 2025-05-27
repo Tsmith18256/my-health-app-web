@@ -1,12 +1,12 @@
 "use client";
 
+import dayjs from "dayjs";
 import { OverviewMetricRow } from "@/features/body-comp/overview/overview-metric-row.component";
 import { OverviewSection } from "@/features/body-comp/overview/overview-section.component";
 import {
   Heading,
   HeadingLevel,
 } from "@/shared/components/heading/heading.component";
-import dayjs from "dayjs";
 import { calculateBodyFat } from "@/features/body-comp/calculate-body-fat.util";
 import { getAgeFromBirthday } from "@/shared/utils/dates/get-age-from-birthday.util";
 import { OverviewMeasuringTapeSection } from "@/features/body-comp/overview/overview-measuring-tape-section.component";
@@ -18,6 +18,7 @@ import { useUserSettings } from "@/shared/state/user-settings/user-settings.stat
 import { MeasurementSystem } from "@/shared/enums/measurement-system.enum";
 import { LengthUnit } from "@/shared/enums/length-unit.enum";
 import { WeightUnit } from "@/shared/enums/weight-unit.enum";
+import styles from './overview-page-contents.module.css';
 
 export const OverviewPageContents = ({
   last7DaysWeight,
@@ -47,7 +48,7 @@ export const OverviewPageContents = ({
           Weight
         </Heading>
 
-        <div className="grid grid-cols-2 mt-2">
+        <div className={styles['weight-metrics']}>
           <OverviewCondensedItem
             date={mostRecentWeightEntry?.date}
             valueText={
@@ -70,7 +71,7 @@ export const OverviewPageContents = ({
           />
         </div>
 
-        <div className="bg-white border-3 flex flex-col h-46 items-center justify-center w-full">
+        <div className={styles.graph}>
           <div>PLACEHOLDER</div>
           <div>FOR GRAPH</div>
         </div>

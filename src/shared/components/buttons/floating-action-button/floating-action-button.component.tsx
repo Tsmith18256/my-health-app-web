@@ -1,10 +1,13 @@
-import { Icon, IconImage, IconSize } from '@/shared/components/icon/icon.component';
+import {
+  Icon,
+  IconImage,
+  IconSize,
+} from "@/shared/components/icon/icon.component";
+import styles from "./floating-action-button.module.css";
 
 export const FloatingActionButton = () => {
   return (
-    <button
-      className={`bg-orange-400 active:bg-orange-600 border-3 bottom-22 end-4 fixed h-16 leading-16 rounded-full text-black w-16`}
-    >
+    <button className={styles.button}>
       <Icon icon={IconImage.Plus} size={IconSize.Large} />
     </button>
   );

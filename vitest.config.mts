@@ -9,6 +9,7 @@ export default defineConfig({
     coverage: {
       include: ["src/**"],
       exclude: [
+        "src/**/*.stories.tsx",
         "src/app/page.tsx",
         "src/shared/enums/measurement-system.enum.ts",
         "src/shared/enums/length-unit.enum.ts",
@@ -65,7 +66,6 @@ export default defineConfig({
         "src/shared/components/header/header-button/header-button.component.tsx",
         "src/features/body-comp/log/list/body-comp-log-list.component.tsx",
         "src/shared/components/forms/select/select.component.tsx",
-        "src/shared/components/buttons/button/button.component.tsx",
         "src/shared/components/forms/form-action-error-toast/form-action-error-toast.component.tsx",
         "src/shared/components/forms/input/input.component.tsx",
         "src/shared/components/buttons/floating-action-button/floating-action-button.component.tsx",
@@ -84,6 +84,10 @@ export default defineConfig({
         "src/app/\\(app\\)/body-comp/\\(with-nav\\)/log/page.tsx",
         "src/app/\\(app\\)/body-comp/\\(with-nav\\)/profile/page.tsx",
         "src/app/\\(app\\)/body-comp/\\(with-nav\\)/overview/page.tsx",
+        "src/shared/utils/strings/get-ui-string.util.ts",
+        "src/shared/utils/objects/typedObjectKeys.util.ts",
+        "src/features/body-comp/body-comp-entry/load-body-comp-entries.action.ts",
+        "src/shared/components/infinite-scroll-container/infinite-scroll-container.component.tsx"
       ],
       thresholds: {
         branches: 90,

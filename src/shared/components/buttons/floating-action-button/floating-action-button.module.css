@@ -1,0 +1,25 @@
+.button {
+  background-color: var(--color-primary);
+  border: 3px solid black;
+  border-radius: 50%;
+  color: var(--color-text);
+  height: var(--floating-action-button-size);
+  inset-block-end: calc(
+    var(--nav-bar-height-mobile) + var(--floating-action-button-inset)
+  );
+  inset-inline-end: var(--floating-action-button-inset);
+  line-height: var(--floating-action-button-size);
+  position: fixed;
+  width: var(--floating-action-button-size);
+
+  &:active {
+    background-color: var(--color-primary-dark);
+  }
+}
+
+@media (width >= 64rem) {
+  .button {
+    inset-block-end: var(--floating-action-button-inset);
+    inset-inline-end: var(--floating-action-button-inset);
+  }
+}

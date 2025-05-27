@@ -1,0 +1,52 @@
+.button-wrapper {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-block-end: 2rem;
+  width: 100%;
+}
+
+.heading {
+  /*
+   * Applying a super high word-spacing forces a line break after every
+   * word.
+   */
+  word-spacing: 9999rem;
+}
+
+.heading-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.main-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  inset: 0;
+  justify-content: center;
+  padding: 2rem;
+  position: fixed;
+  text-align: center;
+}
+
+/* Tablet */
+@media (width >= 48rem) {
+  .button-wrapper {
+    width: 16rem;
+  }
+
+  .heading {
+    word-spacing: normal;
+  }
+
+  .heading-container {
+    flex-grow: 0;
+  }
+
+  .main-container {
+    gap: 2rem;
+  }
+}

@@ -10,14 +10,19 @@ npm run dev
 
 ## Styling
 
-Styling in this project is done with [Tailwind](https://tailwindcss.com/).
+Styling in this project is done with CSS modules.
 
 ### Breakpoints
 
-The default tailwind breakpoints are replaced with custom ones in
-[breakpoints.css](./src/app/styles/breakpoints.css);
+There are 5 breakpoints in this project:
+1. Mobile: 0
+2. Tablet: 48rem
+3. Desktop small: 64rem
+4. Desktop medium: 96rem
+5. Desktop large: 120rem
 
-### Utilities
-
-Custom Tailwind utilities are defined in
-[utilities.css](src/app/styles/utilities.css).
+All these are configured as code snippets in this project:
+- `media-tablet`
+- `media-dt-sm`
+- `media-dt-md`
+- `media-dt-lg

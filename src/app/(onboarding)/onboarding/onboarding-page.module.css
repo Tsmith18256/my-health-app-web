@@ -1,0 +1,21 @@
+.heading {
+  padding-block-start: 2rem;
+  padding-inline: 1rem;
+}
+
+/* Tablet */
+@media (width >= 48rem) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: center;
+    margin-inline: auto;
+    width: 32rem;
+  }
+
+  .heading {
+    padding: 0;
+    text-align: center;
+  }
+}

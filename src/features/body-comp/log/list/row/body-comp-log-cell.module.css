@@ -1,0 +1,63 @@
+.align-end-on-mobile {
+  text-align: end;
+}
+
+.cell {
+  display: none;
+  flex-direction: column;
+}
+
+.cell-mobile {
+  display: flex;
+}
+
+.label {
+  color: var(--color-text-light);
+  font-size: 0.75rem;
+  line-height: 1.33rem;
+}
+
+.value {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Tablet */
+@media (width >= 48rem) {
+  .align-end-on-mobile {
+    text-align: start;
+  }
+
+  .cell-tablet {
+    display: flex;
+  }
+
+  .label {
+    display: none;
+  }
+
+  .value {
+    font-size: 1.125rem;
+  }
+}
+
+/* Desktop Small */
+@media (width >= 64rem) {
+  .cell-desktop-small {
+    display: flex;
+  }
+}
+
+/* Desktop Medium */
+@media (width >= 96rem) {
+  .cell-desktop-medium {
+    display: flex;
+  }
+}
+
+/* Desktop Large */
+@media (width >= 120rem) {
+  .cell-desktop-large {
+    display: flex;
+  }
+}

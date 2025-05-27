@@ -1,14 +1,15 @@
-import { getAuthSessionDetails } from "@/features/auth/get-auth-session-details.util";
-import { BodyCompEntryDetails } from "@/features/body-comp/body-comp-entry/body-comp-entry-details.component";
-import { selectBodyCompEntryById } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
-import { ButtonAppearance } from "@/shared/components/buttons/button/button.component";
-import { HeaderButton } from "@/shared/components/header/header-button/header-button.component";
-import { Header } from "@/shared/components/header/header.component";
-import { IconImage } from "@/shared/components/icon/icon.component";
-import { PageWithParamsProps } from "@/shared/helper-types/page-with-params-props.type";
 import dayjs from "dayjs";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { getAuthSessionDetails } from "@/features/auth/get-auth-session-details.util";
+import { selectBodyCompEntryById } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
+import { BodyCompEntryDetails } from "@/features/body-comp/body-comp-entry/body-comp-entry-details.component";
+import { ButtonAppearance } from "@/shared/components/buttons/button/button.component";
+import { Header } from "@/shared/components/header/header.component";
+import { HeaderButton } from "@/shared/components/header/header-button/header-button.component";
+import { IconImage } from "@/shared/components/icon/icon.component";
+import { PageWithParamsProps } from "@/shared/helper-types/page-with-params-props.type";
+import styles from './body-comp-entry-page.module.css';
 
 /**
  * Page for viewing a body composition entry in read mode.
@@ -49,7 +50,7 @@ export default async function ViewBodyCompEntry(
         title={dayjs(entry.date).format("MMM DD, YYYY")}
       />
 
-      <main className="mb-12 mt-12 px-4">
+      <main className={styles['main-container']}>
         <BodyCompEntryDetails entry={entry} />
       </main>
     </>

@@ -1,0 +1,16 @@
+.graph {
+  align-items: center;
+  background-color: white;
+  border: 3px solid black;
+  display: flex;
+  flex-direction: column;
+  height: 16rem;
+  justify-content: center;
+  width: 100%;
+}
+
+.weight-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-block-start: 0.5rem;
+}

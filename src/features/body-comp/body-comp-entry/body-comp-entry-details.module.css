@@ -1,0 +1,24 @@
+.body-fat-container {
+  margin-block-start: 1rem;
+}
+
+.body-fat-method-combined {
+  color: var(--color-success);
+}
+
+.body-fat-method-none {
+  color: var(--color-error);
+}
+
+.body-fat-method-single {
+  color: var(--color-warning);
+}
+
+.bodyweight {
+  font-size: 4rem;
+  font-weight: bold;
+}
+
+.weight-section-container {
+  margin-block-end: 2rem;
+}

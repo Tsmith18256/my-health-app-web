@@ -1,0 +1,68 @@
+.appearance-danger {
+  background-color: var(--color-error);
+
+  &:active {
+    background-color: var(--color-error-dark);
+  }
+}
+
+.appearance-negative {
+  background-color: var(--color-negative);
+
+  &:active {
+    background-color: var(--color-negative-dark);
+  }
+}
+
+.appearance-primary {
+  background-color: var(--color-primary);
+
+  &:active {
+    background-color: var(--color-primary-dark);
+  }
+
+  &:hover {
+    background-color: var(--color-primary-dark);
+  }
+}
+
+.button {
+  box-shadow: var(--dimension-2) var(--dimension-4) var(--dimension-4)
+    var(--color-shadow);
+  color: var(--color-text);
+  cursor: pointer;
+  font-weight: 600;
+  transition: box-shadow 50ms linear, scale 50ms linear;
+  width: 100%;
+
+  &:active {
+    box-shadow: var(--dimension-1) var(--dimension-2) var(--dimension-2) var(--color-shadow);
+    scale: 0.97;
+  }
+
+  &:disabled {
+    background-color: var(--color-disabled);
+    box-shadow: none;
+    color: var(--color-text-light);
+    cursor: not-allowed;
+    scale: initial;
+  }
+
+  &:focus {
+    outline: 2px solid var(--color-accent);
+  }
+}
+
+.size-large {
+  font-size: 1.5rem;
+  padding: var(--dimension-32);
+}
+
+.size-medium {
+  font-size: 1.25rem;
+  padding: var(--dimension-16);
+}
+
+.size-small {
+  padding: var(--dimension-8);
+}

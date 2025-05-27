@@ -1,9 +1,10 @@
-import { Heading, HeadingLevel } from '@/shared/components/heading/heading.component';
 import { ReactNode } from 'react';
+import { Heading, HeadingLevel } from '@/shared/components/heading/heading.component';
+import styles from './overview-metrics-section.module.css';
 
 export const OverviewMetricsSection = (props: IOverviewMetricsSectionProps) => {
   return (
-    <div className="flex flex-col gap-2 mt-2">
+    <div className={styles.container}>
       <Heading level={HeadingLevel.h6} tag={HeadingLevel.h3}>
         {props.title}
       </Heading>

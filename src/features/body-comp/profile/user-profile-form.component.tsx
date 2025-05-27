@@ -1,5 +1,6 @@
 "use client";
 
+import { ComponentProps, ReactNode, useCallback, useState } from "react";
 import { Button } from "@/shared/components/buttons/button/button.component";
 import { FormActionErrorToast } from "@/shared/components/forms/form-action-error-toast/form-action-error-toast.component";
 import { Input } from "@/shared/components/forms/input/input.component";
@@ -12,7 +13,7 @@ import { formatLength } from "@/shared/utils/formatting/format-length.util";
 import { roundToInterval } from '@/shared/utils/math/round-to-interval/round-to-interval.util';
 import { convertLengthUnits } from "@/shared/utils/units/convert-length-units.util";
 import { Sex } from "@/shared/utils/validation/validate-sex.util";
-import { ComponentProps, ReactNode, useCallback, useState } from "react";
+import styles from './user-profile-form.module.css';
 
 export const UserProfileForm = ({
   action,
@@ -93,7 +94,7 @@ export const UserProfileForm = ({
       />
 
       <form onSubmit={onSubmit}>
-        <main className="flex flex-col gap-6 px-4 mt-6">
+        <main className={styles.container}>
           <Input
             id="txtBirthday"
             defaultValue={defaultBirthday}
@@ -161,14 +162,14 @@ const FooterButton = ({
 }: Pick<IUserProfileFormProps, "isOnboarding"> &
   Pick<ComponentProps<typeof Button>, "disabled">) => {
   const typeSpecificClasses = isOnboarding
-    ? "border-t border-t-gray-400 bottom-0 fixed inset-x-0 tab:border-none tab:mt-8 tab:static"
-    : "mt-8";
+    ? styles['footer-button-wrapper-onboarding']
+    : styles['footer-button-wrapper-settings'];
 
   const label = isOnboarding ? "Proceed" : "Save";
 
   return (
     <div
-      className={`bg-(--background) flex gap-3 justify-stretch p-4 ${typeSpecificClasses}`}
+      className={`${styles['footer-button-wrapper']} ${typeSpecificClasses}`}
     >
       <Button disabled={disabled} type="submit">
         {label}

@@ -2,16 +2,41 @@
   display: none;
 }
 
+.responsive-column-header {
+  display: none;
+}
+
 /* Tablet */
 @media (width >= 48rem) {
   .container {
     display: grid;
 
-    margin-inline: calc(4 * var(--spacing));
-    padding-bottom: calc(2 * var(--spacing));
+    margin-inline: 1rem;
+    padding-bottom: 0.5rem;
 
     font-weight: bold;
 
     border-bottom-width: 1px;
+  }
+}
+
+/* Desktop Small */
+@media (width >= 64rem) {
+  .header-desktop-small {
+    display: block;
+  }
+}
+
+/* Desktop Medium */
+@media (width >= 96rem) {
+  .header-desktop-medium {
+    display: block;
+  }
+}
+
+/* Desktop Large */
+@media (width >= 120rem) {
+  .header-desktop-large {
+    display: block;
   }
 }

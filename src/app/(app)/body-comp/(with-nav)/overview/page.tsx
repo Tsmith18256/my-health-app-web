@@ -1,13 +1,15 @@
-import { Header } from "@/shared/components/header/header.component";
-import { selectBodyCompEntries } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
 import { UserButton } from "@clerk/nextjs";
 import dayjs from "dayjs";
-import { calculateBodyFat } from "@/features/body-comp/calculate-body-fat.util";
 import { getAuthSessionDetails } from "@/features/auth/get-auth-session-details.util";
+import { selectBodyCompEntries } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
+import { calculateBodyFat } from "@/features/body-comp/calculate-body-fat.util";
+import { OverviewPageContents } from "@/features/body-comp/overview/overview-page-contents.component";
+import { Header } from "@/shared/components/header/header.component";
 import { selectUserProfileByEmail } from "@/shared/database/daos/user-profile.dao";
 import { ErrorCode, ErrorWithCode } from "@/shared/errors/error-with-code.type";
 import { getAgeFromBirthday } from "@/shared/utils/dates/get-age-from-birthday.util";
-import { OverviewPageContents } from "@/features/body-comp/overview/overview-page-contents.component";
+import styles from './overview-page.module.css';
+import './overview-page.css';
 
 export default async function OverviewPage() {
   const userEmail = (await getAuthSessionDetails()).emailAddress;
@@ -71,7 +73,7 @@ export default async function OverviewPage() {
   );
 
   const headerEndContent = (
-    <div className="flex h-12 items-center justify-center w-12">
+    <div className={styles['header-end-content']}>
       <UserButton />
     </div>
   );
@@ -80,7 +82,7 @@ export default async function OverviewPage() {
     <>
       <Header endContent={headerEndContent} title="Overview" />
 
-      <main className="flex flex-col gap-6 mb-18 mt-6 pb-4 px-4">
+      <main className={styles.container}>
         <OverviewPageContents
           last7DaysWeight={last7DaysWeight}
           mostRecentAbSkinfoldEntry={mostRecentAbSkinfoldEntry}

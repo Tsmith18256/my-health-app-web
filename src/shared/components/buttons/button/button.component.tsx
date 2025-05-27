@@ -1,6 +1,11 @@
-import { ObjectValues } from "@/shared/helper-types/object-values.type";
 import { ComponentProps } from "react";
+import { ObjectValues } from "@/shared/helper-types/object-values.type";
+import styles from './button.module.css';
+import { TestId } from '@/testing/test-id.enum';
 
+/**
+ * The main button component used throughout the app.
+ */
 export const Button = ({
   appearance = ButtonAppearance.Primary,
   size = ButtonSize.Medium,
@@ -10,17 +15,11 @@ export const Button = ({
     <button
       {...buttonProps}
       className={`
-        border-3
-        cursor-pointer
-        disabled:bg-gray-700
-        disabled:cursor-not-allowed
-        font-semibold
-        rounded-lg
-        text-black
-        w-full
+        ${styles.button}
         ${classesBySize[size]}
         ${classesByAppearance[appearance]}
       `}
+      data-testid={TestId.Button}
     />
   );
 };
@@ -51,13 +50,13 @@ interface IButtonProps
 }
 
 const classesByAppearance: Record<ButtonAppearance, string> = {
-  [ButtonAppearance.Danger]: "bg-red-400 active:bg-red-600",
-  [ButtonAppearance.Negative]: "bg-gray-300 active:bg-gray-500",
-  [ButtonAppearance.Primary]: "bg-orange-400 active:bg-orange-600",
+  [ButtonAppearance.Danger]: styles['appearance-danger']!,
+  [ButtonAppearance.Negative]: styles['appearance-negative']!,
+  [ButtonAppearance.Primary]: styles['appearance-primary']!,
 };
 
 const classesBySize: Record<ButtonSize, string> = {
-  [ButtonSize.Small]: "p-2",
-  [ButtonSize.Medium]: "p-3 text-lg",
-  [ButtonSize.Large]: "p-4 text-2xl",
+  [ButtonSize.Small]: styles['size-small']!,
+  [ButtonSize.Medium]: styles['size-medium']!,
+  [ButtonSize.Large]: styles['size-large']!,
 };

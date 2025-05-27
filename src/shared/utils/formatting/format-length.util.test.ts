@@ -3,11 +3,11 @@ import { formatLength } from '@/shared/utils/formatting/format-length.util';
 import { expect, it } from 'vitest';
 
 it("formats length correctly for singular", () => {
-  const singular = formatLength(453, {
+  const singular = formatLength(25.4, {
     unit: LengthUnit.Inches,
   });
 
-  expect(singular).toBe('17.8"');
+  expect(singular).toBe('1.0"');
 });
 
 it("formats length correctly for plural", () => {

@@ -4,6 +4,7 @@ import { LengthUnit } from "@/shared/enums/length-unit.enum";
 import { formatDateRelativeToToday } from "@/shared/utils/dates/format-date-relative-to-today.util";
 import { formatLength } from "@/shared/utils/formatting/format-length.util";
 import dayjs from "dayjs";
+import styles from './overview-metric-row.module.css';
 
 export const OverviewMetricRow = ({
   date,
@@ -14,14 +15,14 @@ export const OverviewMetricRow = ({
   const text = getText({ unit, value });
 
   return (
-    <div className="flex items-end justify-between">
-      <div className="flex flex-col">
-        <span className="text-xs text-gray-500">{label}</span>
-        <strong className="text-2xl">{text}</strong>
+    <div className={styles.container}>
+      <div className={styles['label-and-value']}>
+        <span className={styles.label}>{label}</span>
+        <strong className={styles.value}>{text}</strong>
       </div>
 
       {date && (
-        <span className="text-xl">
+        <span className={styles.date}>
           {formatDateRelativeToToday(dayjs(date))}
         </span>
       )}

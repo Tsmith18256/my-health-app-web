@@ -1,0 +1,25 @@
+.container {
+  align-items: end;
+  display: flex;
+  justify-content: space-between;
+}
+
+.date {
+  font-size: 1.25rem;
+}
+
+.label {
+  color: var(--color-text-light);
+  font-size: 0.75rem;
+  line-height: 1.33rem;
+}
+
+.label-and-value {
+  display: flex;
+  flex-direction: column;
+}
+
+.value {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
