@@ -1,4 +1,3 @@
-import { UserButton } from "@clerk/nextjs";
 import dayjs from "dayjs";
 import { getAuthSessionDetails } from "@/features/auth/get-auth-session-details.util";
 import { selectBodyCompEntries } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
@@ -72,15 +71,9 @@ export default async function OverviewPage() {
     (entry) => entry.thighSkinfold !== undefined
   );
 
-  const headerEndContent = (
-    <div className={styles['header-end-content']}>
-      <UserButton />
-    </div>
-  );
-
   return (
     <>
-      <Header endContent={headerEndContent} title="Overview" />
+      <Header title="Overview" />
 
       <main className={styles.container}>
         <OverviewPageContents
