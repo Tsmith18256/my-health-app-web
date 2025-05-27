@@ -1,0 +1,12 @@
+.icon {
+  font-family: var(--font-family-font-awesome);
+  font-style: normal;
+}
+
+.icon-large {
+  font-size: 1.5rem;
+}
+
+.icon-medium {
+  font-size: 1.25rem;
+}

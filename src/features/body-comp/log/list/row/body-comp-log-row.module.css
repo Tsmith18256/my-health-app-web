@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
 
-  padding: calc(4 * var(--spacing));
+  padding: 1rem;
 
   &:hover {
     background-color: var(--color-gray-100);

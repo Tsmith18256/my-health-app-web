@@ -1,12 +1,13 @@
-import { ObjectValues } from "@/shared/helper-types/object-values.type";
 import { ComponentProps } from "react";
+import { ObjectValues } from "@/shared/helper-types/object-values.type";
+import styles from "./heading.module.css";
 
 export const Heading = ({ children, className, level, tag }: IHeadingProps) => {
   const HeadingTag = tag ?? level;
 
   return (
     <HeadingTag
-      className={`font-semibold ${classNameByHeadingLevel[level]} leading-none ${className}`}
+      className={`${styles.heading} ${classNameByHeadingLevel[level]} ${className}`}
     >
       {children}
     </HeadingTag>
@@ -31,10 +32,10 @@ export interface IHeadingProps
 }
 
 const classNameByHeadingLevel: Record<HeadingLevel, string> = {
-  h1: "text-4xl",
-  h2: "text-3xl",
-  h3: "text-2xl",
-  h4: "text-1xl",
-  h5: "text-lg",
-  h6: "text-md",
+  h1: styles.h1!,
+  h2: styles.h2!,
+  h3: styles.h3!,
+  h4: styles.h4!,
+  h5: styles.h5!,
+  h6: styles.h6!,
 };

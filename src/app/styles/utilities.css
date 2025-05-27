@@ -1,7 +1,0 @@
-/*
- * This file contains custom Tailwind utility classes used throughout the app.
- */
-
-@utility word-spacing-* {
-  word-spacing: --value('normal', [length]);
-}

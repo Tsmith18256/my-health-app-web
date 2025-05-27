@@ -1,11 +1,12 @@
 import { ObjectValues } from "@/shared/helper-types/object-values.type";
+import styles from './icon.module.css';
 
 export const Icon = (props: IIconProps) => {
   const size = props.size ?? IconSize.Medium;
 
   return (
     <i
-      className={`far font-(family-name:--font-family-font-awesome) font-normal ${props.icon} ${size}`}
+      className={`far ${styles.icon} ${props.icon} ${size}`}
     />
   );
 };
@@ -23,8 +24,8 @@ export const IconImage = {
 export type IconImage = ObjectValues<typeof IconImage>;
 
 export const IconSize = {
-  Medium: "text-xl",
-  Large: "text-2xl",
+  Medium: styles['icon-medium'],
+  Large: styles['icon-large'],
 } as const;
 
 export type IconSize = ObjectValues<typeof IconSize>;

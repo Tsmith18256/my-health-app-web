@@ -11,6 +11,7 @@
 .label {
   color: var(--color-text-light);
   font-size: 0.75rem;
+  line-height: 1.33rem;
 }
 
 .label-and-value {
@@ -20,4 +21,5 @@
 
 .value {
   font-size: 1.5rem;
+  font-weight: bold;
 }

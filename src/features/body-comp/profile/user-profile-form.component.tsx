@@ -163,7 +163,7 @@ const FooterButton = ({
   Pick<ComponentProps<typeof Button>, "disabled">) => {
   const typeSpecificClasses = isOnboarding
     ? styles['footer-button-wrapper-onboarding']
-    : "mt-8";
+    : styles['footer-button-wrapper-settings'];
 
   const label = isOnboarding ? "Proceed" : "Save";
 

@@ -11,8 +11,8 @@
   .container {
     display: grid;
 
-    margin-inline: calc(4 * var(--spacing));
-    padding-bottom: calc(2 * var(--spacing));
+    margin-inline: 1rem;
+    padding-bottom: 0.5rem;
 
     font-weight: bold;
 
