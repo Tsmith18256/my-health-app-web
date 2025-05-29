@@ -1,3 +1,5 @@
+"use client";
+
 import { ComponentProps, useCallback } from "react";
 import { ObjectValues } from "@/shared/helper-types/object-values.type";
 import styles from "./button.module.css";

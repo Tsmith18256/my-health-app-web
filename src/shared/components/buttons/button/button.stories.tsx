@@ -59,3 +59,11 @@ export const Small: Story = {
   },
   decorators: [renderContainerDiv(12)],
 };
+
+export const Large: Story = {
+  args: {
+    children: "Large button",
+    size: ButtonSize.Large,
+  },
+  decorators: [renderContainerDiv(16)],
+};

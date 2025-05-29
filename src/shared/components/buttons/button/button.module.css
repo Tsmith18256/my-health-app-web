@@ -31,7 +31,7 @@
   box-shadow: var(--default-shadow-dimensions) var(--color-shadow);
   color: var(--color-text);
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 500;
   transition:
     box-shadow 50ms linear,
     scale 50ms linear;
@@ -62,15 +62,16 @@
 }
 
 .size-large {
-  font-size: 1.5rem;
-  padding: var(--dimension-32);
+  font-size: var(--font-size-24);
+  padding: var(--dimension-16);
 }
 
 .size-medium {
-  font-size: 1.25rem;
+  font-size: var(--font-size-16);
   padding: var(--dimension-16);
 }
 
 .size-small {
+  font-size: var(--font-size-14);
   padding: var(--dimension-8);
 }
