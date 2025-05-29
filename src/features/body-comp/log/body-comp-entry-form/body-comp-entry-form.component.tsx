@@ -35,6 +35,8 @@ import { formatDateWithoutTime } from "@/shared/utils/dates/format-date-without-
 import dayjs from "dayjs";
 import styles from "./body-comp-entry-form.module.css";
 import { AriaLabel } from "@/shared/enums/aria-label.enum";
+import { DatePicker } from "@/shared/components/forms/date-picker/date-picker.component";
+import { HiddenInput } from "@/shared/components/forms/hidden-input/hidden-input.component";
 
 export const BodyCompEntryForm = ({
   abSkinfold,
@@ -95,16 +97,15 @@ export const BodyCompEntryForm = ({
       <FormActionErrorToast error={state} />
 
       <form action={formAction}>
-        <Input defaultValue={id} name="entryId" type="hidden" />
+        <HiddenInput defaultValue={id} name="entryId" />
 
         <main className={styles["main-container"]}>
-          <Input
-            id="txtDate"
+          <DatePicker
             defaultValue={date ?? formatDateWithoutTime(dayjs())}
+            id="txtDate"
             label={getUiString(UiStringKey.LabelDate)}
             name="date"
             required
-            type="date"
           />
 
           <Input

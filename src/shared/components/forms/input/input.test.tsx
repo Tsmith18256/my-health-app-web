@@ -14,7 +14,7 @@ it("renders a label and input with the correct attributes", () => {
     required: true,
     step: 0.1,
     type: "number",
-  } as const satisfies ComponentProps<typeof Input>;
+  } as const satisfies Required<ComponentProps<typeof Input>>;
 
   const res = render(<Input {...props} />);
 
