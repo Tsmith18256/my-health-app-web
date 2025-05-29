@@ -1,4 +1,6 @@
-import { ComponentProps } from "react";
+"use client";
+
+import { ComponentProps, useCallback } from "react";
 import { ObjectValues } from "@/shared/helper-types/object-values.type";
 import styles from "./button.module.css";
 import { TestId } from "@/testing/test-id.enum";
@@ -8,18 +10,32 @@ import { TestId } from "@/testing/test-id.enum";
  */
 export const Button = ({
   appearance = ButtonAppearance.Primary,
+  ariaLabel,
+  onClick: onClickProp,
   size = ButtonSize.Medium,
   ...buttonProps
 }: IButtonProps) => {
+  const onClick = useCallback<NonNullable<ComponentProps<"button">["onClick"]>>(
+    (e) => {
+      // Removes the outline from around the button after click is complete.
+      e.currentTarget.blur();
+
+      onClickProp?.(e);
+    },
+    [onClickProp],
+  );
+
   return (
     <button
       {...buttonProps}
+      aria-label={ariaLabel}
       className={`
         ${styles.button}
         ${classesBySize[size]}
         ${classesByAppearance[appearance]}
       `}
       data-testid={TestId.Button}
+      onClick={onClick}
     />
   );
 };
@@ -46,6 +62,7 @@ interface IButtonProps
     "children" | "disabled" | "onClick" | "type"
   > {
   appearance?: ButtonAppearance;
+  ariaLabel?: ComponentProps<"button">["aria-label"];
   size?: ButtonSize;
 }
 

@@ -1,16 +1,16 @@
 :root {
-  --color-accent: oklch(0.7574 0.142073 237.6965);
+  --color-accent: oklch(0.7574 0.142073 242.66);
   --color-background: light-dark(
-    oklch(0.9728 0.0188 67.6),
-    oklch(0.2414 0.0196 239.14)
+    oklch(0.9735 0.0212 62.66),
+    oklch(0.2414 0.0196 242.66)
   );
   --color-background-dark: #e5e7eb;
   --color-border-light: #9ca3af;
   --color-disabled: oklch(0.8078 0.02 242.66);
-  --color-error: #e7000b;
-  --color-error-dark: #9f0712;
-  --color-negative: #d1d5dc;
-  --color-negative-dark: #6b7280;
+  --color-error: oklch(0.583 0.238666 28.4765);
+  --color-error-dark: oklch(0.5 0.238666 28.4765);
+  --color-negative: oklch(0.8642 0 0);
+  --color-negative-dark: oklch(0.75 0 0);
   --color-primary: oklch(0.7633 0.1644 62.66);
   --color-primary-dark: oklch(0.7051 0.1644 62.66);
   --color-primary-light: #ffd6a8;

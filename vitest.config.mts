@@ -91,6 +91,7 @@ export default defineConfig({
         "src/shared/utils/objects/typedObjectKeys.util.ts",
         "src/features/body-comp/body-comp-entry/load-body-comp-entries.action.ts",
         "src/shared/components/infinite-scroll-container/infinite-scroll-container.component.tsx",
+        "src/shared/enums/aria-label.enum.ts",
       ],
       thresholds: {
         branches: 90,

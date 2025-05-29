@@ -2,6 +2,7 @@
 @import "./fonts/fontawesome.min.css";
 @import "./styles/colors.css";
 @import "./styles/dimensions.css";
+@import "./styles/font-sizes.css";
 
 :root {
   /*
@@ -14,4 +15,5 @@ body {
   background: var(--color-background);
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.03rem;
 }

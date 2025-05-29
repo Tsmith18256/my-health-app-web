@@ -1,4 +1,4 @@
-import { Quicksand } from "next/font/google";
+import { Outfit } from "next/font/google";
 import localFont from "next/font/local";
 
 export const iconFont = localFont({
@@ -15,7 +15,7 @@ export const iconFont = localFont({
   variable: "--font-family-font-awesome",
 });
 
-export const defaultFont = Quicksand({
+export const defaultFont = Outfit({
   display: "block",
   subsets: ["latin"],
   variable: "--font-family-default",

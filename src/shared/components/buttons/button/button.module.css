@@ -1,7 +1,7 @@
 .appearance-danger {
   background-color: var(--color-error);
 
-  &:active {
+  &:hover {
     background-color: var(--color-error-dark);
   }
 }
@@ -9,7 +9,7 @@
 .appearance-negative {
   background-color: var(--color-negative);
 
-  &:active {
+  &:hover {
     background-color: var(--color-negative-dark);
   }
 }
@@ -17,29 +17,28 @@
 .appearance-primary {
   background-color: var(--color-primary);
 
-  &:active {
-    background-color: var(--color-primary-dark);
-  }
-
   &:hover {
     background-color: var(--color-primary-dark);
   }
 }
 
 .button {
-  box-shadow: var(--dimension-2) var(--dimension-4) var(--dimension-4)
-    var(--color-shadow);
+  --default-shadow-dimensions: var(--dimension-2) var(--dimension-4)
+    var(--dimension-4);
+  --active-shadow-dimensions: var(--dimension-1) var(--dimension-2)
+    var(--dimension-2);
+
+  box-shadow: var(--default-shadow-dimensions) var(--color-shadow);
   color: var(--color-text);
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 500;
   transition:
     box-shadow 50ms linear,
     scale 50ms linear;
   width: 100%;
 
   &:active {
-    box-shadow: var(--dimension-1) var(--dimension-2) var(--dimension-2)
-      var(--color-shadow);
+    box-shadow: var(--active-shadow-dimensions) var(--color-shadow);
     scale: 0.97;
   }
 
@@ -52,20 +51,27 @@
   }
 
   &:focus {
-    outline: 2px solid var(--color-accent);
+    outline: none;
+    box-shadow: var(--default-shadow-dimensions) var(--color-accent);
+  }
+
+  &:focus:active {
+    outline: none;
+    box-shadow: var(--active-shadow-dimensions) var(--color-accent);
   }
 }
 
 .size-large {
-  font-size: 1.5rem;
-  padding: var(--dimension-32);
+  font-size: var(--font-size-24);
+  padding: var(--dimension-16);
 }
 
 .size-medium {
-  font-size: 1.25rem;
+  font-size: var(--font-size-16);
   padding: var(--dimension-16);
 }
 
 .size-small {
+  font-size: var(--font-size-14);
   padding: var(--dimension-8);
 }

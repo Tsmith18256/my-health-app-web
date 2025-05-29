@@ -10,6 +10,7 @@ import { HeaderButton } from "@/shared/components/header/header-button/header-bu
 import { IconImage } from "@/shared/components/icon/icon.component";
 import { PageWithParamsProps } from "@/shared/helper-types/page-with-params-props.type";
 import styles from "./body-comp-entry-page.module.css";
+import { AriaLabel } from "@/shared/enums/aria-label.enum";
 
 /**
  * Page for viewing a body composition entry in read mode.
@@ -31,6 +32,7 @@ export default async function ViewBodyCompEntry(
     <Link href="/body-comp/log">
       <HeaderButton
         appearance={ButtonAppearance.Negative}
+        ariaLabel={AriaLabel.GoBack}
         icon={IconImage.Back}
       />
     </Link>
@@ -38,7 +40,7 @@ export default async function ViewBodyCompEntry(
 
   const headerEndContent = (
     <Link href={`/body-comp/${params.id}/edit`}>
-      <HeaderButton icon={IconImage.Edit} />
+      <HeaderButton ariaLabel={AriaLabel.EditEntry} icon={IconImage.Edit} />
     </Link>
   );
 

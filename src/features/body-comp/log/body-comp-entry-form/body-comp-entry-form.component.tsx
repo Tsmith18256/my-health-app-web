@@ -34,6 +34,7 @@ import { getLengthUnitAbbrevation } from "@/shared/utils/units/get-length-unit-a
 import { formatDateWithoutTime } from "@/shared/utils/dates/format-date-without-time.util";
 import dayjs from "dayjs";
 import styles from "./body-comp-entry-form.module.css";
+import { AriaLabel } from "@/shared/enums/aria-label.enum";
 
 export const BodyCompEntryForm = ({
   abSkinfold,
@@ -81,6 +82,7 @@ export const BodyCompEntryForm = ({
   const headerEndContent = isEditMode ? (
     <HeaderButton
       appearance={ButtonAppearance.Danger}
+      ariaLabel={AriaLabel.DeleteEntry}
       icon={IconImage.Trash}
       onClick={onDeleteButtonClick}
     />
