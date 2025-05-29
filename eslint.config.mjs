@@ -29,6 +29,9 @@ export default tseslint.config([
         },
       ],
       "no-shadow": "error",
+
+      // Typescript ESLint
+      "@typescript-eslint/switch-exhaustiveness-check": "error",
     },
   },
   ...compat.config({

@@ -64,19 +64,9 @@ export const BodyCompEntryForm = ({
 
   const onDeleteButtonClick = () => {
     if (id) {
-      deleteBodyCompEntry(id)
-        .then(() => {
-          router.replace("/body-comp/log");
-        })
-        .catch((err: unknown) => {
-          console.error(err);
-
-          if (err instanceof Error) {
-            throw err;
-          }
-
-          throw new Error("Unknown error deleting body comp entry");
-        });
+      void deleteBodyCompEntry(id).then(() => {
+        router.replace("/body-comp/log");
+      });
     }
   };
 

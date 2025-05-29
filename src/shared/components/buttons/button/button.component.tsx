@@ -50,13 +50,13 @@ interface IButtonProps
 }
 
 const classesByAppearance: Record<ButtonAppearance, string> = {
-  [ButtonAppearance.Danger]: styles['appearance-danger']!,
-  [ButtonAppearance.Negative]: styles['appearance-negative']!,
-  [ButtonAppearance.Primary]: styles['appearance-primary']!,
+  [ButtonAppearance.Danger]: styles['appearance-danger'],
+  [ButtonAppearance.Negative]: styles['appearance-negative'],
+  [ButtonAppearance.Primary]: styles['appearance-primary'],
 };
 
 const classesBySize: Record<ButtonSize, string> = {
-  [ButtonSize.Small]: styles['size-small']!,
-  [ButtonSize.Medium]: styles['size-medium']!,
-  [ButtonSize.Large]: styles['size-large']!,
+  [ButtonSize.Small]: styles['size-small'],
+  [ButtonSize.Medium]: styles['size-medium'],
+  [ButtonSize.Large]: styles['size-large'],
 };

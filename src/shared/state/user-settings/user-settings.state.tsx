@@ -13,9 +13,7 @@ export const UserSettingsProvider = ({
   initialValues: ISettingsState;
 }) => {
   const storeRef = useRef<ReturnType<typeof createSettingsStore> | null>(null);
-  if (storeRef.current === null) {
-    storeRef.current = createSettingsStore(initialValues);
-  }
+  storeRef.current ??= createSettingsStore(initialValues);
 
   return (
     <UserSettingsContext.Provider value={storeRef.current}>

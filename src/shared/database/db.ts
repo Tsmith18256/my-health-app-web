@@ -6,7 +6,7 @@ const databaseUrl =
   "postgres://postgres:postgres@localhost:5432/myhealthapp";
 
 declare const globalThis: {
-  postgresGlobal: ReturnType<typeof postgres>;
+  postgresGlobal?: ReturnType<typeof postgres>;
 } & typeof global;
 
 export const sql = globalThis.postgresGlobal ?? postgres(databaseUrl, {

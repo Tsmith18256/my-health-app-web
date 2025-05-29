@@ -15,7 +15,7 @@ export const InfiniteScrollContainer = ({
     const observer = new IntersectionObserver((entries) => {
       const shouldLoad = hasMore && !isLoading;
       if (shouldLoad && entries[0]?.isIntersecting) {
-        loadMore();
+        void loadMore();
       }
     }, observerOpts);
 
@@ -63,5 +63,5 @@ interface IInfiniteScrollContainerProps {
   /**
    * Callback that fires when more data should load.
    */
-  loadMore(): void;
+  loadMore: () => void | Promise<void>;
 }

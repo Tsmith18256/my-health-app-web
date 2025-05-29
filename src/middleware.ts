@@ -35,7 +35,7 @@ export default clerkMiddleware(async (auth, req) => {
 
     if (
       !isOnboardingRoute(req) &&
-      !sessionClaims?.metadata?.onboardingComplete
+      !sessionClaims.metadata?.onboardingComplete
     ) {
       const onboardingUrl = new URL("/onboarding", req.url);
 

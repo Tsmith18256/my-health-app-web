@@ -9,8 +9,6 @@ export default function BodyCompNavLayout({ children }: ILayoutProps) {
     <div className={styles.container}>
       <BodyCompNav />
 
-      <a target="_blank" href="https://www.google.com/">Test</a>
-
       {children}
 
       <Link href="/body-comp/new">
