@@ -10,8 +10,3 @@
   padding-inline: 1rem;
   width: 100%;
 }
-
-.input[type="date"] {
-  /* Fixes width issues on Safari iOS. */
-  appearance: none;
-}

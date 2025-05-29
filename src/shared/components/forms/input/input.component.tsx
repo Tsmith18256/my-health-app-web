@@ -1,6 +1,6 @@
 import { ComponentProps } from "react";
-import styles from "./input.module.css";
 import { TestId } from "@/testing/test-id.enum";
+import styles from "./input.module.css";
 
 export const Input = ({
   defaultValue,
@@ -17,64 +17,34 @@ export const Input = ({
       <label htmlFor={id} data-testid={TestId.InputLabel}>
         {label}
       </label>
+
       <input
-        id={id}
         className={styles.input}
+        data-testid={TestId.InputField}
         defaultValue={defaultValue}
+        id={id}
         min={min}
         name={name}
         required={required}
         step={step}
-        data-testid={TestId.InputField}
         type={type ?? "text"}
       />
     </div>
   );
 };
 
-type IMinProps =
+type INumericProps =
   | {
-      type:
-        | "date"
-        | "datetime-local"
-        | "month"
-        | "number"
-        | "range"
-        | "time"
-        | "week";
+      type: "number";
       min?: ComponentProps<"input">["min"];
-    }
-  | {
-      min?: undefined;
-    };
-
-type IStepProps =
-  | {
-      type:
-        | "date"
-        | "datetime-local"
-        | "month"
-        | "number"
-        | "range"
-        | "time"
-        | "week";
       step?: ComponentProps<"input">["step"];
     }
-  | { step?: undefined };
+  | { min?: undefined; step?: undefined };
 
-type ITypeHiddenProps =
-  | {
-      id: string;
-      label: string;
-      type?: Exclude<ComponentProps<"input">["type"], "hidden">;
-    }
-  | { id?: undefined; label?: undefined };
-
-type IInputProps = IMinProps &
-  IStepProps &
-  ITypeHiddenProps & {
-    defaultValue?: ComponentProps<"input">["defaultValue"];
+type IInputProps = INumericProps &
+  Pick<ComponentProps<"input">, "defaultValue" | "required"> & {
+    id: string;
+    label: string;
     name: string;
-    required?: ComponentProps<"input">["required"];
-    type?: ComponentProps<"input">["type"];
+    type?: Extract<ComponentProps<"input">["type"], "number" | "text">;
   };

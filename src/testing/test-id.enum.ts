@@ -5,6 +5,9 @@ import { ObjectValues } from "@/shared/helper-types/object-values.type";
  */
 export const TestId = {
   Button: "Button",
+  DatePicker: "DatePicker",
+  DatePickerLabel: "DatePickerLabel",
+  HiddenInput: "HiddenInput",
   InputField: "InputField",
   InputLabel: "InputLabel",
 } as const;

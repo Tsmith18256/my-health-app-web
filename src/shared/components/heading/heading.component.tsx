@@ -1,6 +1,6 @@
-import combineClassNames from "classnames";
 import { ComponentProps } from "react";
 import { ObjectValues } from "@/shared/helper-types/object-values.type";
+import { combineClassNames } from "@/shared/utils/styles/combine-class-names/combine-class-names.util";
 import styles from "./heading.module.css";
 
 export const Heading = ({
