@@ -5,7 +5,7 @@ import { calculateBodyFat } from "@/features/body-comp/calculate-body-fat.util";
 import { OverviewPageContents } from "@/features/body-comp/overview/overview-page-contents.component";
 import { Header } from "@/shared/components/header/header.component";
 import { selectUserProfileByEmail } from "@/shared/database/daos/user-profile.dao";
-import { ErrorCode, ErrorWithCode } from "@/shared/errors/error-with-code.type";
+import { ErrorCode, ErrorWithCode } from "@/shared/errors/error-with-code.class";
 import { getAgeFromBirthday } from "@/shared/utils/dates/get-age-from-birthday.util";
 import styles from './overview-page.module.css';
 import './overview-page.css';

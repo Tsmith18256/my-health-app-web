@@ -1,5 +1,5 @@
 import { IUserMetadata } from '@/features/auth/user-metadata.type';
-import { ErrorCode, ErrorWithCode } from "@/shared/errors/error-with-code.type";
+import { ErrorCode, ErrorWithCode } from "@/shared/errors/error-with-code.class";
 import {
   EmailAddress,
   validateEmailAddress,
@@ -48,5 +48,5 @@ interface IAuthSessionDetails {
   emailAddress: EmailAddress;
   // If adding more fields to the `publicMetadata` object, update
   // `clerk-metadata.ts` to add the type defs.
-  updateUserMetadata(metadata: IUserMetadata): Promise<void>;
+  updateUserMetadata: (metadata: IUserMetadata) => Promise<void>;
 }

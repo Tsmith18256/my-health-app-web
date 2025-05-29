@@ -14,7 +14,7 @@ export const OverviewMetricsSection = (props: IOverviewMetricsSectionProps) => {
   );
 }
 
-export type IOverviewMetricsSectionProps = {
+export interface IOverviewMetricsSectionProps {
   children: ReactNode;
   title: string;
 }

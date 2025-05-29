@@ -10,7 +10,7 @@ export const FormActionErrorToast = (props: IFormActionErrorToastProps) => {
   useEffect(() => {
     setIsVisible(true);
 
-    setTimeout(() => setIsVisible(false), 5000);
+    setTimeout(() => { setIsVisible(false); }, 5000);
   }, [message]);
 
   if (!isVisible || !message) {

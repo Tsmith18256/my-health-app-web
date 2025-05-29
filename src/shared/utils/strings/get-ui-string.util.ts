@@ -40,11 +40,11 @@ export const UiStringKey = {
   ColumnHeaderThigh: "Thigh",
   ColumnHeaderWaist: "Waist",
   ColumnHeaderWeight: "Weight",
-  FormLabelAb: 'Ab (mm)',
-  FormLabelChest: 'Chest (mm)',
-  FormLabelNeck: 'Neck ({unit})',
-  FormLabelThigh: 'Thigh (mm)',
-  FormLabelWaist: 'Waist ({unit})',
+  FormLabelAb: "Ab (mm)",
+  FormLabelChest: "Chest (mm)",
+  FormLabelNeck: "Neck ({unit})",
+  FormLabelThigh: "Thigh (mm)",
+  FormLabelWaist: "Waist ({unit})",
   FormLabelWeight: "Weight ({unit})",
   LabelDate: "Date",
   PageHeadingNewBodyCompEntry: "New entry",
@@ -68,7 +68,7 @@ type TokensRecord<TString extends UiStringKey> = Record<
 
 type GetTokens<
   T extends string,
-  TAcc extends string[] = []
+  TAcc extends string[] = [],
 > = T extends `${string}{${infer Token}}${infer B}`
   ? GetTokens<B, [...TAcc, Token]>
   : TAcc;

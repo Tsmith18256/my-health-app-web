@@ -27,8 +27,9 @@ export class ErrorWithCode extends Error {
  * internal use for debugging/logging purposes.
  */
 export const ErrorCode = {
-  AuthFailed: 'AuthFailed',
-  FormDataIncomplete: 'FormDataIncomplete'
+  AuthFailed: "AuthFailed",
+  FormDataIncomplete: "FormDataIncomplete",
+  FormValueTypeMismatch: "FormValueTypeMismatch",
 } as const;
 export type ErrorCode = ObjectValues<typeof ErrorCode>;
 
@@ -39,5 +40,7 @@ export type ErrorCode = ObjectValues<typeof ErrorCode>;
  */
 export const DEFAULT_ERROR_MESSAGES_BY_CODE = {
   [ErrorCode.AuthFailed]: "Authentication failed.",
-  [ErrorCode.FormDataIncomplete]: "Form data incomplete."
+  [ErrorCode.FormDataIncomplete]: "Form data incomplete.",
+  [ErrorCode.FormValueTypeMismatch]:
+    "An unknown error occurred when parsing the form data.",
 } as const satisfies Record<ErrorCode, string>;

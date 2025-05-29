@@ -1,21 +1,25 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import eslint from "@eslint/js";
+import eslintConfigPrettier from "eslint-config-prettier/flat";
+import tseslint from "typescript-eslint";
 
 const compat = new FlatCompat({
-  baseDirectory: __dirname,
+  baseDirectory: import.meta.dirname,
 });
 
-const eslintConfig = [
-  ...compat.config({
+export default tseslint.config([
+  {
     extends: [
-      "next/core-web-vitals",
-      "next/typescript",
-      "plugin:storybook/recommended",
+      eslint.configs.recommended,
+      ...tseslint.configs.strictTypeChecked,
+      ...tseslint.configs.stylisticTypeChecked,
     ],
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
     rules: {
       "no-restricted-imports": [
         "error",
@@ -26,7 +30,9 @@ const eslintConfig = [
       ],
       "no-shadow": "error",
     },
+  },
+  ...compat.config({
+    extends: ["next", "next/core-web-vitals", "next/typescript"],
   }),
-];
-
-export default eslintConfig;
+  eslintConfigPrettier,
+]);
