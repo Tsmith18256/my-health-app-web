@@ -1,6 +1,6 @@
 .footer {
   background-color: var(--color-background);
-  border: 1px solid #99A1AF;
+  border: 1px solid #99a1af;
   display: flex;
   gap: 1rem;
   inset-block-end: 0;

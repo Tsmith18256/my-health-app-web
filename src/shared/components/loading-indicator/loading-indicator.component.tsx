@@ -1,9 +1,5 @@
-import styles from './loading-indicator.module.css';
+import styles from "./loading-indicator.module.css";
 
 export const LoadingIndicator = () => {
-  return (
-    <div className={styles['loading-indicator']}>
-      Loading...
-    </div>
-  );
-}
+  return <div className={styles["loading-indicator"]}>Loading...</div>;
+};

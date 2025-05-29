@@ -7,7 +7,7 @@ import { getWeightUnitAbbreviation } from "@/shared/utils/units/get-weight-unit-
  */
 export const formatWeight = (
   weightInG: number,
-  { unit = WeightUnit.Pounds }: IFormatWeightOptions = {}
+  { unit = WeightUnit.Pounds }: IFormatWeightOptions = {},
 ) => {
   const converted = convertWeightUnits(weightInG, WeightUnit.Grams, unit);
   const fractionDigits = fractionDigitsByUnit[unit];

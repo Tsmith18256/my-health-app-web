@@ -21,4 +21,9 @@ declare const brand: unique symbol;
  * To mark something as branded, it simply needs to be cast from the
  * `TParentType`.
  */
-export type Brand<TParentType, TBrand> = TParentType & { [brand]: TBrand };
+export type Brand<TParentType, TBrand> = TParentType & {
+  [brand]: TBrand;
+  // Included to allow string-based brand types to be used in template literals
+  // without triggering @typescript-eslint/restrict-template-expressions
+  // toString: TParentType extends string ? () => string : never;
+};

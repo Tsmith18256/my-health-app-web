@@ -1,13 +1,13 @@
 "use client";
 
-import { LoadingIndicator } from '@/shared/components/loading-indicator/loading-indicator.component';
+import { LoadingIndicator } from "@/shared/components/loading-indicator/loading-indicator.component";
 import { ReactNode, useEffect, useRef } from "react";
 
 export const InfiniteScrollContainer = ({
   children,
   hasMore,
   isLoading,
-  loadMore
+  loadMore,
 }: IInfiniteScrollContainerProps) => {
   const observerTarget = useRef<HTMLDivElement | null>(null);
 
@@ -15,7 +15,7 @@ export const InfiniteScrollContainer = ({
     const observer = new IntersectionObserver((entries) => {
       const shouldLoad = hasMore && !isLoading;
       if (shouldLoad && entries[0]?.isIntersecting) {
-        loadMore();
+        void loadMore();
       }
     }, observerOpts);
 
@@ -63,5 +63,5 @@ interface IInfiniteScrollContainerProps {
   /**
    * Callback that fires when more data should load.
    */
-  loadMore(): void;
+  loadMore: () => void | Promise<void>;
 }

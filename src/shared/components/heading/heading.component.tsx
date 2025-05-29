@@ -1,17 +1,23 @@
+import combineClassNames from "classnames";
 import { ComponentProps } from "react";
 import { ObjectValues } from "@/shared/helper-types/object-values.type";
 import styles from "./heading.module.css";
 
-export const Heading = ({ children, className, level, tag }: IHeadingProps) => {
+export const Heading = ({
+  children,
+  className: extraClassNames,
+  level,
+  tag,
+}: IHeadingProps) => {
   const HeadingTag = tag ?? level;
 
-  return (
-    <HeadingTag
-      className={`${styles.heading} ${classNameByHeadingLevel[level]} ${className}`}
-    >
-      {children}
-    </HeadingTag>
-  );
+  const className = combineClassNames([
+    styles.heading,
+    classNameByHeadingLevel[level],
+    extraClassNames,
+  ]);
+
+  return <HeadingTag className={className}>{children}</HeadingTag>;
 };
 
 export const HeadingLevel = {
@@ -23,19 +29,19 @@ export const HeadingLevel = {
   h6: "h6",
 } as const;
 
+const classNameByHeadingLevel: Record<HeadingLevel, string> = {
+  h1: styles.h1,
+  h2: styles.h2,
+  h3: styles.h3,
+  h4: styles.h4,
+  h5: styles.h5,
+  h6: styles.h6,
+};
+
 export type HeadingLevel = ObjectValues<typeof HeadingLevel>;
 
-export interface IHeadingProps
+interface IHeadingProps
   extends Pick<ComponentProps<"h1">, "children" | "className"> {
   level: HeadingLevel;
   tag?: HeadingLevel;
 }
-
-const classNameByHeadingLevel: Record<HeadingLevel, string> = {
-  h1: styles.h1!,
-  h2: styles.h2!,
-  h3: styles.h3!,
-  h4: styles.h4!,
-  h5: styles.h5!,
-  h6: styles.h6!,
-};

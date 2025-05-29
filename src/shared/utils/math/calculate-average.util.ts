@@ -1,4 +1,4 @@
-import { calculateSum } from '@/shared/utils/math/calculate-sum.util';
+import { calculateSum } from "@/shared/utils/math/calculate-sum.util";
 
 /**
  * Takes n numbers and returns the average of all of them.

@@ -1,5 +1,5 @@
 import { Breakpoint } from "@/shared/enums/breakpoint.enum";
-import styles from './body-comp-log-cell.module.css';
+import styles from "./body-comp-log-cell.module.css";
 
 export const BodyCompLogCell = ({
   alignEndOnMobile,
@@ -7,7 +7,7 @@ export const BodyCompLogCell = ({
   minimumBreakpoint = Breakpoint.Mobile,
   valueText,
 }: IBodyCompLogCellProps) => {
-  const textAlignClass = alignEndOnMobile ? styles['align-end-on-mobile'] : "";
+  const textAlignClass = alignEndOnMobile ? styles["align-end-on-mobile"] : "";
   const visibilityClass = visibilityClassesByBreakpoint[minimumBreakpoint];
 
   return (
@@ -19,11 +19,11 @@ export const BodyCompLogCell = ({
 };
 
 const visibilityClassesByBreakpoint: Record<Breakpoint, string> = {
-  [Breakpoint.Mobile]: styles['cell-mobile']!,
-  [Breakpoint.Tablet]: styles['cell-tablet']!,
-  [Breakpoint.DesktopSmall]: styles['cell-desktop-small']!,
-  [Breakpoint.DesktopMedium]: styles['cell-desktop-medium']!,
-  [Breakpoint.DesktopLarge]: styles['cell-desktop-large']!,
+  [Breakpoint.Mobile]: styles["cell-mobile"],
+  [Breakpoint.Tablet]: styles["cell-tablet"],
+  [Breakpoint.DesktopSmall]: styles["cell-desktop-small"],
+  [Breakpoint.DesktopMedium]: styles["cell-desktop-medium"],
+  [Breakpoint.DesktopLarge]: styles["cell-desktop-large"],
 };
 
 type IBodyCompLogCellProps = {

@@ -1,5 +1,5 @@
 import { ComponentProps, PropsWithChildren } from "react";
-import styles from './select.module.css';
+import styles from "./select.module.css";
 
 export const Select = ({
   children,
@@ -10,11 +10,7 @@ export const Select = ({
   return (
     <div className={styles.container}>
       <label htmlFor={id}>{label}</label>
-      <select
-        id={id}
-        className={styles.select}
-        {...otherProps}
-      >
+      <select id={id} className={styles.select} {...otherProps}>
         {children}
       </select>
     </div>

@@ -13,9 +13,7 @@ export const UserSettingsProvider = ({
   initialValues: ISettingsState;
 }) => {
   const storeRef = useRef<ReturnType<typeof createSettingsStore> | null>(null);
-  if (storeRef.current === null) {
-    storeRef.current = createSettingsStore(initialValues);
-  }
+  storeRef.current ??= createSettingsStore(initialValues);
 
   return (
     <UserSettingsContext.Provider value={storeRef.current}>
@@ -40,7 +38,7 @@ export const useUserSettings = () => {
 
   if (!userSettingsContext) {
     throw new Error(
-      "useUserSettingsStore must be used within UserSettingsProvider"
+      "useUserSettingsStore must be used within UserSettingsProvider",
     );
   }
 

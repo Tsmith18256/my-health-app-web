@@ -3,7 +3,7 @@ import { ComponentProps } from "react";
 import { expect, it, vi } from "vitest";
 import { Button } from "@/shared/components/buttons/button/button.component";
 import { render } from "@/testing/react-testing-library/test.util";
-import { TestId } from '@/testing/test-id.enum';
+import { TestId } from "@/testing/test-id.enum";
 
 it("calls onClick when clicked", async () => {
   const user = userEvent.setup();

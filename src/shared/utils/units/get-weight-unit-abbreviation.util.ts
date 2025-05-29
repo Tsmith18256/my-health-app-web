@@ -7,10 +7,10 @@ import { WeightUnit } from "@/shared/enums/weight-unit.enum";
  */
 export const getWeightUnitAbbreviation = (
   unit: WeightUnit,
-  isPlural = true
+  isPlural = true,
 ): string => {
   return isPlural
-    ? pluralAbbreviationByUnit[unit] ?? singularAbbreviationByUnit[unit]
+    ? (pluralAbbreviationByUnit[unit] ?? singularAbbreviationByUnit[unit])
     : singularAbbreviationByUnit[unit];
 };
 

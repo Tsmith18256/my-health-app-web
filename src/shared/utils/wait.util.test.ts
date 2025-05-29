@@ -14,7 +14,7 @@ it("waits for provided amount of time", async () => {
   const timeout = 50000;
 
   let hasResolved = false;
-  wait(timeout).then(() => {
+  void wait(timeout).then(() => {
     hasResolved = true;
   });
 

@@ -4,15 +4,15 @@ import {
   validateEmailAddress,
 } from "@/shared/utils/validation/validate-email-address.util";
 import { Sex, validateSex } from "@/shared/utils/validation/validate-sex.util";
-import { formatVanillaDateWithoutTime } from '@/shared/utils/dates/vanilla/format-vanilla-date-without-time';
-import { MeasurementSystem } from '@/shared/enums/measurement-system.enum';
-import { validateMeasurementSystem } from '@/shared/utils/validation/validate-measurement-system.util';
+import { formatVanillaDateWithoutTime } from "@/shared/utils/dates/vanilla/format-vanilla-date-without-time";
+import { MeasurementSystem } from "@/shared/enums/measurement-system.enum";
+import { validateMeasurementSystem } from "@/shared/utils/validation/validate-measurement-system.util";
 
 /**
  * Inserts 1 new User Profile entry into the database.
  */
 export const insertUserProfile = async (
-  inputProfile: IUserProfile
+  inputProfile: IUserProfile,
 ): Promise<IUserProfile> => {
   const [createdProfile] = await sql<IUserProfileModel[]>`
     INSERT INTO user_profiles (
@@ -43,7 +43,7 @@ export const insertUserProfile = async (
  * Reads 1 User Profile entry from the database by email.
  */
 export const selectUserProfileByEmail = async (
-  emailAddress: string
+  emailAddress: string,
 ): Promise<IUserProfile | undefined> => {
   if (!emailAddress) {
     return undefined;
@@ -65,7 +65,7 @@ export const selectUserProfileByEmail = async (
  * Updates the given User Profile entry in the database.
  */
 export const updateUserProfile = async (
-  inputProfile: IUserProfile
+  inputProfile: IUserProfile,
 ): Promise<IUserProfile> => {
   const [updatedProfile] = await sql<IUserProfileModel[]>`
     UPDATE user_profiles SET
@@ -92,7 +92,7 @@ const convertModelToObject = (model: IUserProfileModel): IUserProfile => {
     heightInMm: model.height_in_mm,
     lengthSystem: validateMeasurementSystem(model.length_system),
     sex: validateSex(model.sex),
-    weightSystem: validateMeasurementSystem(model.weight_system)
+    weightSystem: validateMeasurementSystem(model.weight_system),
   };
 };
 

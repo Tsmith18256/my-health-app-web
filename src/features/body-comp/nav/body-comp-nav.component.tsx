@@ -1,6 +1,9 @@
 "use client";
 
-import { BodyCompNavButton, BodyCompNavPage } from "@/features/body-comp/nav/body-comp-nav-button.component";
+import {
+  BodyCompNavButton,
+  BodyCompNavPage,
+} from "@/features/body-comp/nav/body-comp-nav-button.component";
 import styles from "./body-comp-nav.module.css";
 
 export const BodyCompNav = () => {

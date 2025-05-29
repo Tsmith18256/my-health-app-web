@@ -1,6 +1,9 @@
-import { ReactNode } from 'react';
-import { Heading, HeadingLevel } from '@/shared/components/heading/heading.component';
-import styles from './overview-metrics-section.module.css';
+import { ReactNode } from "react";
+import {
+  Heading,
+  HeadingLevel,
+} from "@/shared/components/heading/heading.component";
+import styles from "./overview-metrics-section.module.css";
 
 export const OverviewMetricsSection = (props: IOverviewMetricsSectionProps) => {
   return (
@@ -12,9 +15,9 @@ export const OverviewMetricsSection = (props: IOverviewMetricsSectionProps) => {
       {props.children}
     </div>
   );
-}
+};
 
-export type IOverviewMetricsSectionProps = {
+interface IOverviewMetricsSectionProps {
   children: ReactNode;
   title: string;
 }

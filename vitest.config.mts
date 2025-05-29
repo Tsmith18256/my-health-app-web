@@ -9,7 +9,10 @@ export default defineConfig({
     coverage: {
       include: ["src/**"],
       exclude: [
+        "src/**/*.d.ts",
         "src/**/*.stories.tsx",
+
+        // Remove these as coverage is added
         "src/app/page.tsx",
         "src/shared/enums/measurement-system.enum.ts",
         "src/shared/enums/length-unit.enum.ts",
@@ -87,7 +90,7 @@ export default defineConfig({
         "src/shared/utils/strings/get-ui-string.util.ts",
         "src/shared/utils/objects/typedObjectKeys.util.ts",
         "src/features/body-comp/body-comp-entry/load-body-comp-entries.action.ts",
-        "src/shared/components/infinite-scroll-container/infinite-scroll-container.component.tsx"
+        "src/shared/components/infinite-scroll-container/infinite-scroll-container.component.tsx",
       ],
       thresholds: {
         branches: 90,
@@ -99,6 +102,6 @@ export default defineConfig({
     },
     environment: "jsdom",
     include: ["src/**/*.test.ts?(x)"],
-    setupFiles: ["src/testing/vitest/vitest-setup.ts"]
+    setupFiles: ["src/testing/vitest/vitest-setup.ts"],
   },
 });

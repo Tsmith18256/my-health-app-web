@@ -1,5 +1,8 @@
-import { IUserMetadata } from '@/features/auth/user-metadata.type';
-import { ErrorCode, ErrorWithCode } from "@/shared/errors/error-with-code.type";
+import { IUserMetadata } from "@/features/auth/user-metadata.type";
+import {
+  ErrorCode,
+  ErrorWithCode,
+} from "@/shared/errors/error-with-code.class";
 import {
   EmailAddress,
   validateEmailAddress,
@@ -29,7 +32,7 @@ export const getAuthSessionDetails = async (): Promise<IAuthSessionDetails> => {
 
   return {
     emailAddress: validEmailAddress,
-    updateUserMetadata: await getUpdateUserMetadata(userId)
+    updateUserMetadata: await getUpdateUserMetadata(userId),
   };
 };
 
@@ -39,7 +42,7 @@ const getUpdateUserMetadata = async (userId: string) => {
   return async (metadata: IUserMetadata) => {
     await client.users.updateUser(userId, {
       // @ts-expect-error - Clerk type defs don't let you override this
-      publicMetadata: metadata
+      publicMetadata: metadata,
     });
   };
 };
@@ -48,5 +51,5 @@ interface IAuthSessionDetails {
   emailAddress: EmailAddress;
   // If adding more fields to the `publicMetadata` object, update
   // `clerk-metadata.ts` to add the type defs.
-  updateUserMetadata(metadata: IUserMetadata): Promise<void>;
+  updateUserMetadata: (metadata: IUserMetadata) => Promise<void>;
 }

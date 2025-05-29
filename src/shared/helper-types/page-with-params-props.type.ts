@@ -1,4 +1,4 @@
-import { Prettify } from '@/shared/helper-types/prettify.type';
+import { Prettify } from "@/shared/helper-types/prettify.type";
 
 /**
  * Helper type for creating prop types for Next pages that take params. Simply

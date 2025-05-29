@@ -10,11 +10,15 @@ import { IUserProfile } from "@/shared/database/daos/user-profile.dao";
 import { LengthUnit } from "@/shared/enums/length-unit.enum";
 import { MeasurementSystem } from "@/shared/enums/measurement-system.enum";
 import { formatLength } from "@/shared/utils/formatting/format-length.util";
-import { roundToInterval } from '@/shared/utils/math/round-to-interval/round-to-interval.util';
+import { roundToInterval } from "@/shared/utils/math/round-to-interval/round-to-interval.util";
 import { convertLengthUnits } from "@/shared/utils/units/convert-length-units.util";
 import { Sex } from "@/shared/utils/validation/validate-sex.util";
-import styles from './user-profile-form.module.css';
+import styles from "./user-profile-form.module.css";
 
+/**
+ * Form for updating the user profile data. This is used as part of the
+ * onboarding flow and on the settings page.
+ */
 export const UserProfileForm = ({
   action,
   defaultBirthday,
@@ -33,8 +37,8 @@ export const UserProfileForm = ({
       LengthUnit.Millimeters,
       lengthSystem === MeasurementSystem.Imperial
         ? LengthUnit.Inches
-        : LengthUnit.Millimeters
-    ).toFixed(1)
+        : LengthUnit.Millimeters,
+    ).toFixed(1),
   );
 
   const onLengthSystemChange = useCallback<
@@ -48,7 +52,7 @@ export const UserProfileForm = ({
       const unroundedNewHeight = convertLengthUnits(
         parseFloat(height),
         isSwitchingToImperial ? LengthUnit.Centimeters : LengthUnit.Inches,
-        isSwitchingToImperial ? LengthUnit.Inches : LengthUnit.Millimeters
+        isSwitchingToImperial ? LengthUnit.Inches : LengthUnit.Millimeters,
       );
 
       const roundingInterval = isSwitchingToImperial ? 0.5 : 10;
@@ -56,7 +60,7 @@ export const UserProfileForm = ({
 
       setHeight(newHeight.toFixed(1));
     },
-    [height, setLengthSystem]
+    [height, setLengthSystem],
   );
 
   const onHeightChange = useCallback<
@@ -65,22 +69,22 @@ export const UserProfileForm = ({
     (e) => {
       setHeight(e.target.value);
     },
-    [setHeight]
+    [setHeight],
   );
 
   const onSubmit = useCallback<NonNullable<ComponentProps<"form">["onSubmit"]>>(
-    async (event) => {
+    (event) => {
       event.preventDefault();
 
       const formData = new FormData(event.currentTarget);
 
       setIsPending(true);
-      const res = await action(formData);
-
-      setFormState(res);
-      setIsPending(false);
+      void action(formData).then((res) => {
+        setFormState(res);
+        setIsPending(false);
+      });
     },
-    [action]
+    [action],
   );
 
   return (
@@ -156,20 +160,23 @@ export const UserProfileForm = ({
   );
 };
 
+/**
+ * Component for the UserProfileForm footer button.
+ */
 const FooterButton = ({
   disabled,
   isOnboarding,
 }: Pick<IUserProfileFormProps, "isOnboarding"> &
   Pick<ComponentProps<typeof Button>, "disabled">) => {
   const typeSpecificClasses = isOnboarding
-    ? styles['footer-button-wrapper-onboarding']
-    : styles['footer-button-wrapper-settings'];
+    ? styles["footer-button-wrapper-onboarding"]
+    : styles["footer-button-wrapper-settings"];
 
   const label = isOnboarding ? "Proceed" : "Save";
 
   return (
     <div
-      className={`${styles['footer-button-wrapper']} ${typeSpecificClasses}`}
+      className={`${styles["footer-button-wrapper"]} ${typeSpecificClasses}`}
     >
       <Button disabled={disabled} type="submit">
         {label}
@@ -178,35 +185,44 @@ const FooterButton = ({
   );
 };
 
+/**
+ * Render the options for the height dropdown.
+ */
 const renderHeightOptions = (lengthSystem: MeasurementSystem) => {
   const options: ReactNode[] = [];
 
-  if (lengthSystem === MeasurementSystem.Imperial) {
-    for (let i = 60; i <= 84; i += 0.5) {
-      const feet = Math.floor(i / 12);
-      const inches = i % 12;
+  switch (lengthSystem) {
+    case MeasurementSystem.Imperial:
+      for (let i = 60; i <= 84; i += 0.5) {
+        const feet = Math.floor(i / 12).toString();
+        const inches = (i % 12).toString();
 
-      options.push(
-        <Option key={i} value={i.toFixed(1)}>
-          {`${feet} feet ${inches} inches`}
-        </Option>
-      );
-    }
-  } else if (lengthSystem === MeasurementSystem.Metric) {
-    for (let i = 1500; i < 2100; i += 10) {
-      options.push(
-        <Option key={i} value={i.toFixed(1)}>
-          {formatLength(i, { fractionDigits: 0, unit: LengthUnit.Centimeters })}
-        </Option>
-      );
-    }
+        options.push(
+          <Option key={i} value={i.toFixed(1)}>
+            {`${feet} feet ${inches} inches`}
+          </Option>,
+        );
+      }
+      break;
+    case MeasurementSystem.Metric:
+      for (let i = 1500; i < 2100; i += 10) {
+        options.push(
+          <Option key={i} value={i.toFixed(1)}>
+            {formatLength(i, {
+              fractionDigits: 0,
+              unit: LengthUnit.Centimeters,
+            })}
+          </Option>,
+        );
+      }
+      break;
   }
 
   return options;
 };
 
 interface IUserProfileFormProps extends IDefaultValues {
-  action(formData: FormData): Promise<{ errorMessage?: string }>;
+  action: (formData: FormData) => Promise<{ errorMessage?: string }>;
   isOnboarding?: boolean;
 }
 

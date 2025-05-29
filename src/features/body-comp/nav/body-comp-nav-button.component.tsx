@@ -6,9 +6,9 @@ import {
   IconSize,
 } from "@/shared/components/icon/icon.component";
 import { usePathname, useRouter } from "next/navigation";
-import { useCallback } from 'react';
-import styles from './body-comp-nav-button.module.css';
-import { ObjectValues } from '@/shared/helper-types/object-values.type';
+import { useCallback } from "react";
+import styles from "./body-comp-nav-button.module.css";
+import { ObjectValues } from "@/shared/helper-types/object-values.type";
 
 export const BodyCompNavButton = ({
   href,
@@ -22,15 +22,11 @@ export const BodyCompNavButton = ({
   const isActive = pathname === href;
 
   const onClick = useCallback(() => {
-    router.push(href)
+    router.push(href);
   }, [href, router]);
 
   return (
-    <button
-      className={styles.button}
-      disabled={isActive}
-      onClick={onClick}
-    >
+    <button className={styles.button} disabled={isActive} onClick={onClick}>
       <Icon icon={iconImageMap[page]} size={IconSize.Large} />
       <span className={styles.label}>{page}</span>
     </button>

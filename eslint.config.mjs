@@ -1,21 +1,30 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import eslint from "@eslint/js";
+import eslintConfigPrettier from "eslint-config-prettier/flat";
+import storybook from "eslint-plugin-storybook";
+import tseslint from "typescript-eslint";
 
 const compat = new FlatCompat({
-  baseDirectory: __dirname,
+  baseDirectory: import.meta.dirname,
 });
 
-const eslintConfig = [
-  ...compat.config({
+export default tseslint.config([
+  {
     extends: [
-      "next/core-web-vitals",
-      "next/typescript",
-      "plugin:storybook/recommended",
+      eslint.configs.recommended,
+      ...storybook.configs["flat/recommended"],
+      ...tseslint.configs.strictTypeChecked,
+      ...tseslint.configs.stylisticTypeChecked,
     ],
+    languageOptions: {
+      parser: "@typescript-eslint/parser",
+      parserOptions: {
+        projectService: {
+          allowDefaultProject: ["*.mjs", "*.mts", ".storybook/*.ts"],
+        },
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
     rules: {
       "no-restricted-imports": [
         "error",
@@ -25,8 +34,15 @@ const eslintConfig = [
         },
       ],
       "no-shadow": "error",
-    },
-  }),
-];
 
-export default eslintConfig;
+      // Typescript ESLint
+      "@typescript-eslint/switch-exhaustiveness-check": "error",
+
+      "storybook/await-interactions": "error",
+    },
+  },
+  ...compat.config({
+    extends: ["next", "next/core-web-vitals", "next/typescript"],
+  }),
+  eslintConfigPrettier,
+]);

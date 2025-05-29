@@ -38,7 +38,7 @@ export const BodyCompLogRow = ({ entry }: { entry: IBodyCompEntry }) => {
   return (
     <Link
       className={`${styles.container} ${styles.grid}`}
-      href={`/body-comp/${entry.id}`}
+      href={`/body-comp/${entry.id.toString()}`}
     >
       <BodyCompLogCell
         minimumBreakpoint={Breakpoint.Tablet}

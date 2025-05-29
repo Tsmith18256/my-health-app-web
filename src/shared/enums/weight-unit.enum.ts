@@ -1,4 +1,4 @@
-import { ObjectValues } from '@/shared/helper-types/object-values.type';
+import { ObjectValues } from "@/shared/helper-types/object-values.type";
 
 export const WeightUnit = {
   Grams: "g",

@@ -1,6 +1,6 @@
-import { LengthUnit } from '@/shared/enums/length-unit.enum';
-import { formatLength } from '@/shared/utils/formatting/format-length.util';
-import { expect, it } from 'vitest';
+import { LengthUnit } from "@/shared/enums/length-unit.enum";
+import { formatLength } from "@/shared/utils/formatting/format-length.util";
+import { expect, it } from "vitest";
 
 it("formats length correctly for singular", () => {
   const singular = formatLength(25.4, {
@@ -15,5 +15,5 @@ it("formats length correctly for plural", () => {
     unit: LengthUnit.Centimeters,
   });
 
-  expect(plural).toBe('173.6 cm');
+  expect(plural).toBe("173.6 cm");
 });

@@ -1,9 +1,9 @@
-import { WeightUnit } from '@/shared/enums/weight-unit.enum';
+import { WeightUnit } from "@/shared/enums/weight-unit.enum";
 
 export const convertWeightUnits = (
   amount: number,
   from: WeightUnit,
-  to: WeightUnit
+  to: WeightUnit,
 ) => {
   const grams = amount * gramsPerUnit[from];
 

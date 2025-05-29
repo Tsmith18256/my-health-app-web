@@ -1,11 +1,11 @@
-import { UserButton } from '@clerk/nextjs';
+import { UserButton } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { updateProfile } from "@/app/(app)/body-comp/(with-nav)/profile/update-profile.action";
 import { getAuthSessionDetails } from "@/features/auth/get-auth-session-details.util";
 import { UserProfileForm } from "@/features/body-comp/profile/user-profile-form.component";
 import { Header } from "@/shared/components/header/header.component";
 import { selectUserProfileByEmail } from "@/shared/database/daos/user-profile.dao";
-import styles from './profile-page.module.css';
+import styles from "./profile-page.module.css";
 
 export default async function ProfilePage() {
   const { emailAddress, updateUserMetadata } = await getAuthSessionDetails();
@@ -20,7 +20,7 @@ export default async function ProfilePage() {
   }
 
   const headerEndContent = (
-    <div className={styles['header-end-content']}>
+    <div className={styles["header-end-content"]}>
       <UserButton />
     </div>
   );

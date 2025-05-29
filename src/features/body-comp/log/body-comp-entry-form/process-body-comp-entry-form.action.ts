@@ -12,9 +12,9 @@ import { selectUserProfileByEmail } from "@/shared/database/daos/user-profile.da
 import { LengthUnit } from "@/shared/enums/length-unit.enum";
 import { MeasurementSystem } from "@/shared/enums/measurement-system.enum";
 import { WeightUnit } from "@/shared/enums/weight-unit.enum";
+import { getFormStrings } from "@/shared/utils/forms/get-form-strings/get-form-strings";
 import { convertLengthUnits } from "@/shared/utils/units/convert-length-units.util";
 import { convertWeightUnits } from "@/shared/utils/units/convert-weight-units.util";
-import { EmailAddress } from "@/shared/utils/validation/validate-email-address.util";
 import { permanentRedirect, redirect } from "next/navigation";
 
 /**
@@ -24,7 +24,7 @@ import { permanentRedirect, redirect } from "next/navigation";
  */
 export const processBodyCompEntryForm = async (
   _: { message: string },
-  formData: FormData
+  formData: FormData,
 ): Promise<{ message: string }> => {
   const { emailAddress, updateUserMetadata } = await getAuthSessionDetails();
   const userProfile = await selectUserProfileByEmail(emailAddress);
@@ -36,14 +36,25 @@ export const processBodyCompEntryForm = async (
     redirect("/onboarding");
   }
 
-  const id = formData.get("entryId");
-  const date = formData.get("date");
-  const weight = formData.get("weight");
-  const neckCircumference = formData.get("neckCircumference");
-  const waistCircumference = formData.get("waistCircumference");
-  const chestSkinfold = formData.get("chestSkinfold");
-  const abSkinfold = formData.get("abSkinfold");
-  const thighSkinfold = formData.get("thighSkinfold");
+  const {
+    id,
+    date,
+    weight,
+    neckCircumference,
+    waistCircumference,
+    chestSkinfold,
+    abSkinfold,
+    thighSkinfold,
+  } = getFormStrings(formData, [
+    "id",
+    "date",
+    "weight",
+    "neckCircumference",
+    "waistCircumference",
+    "chestSkinfold",
+    "abSkinfold",
+    "thighSkinfold",
+  ]);
 
   if (!date || !weight) {
     // This error shouldn't be possible if the client-side validation runs.
@@ -62,25 +73,25 @@ export const processBodyCompEntryForm = async (
       : LengthUnit.Centimeters;
 
   const entryWithoutId: INewBodyCompEntry = {
-    date: date.toString(),
-    userEmail: emailAddress as EmailAddress,
+    date: date,
+    userEmail: emailAddress,
     weightInG: convertWeightUnits(
       parseFloat(weight.toString()),
       weightUnit,
-      WeightUnit.Grams
+      WeightUnit.Grams,
     ),
     neckCircumferenceInMm: neckCircumference
       ? convertLengthUnits(
           parseFloat(neckCircumference.toString()),
           lengthUnit,
-          LengthUnit.Millimeters
+          LengthUnit.Millimeters,
         )
       : undefined,
     waistCircumferenceInMm: waistCircumference
       ? convertLengthUnits(
           parseFloat(waistCircumference.toString()),
           lengthUnit,
-          LengthUnit.Millimeters
+          LengthUnit.Millimeters,
         )
       : undefined,
     chestSkinfold: chestSkinfold

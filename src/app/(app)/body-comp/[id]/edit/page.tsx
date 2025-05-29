@@ -1,16 +1,16 @@
 import { BodyCompEntryForm } from "@/features/body-comp/log/body-comp-entry-form/body-comp-entry-form.component";
 import { selectBodyCompEntryById } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
 import { PageWithParamsProps } from "@/shared/helper-types/page-with-params-props.type";
-import { getAuthSessionDetails } from '@/features/auth/get-auth-session-details.util';
-import { notFound } from 'next/navigation';
+import { getAuthSessionDetails } from "@/features/auth/get-auth-session-details.util";
+import { notFound } from "next/navigation";
 
 /**
  * Page for editing a body composition entry.
  */
 export default async function EditBodyCompEntryPage(
-  props: PageWithParamsProps<"id">
+  props: PageWithParamsProps<"id">,
 ) {
-  const userEmail = (await getAuthSessionDetails()).emailAddress
+  const userEmail = (await getAuthSessionDetails()).emailAddress;
   const params = await props.params;
   const entry = await selectBodyCompEntryById(parseInt(params.id, 10), {
     userEmail,
@@ -23,10 +23,6 @@ export default async function EditBodyCompEntryPage(
   const { date, ...otherEntryFields } = entry;
 
   return (
-    <BodyCompEntryForm
-      date={date}
-      isEditMode={true}
-      {...otherEntryFields}
-    />
+    <BodyCompEntryForm date={date} isEditMode={true} {...otherEntryFields} />
   );
 }

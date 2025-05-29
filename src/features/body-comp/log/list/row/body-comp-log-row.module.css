@@ -38,6 +38,6 @@
 /* Desktop large */
 @media (width >= 120rem) {
   .grid {
-    grid-template-columns: 2fr repeat(8, 1fr)
+    grid-template-columns: 2fr repeat(8, 1fr);
   }
 }
