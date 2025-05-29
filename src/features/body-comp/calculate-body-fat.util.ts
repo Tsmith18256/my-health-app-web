@@ -1,7 +1,7 @@
 import { IBodyCompEntry } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
 import { LengthUnit } from "@/shared/enums/length-unit.enum";
 import { ObjectValues } from "@/shared/helper-types/object-values.type";
-import { Prettify } from '@/shared/helper-types/prettify.type';
+import { Prettify } from "@/shared/helper-types/prettify.type";
 import { calculateAverage } from "@/shared/utils/math/calculate-average.util";
 import { convertLengthUnits } from "@/shared/utils/units/convert-length-units.util";
 
@@ -15,7 +15,7 @@ import { convertLengthUnits } from "@/shared/utils/units/convert-length-units.ut
  * If not enough fields are defined to use any method, null will be returned.
  */
 export const calculateBodyFat = (
-  opts: ICalculateBodyFatOpts
+  opts: ICalculateBodyFatOpts,
 ): IBodyFatResult | null => {
   const navyBf = calculateNavyBodyFat(opts);
   const skinfoldBf = calculateSkinfoldBodyFat3Site(opts);
@@ -58,17 +58,17 @@ const calculateNavyBodyFat = ({
   const heightInCm = convertLengthUnits(
     heightInMm,
     LengthUnit.Millimeters,
-    LengthUnit.Centimeters
+    LengthUnit.Centimeters,
   );
   const neckInCm = convertLengthUnits(
     neckCircumferenceInMm,
     LengthUnit.Millimeters,
-    LengthUnit.Centimeters
+    LengthUnit.Centimeters,
   );
   const waistInCm = convertLengthUnits(
     waistCircumferenceInMm,
     LengthUnit.Millimeters,
-    LengthUnit.Centimeters
+    LengthUnit.Centimeters,
   );
 
   const density =
@@ -152,8 +152,9 @@ export const BodyFatMethod = {
 } as const;
 export type BodyFatMethod = ObjectValues<typeof BodyFatMethod>;
 
-type ICalculateBodyFatOpts = Prettify<ICalculateNavyBodyFatOpts &
-  ICalculateSkinfoldBodyFat3SiteOpts>;
+type ICalculateBodyFatOpts = Prettify<
+  ICalculateNavyBodyFatOpts & ICalculateSkinfoldBodyFat3SiteOpts
+>;
 
 interface ICalculateNavyBodyFatOpts extends ICalculateBodyFatBaseOpts {
   heightInMm: number;

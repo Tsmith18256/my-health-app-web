@@ -8,7 +8,7 @@ import { FormValueTypeError } from "@/shared/errors/form-value-type-error.class"
  */
 export const getFormStrings = <TKey extends string>(
   formData: FormData,
-  keys: TKey[]
+  keys: TKey[],
 ) => {
   return keys.reduce<Partial<Record<TKey, string>>>((stringEntries, key) => {
     const value = formData.get(key);

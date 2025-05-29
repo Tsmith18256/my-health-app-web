@@ -2,7 +2,7 @@
 
 import { formatDateRelativeToToday } from "@/shared/utils/dates/format-date-relative-to-today.util";
 import dayjs from "dayjs";
-import styles from './overview-condensed-item.module.css';
+import styles from "./overview-condensed-item.module.css";
 
 export const OverviewCondensedItem = ({
   date,

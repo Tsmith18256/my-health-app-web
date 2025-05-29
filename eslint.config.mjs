@@ -1,6 +1,7 @@
 import { FlatCompat } from "@eslint/eslintrc";
 import eslint from "@eslint/js";
 import eslintConfigPrettier from "eslint-config-prettier/flat";
+import storybook from "eslint-plugin-storybook";
 import tseslint from "typescript-eslint";
 
 const compat = new FlatCompat({
@@ -11,12 +12,16 @@ export default tseslint.config([
   {
     extends: [
       eslint.configs.recommended,
+      ...storybook.configs["flat/recommended"],
       ...tseslint.configs.strictTypeChecked,
       ...tseslint.configs.stylisticTypeChecked,
     ],
     languageOptions: {
+      parser: "@typescript-eslint/parser",
       parserOptions: {
-        projectService: true,
+        projectService: {
+          allowDefaultProject: ["*.mjs", "*.mts", ".storybook/*.ts"],
+        },
         tsconfigRootDir: import.meta.dirname,
       },
     },
@@ -32,6 +37,8 @@ export default tseslint.config([
 
       // Typescript ESLint
       "@typescript-eslint/switch-exhaustiveness-check": "error",
+
+      "storybook/await-interactions": "error",
     },
   },
   ...compat.config({

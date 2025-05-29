@@ -1,5 +1,5 @@
-import { clampNumber } from '@/shared/utils/math/clamp-number/clamp-number.util';
-import { expect, it } from 'vitest';
+import { clampNumber } from "@/shared/utils/math/clamp-number/clamp-number.util";
+import { expect, it } from "vitest";
 
 it.each([
   ["Doesn't alter a number that's within the range", 30, 10, 50, 30],
@@ -13,6 +13,6 @@ it.each([
   expect(clamped).toBe(expected);
 });
 
-it('throws an error if min is greater than max', () => {
+it("throws an error if min is greater than max", () => {
   expect(() => clampNumber(5, 10, 0)).toThrowError();
 });

@@ -23,7 +23,7 @@ export const Header = ({ endContent, startContent, title }: IHeaderProps) => {
   );
 };
 
-export interface IHeaderProps {
+interface IHeaderProps {
   endContent?: ReactNode;
   startContent?: ReactNode;
   title: string;

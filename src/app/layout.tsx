@@ -15,7 +15,10 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en" className={`${defaultFont.className} ${iconFont.variable}`}>
+      <html
+        lang="en"
+        className={`${defaultFont.className} ${iconFont.variable}`}
+      >
         <body>{children}</body>
       </html>
     </ClerkProvider>

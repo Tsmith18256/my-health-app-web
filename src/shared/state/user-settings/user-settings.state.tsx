@@ -38,7 +38,7 @@ export const useUserSettings = () => {
 
   if (!userSettingsContext) {
     throw new Error(
-      "useUserSettingsStore must be used within UserSettingsProvider"
+      "useUserSettingsStore must be used within UserSettingsProvider",
     );
   }
 

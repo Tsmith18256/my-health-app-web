@@ -20,7 +20,7 @@ import { useUserSettings } from "@/shared/state/user-settings/user-settings.stat
 import { getAgeFromBirthday } from "@/shared/utils/dates/get-age-from-birthday.util";
 import { formatPercent } from "@/shared/utils/formatting/format-percent.util";
 import { formatWeight } from "@/shared/utils/formatting/format-weight.util";
-import styles from './body-comp-entry-details.module.css';
+import styles from "./body-comp-entry-details.module.css";
 
 export const BodyCompEntryDetails = ({ entry }: { entry: IBodyCompEntry }) => {
   const userProfile = useUserSettings();
@@ -37,7 +37,7 @@ export const BodyCompEntryDetails = ({ entry }: { entry: IBodyCompEntry }) => {
 
   return (
     <>
-      <section className={styles['weight-section-container']}>
+      <section className={styles["weight-section-container"]}>
         <strong className={styles.bodyweight}>
           {formatWeight(entry.weightInG, {
             unit:
@@ -47,15 +47,13 @@ export const BodyCompEntryDetails = ({ entry }: { entry: IBodyCompEntry }) => {
           })}
         </strong>
 
-        <div className={styles['body-fat-container']}>
+        <div className={styles["body-fat-container"]}>
           <Heading level={HeadingLevel.h2}>
             {bodyFat ? formatPercent(bodyFat.bodyFatPercent) : "Unknown"} body
             fat
           </Heading>
 
-          <sub
-            className={getBodyFatMessageClassName(bodyFat?.method)}
-          >
+          <sub className={getBodyFatMessageClassName(bodyFat?.method)}>
             {bodyFat
               ? `${bodyFatEmojiByMethod[bodyFat.method]} Calculated using ${
                   bodyFatMethodNames[bodyFat.method]
@@ -84,14 +82,14 @@ export const BodyCompEntryDetails = ({ entry }: { entry: IBodyCompEntry }) => {
 
 const getBodyFatMessageClassName = (method?: BodyFatMethod) => {
   if (!method) {
-    return styles['body-fat-method-none'];
+    return styles["body-fat-method-none"];
   }
 
   if (method === BodyFatMethod.Combined) {
-    return styles['body-fat-method-combined'];
+    return styles["body-fat-method-combined"];
   }
 
-  return styles['body-fat-method-single'];
+  return styles["body-fat-method-single"];
 };
 
 const bodyFatEmojiByMethod = {

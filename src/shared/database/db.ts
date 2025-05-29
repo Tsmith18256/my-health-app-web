@@ -9,9 +9,11 @@ declare const globalThis: {
   postgresGlobal?: ReturnType<typeof postgres>;
 } & typeof global;
 
-export const sql = globalThis.postgresGlobal ?? postgres(databaseUrl, {
-  ssl: isDev ? undefined : "verify-full",
-});
+export const sql =
+  globalThis.postgresGlobal ??
+  postgres(databaseUrl, {
+    ssl: isDev ? undefined : "verify-full",
+  });
 
 if (isDev) {
   // Storing the SQL connection as singleton persists it across hot reloads.

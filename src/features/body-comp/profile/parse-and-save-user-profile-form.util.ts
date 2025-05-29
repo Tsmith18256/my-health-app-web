@@ -13,13 +13,13 @@ import { validateSex } from "@/shared/utils/validation/validate-sex.util";
 
 export const parseAndSaveUserProfileForm = async (
   formData: FormData,
-  insertOrUpdateFunction: (profile: IUserProfile) => Promise<IUserProfile>
+  insertOrUpdateFunction: (profile: IUserProfile) => Promise<IUserProfile>,
 ): Promise<IUserProfile> => {
   const { emailAddress } = await getAuthSessionDetails();
 
   const { birthday, height, lengthSystem, sex, weightSystem } = getFormStrings(
     formData,
-    ["birthday", "height", "lengthSystem", "sex", "weightSystem"]
+    ["birthday", "height", "lengthSystem", "sex", "weightSystem"],
   );
 
   if (!birthday || !height || !lengthSystem || !sex || !weightSystem) {
@@ -33,8 +33,8 @@ export const parseAndSaveUserProfileForm = async (
       validatedLengthSystem === MeasurementSystem.Imperial
         ? LengthUnit.Inches
         : LengthUnit.Millimeters,
-      LengthUnit.Millimeters
-    )
+      LengthUnit.Millimeters,
+    ),
   );
 
   return insertOrUpdateFunction({

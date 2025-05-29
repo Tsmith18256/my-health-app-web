@@ -1,6 +1,6 @@
 import { ComponentProps } from "react";
 import styles from "./input.module.css";
-import { TestId } from '@/testing/test-id.enum';
+import { TestId } from "@/testing/test-id.enum";
 
 export const Input = ({
   defaultValue,
@@ -14,7 +14,9 @@ export const Input = ({
 }: IInputProps) => {
   return (
     <div className={styles.container}>
-      <label htmlFor={id} data-testid={TestId.InputLabel}>{label}</label>
+      <label htmlFor={id} data-testid={TestId.InputLabel}>
+        {label}
+      </label>
       <input
         id={id}
         className={styles.input}
@@ -68,7 +70,7 @@ type ITypeHiddenProps =
     }
   | { id?: undefined; label?: undefined };
 
-export type IInputProps = IMinProps &
+type IInputProps = IMinProps &
   IStepProps &
   ITypeHiddenProps & {
     defaultValue?: ComponentProps<"input">["defaultValue"];

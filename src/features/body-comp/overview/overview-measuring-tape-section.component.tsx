@@ -1,9 +1,14 @@
-import { IBodyCompEntry } from '@/features/body-comp/body-comp-entry/body-comp-entry.dao';
-import { OverviewMetricRow } from '@/features/body-comp/overview/overview-metric-row.component';
-import { OverviewMetricsSection } from '@/features/body-comp/overview/overview-metrics-section.component';
-import { LengthUnit } from '@/shared/enums/length-unit.enum';
+import { IBodyCompEntry } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
+import { OverviewMetricRow } from "@/features/body-comp/overview/overview-metric-row.component";
+import { OverviewMetricsSection } from "@/features/body-comp/overview/overview-metrics-section.component";
+import { LengthUnit } from "@/shared/enums/length-unit.enum";
 
-export const OverviewMeasuringTapeSection = ({ lengthUnit, neckEntry, showDates, waistEntry }: IOverviewMeasuringTapeSectionProps) => {
+export const OverviewMeasuringTapeSection = ({
+  lengthUnit,
+  neckEntry,
+  showDates,
+  waistEntry,
+}: IOverviewMeasuringTapeSectionProps) => {
   return (
     <OverviewMetricsSection title="Measuring tape">
       <OverviewMetricRow
@@ -21,7 +26,7 @@ export const OverviewMeasuringTapeSection = ({ lengthUnit, neckEntry, showDates,
       />
     </OverviewMetricsSection>
   );
-}
+};
 
 interface IOverviewMeasuringTapeSectionProps {
   /**

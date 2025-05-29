@@ -1,4 +1,4 @@
-import { ObjectValues } from '@/shared/helper-types/object-values.type';
+import { ObjectValues } from "@/shared/helper-types/object-values.type";
 
 /**
  * A basic Error subclass that adds an ErrorCode field and populates a default
@@ -15,8 +15,8 @@ export class ErrorWithCode extends Error {
      * The code associated with this error.
      */
     public code: ErrorCode,
-    message: string = ErrorCode[code],
-    opts?: ErrorOptions
+    message: string = DefaultErrorMessagesByCode[code],
+    opts?: ErrorOptions,
   ) {
     super(message, opts);
   }
@@ -38,7 +38,7 @@ export type ErrorCode = ObjectValues<typeof ErrorCode>;
  * messages are intended for displaying to the user or to add human-friendly
  * output to logging.
  */
-export const DEFAULT_ERROR_MESSAGES_BY_CODE = {
+const DefaultErrorMessagesByCode = {
   [ErrorCode.AuthFailed]: "Authentication failed.",
   [ErrorCode.FormDataIncomplete]: "Form data incomplete.",
   [ErrorCode.FormValueTypeMismatch]:

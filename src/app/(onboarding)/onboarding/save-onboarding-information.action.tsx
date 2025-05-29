@@ -3,10 +3,10 @@
 import { getAuthSessionDetails } from "@/features/auth/get-auth-session-details.util";
 import { insertUserProfile } from "@/shared/database/daos/user-profile.dao";
 import { IFormActionResult } from "@/shared/helper-types/form-action-result.type";
-import { parseAndSaveUserProfileForm } from '@/features/body-comp/profile/parse-and-save-user-profile-form.util';
+import { parseAndSaveUserProfileForm } from "@/features/body-comp/profile/parse-and-save-user-profile-form.util";
 
 export const saveOnboardingInformation = async (
-  formData: FormData
+  formData: FormData,
 ): Promise<IFormActionResult> => {
   const { updateUserMetadata } = await getAuthSessionDetails();
 

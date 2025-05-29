@@ -37,8 +37,8 @@ export const UserProfileForm = ({
       LengthUnit.Millimeters,
       lengthSystem === MeasurementSystem.Imperial
         ? LengthUnit.Inches
-        : LengthUnit.Millimeters
-    ).toFixed(1)
+        : LengthUnit.Millimeters,
+    ).toFixed(1),
   );
 
   const onLengthSystemChange = useCallback<
@@ -52,7 +52,7 @@ export const UserProfileForm = ({
       const unroundedNewHeight = convertLengthUnits(
         parseFloat(height),
         isSwitchingToImperial ? LengthUnit.Centimeters : LengthUnit.Inches,
-        isSwitchingToImperial ? LengthUnit.Inches : LengthUnit.Millimeters
+        isSwitchingToImperial ? LengthUnit.Inches : LengthUnit.Millimeters,
       );
 
       const roundingInterval = isSwitchingToImperial ? 0.5 : 10;
@@ -60,7 +60,7 @@ export const UserProfileForm = ({
 
       setHeight(newHeight.toFixed(1));
     },
-    [height, setLengthSystem]
+    [height, setLengthSystem],
   );
 
   const onHeightChange = useCallback<
@@ -69,7 +69,7 @@ export const UserProfileForm = ({
     (e) => {
       setHeight(e.target.value);
     },
-    [setHeight]
+    [setHeight],
   );
 
   const onSubmit = useCallback<NonNullable<ComponentProps<"form">["onSubmit"]>>(
@@ -84,7 +84,7 @@ export const UserProfileForm = ({
         setIsPending(false);
       });
     },
-    [action]
+    [action],
   );
 
   return (
@@ -200,7 +200,7 @@ const renderHeightOptions = (lengthSystem: MeasurementSystem) => {
         options.push(
           <Option key={i} value={i.toFixed(1)}>
             {`${feet} feet ${inches} inches`}
-          </Option>
+          </Option>,
         );
       }
       break;
@@ -212,7 +212,7 @@ const renderHeightOptions = (lengthSystem: MeasurementSystem) => {
               fractionDigits: 0,
               unit: LengthUnit.Centimeters,
             })}
-          </Option>
+          </Option>,
         );
       }
       break;

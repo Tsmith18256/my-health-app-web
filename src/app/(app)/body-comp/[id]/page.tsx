@@ -9,13 +9,13 @@ import { Header } from "@/shared/components/header/header.component";
 import { HeaderButton } from "@/shared/components/header/header-button/header-button.component";
 import { IconImage } from "@/shared/components/icon/icon.component";
 import { PageWithParamsProps } from "@/shared/helper-types/page-with-params-props.type";
-import styles from './body-comp-entry-page.module.css';
+import styles from "./body-comp-entry-page.module.css";
 
 /**
  * Page for viewing a body composition entry in read mode.
  */
 export default async function ViewBodyCompEntry(
-  props: PageWithParamsProps<"id">
+  props: PageWithParamsProps<"id">,
 ) {
   const userEmail = (await getAuthSessionDetails()).emailAddress;
   const params = await props.params;
@@ -50,7 +50,7 @@ export default async function ViewBodyCompEntry(
         title={dayjs(entry.date).format("MMM DD, YYYY")}
       />
 
-      <main className={styles['main-container']}>
+      <main className={styles["main-container"]}>
         <BodyCompEntryDetails entry={entry} />
       </main>
     </>

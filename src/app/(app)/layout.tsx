@@ -1,8 +1,8 @@
-import { getAuthSessionDetails } from '@/features/auth/get-auth-session-details.util';
-import { selectUserProfileByEmail } from '@/shared/database/daos/user-profile.dao';
+import { getAuthSessionDetails } from "@/features/auth/get-auth-session-details.util";
+import { selectUserProfileByEmail } from "@/shared/database/daos/user-profile.dao";
 import { ILayoutProps } from "@/shared/helper-types/layout-props.type";
 import { UserSettingsProvider } from "@/shared/state/user-settings/user-settings.state";
-import { redirect } from 'next/navigation';
+import { redirect } from "next/navigation";
 
 export default async function UserSettingsLayout({ children }: ILayoutProps) {
   const { emailAddress, updateUserMetadata } = await getAuthSessionDetails();
@@ -17,12 +17,16 @@ export default async function UserSettingsLayout({ children }: ILayoutProps) {
   }
 
   return (
-    <UserSettingsProvider initialValues={{
-      birthday: userProfile.birthday,
-      heightInMm: userProfile.heightInMm,
-      lengthSystem: userProfile.lengthSystem,
-      sex: userProfile.sex,
-      weightSystem: userProfile.weightSystem
-    }}>{children}</UserSettingsProvider>
+    <UserSettingsProvider
+      initialValues={{
+        birthday: userProfile.birthday,
+        heightInMm: userProfile.heightInMm,
+        lengthSystem: userProfile.lengthSystem,
+        sex: userProfile.sex,
+        weightSystem: userProfile.weightSystem,
+      }}
+    >
+      {children}
+    </UserSettingsProvider>
   );
 }

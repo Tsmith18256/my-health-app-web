@@ -24,7 +24,7 @@ import { permanentRedirect, redirect } from "next/navigation";
  */
 export const processBodyCompEntryForm = async (
   _: { message: string },
-  formData: FormData
+  formData: FormData,
 ): Promise<{ message: string }> => {
   const { emailAddress, updateUserMetadata } = await getAuthSessionDetails();
   const userProfile = await selectUserProfileByEmail(emailAddress);
@@ -53,7 +53,7 @@ export const processBodyCompEntryForm = async (
     "waistCircumference",
     "chestSkinfold",
     "abSkinfold",
-    "thighSkinfold"
+    "thighSkinfold",
   ]);
 
   if (!date || !weight) {
@@ -78,20 +78,20 @@ export const processBodyCompEntryForm = async (
     weightInG: convertWeightUnits(
       parseFloat(weight.toString()),
       weightUnit,
-      WeightUnit.Grams
+      WeightUnit.Grams,
     ),
     neckCircumferenceInMm: neckCircumference
       ? convertLengthUnits(
           parseFloat(neckCircumference.toString()),
           lengthUnit,
-          LengthUnit.Millimeters
+          LengthUnit.Millimeters,
         )
       : undefined,
     waistCircumferenceInMm: waistCircumference
       ? convertLengthUnits(
           parseFloat(waistCircumference.toString()),
           lengthUnit,
-          LengthUnit.Millimeters
+          LengthUnit.Millimeters,
         )
       : undefined,
     chestSkinfold: chestSkinfold

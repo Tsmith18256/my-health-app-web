@@ -15,7 +15,7 @@ export const deleteBodyCompEntryById = async (id: BodyCompEntryId) => {
 };
 
 export const insertBodyCompEntry = async (
-  inputEntry: INewBodyCompEntry
+  inputEntry: INewBodyCompEntry,
 ): Promise<IBodyCompEntry> => {
   const [createdEntry] = await sql<IBodyCompEntryModel[]>`
     INSERT INTO body_comp_entries (
@@ -96,7 +96,7 @@ export const selectBodyCompEntries = async ({
 
 export const selectBodyCompEntryById = async (
   id: number,
-  opts: ISelectBodyCompEntriesOpts
+  opts: ISelectBodyCompEntriesOpts,
 ): Promise<IBodyCompEntry | undefined> => {
   if (isNaN(id)) {
     return undefined;
@@ -115,7 +115,7 @@ export const selectBodyCompEntryById = async (
 };
 
 export const updateBodyCompEntry = async (
-  inputEntry: IBodyCompEntry
+  inputEntry: IBodyCompEntry,
 ): Promise<IBodyCompEntry> => {
   const [updatedEntry] = await sql<IBodyCompEntryModel[]>`
     UPDATE body_comp_entries SET
@@ -173,7 +173,7 @@ const convertModelToObject = (model: IBodyCompEntryModel): IBodyCompEntry => {
 };
 
 const convertModelsToObjects = (
-  models: IBodyCompEntryModel[]
+  models: IBodyCompEntryModel[],
 ): IBodyCompEntry[] => {
   return models.map(convertModelToObject);
 };

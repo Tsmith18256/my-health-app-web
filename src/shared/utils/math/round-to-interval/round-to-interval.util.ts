@@ -3,12 +3,9 @@
  *
  * See the unit tests for example inputs and outputs.
  */
-export const roundToInterval = (
-  unroundedNumber: number,
-  interval: number
-) => {
+export const roundToInterval = (unroundedNumber: number, interval: number) => {
   if (interval < 0) {
-    throw new Error('Negative intervals are not allowed');
+    throw new Error("Negative intervals are not allowed");
   }
 
   return Math.round(unroundedNumber / interval) * interval;

@@ -48,7 +48,7 @@ export const BodyCompEntryForm = ({
 }: IBodyCompEntryFormProps) => {
   const [state, formAction] = useActionState(
     processBodyCompEntryForm,
-    initialFormState
+    initialFormState,
   );
   const router = useRouter();
 
@@ -112,7 +112,7 @@ export const BodyCompEntryForm = ({
                 ? convertWeightUnits(
                     weightInG,
                     WeightUnit.Grams,
-                    weightUnit
+                    weightUnit,
                   ).toFixed(1)
                 : undefined
             }
@@ -142,7 +142,7 @@ export const BodyCompEntryForm = ({
                     ? convertLengthUnits(
                         neckCircumferenceInMm,
                         LengthUnit.Millimeters,
-                        lengthUnit
+                        lengthUnit,
                       ).toFixed(1)
                     : undefined
                 }
@@ -161,7 +161,7 @@ export const BodyCompEntryForm = ({
                     ? convertLengthUnits(
                         waistCircumferenceInMm,
                         LengthUnit.Millimeters,
-                        lengthUnit
+                        lengthUnit,
                       ).toFixed(1)
                     : undefined
                 }

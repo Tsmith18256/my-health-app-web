@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import styles from './form-action-error-toast.module.css';
+import { useEffect, useState } from "react";
+import styles from "./form-action-error-toast.module.css";
 
 export const FormActionErrorToast = (props: IFormActionErrorToastProps) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -10,24 +10,22 @@ export const FormActionErrorToast = (props: IFormActionErrorToastProps) => {
   useEffect(() => {
     setIsVisible(true);
 
-    setTimeout(() => { setIsVisible(false); }, 5000);
+    setTimeout(() => {
+      setIsVisible(false);
+    }, 5000);
   }, [message]);
 
   if (!isVisible || !message) {
     return null;
   }
 
-  return (
-    <div className={styles.container}>
-      {message}
-    </div>
-  );
-}
+  return <div className={styles.container}>{message}</div>;
+};
 
-export interface IFormActionError {
+interface IFormActionError {
   message: string;
 }
 
-export interface IFormActionErrorToastProps {
+interface IFormActionErrorToastProps {
   error?: IFormActionError;
 }

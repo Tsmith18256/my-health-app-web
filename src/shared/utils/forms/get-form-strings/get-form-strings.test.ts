@@ -19,7 +19,7 @@ it("returns record for string values", () => {
 
 it("throws an error for file values", () => {
   expect(() =>
-    getFormStrings(formData, ["field1", "field2", "field3"])
+    getFormStrings(formData, ["field1", "field2", "field3"]),
   ).toThrowError();
 });
 

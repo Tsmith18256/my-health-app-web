@@ -1,4 +1,4 @@
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from "dayjs";
 
 /**
  * Calculates the user's age from the given birthday. This will be a truncated

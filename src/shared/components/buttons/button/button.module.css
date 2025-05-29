@@ -32,11 +32,14 @@
   color: var(--color-text);
   cursor: pointer;
   font-weight: 600;
-  transition: box-shadow 50ms linear, scale 50ms linear;
+  transition:
+    box-shadow 50ms linear,
+    scale 50ms linear;
   width: 100%;
 
   &:active {
-    box-shadow: var(--dimension-1) var(--dimension-2) var(--dimension-2) var(--color-shadow);
+    box-shadow: var(--dimension-1) var(--dimension-2) var(--dimension-2)
+      var(--color-shadow);
     scale: 0.97;
   }
 

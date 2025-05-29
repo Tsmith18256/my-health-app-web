@@ -18,7 +18,7 @@ import { useUserSettings } from "@/shared/state/user-settings/user-settings.stat
 import { MeasurementSystem } from "@/shared/enums/measurement-system.enum";
 import { LengthUnit } from "@/shared/enums/length-unit.enum";
 import { WeightUnit } from "@/shared/enums/weight-unit.enum";
-import styles from './overview-page-contents.module.css';
+import styles from "./overview-page-contents.module.css";
 
 export const OverviewPageContents = ({
   last7DaysWeight,
@@ -48,7 +48,7 @@ export const OverviewPageContents = ({
           Weight
         </Heading>
 
-        <div className={styles['weight-metrics']}>
+        <div className={styles["weight-metrics"]}>
           <OverviewCondensedItem
             date={mostRecentWeightEntry?.date}
             valueText={

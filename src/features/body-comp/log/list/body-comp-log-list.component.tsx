@@ -6,7 +6,7 @@ import { loadBodyCompEntries } from "@/features/body-comp/body-comp-entry/load-b
 import { BodyCompLogRow } from "@/features/body-comp/log/list/row/body-comp-log-row.component";
 import { BodyCompLogHeaders } from "@/features/body-comp/log/list/body-comp-log-headers.component";
 import { InfiniteScrollContainer } from "@/shared/components/infinite-scroll-container/infinite-scroll-container.component";
-import styles from './body-comp-log-list.module.css';
+import styles from "./body-comp-log-list.module.css";
 
 const pageSize = 20;
 

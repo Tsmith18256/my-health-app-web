@@ -5,10 +5,13 @@ import { calculateBodyFat } from "@/features/body-comp/calculate-body-fat.util";
 import { OverviewPageContents } from "@/features/body-comp/overview/overview-page-contents.component";
 import { Header } from "@/shared/components/header/header.component";
 import { selectUserProfileByEmail } from "@/shared/database/daos/user-profile.dao";
-import { ErrorCode, ErrorWithCode } from "@/shared/errors/error-with-code.class";
+import {
+  ErrorCode,
+  ErrorWithCode,
+} from "@/shared/errors/error-with-code.class";
 import { getAgeFromBirthday } from "@/shared/utils/dates/get-age-from-birthday.util";
-import styles from './overview-page.module.css';
-import './overview-page.css';
+import styles from "./overview-page.module.css";
+import "./overview-page.css";
 
 export default async function OverviewPage() {
   const userEmail = (await getAuthSessionDetails()).emailAddress;
@@ -22,7 +25,7 @@ export default async function OverviewPage() {
     userEmail,
   });
   const sortedEntries = entries.toSorted((entryA, entryB) =>
-    dayjs(entryB.date).diff(dayjs(entryA.date))
+    dayjs(entryB.date).diff(dayjs(entryA.date)),
   );
 
   const mostRecentWeightEntry = sortedEntries[0];
@@ -39,7 +42,7 @@ export default async function OverviewPage() {
 
       return acc;
     },
-    { entries: 0, sum: 0 }
+    { entries: 0, sum: 0 },
   );
   const last7DaysWeight =
     last7DaysData.entries === 0
@@ -56,19 +59,19 @@ export default async function OverviewPage() {
     );
   });
   const mostRecentNeckCircEntry = sortedEntries.find(
-    (entry) => entry.neckCircumferenceInMm !== undefined
+    (entry) => entry.neckCircumferenceInMm !== undefined,
   );
   const mostRecentWaistCircEntry = sortedEntries.find(
-    (entry) => entry.waistCircumferenceInMm !== undefined
+    (entry) => entry.waistCircumferenceInMm !== undefined,
   );
   const mostRecentChestSkinfoldEntry = sortedEntries.find(
-    (entry) => entry.chestSkinfold !== undefined
+    (entry) => entry.chestSkinfold !== undefined,
   );
   const mostRecentAbSkinfoldEntry = sortedEntries.find(
-    (entry) => entry.abSkinfold !== undefined
+    (entry) => entry.abSkinfold !== undefined,
   );
   const mostRecentThighSkinfoldEntry = sortedEntries.find(
-    (entry) => entry.thighSkinfold !== undefined
+    (entry) => entry.thighSkinfold !== undefined,
   );
 
   return (

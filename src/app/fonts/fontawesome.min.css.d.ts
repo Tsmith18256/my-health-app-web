@@ -1,5 +1,5 @@
 declare const styles: {
-  readonly "fa": string;
+  readonly fa: string;
   readonly "fa-10x": string;
   readonly "fa-1x": string;
   readonly "fa-2x": string;
@@ -2340,13 +2340,12 @@ declare const styles: {
   readonly "fa-youtube": string;
   readonly "fa-youtube-square": string;
   readonly "fa-zhihu": string;
-  readonly "fab": string;
-  readonly "fad": string;
-  readonly "fal": string;
-  readonly "far": string;
-  readonly "fas": string;
+  readonly fab: string;
+  readonly fad: string;
+  readonly fal: string;
+  readonly far: string;
+  readonly fas: string;
   readonly "sr-only": string;
   readonly "sr-only-focusable": string;
 };
 export = styles;
-

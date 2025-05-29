@@ -1,13 +1,13 @@
 "use client";
 
-import { LoadingIndicator } from '@/shared/components/loading-indicator/loading-indicator.component';
+import { LoadingIndicator } from "@/shared/components/loading-indicator/loading-indicator.component";
 import { ReactNode, useEffect, useRef } from "react";
 
 export const InfiniteScrollContainer = ({
   children,
   hasMore,
   isLoading,
-  loadMore
+  loadMore,
 }: IInfiniteScrollContainerProps) => {
   const observerTarget = useRef<HTMLDivElement | null>(null);
 

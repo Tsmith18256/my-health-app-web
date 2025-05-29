@@ -10,12 +10,12 @@ export const formatLength = (
   {
     fractionDigits: fractionDigitsOverride,
     unit = LengthUnit.Inches,
-  }: IFormatLengthOptions = {}
+  }: IFormatLengthOptions = {},
 ) => {
   const converted = convertLengthUnits(
     lengthInMm,
     LengthUnit.Millimeters,
-    unit
+    unit,
   );
   const fractionDigits = fractionDigitsOverride ?? fractionDigitsByUnit[unit];
 

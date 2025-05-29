@@ -9,16 +9,16 @@ import {
   Heading,
   HeadingLevel,
 } from "@/shared/components/heading/heading.component";
-import { MeasurementSystem } from '@/shared/enums/measurement-system.enum';
+import { MeasurementSystem } from "@/shared/enums/measurement-system.enum";
 import { Sex } from "@/shared/utils/validation/validate-sex.util";
-import styles from './onboarding-page.module.css';
+import styles from "./onboarding-page.module.css";
 
 export default function OnboardingPage() {
   const router = useRouter();
   const { user } = useUser();
 
   const handleSubmit: ComponentProps<typeof UserProfileForm>["action"] = async (
-    formData: FormData
+    formData: FormData,
   ) => {
     const res = await saveOnboardingInformation(formData);
 
@@ -35,10 +35,7 @@ export default function OnboardingPage() {
 
   return (
     <div className={styles.container}>
-      <Heading
-        className={styles.heading}
-        level={HeadingLevel.h1}
-      >
+      <Heading className={styles.heading} level={HeadingLevel.h1}>
         Welcome
       </Heading>
 
