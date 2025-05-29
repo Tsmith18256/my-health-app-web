@@ -41,6 +41,7 @@ export const UiStringKey = {
   ColumnHeaderWaist: "Waist",
   ColumnHeaderWeight: "Weight",
   FormLabelAb: "Ab (mm)",
+  FormLabelBirthday: "Birthday",
   FormLabelChest: "Chest (mm)",
   FormLabelNeck: "Neck ({unit})",
   FormLabelThigh: "Thigh (mm)",

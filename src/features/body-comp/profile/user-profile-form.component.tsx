@@ -3,7 +3,6 @@
 import { ComponentProps, ReactNode, useCallback, useState } from "react";
 import { Button } from "@/shared/components/buttons/button/button.component";
 import { FormActionErrorToast } from "@/shared/components/forms/form-action-error-toast/form-action-error-toast.component";
-import { Input } from "@/shared/components/forms/input/input.component";
 import { Option } from "@/shared/components/forms/select/option.component";
 import { Select } from "@/shared/components/forms/select/select.component";
 import { IUserProfile } from "@/shared/database/daos/user-profile.dao";
@@ -14,6 +13,11 @@ import { roundToInterval } from "@/shared/utils/math/round-to-interval/round-to-
 import { convertLengthUnits } from "@/shared/utils/units/convert-length-units.util";
 import { Sex } from "@/shared/utils/validation/validate-sex.util";
 import styles from "./user-profile-form.module.css";
+import { DatePicker } from "@/shared/components/forms/date-picker/date-picker.component";
+import {
+  getUiString,
+  UiStringKey,
+} from "@/shared/utils/strings/get-ui-string.util";
 
 /**
  * Form for updating the user profile data. This is used as part of the
@@ -99,13 +103,12 @@ export const UserProfileForm = ({
 
       <form onSubmit={onSubmit}>
         <main className={styles.container}>
-          <Input
-            id="txtBirthday"
+          <DatePicker
             defaultValue={defaultBirthday}
-            label="Birthday"
+            id="txtBirthday"
+            label={getUiString(UiStringKey.FormLabelBirthday)}
             name="birthday"
             required
-            type="date"
           />
 
           <Select
