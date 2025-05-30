@@ -17,7 +17,8 @@
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build",
     "test": "vitest",
-    "test:coverage": "vitest --coverage"
+    "test:coverage": "vitest --coverage",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.12.6",

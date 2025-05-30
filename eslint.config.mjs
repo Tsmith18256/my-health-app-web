@@ -30,7 +30,7 @@ export default tseslint.config([
         "error",
         {
           name: "@testing-library/react",
-          message: "Import from testing/react-testing-library/test.util",
+          message: "Import from @/testing/react-testing-library/test.util",
         },
       ],
       "no-shadow": "error",
