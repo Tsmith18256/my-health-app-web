@@ -7,6 +7,7 @@ import { BodyCompLogRow } from "@/features/body-comp/log/list/row/body-comp-log-
 import { BodyCompLogHeaders } from "@/features/body-comp/log/list/body-comp-log-headers.component";
 import { InfiniteScrollContainer } from "@/shared/components/infinite-scroll-container/infinite-scroll-container.component";
 import styles from "./body-comp-log-list.module.css";
+import { useUserBodyCompEntries } from "@/features/body-comp/body-comp-entry/user-body-comp-entries/user-body-comp-entries.state";
 
 const pageSize = 20;
 
@@ -14,6 +15,9 @@ export const BodyCompLogList = () => {
   const [entries, setEntries] = useState<IBodyCompEntry[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [total, setTotal] = useState<number | null>(null);
+
+  const entriesFromState = useUserBodyCompEntries();
+  console.log(JSON.stringify(entriesFromState, undefined, 2));
 
   const loadMoreEntries = useCallback(async () => {
     setIsLoading(true);
