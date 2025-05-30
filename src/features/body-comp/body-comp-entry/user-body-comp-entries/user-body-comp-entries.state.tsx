@@ -31,26 +31,42 @@ export const UserBodyCompEntriesProvider = ({
   );
 };
 
+/**
+ * Hook to get the function to load more entries into the user body comp entries
+ * state store.
+ *
+ * This function should not be called if `hasMore` is false or `isLoadingMore`
+ * is true from the store. It will not do anything if called in either of those
+ * states.
+ */
 export const useLoadBodyCompEntries = () => {
-  const { addEntries, entries, setIsLoadingMore } = useZustandStore(
-    UserBodyCompEntriesContext,
-    useShallow((state) => ({
-      addEntries: state.addEntries,
-      entries: state.entries,
-      setIsLoadingMore: state.setIsLoadingMore,
-    })),
-  );
+  const { addEntries, entries, isLoadingMore, setIsLoadingMore, totalCount } =
+    useZustandStore(
+      UserBodyCompEntriesContext,
+      useShallow((state) => ({
+        addEntries: state.addEntries,
+        entries: state.entries,
+        isLoadingMore: state.isLoadingMore,
+        setIsLoadingMore: state.setIsLoadingMore,
+        totalCount: state.totalCount,
+      })),
+    );
 
   return async () => {
+    if (isLoadingMore || !getHasMore(entries, totalCount)) {
+      return;
+    }
+
     setIsLoadingMore(true);
 
     const oldestLoadedEntry = entries[entries.length - 1];
-    const { entries: newEntries, totalCount } = await loadBodyCompEntries({
-      afterDate: oldestLoadedEntry?.date,
-      limit: pageSize,
-    });
+    const { entries: newEntries, totalCount: newTotalCount } =
+      await loadBodyCompEntries({
+        afterDate: oldestLoadedEntry?.date,
+        limit: pageSize,
+      });
 
-    addEntries(newEntries, totalCount);
+    addEntries(newEntries, newTotalCount);
     setIsLoadingMore(false);
   };
 };
@@ -70,7 +86,7 @@ export const useUserBodyCompEntries = () => {
 
   return {
     entries,
-    hasMore: totalCount === null || entries.length < totalCount,
+    hasMore: getHasMore(entries, totalCount),
     isLoadingMore,
   };
 };
@@ -99,6 +115,10 @@ const createUserBodyCompEntriesStore = () => {
       });
     },
   }));
+};
+
+const getHasMore = (entries: IBodyCompEntry[], totalCount: number | null) => {
+  return totalCount === null || entries.length < totalCount;
 };
 
 const UserBodyCompEntriesContext = createContext<

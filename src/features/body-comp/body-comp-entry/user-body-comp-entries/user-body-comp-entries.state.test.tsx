@@ -132,3 +132,78 @@ it("sets `isLoadingMore` to true when entries are loading", async () => {
     loadEntries: expect.any(Function),
   });
 });
+
+it("does not load more entries if hasMore is false", async () => {
+  vi.mocked(loadBodyCompEntries).mockImplementation((opts) => {
+    // Return a shortened length to ensure it doesn't make the second query
+    const totalCount = mockEntries.length;
+    if (opts?.afterDate === undefined) {
+      return Promise.resolve({
+        entries: mockEntries,
+        totalCount,
+      });
+    }
+
+    return Promise.resolve({
+      entries: moreMockEntries,
+      totalCount,
+    });
+  });
+
+  const { result } = renderHook(useCombinedHooks, {
+    wrapper: UserBodyCompEntriesProvider,
+  });
+
+  await result.current.loadEntries();
+  // This call shouldn't do anything
+  await result.current.loadEntries();
+
+  expect(result.current).toStrictEqual({
+    entries: mockEntries,
+    hasMore: false,
+    isLoadingMore: false,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    loadEntries: expect.any(Function),
+  });
+});
+
+it("does not load more entries if data is still loading", async () => {
+  const loadTime = 100;
+  vi.mocked(loadBodyCompEntries).mockImplementation(async (opts) => {
+    await wait(loadTime);
+
+    const totalCount = mockEntries.length + moreMockEntries.length;
+    if (opts?.afterDate === undefined) {
+      return Promise.resolve({
+        entries: mockEntries,
+        totalCount,
+      });
+    }
+
+    return Promise.resolve({
+      entries: moreMockEntries,
+      totalCount,
+    });
+  });
+
+  const { result } = renderHook(useCombinedHooks, {
+    wrapper: UserBodyCompEntriesProvider,
+  });
+
+  void result.current.loadEntries();
+
+  // Tick the event loop to update the state
+  await wait(0);
+
+  await result.current.loadEntries();
+
+  await wait(loadTime);
+
+  expect(result.current).toStrictEqual({
+    entries: mockEntries,
+    hasMore: true,
+    isLoadingMore: false,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    loadEntries: expect.any(Function),
+  });
+});
