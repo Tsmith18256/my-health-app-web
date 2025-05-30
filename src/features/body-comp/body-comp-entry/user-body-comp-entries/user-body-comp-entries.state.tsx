@@ -7,6 +7,8 @@ import { IBodyCompEntry } from "@/features/body-comp/body-comp-entry/body-comp-e
 import { ZustandStoreProvider } from "@/shared/state/generic-state-provider/generic-state.provider";
 import { useZustandStore } from "@/shared/state/generic-state-provider/use-zustand-store.hook";
 import { loadBodyCompEntries } from "@/features/body-comp/body-comp-entry/load-body-comp-entries.action";
+import { IBodyCompEntryWithLast7Days } from "@/features/body-comp/body-comp-entry/user-body-comp-entries/body-comp-entry-with-last-7-days.type";
+import dayjs from "dayjs";
 
 const pageSize = 20;
 
@@ -40,17 +42,13 @@ export const UserBodyCompEntriesProvider = ({
  * states.
  */
 export const useLoadBodyCompEntries = () => {
-  const { addEntries, entries, isLoadingMore, setIsLoadingMore, totalCount } =
-    useZustandStore(
-      UserBodyCompEntriesContext,
-      useShallow((state) => ({
-        addEntries: state.addEntries,
-        entries: state.entries,
-        isLoadingMore: state.isLoadingMore,
-        setIsLoadingMore: state.setIsLoadingMore,
-        totalCount: state.totalCount,
-      })),
-    );
+  const {
+    entries,
+    isLoadingMore,
+    setIsLoadingMore,
+    totalCount,
+    updateEntries,
+  } = useZustandStore(UserBodyCompEntriesContext, (state) => state);
 
   return async () => {
     if (isLoadingMore || !getHasMore(entries, totalCount)) {
@@ -66,7 +64,7 @@ export const useLoadBodyCompEntries = () => {
         limit: pageSize,
       });
 
-    addEntries(newEntries, newTotalCount);
+    updateEntries(newEntries, newTotalCount);
     setIsLoadingMore(false);
   };
 };
@@ -84,11 +82,46 @@ export const useUserBodyCompEntries = () => {
     })),
   );
 
+  const entriesWithLast7Days = entries.filter((entry) => {
+    return "last7DaysWeightInG" in entry;
+  });
+
   return {
-    entries,
+    entries: entriesWithLast7Days,
     hasMore: getHasMore(entries, totalCount),
     isLoadingMore,
   };
+};
+
+const applyLast7DayValueToBodyCompEntries = (
+  entries: IBodyCompEntry[],
+): IBodyCompEntryWithLast7Days[] => {
+  return entries.map((currentEntry, i, array) => {
+    const currentEntryDate = dayjs(currentEntry.date);
+    const last7DayWeightData = {
+      entries: 1,
+      sum: currentEntry.weightInG,
+    };
+
+    for (let j = i + 1; j < array.length; j++) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const pastEntry = array[j]!;
+      const pastEntryDate = dayjs(pastEntry.date);
+
+      if (currentEntryDate.diff(pastEntryDate, "day") < 7) {
+        last7DayWeightData.entries++;
+        last7DayWeightData.sum += pastEntry.weightInG;
+      } else {
+        // Entries are sorted by date, we can break once we've left 7 day range.
+        break;
+      }
+    }
+
+    return {
+      ...currentEntry,
+      last7DaysWeightInG: last7DayWeightData.sum / last7DayWeightData.entries,
+    };
+  });
 };
 
 /**
@@ -97,14 +130,21 @@ export const useUserBodyCompEntries = () => {
 const createUserBodyCompEntriesStore = () => {
   return create<IState & IActions>((set, get) => ({
     entries: [],
+    entriesWithoutLast7Days: [],
     isLoadingMore: false,
     totalCount: null,
 
-    addEntries: (newEntries, totalCount) => {
+    updateEntries: (entriesToAdd, totalCount) => {
       const { entries } = get();
 
+      const filteredEntries = entries.filter((entry) => {
+        return !entriesToAdd.some((newEntry) => entry.id === newEntry.id);
+      });
+
+      const updatedEntriesArray = filteredEntries.concat(entriesToAdd);
+
       set({
-        entries: entries.concat(newEntries),
+        entries: applyLast7DayValueToBodyCompEntries(updatedEntriesArray),
         totalCount,
       });
     },
@@ -127,9 +167,10 @@ const UserBodyCompEntriesContext = createContext<
 
 interface IState {
   /**
-   * All the body comp entries that have been loaded from the database.
+   * The body comp entries that have been loaded from the database and had their
+   * last 7 day averages calculated.
    */
-  entries: IBodyCompEntry[];
+  entries: (IBodyCompEntryWithLast7Days | IBodyCompEntry)[];
   /**
    * Whether or not more entries are currently loading.
    */
@@ -142,11 +183,12 @@ interface IState {
 
 interface IActions {
   /**
-   * Add multiple entries to the store.
+   * Add or update multiple entries to the store.
    *
-   * When adding more entries, the total count number must also be updated.
+   * Any entries that are already in the store will be updated. Others will be
+   * added.
    */
-  addEntries: (newEntries: IBodyCompEntry[], totalCount: number) => void;
+  updateEntries: (entries: IBodyCompEntry[], totalCount: number) => void;
   /**
    * Set the value of `isLoadingMore`.
    */
