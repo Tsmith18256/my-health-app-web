@@ -17,7 +17,7 @@ it("creates and provides the store", () => {
   );
 
   const TestStoreConsumer = () => {
-    const store = useZustandStore(TestContext);
+    const store = useZustandStore(TestContext, (state) => state);
 
     return <span>{store.hello}</span>;
   };

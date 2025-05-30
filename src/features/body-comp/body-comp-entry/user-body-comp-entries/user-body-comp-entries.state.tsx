@@ -1,7 +1,8 @@
 "use client";
 
-import { createContext, ReactNode, useCallback } from "react";
+import { createContext, ReactNode } from "react";
 import { create } from "zustand";
+import { useShallow } from "zustand/shallow";
 import { IBodyCompEntry } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
 import { ZustandStoreProvider } from "@/shared/state/generic-state-provider/generic-state.provider";
 import { useZustandStore } from "@/shared/state/generic-state-provider/use-zustand-store.hook";
@@ -33,9 +34,14 @@ export const UserBodyCompEntriesProvider = ({
 export const useLoadBodyCompEntries = () => {
   const { addEntries, entries, setIsLoadingMore } = useZustandStore(
     UserBodyCompEntriesContext,
+    useShallow((state) => ({
+      addEntries: state.addEntries,
+      entries: state.entries,
+      setIsLoadingMore: state.setIsLoadingMore,
+    })),
   );
 
-  return useCallback(async () => {
+  return async () => {
     setIsLoadingMore(true);
 
     const oldestLoadedEntry = entries[entries.length - 1];
@@ -46,7 +52,7 @@ export const useLoadBodyCompEntries = () => {
 
     addEntries(newEntries, totalCount);
     setIsLoadingMore(false);
-  }, [addEntries, entries, setIsLoadingMore]);
+  };
 };
 
 /**
@@ -55,6 +61,11 @@ export const useLoadBodyCompEntries = () => {
 export const useUserBodyCompEntries = () => {
   const { entries, isLoadingMore, totalCount } = useZustandStore(
     UserBodyCompEntriesContext,
+    useShallow((state) => ({
+      entries: state.entries,
+      isLoadingMore: state.isLoadingMore,
+      totalCount: state.totalCount,
+    })),
   );
 
   return {

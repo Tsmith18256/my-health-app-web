@@ -13,8 +13,7 @@ it("throws an error if store wasn't created", () => {
   };
 
   expect(() =>
-    renderHook(useZustandStore, {
-      initialProps: Context,
+    renderHook(() => useZustandStore(Context, (state) => state), {
       wrapper: Provider,
     }),
   ).toThrowError();

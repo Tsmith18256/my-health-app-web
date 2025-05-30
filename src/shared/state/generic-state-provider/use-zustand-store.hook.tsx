@@ -12,16 +12,17 @@ import { StoreApi, UseBoundStore, useStore } from "zustand";
  * See `ZustandStateProvider` for more information about why this pattern is
  * used.
  */
-export const useZustandStore = <TState,>(
+export const useZustandStore = <TState, TSelected = TState>(
   context: Parameters<typeof useContext<Store<TState> | undefined>>[0],
-): TState => {
+  selector: Parameters<typeof useStore<Store<TState>, TSelected>>[1],
+): TSelected => {
   const store = useContext(context);
 
   if (!store) {
     throw new Error("Store must be used within its provider");
   }
 
-  return useStore(store);
+  return useStore(store, selector);
 };
 
 type Store<TState> = UseBoundStore<StoreApi<TState>>;
