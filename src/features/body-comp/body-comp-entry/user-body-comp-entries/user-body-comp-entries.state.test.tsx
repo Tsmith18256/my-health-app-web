@@ -10,5 +10,11 @@ it("initializes the store with an empty array of entries", () => {
     wrapper: UserBodyCompEntriesProvider,
   });
 
-  expect(result.current).toStrictEqual([]);
+  expect(result.current).toStrictEqual({
+    entries: [],
+    hasMore: true,
+    isLoadingMore: false,
+  });
 });
+
+// TODO test loading more entries. Need to mock DB

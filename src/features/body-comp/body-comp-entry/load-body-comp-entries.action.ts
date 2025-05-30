@@ -26,5 +26,5 @@ export const loadBodyCompEntries = async (
 
 type ILoadBodyCompEntriesOpts = Pick<
   Parameters<typeof selectBodyCompEntries>[0],
-  "limit" | "offset"
+  "afterDate" | "limit"
 >;

@@ -67,23 +67,22 @@ export const insertBodyCompEntry = async (
 };
 
 export const selectBodyCompEntries = async ({
+  afterDate = formatVanillaDateWithoutTime(new Date()),
   limit = 100,
-  offset = 0,
   userEmail,
 }: ISelectBodyCompEntriesOpts): Promise<{
   entries: IBodyCompEntry[];
   totalCount: number;
 }> => {
   const clampedLimit = clampNumber(limit, 1, 100);
-  const fixedOffset = Math.max(offset, 0);
 
   const models = await sql<IModelWithTotalCount[]>`
     SELECT *, count(*) OVER() AS total_count
         FROM body_comp_entries
       WHERE user_email = ${userEmail}
+          AND entry_date < ${afterDate}
       ORDER BY entry_date DESC
       LIMIT ${clampedLimit}
-      OFFSET ${fixedOffset}
   `;
 
   const totalCount = models[0] ? parseInt(models[0].total_count) : 0;
@@ -96,7 +95,7 @@ export const selectBodyCompEntries = async ({
 
 export const selectBodyCompEntryById = async (
   id: number,
-  opts: ISelectBodyCompEntriesOpts,
+  { userEmail }: Pick<ISelectBodyCompEntriesOpts, "userEmail">,
 ): Promise<IBodyCompEntry | undefined> => {
   if (isNaN(id)) {
     return undefined;
@@ -104,7 +103,7 @@ export const selectBodyCompEntryById = async (
 
   const [model] = await sql<IBodyCompEntryModel[]>`
     SELECT * FROM body_comp_entries
-      WHERE id = ${id.toString()} AND user_email = ${opts.userEmail}
+      WHERE id = ${id.toString()} AND user_email = ${userEmail}
   `;
 
   if (!model) {
@@ -211,7 +210,7 @@ interface IModelWithTotalCount extends IBodyCompEntryModel {
 }
 
 interface ISelectBodyCompEntriesOpts {
+  afterDate?: string;
   limit?: number;
-  offset?: number;
   userEmail: EmailAddress;
 }
