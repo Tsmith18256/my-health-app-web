@@ -137,7 +137,6 @@ const applyLast7DayValueToBodyCompEntries = (
 const createUserBodyCompEntriesStore = () => {
   return create<IState & IActions>((set, get) => ({
     entries: [],
-    entriesWithoutLast7Days: [],
     isLoadingMore: false,
     totalCount: null,
 

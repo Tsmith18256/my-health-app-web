@@ -1,5 +1,11 @@
+# Jobs should be generally be run from lest to most expensive. Exceptions can be
+# made for jobs that tend to fail the most often. The goal of the sorting of
+# jobs should always be for the average failed precommit time to be as short as
+# possible.
+
 npm run type-check
 
 npx lint-staged
 
+npm run knip
 npm run test:coverage
