@@ -67,7 +67,7 @@ export const insertBodyCompEntry = async (
 };
 
 export const selectBodyCompEntries = async ({
-  afterDate = formatVanillaDateWithoutTime(new Date()),
+  beforeDate = "3000-01-01",
   limit = 100,
   userEmail,
 }: ISelectBodyCompEntriesOpts): Promise<{
@@ -80,7 +80,7 @@ export const selectBodyCompEntries = async ({
     SELECT *, count(*) OVER() AS total_count
         FROM body_comp_entries
       WHERE user_email = ${userEmail}
-          AND entry_date < ${afterDate}
+          AND entry_date < ${beforeDate}
       ORDER BY entry_date DESC
       LIMIT ${clampedLimit}
   `;
@@ -210,7 +210,7 @@ interface IModelWithTotalCount extends IBodyCompEntryModel {
 }
 
 interface ISelectBodyCompEntriesOpts {
-  afterDate?: string;
+  beforeDate?: string;
   limit?: number;
   userEmail: EmailAddress;
 }
