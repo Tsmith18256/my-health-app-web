@@ -67,7 +67,7 @@ export const insertBodyCompEntry = async (
 };
 
 export const selectBodyCompEntries = async ({
-  afterDate = formatVanillaDateWithoutTime(new Date()),
+  afterDate = "3000-01-01",
   limit = 100,
   userEmail,
 }: ISelectBodyCompEntriesOpts): Promise<{
