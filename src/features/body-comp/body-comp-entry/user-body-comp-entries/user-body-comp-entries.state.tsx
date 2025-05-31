@@ -60,7 +60,7 @@ export const useLoadBodyCompEntries = () => {
     const oldestLoadedEntry = entries[entries.length - 1];
     const { entries: newEntries, totalCount: newTotalCount } =
       await loadBodyCompEntries({
-        afterDate: oldestLoadedEntry?.date,
+        beforeDate: oldestLoadedEntry?.date,
         limit: pageSize,
       });
 

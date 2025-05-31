@@ -41,7 +41,7 @@ const useCombinedHooks = () => {
 
 beforeEach(() => {
   vi.mocked(loadBodyCompEntries).mockImplementation((opts) => {
-    if (opts?.afterDate === undefined) {
+    if (opts?.beforeDate === undefined) {
       return Promise.resolve({
         entries: [mockInitialEntry],
         totalCount: 2,
@@ -145,7 +145,7 @@ it("sets `isLoadingMore` to true when entries are loading", async () => {
 
 it("does not load more entries if hasMore is false", async () => {
   vi.mocked(loadBodyCompEntries).mockImplementation((opts) => {
-    if (opts?.afterDate === undefined) {
+    if (opts?.beforeDate === undefined) {
       return Promise.resolve({
         entries: [mockInitialEntry],
         // Return a shortened length to ensure it doesn't make the second query
@@ -180,7 +180,7 @@ it("does not load more entries if data is still loading", async () => {
   vi.mocked(loadBodyCompEntries).mockImplementation(async (opts) => {
     await wait(loadTime);
 
-    if (opts?.afterDate === undefined) {
+    if (opts?.beforeDate === undefined) {
       return Promise.resolve({
         entries: [mockInitialEntry],
         totalCount: 2,
@@ -248,7 +248,7 @@ it("replaces existing entries if loading returned a duplicate", async () => {
 it("sorts entries by date", async () => {
   // Return the entries in reverse date order
   vi.mocked(loadBodyCompEntries).mockImplementation((opts) => {
-    if (opts?.afterDate === undefined) {
+    if (opts?.beforeDate === undefined) {
       return Promise.resolve({
         entries: [mockExtraEntry],
         totalCount: 2,
