@@ -14,9 +14,13 @@ import { useUserSettings } from "@/shared/state/user-settings/user-settings.stat
 import { getAgeFromBirthday } from "@/shared/utils/dates/get-age-from-birthday.util";
 import { WeightUnit } from "@/shared/enums/weight-unit.enum";
 import { MeasurementSystem } from "@/shared/enums/measurement-system.enum";
-import { IBodyCompEntry } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
+import { IBodyCompEntryWithLast7Days } from "@/features/body-comp/body-comp-entry/user-body-comp-entries/body-comp-entry-with-last-7-days.type";
 
-export const BodyCompLogRow = ({ entry }: { entry: IBodyCompEntry }) => {
+/**
+ * A single row in the body comp log list. On mobile, the row renders as a list
+ * item. On other breakpoints, it renders as a table row.
+ */
+export const BodyCompLogRow = ({ entry }: IBodyCompLogRowProps) => {
   const { birthday, heightInMm, lengthSystem, weightSystem } =
     useUserSettings();
   const weightUnit =
@@ -52,7 +56,7 @@ export const BodyCompLogRow = ({ entry }: { entry: IBodyCompEntry }) => {
 
       <BodyCompLogCell
         minimumBreakpoint={Breakpoint.DesktopSmall}
-        valueText="N/A"
+        valueText={formatWeight(entry.last7DaysWeightInG, { unit: weightUnit })}
       />
 
       {bodyFat && (
@@ -110,3 +114,10 @@ export const BodyCompLogRow = ({ entry }: { entry: IBodyCompEntry }) => {
     </Link>
   );
 };
+
+interface IBodyCompLogRowProps {
+  /**
+   * The body comp entry to display details for in the row.
+   */
+  entry: IBodyCompEntryWithLast7Days;
+}

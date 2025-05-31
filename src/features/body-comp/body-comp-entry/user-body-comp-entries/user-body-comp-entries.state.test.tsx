@@ -15,23 +15,19 @@ import { wait } from "@/shared/utils/wait.util";
 
 vi.mock("@/features/body-comp/body-comp-entry/load-body-comp-entries.action");
 
-const mockEntries: IBodyCompEntry[] = [
-  {
-    id: 1 as BodyCompEntryId,
-    date: "2025-05-30",
-    userEmail: "user@email.com" as EmailAddress,
-    weightInG: 75000,
-  },
-];
+const mockInitialEntry: IBodyCompEntry = {
+  id: 1 as BodyCompEntryId,
+  date: "2025-05-30",
+  userEmail: "user@email.com" as EmailAddress,
+  weightInG: 75000,
+};
 
-const moreMockEntries: IBodyCompEntry[] = [
-  {
-    id: 2 as BodyCompEntryId,
-    date: "2025-05-29",
-    userEmail: "user@email.com" as EmailAddress,
-    weightInG: 74000,
-  },
-];
+const mockExtraEntry: IBodyCompEntry = {
+  id: 2 as BodyCompEntryId,
+  date: "2025-05-29",
+  userEmail: "user@email.com" as EmailAddress,
+  weightInG: 74000,
+};
 
 const useCombinedHooks = () => {
   const loadEntries = useLoadBodyCompEntries();
@@ -45,17 +41,16 @@ const useCombinedHooks = () => {
 
 beforeEach(() => {
   vi.mocked(loadBodyCompEntries).mockImplementation((opts) => {
-    const totalCount = mockEntries.length + moreMockEntries.length;
     if (opts?.afterDate === undefined) {
       return Promise.resolve({
-        entries: mockEntries,
-        totalCount,
+        entries: [mockInitialEntry],
+        totalCount: 2,
       });
     }
 
     return Promise.resolve({
-      entries: moreMockEntries,
-      totalCount,
+      entries: [mockExtraEntry],
+      totalCount: 2,
     });
   });
 });
@@ -80,7 +75,12 @@ it("loads initial entries", async () => {
   await result.current.loadEntries();
 
   expect(result.current).toStrictEqual({
-    entries: mockEntries,
+    entries: [
+      {
+        ...mockInitialEntry,
+        last7DaysWeightInG: mockInitialEntry.weightInG,
+      },
+    ],
     hasMore: true,
     isLoadingMore: false,
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -97,7 +97,17 @@ it("loads more entries", async () => {
   await result.current.loadEntries();
 
   expect(result.current).toStrictEqual({
-    entries: mockEntries.concat(moreMockEntries),
+    entries: [
+      {
+        ...mockInitialEntry,
+        last7DaysWeightInG:
+          (mockInitialEntry.weightInG + mockExtraEntry.weightInG) / 2,
+      },
+      {
+        ...mockExtraEntry,
+        last7DaysWeightInG: mockExtraEntry.weightInG,
+      },
+    ],
     hasMore: false,
     isLoadingMore: false,
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -135,19 +145,15 @@ it("sets `isLoadingMore` to true when entries are loading", async () => {
 
 it("does not load more entries if hasMore is false", async () => {
   vi.mocked(loadBodyCompEntries).mockImplementation((opts) => {
-    // Return a shortened length to ensure it doesn't make the second query
-    const totalCount = mockEntries.length;
     if (opts?.afterDate === undefined) {
       return Promise.resolve({
-        entries: mockEntries,
-        totalCount,
+        entries: [mockInitialEntry],
+        // Return a shortened length to ensure it doesn't make the second query
+        totalCount: 1,
       });
     }
 
-    return Promise.resolve({
-      entries: moreMockEntries,
-      totalCount,
-    });
+    throw new Error("Attempted to load more entries when hasMore was false");
   });
 
   const { result } = renderHook(useCombinedHooks, {
@@ -159,7 +165,9 @@ it("does not load more entries if hasMore is false", async () => {
   await result.current.loadEntries();
 
   expect(result.current).toStrictEqual({
-    entries: mockEntries,
+    entries: [
+      { ...mockInitialEntry, last7DaysWeightInG: mockInitialEntry.weightInG },
+    ],
     hasMore: false,
     isLoadingMore: false,
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -172,17 +180,16 @@ it("does not load more entries if data is still loading", async () => {
   vi.mocked(loadBodyCompEntries).mockImplementation(async (opts) => {
     await wait(loadTime);
 
-    const totalCount = mockEntries.length + moreMockEntries.length;
     if (opts?.afterDate === undefined) {
       return Promise.resolve({
-        entries: mockEntries,
-        totalCount,
+        entries: [mockInitialEntry],
+        totalCount: 2,
       });
     }
 
     return Promise.resolve({
-      entries: moreMockEntries,
-      totalCount,
+      entries: [mockExtraEntry],
+      totalCount: 2,
     });
   });
 
@@ -200,8 +207,80 @@ it("does not load more entries if data is still loading", async () => {
   await wait(loadTime);
 
   expect(result.current).toStrictEqual({
-    entries: mockEntries,
+    entries: [
+      { ...mockInitialEntry, last7DaysWeightInG: mockInitialEntry.weightInG },
+    ],
     hasMore: true,
+    isLoadingMore: false,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    loadEntries: expect.any(Function),
+  });
+});
+
+it("replaces existing entries if loading returned a duplicate", async () => {
+  vi.mocked(loadBodyCompEntries).mockImplementation(async () => {
+    return Promise.resolve({
+      entries: [mockInitialEntry],
+      totalCount: 200,
+    });
+  });
+  const { result } = renderHook(useCombinedHooks, {
+    wrapper: UserBodyCompEntriesProvider,
+  });
+
+  await result.current.loadEntries();
+  await result.current.loadEntries();
+
+  expect(result.current).toStrictEqual({
+    entries: [
+      {
+        ...mockInitialEntry,
+        last7DaysWeightInG: mockInitialEntry.weightInG,
+      },
+    ],
+    hasMore: true,
+    isLoadingMore: false,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    loadEntries: expect.any(Function),
+  });
+});
+
+it("sorts entries by date", async () => {
+  // Return the entries in reverse date order
+  vi.mocked(loadBodyCompEntries).mockImplementation((opts) => {
+    if (opts?.afterDate === undefined) {
+      return Promise.resolve({
+        entries: [mockExtraEntry],
+        totalCount: 2,
+      });
+    }
+
+    return Promise.resolve({
+      entries: [mockInitialEntry],
+      totalCount: 2,
+    });
+  });
+
+  const { result } = renderHook(useCombinedHooks, {
+    wrapper: UserBodyCompEntriesProvider,
+  });
+
+  await result.current.loadEntries();
+  await result.current.loadEntries();
+
+  expect(result.current).toStrictEqual({
+    entries: [
+      {
+        ...mockInitialEntry,
+        last7DaysWeightInG:
+          (mockInitialEntry.weightInG + mockExtraEntry.weightInG) / 2,
+      },
+      {
+        ...mockExtraEntry,
+        last7DaysWeightInG: mockExtraEntry.weightInG,
+      },
+    ],
+    hasMore: false,
     isLoadingMore: false,
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     loadEntries: expect.any(Function),
