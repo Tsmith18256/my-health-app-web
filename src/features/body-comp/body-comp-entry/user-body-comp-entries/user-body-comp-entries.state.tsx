@@ -93,6 +93,13 @@ export const useUserBodyCompEntries = () => {
   };
 };
 
+/**
+ * Computes the last 7 days value for all provided entries.
+ *
+ * This should be called with every entry in the store any time entries are
+ * added or removed so that it correctly recalculates if entries were added in
+ * the middle of the sort order.
+ */
 const applyLast7DayValueToBodyCompEntries = (
   entries: IBodyCompEntry[],
 ): IBodyCompEntryWithLast7Days[] => {
@@ -141,7 +148,14 @@ const createUserBodyCompEntriesStore = () => {
         return !entriesToAdd.some((newEntry) => entry.id === newEntry.id);
       });
 
-      const updatedEntriesArray = filteredEntries.concat(entriesToAdd);
+      const updatedEntriesArray = filteredEntries
+        .concat(entriesToAdd)
+        .toSorted((entryA, entryB) => {
+          const dateA = dayjs(entryA.date);
+          const dateB = dayjs(entryB.date);
+
+          return dateB.diff(dateA);
+        });
 
       set({
         entries: applyLast7DayValueToBodyCompEntries(updatedEntriesArray),

@@ -244,3 +244,45 @@ it("replaces existing entries if loading returned a duplicate", async () => {
     loadEntries: expect.any(Function),
   });
 });
+
+it("sorts entries by date", async () => {
+  // Return the entries in reverse date order
+  vi.mocked(loadBodyCompEntries).mockImplementation((opts) => {
+    if (opts?.afterDate === undefined) {
+      return Promise.resolve({
+        entries: [mockExtraEntry],
+        totalCount: 2,
+      });
+    }
+
+    return Promise.resolve({
+      entries: [mockInitialEntry],
+      totalCount: 2,
+    });
+  });
+
+  const { result } = renderHook(useCombinedHooks, {
+    wrapper: UserBodyCompEntriesProvider,
+  });
+
+  await result.current.loadEntries();
+  await result.current.loadEntries();
+
+  expect(result.current).toStrictEqual({
+    entries: [
+      {
+        ...mockInitialEntry,
+        last7DaysWeightInG:
+          (mockInitialEntry.weightInG + mockExtraEntry.weightInG) / 2,
+      },
+      {
+        ...mockExtraEntry,
+        last7DaysWeightInG: mockExtraEntry.weightInG,
+      },
+    ],
+    hasMore: false,
+    isLoadingMore: false,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    loadEntries: expect.any(Function),
+  });
+});
