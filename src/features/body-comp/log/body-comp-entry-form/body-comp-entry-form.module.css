@@ -1,12 +1,16 @@
+@value footerHeight: 5.125rem;
+
 .footer {
+  align-items: center;
   background-color: var(--color-background);
   border: 1px solid #99a1af;
   display: flex;
   gap: 1rem;
+  height: footerHeight;
   inset-block-end: 0;
   inset-inline: 0;
   justify-content: stretch;
-  padding: 1rem;
+  padding-inline: 1rem;
   position: fixed;
 }
 
@@ -19,7 +23,7 @@
   flex-direction: column;
   gap: 2rem;
   margin-block-start: 2rem;
-  padding-block-end: 1rem;
+  padding-block-end: calc(1rem + footerHeight);
   padding-inline: 1rem;
 }
 

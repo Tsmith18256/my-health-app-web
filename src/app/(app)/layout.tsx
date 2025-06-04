@@ -20,6 +20,7 @@ export default async function UserSettingsLayout({ children }: ILayoutProps) {
     <UserSettingsProvider
       initialValues={{
         birthday: userProfile.birthday,
+        emailAddress,
         heightInMm: userProfile.heightInMm,
         lengthSystem: userProfile.lengthSystem,
         sex: userProfile.sex,

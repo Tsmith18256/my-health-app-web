@@ -11,9 +11,7 @@ declare const globalThis: {
 
 export const sql =
   globalThis.postgresGlobal ??
-  postgres(databaseUrl, {
-    ssl: isDev ? undefined : "verify-full",
-  });
+  postgres(databaseUrl);
 
 if (isDev) {
   // Storing the SQL connection as singleton persists it across hot reloads.

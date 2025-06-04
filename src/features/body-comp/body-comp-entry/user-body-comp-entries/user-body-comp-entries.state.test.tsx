@@ -1,4 +1,4 @@
-import { beforeEach, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   useLoadBodyCompEntries,
   UserBodyCompEntriesProvider,
@@ -67,10 +67,15 @@ it("initializes the store with an empty array of entries", () => {
   });
 });
 
-it("loads initial entries", async () => {
-  const { result } = renderHook(useCombinedHooks, {
-    wrapper: UserBodyCompEntriesProvider,
-  });
+describe("useLoadBodyCompEntries", () => {
+  beforeEach(() => {
+    vi.mocked(loadBodyCompEntries).mockImplementation((opts) => {
+      if (opts?.beforeDate === undefined) {
+        return Promise.resolve({
+          entries: [mockInitialEntry],
+          totalCount: 2,
+        });
+      }
 
   await result.current.loadEntries();
 
@@ -253,36 +258,230 @@ it("sorts entries by date", async () => {
         entries: [mockExtraEntry],
         totalCount: 2,
       });
-    }
-
-    return Promise.resolve({
-      entries: [mockInitialEntry],
-      totalCount: 2,
     });
   });
 
-  const { result } = renderHook(useCombinedHooks, {
-    wrapper: UserBodyCompEntriesProvider,
+  it("loads initial entries", async () => {
+    const { result } = renderHook(useCombinedHooks, {
+      wrapper: UserBodyCompEntriesProvider,
+    });
+
+    await result.current.loadEntries();
+
+    expect(result.current).toStrictEqual({
+      entries: [
+        {
+          ...mockInitialEntry,
+          last7DaysWeightInG: mockInitialEntry.weightInG,
+        },
+      ],
+      hasMore: true,
+      isLoadingMore: false,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      loadEntries: expect.any(Function),
+    });
   });
 
-  await result.current.loadEntries();
-  await result.current.loadEntries();
+  it("loads more entries", async () => {
+    const { result } = renderHook(useCombinedHooks, {
+      wrapper: UserBodyCompEntriesProvider,
+    });
 
-  expect(result.current).toStrictEqual({
-    entries: [
-      {
-        ...mockInitialEntry,
-        last7DaysWeightInG:
-          (mockInitialEntry.weightInG + mockExtraEntry.weightInG) / 2,
-      },
-      {
-        ...mockExtraEntry,
-        last7DaysWeightInG: mockExtraEntry.weightInG,
-      },
-    ],
-    hasMore: false,
-    isLoadingMore: false,
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    loadEntries: expect.any(Function),
+    await result.current.loadEntries();
+    await result.current.loadEntries();
+
+    expect(result.current).toStrictEqual({
+      entries: [
+        {
+          ...mockInitialEntry,
+          last7DaysWeightInG:
+            (mockInitialEntry.weightInG + mockExtraEntry.weightInG) / 2,
+        },
+        {
+          ...mockExtraEntry,
+          last7DaysWeightInG: mockExtraEntry.weightInG,
+        },
+      ],
+      hasMore: false,
+      isLoadingMore: false,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      loadEntries: expect.any(Function),
+    });
   });
+
+  it("sets `isLoadingMore` to true when entries are loading", async () => {
+    vi.mocked(loadBodyCompEntries).mockImplementation(async () => {
+      await wait(100);
+
+      return {
+        entries: [],
+        totalCount: 0,
+      };
+    });
+
+    const { result } = renderHook(useCombinedHooks, {
+      wrapper: UserBodyCompEntriesProvider,
+    });
+
+    void result.current.loadEntries();
+
+    // Tick the event loop for the state update.
+    await wait(0);
+
+    expect(result.current).toStrictEqual({
+      entries: [],
+      hasMore: true,
+      isLoadingMore: true,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      loadEntries: expect.any(Function),
+    });
+  });
+
+  it("does not load more entries if hasMore is false", async () => {
+    vi.mocked(loadBodyCompEntries).mockImplementation((opts) => {
+      if (opts?.beforeDate === undefined) {
+        return Promise.resolve({
+          entries: [mockInitialEntry],
+          // Return a shortened length to ensure it doesn't make the second query
+          totalCount: 1,
+        });
+      }
+
+      throw new Error("Attempted to load more entries when hasMore was false");
+    });
+
+    const { result } = renderHook(useCombinedHooks, {
+      wrapper: UserBodyCompEntriesProvider,
+    });
+
+    await result.current.loadEntries();
+    // This call shouldn't do anything
+    await result.current.loadEntries();
+
+    expect(result.current).toStrictEqual({
+      entries: [
+        { ...mockInitialEntry, last7DaysWeightInG: mockInitialEntry.weightInG },
+      ],
+      hasMore: false,
+      isLoadingMore: false,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      loadEntries: expect.any(Function),
+    });
+  });
+
+  it("does not load more entries if data is still loading", async () => {
+    const loadTime = 100;
+    vi.mocked(loadBodyCompEntries).mockImplementation(async (opts) => {
+      await wait(loadTime);
+
+      if (opts?.beforeDate === undefined) {
+        return Promise.resolve({
+          entries: [mockInitialEntry],
+          totalCount: 2,
+        });
+      }
+
+      return Promise.resolve({
+        entries: [mockExtraEntry],
+        totalCount: 2,
+      });
+    });
+
+    const { result } = renderHook(useCombinedHooks, {
+      wrapper: UserBodyCompEntriesProvider,
+    });
+
+    void result.current.loadEntries();
+
+    // Tick the event loop to update the state
+    await wait(0);
+
+    await result.current.loadEntries();
+
+    await wait(loadTime);
+
+    expect(result.current).toStrictEqual({
+      entries: [
+        { ...mockInitialEntry, last7DaysWeightInG: mockInitialEntry.weightInG },
+      ],
+      hasMore: true,
+      isLoadingMore: false,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      loadEntries: expect.any(Function),
+    });
+  });
+
+  it("replaces existing entries if loading returned a duplicate", async () => {
+    vi.mocked(loadBodyCompEntries).mockImplementation(async () => {
+      return Promise.resolve({
+        entries: [mockInitialEntry],
+        totalCount: 200,
+      });
+    });
+    const { result } = renderHook(useCombinedHooks, {
+      wrapper: UserBodyCompEntriesProvider,
+    });
+
+    await result.current.loadEntries();
+    await result.current.loadEntries();
+
+    expect(result.current).toStrictEqual({
+      entries: [
+        {
+          ...mockInitialEntry,
+          last7DaysWeightInG: mockInitialEntry.weightInG,
+        },
+      ],
+      hasMore: true,
+      isLoadingMore: false,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      loadEntries: expect.any(Function),
+    });
+  });
+
+  it("sorts entries by date", async () => {
+    // Return the entries in reverse date order
+    vi.mocked(loadBodyCompEntries).mockImplementation((opts) => {
+      if (opts?.beforeDate === undefined) {
+        return Promise.resolve({
+          entries: [mockExtraEntry],
+          totalCount: 2,
+        });
+      }
+
+      return Promise.resolve({
+        entries: [mockInitialEntry],
+        totalCount: 2,
+      });
+    });
+
+    const { result } = renderHook(useCombinedHooks, {
+      wrapper: UserBodyCompEntriesProvider,
+    });
+
+    await result.current.loadEntries();
+    await result.current.loadEntries();
+
+    expect(result.current).toStrictEqual({
+      entries: [
+        {
+          ...mockInitialEntry,
+          last7DaysWeightInG:
+            (mockInitialEntry.weightInG + mockExtraEntry.weightInG) / 2,
+        },
+        {
+          ...mockExtraEntry,
+          last7DaysWeightInG: mockExtraEntry.weightInG,
+        },
+      ],
+      hasMore: false,
+      isLoadingMore: false,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      loadEntries: expect.any(Function),
+    });
+  });
+});
+
+describe('useAddBodyCompEntry', () => {
+
 });

@@ -12,19 +12,14 @@ import {
   HeadingLevel,
 } from "@/shared/components/heading/heading.component";
 import { IconImage } from "@/shared/components/icon/icon.component";
-import { IBodyCompEntry } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
+import {
+  IBodyCompEntry,
+  INewBodyCompEntry,
+} from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
 import Link from "next/link";
-import { useActionState } from "react";
 import { deleteBodyCompEntry } from "@/app/(app)/body-comp/[id]/edit/delete-body-comp-entry.action";
 import { useRouter } from "next/navigation";
 import { HeaderButton } from "@/shared/components/header/header-button/header-button.component";
-import { useUserSettings } from "@/shared/state/user-settings/user-settings.state";
-import { MeasurementSystem } from "@/shared/enums/measurement-system.enum";
-import { WeightUnit } from "@/shared/enums/weight-unit.enum";
-import { LengthUnit } from "@/shared/enums/length-unit.enum";
-import { convertWeightUnits } from "@/shared/utils/units/convert-weight-units.util";
-import { convertLengthUnits } from "@/shared/utils/units/convert-length-units.util";
-import { processBodyCompEntryForm } from "@/features/body-comp/log/body-comp-entry-form/process-body-comp-entry-form.action";
 import {
   getUiString,
   UiStringKey,
@@ -37,40 +32,98 @@ import styles from "./body-comp-entry-form.module.css";
 import { AriaLabel } from "@/shared/enums/aria-label.enum";
 import { DatePicker } from "@/shared/components/forms/date-picker/date-picker.component";
 import { HiddenInput } from "@/shared/components/forms/hidden-input/hidden-input.component";
+import { useCreateBodyCompEntry } from "@/features/body-comp/body-comp-entry/user-body-comp-entries/user-body-comp-entries.state";
+import { usePreferredUnitUtils } from "@/shared/hooks/units/use-preferred-unit-conversions/use-preferred-unit-conversions.hook";
+import { ComponentProps, useCallback, useState } from "react";
+import { useUserSettings } from "@/shared/state/user-settings/user-settings.state";
 
 export const BodyCompEntryForm = ({
-  abSkinfold,
-  chestSkinfold,
-  date,
+  abSkinfold: initialAbSkinfold,
+  chestSkinfold: initialChestSkinfold,
+  date: initialDate,
   id,
   isEditMode,
   neckCircumferenceInMm,
-  thighSkinfold,
+  thighSkinfold: initialThighSkinfold,
   waistCircumferenceInMm,
   weightInG,
 }: IBodyCompEntryFormProps) => {
-  const [state, formAction] = useActionState(
-    processBodyCompEntryForm,
-    initialFormState,
-  );
+  const { createEntry, error: createEntryError } = useCreateBodyCompEntry();
+  const {
+    bodyweightUnit,
+    circumferenceUnit,
+    convertBodyweightFromGrams,
+    convertBodyweightToGrams,
+    convertCircumferenceFromMillimetres,
+    convertCircumferenceToMillimetres,
+  } = usePreferredUnitUtils();
+  const { emailAddress: userEmail } = useUserSettings();
   const router = useRouter();
 
-  const { weightSystem, lengthSystem } = useUserSettings();
-  const weightUnit =
-    weightSystem === MeasurementSystem.Imperial
-      ? WeightUnit.Pounds
-      : WeightUnit.Kilograms;
-  const lengthUnit =
-    lengthSystem === MeasurementSystem.Imperial
-      ? LengthUnit.Inches
-      : LengthUnit.Centimeters;
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const onDeleteButtonClick = () => {
+  const [date, setDate] = useState(
+    initialDate ?? formatDateWithoutTime(dayjs())
+  );
+  const [weight, setWeight] = useState(
+    weightInG ? convertBodyweightFromGrams(weightInG).toFixed(1) : ""
+  );
+  const [neckCircumference, setNeckCircumference] = useState(
+    neckCircumferenceInMm
+      ? convertCircumferenceFromMillimetres(neckCircumferenceInMm).toFixed(1)
+      : ""
+  );
+  const [waistCircumference, setWaistCircumference] = useState(
+    waistCircumferenceInMm
+      ? convertCircumferenceFromMillimetres(waistCircumferenceInMm).toFixed(1)
+      : ""
+  );
+  const [chestSkinfold, setChestSkinfold] = useState(
+    initialChestSkinfold?.toFixed(0) ?? ""
+  );
+  const [abSkinfold, setAbSkinfold] = useState(
+    initialAbSkinfold?.toFixed(0) ?? ""
+  );
+  const [thighSkinfold, setThighSkinfold] = useState(
+    initialThighSkinfold?.toFixed(0) ?? ""
+  );
+
+  const onDeleteButtonClick = useCallback(() => {
     if (id) {
       void deleteBodyCompEntry(id).then(() => {
         router.replace("/body-comp/log");
       });
     }
+  }, [id, router]);
+
+  const onSubmit: ComponentProps<"form">["onSubmit"] = (event) => {
+    event.preventDefault();
+
+    const entry: INewBodyCompEntry = {
+      abSkinfold: abSkinfold.trim() ? parseInt(abSkinfold, 10) : undefined,
+      chestSkinfold: chestSkinfold.trim()
+        ? parseInt(chestSkinfold, 10)
+        : undefined,
+      date,
+      neckCircumferenceInMm: neckCircumference.trim()
+        ? convertCircumferenceToMillimetres(parseFloat(neckCircumference))
+        : undefined,
+      thighSkinfold: thighSkinfold.trim()
+        ? parseInt(thighSkinfold, 10)
+        : undefined,
+      userEmail,
+      waistCircumferenceInMm: waistCircumference.trim()
+        ? convertCircumferenceToMillimetres(parseFloat(waistCircumference))
+        : undefined,
+      weightInG: convertBodyweightToGrams(parseInt(weight, 10)),
+    };
+
+    setIsSubmitting(true);
+    void createEntry(entry).then(() => {
+      setIsSubmitting(false);
+
+      router.replace("/body-comp/log");
+    });
   };
 
   const titleKey = isEditMode
@@ -94,39 +147,35 @@ export const BodyCompEntryForm = ({
     <>
       <Header endContent={headerEndContent} title={getUiString(titleKey)} />
 
-      <FormActionErrorToast error={state} />
+      <FormActionErrorToast
+        error={createEntryError ? { message: createEntryError } : undefined}
+      />
 
-      <form action={formAction}>
+      <form onSubmit={onSubmit}>
         <HiddenInput defaultValue={id} name="entryId" />
 
         <main className={styles["main-container"]}>
           <DatePicker
-            defaultValue={date ?? formatDateWithoutTime(dayjs())}
             id="txtDate"
             label={getUiString(UiStringKey.LabelDate)}
             name="date"
+            onChange={setDate}
             required
+            value={date}
           />
 
           <Input
             id="txtWeight"
-            defaultValue={
-              weightInG
-                ? convertWeightUnits(
-                    weightInG,
-                    WeightUnit.Grams,
-                    weightUnit,
-                  ).toFixed(1)
-                : undefined
-            }
             label={getUiString(UiStringKey.FormLabelWeight, {
-              unit: getWeightUnitAbbreviation(weightUnit),
+              unit: getWeightUnitAbbreviation(bodyweightUnit),
             })}
             min="0"
             name="weight"
+            onChange={setWeight}
             required
             step="0.1"
             type="number"
+            value={weight}
           />
 
           <section className={styles["section-container"]}>
@@ -140,41 +189,27 @@ export const BodyCompEntryForm = ({
               </Heading>
               <Input
                 id="txtNeckCirc"
-                defaultValue={
-                  neckCircumferenceInMm
-                    ? convertLengthUnits(
-                        neckCircumferenceInMm,
-                        LengthUnit.Millimeters,
-                        lengthUnit,
-                      ).toFixed(1)
-                    : undefined
-                }
                 label={getUiString(UiStringKey.FormLabelNeck, {
-                  unit: getLengthUnitAbbrevation(lengthUnit),
+                  unit: getLengthUnitAbbrevation(circumferenceUnit),
                 })}
                 min="0"
                 name="neckCircumference"
+                onChange={setNeckCircumference}
                 step="0.1"
                 type="number"
+                value={neckCircumference}
               />
               <Input
                 id="txtWaistCirc"
-                defaultValue={
-                  waistCircumferenceInMm
-                    ? convertLengthUnits(
-                        waistCircumferenceInMm,
-                        LengthUnit.Millimeters,
-                        lengthUnit,
-                      ).toFixed(1)
-                    : undefined
-                }
                 label={getUiString(UiStringKey.FormLabelWaist, {
-                  unit: getLengthUnitAbbrevation(lengthUnit),
+                  unit: getLengthUnitAbbrevation(circumferenceUnit),
                 })}
                 min="0"
                 name="waistCircumference"
+                onChange={setWaistCircumference}
                 step="0.1"
                 type="number"
+                value={waistCircumference}
               />
             </section>
 
@@ -182,30 +217,33 @@ export const BodyCompEntryForm = ({
               <Heading level={HeadingLevel.h3}>Calipers (skinfold)</Heading>
               <Input
                 id="txtChestSkinfold"
-                defaultValue={chestSkinfold?.toFixed(0)}
                 label={getUiString(UiStringKey.FormLabelChest)}
                 min="0"
+                onChange={setChestSkinfold}
                 name="chestSkinfold"
                 step="1"
                 type="number"
+                value={chestSkinfold}
               />
               <Input
                 id="txtAbSkinfold"
-                defaultValue={abSkinfold?.toFixed(0)}
                 label={getUiString(UiStringKey.FormLabelAb)}
                 min="0"
                 name="abSkinfold"
+                onChange={setAbSkinfold}
                 step="1"
                 type="number"
+                value={abSkinfold}
               />
               <Input
                 id="txtThighSkinfold"
-                defaultValue={thighSkinfold?.toFixed(0)}
                 label={getUiString(UiStringKey.FormLabelThigh)}
                 min="0"
                 name="thighSkinfold"
+                onChange={setThighSkinfold}
                 step="1"
                 type="number"
+                value={thighSkinfold}
               />
             </section>
           </section>
@@ -213,7 +251,9 @@ export const BodyCompEntryForm = ({
 
         <footer className={styles.footer}>
           <div className={styles["footer-button"]}>
-            <Button type="submit">{getUiString(primaryButtonKey)}</Button>
+            <Button type="submit" disabled={isSubmitting}>
+              {getUiString(primaryButtonKey)}
+            </Button>
           </div>
 
           <Link className={styles["footer-button"]} href="/body-comp/log">
@@ -223,10 +263,6 @@ export const BodyCompEntryForm = ({
       </form>
     </>
   );
-};
-
-const initialFormState = {
-  message: "",
 };
 
 interface IBodyCompEntryFormEditModeProps extends Omit<IBodyCompEntry, "date"> {

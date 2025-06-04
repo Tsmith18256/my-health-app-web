@@ -1,14 +1,18 @@
 "use client";
 
-import { createContext, ReactNode } from "react";
+import { createContext, ReactNode, useCallback, useState } from "react";
 import { create } from "zustand";
 import { useShallow } from "zustand/shallow";
-import { IBodyCompEntry } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
+import {
+  IBodyCompEntry,
+  INewBodyCompEntry,
+} from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
 import { ZustandStoreProvider } from "@/shared/state/generic-state-provider/generic-state.provider";
 import { useZustandStore } from "@/shared/state/generic-state-provider/use-zustand-store.hook";
 import { loadBodyCompEntries } from "@/features/body-comp/body-comp-entry/load-body-comp-entries.action";
 import { IBodyCompEntryWithLast7Days } from "@/features/body-comp/body-comp-entry/user-body-comp-entries/body-comp-entry-with-last-7-days.type";
 import dayjs from "dayjs";
+import { createBodyCompEntryAction } from "@/features/body-comp/actions/create-body-comp-entry.action";
 
 const pageSize = 20;
 
@@ -31,6 +35,38 @@ export const UserBodyCompEntriesProvider = ({
       {children}
     </ZustandStoreProvider>
   );
+};
+
+/**
+ * Hook to get the function to add an entry to the store. This function does not
+ * return the created entry, but it is added to the store and the database.
+ */
+export const useCreateBodyCompEntry = () => {
+  const addEntry = useZustandStore(
+    UserBodyCompEntriesContext,
+    (state) => state.addEntry
+  );
+
+  const [error, setError] = useState<string | undefined>(undefined);
+
+  return {
+    createEntry: useCallback(
+      async (newEntry: INewBodyCompEntry) => {
+        try {
+          await addEntry(newEntry);
+        } catch (err: unknown) {
+          if (err instanceof Error) {
+            setError(err.message);
+          } else {
+            setError(typeof err === "string" ? err : "Unknown error");
+          }
+        }
+      },
+      [addEntry]
+    ),
+
+    error,
+  };
 };
 
 /**
@@ -79,7 +115,7 @@ export const useUserBodyCompEntries = () => {
       entries: state.entries,
       isLoadingMore: state.isLoadingMore,
       totalCount: state.totalCount,
-    })),
+    }))
   );
 
   const entriesWithLast7Days = entries.filter((entry) => {
@@ -101,7 +137,7 @@ export const useUserBodyCompEntries = () => {
  * the middle of the sort order.
  */
 const applyLast7DayValueToBodyCompEntries = (
-  entries: IBodyCompEntry[],
+  entries: IBodyCompEntry[]
 ): IBodyCompEntryWithLast7Days[] => {
   return entries.map((currentEntry, i, array) => {
     const currentEntryDate = dayjs(currentEntry.date);
@@ -140,6 +176,55 @@ const createUserBodyCompEntriesStore = () => {
     isLoadingMore: false,
     totalCount: null,
 
+    addEntry: async (inputEntry) => {
+      const { entry: createdEntry, message } =
+        await createBodyCompEntryAction(inputEntry);
+
+      if (!createdEntry) {
+        throw new Error(message);
+      }
+
+      const oldestEntry = get().entries.reduce<IBodyCompEntry | undefined>(
+        (currentOldest, currentEntry) => {
+          if (!currentOldest) {
+            return currentEntry;
+          }
+
+          const previousDate = dayjs(currentOldest.date);
+          const currentDate = dayjs(currentEntry.date);
+
+          return currentDate.isBefore(previousDate)
+            ? currentEntry
+            : currentOldest;
+        },
+        undefined
+      );
+
+      if (!oldestEntry) {
+        return;
+      }
+
+      const createdEntryDate = dayjs(createdEntry.date);
+      const oldestEntryDate = dayjs(oldestEntry.date);
+
+      const totalCount = get().totalCount ?? 0;
+      // Only add the new entry to the store if it's within the scope of entries
+      // that have already been loaded
+      if (createdEntryDate.isAfter(oldestEntryDate)) {
+        get().updateEntries([createdEntry], totalCount + 1);
+      } else {
+        set({
+          totalCount: totalCount + 1,
+        });
+      }
+    },
+
+    setIsLoadingMore: (isLoadingMore) => {
+      set({
+        isLoadingMore,
+      });
+    },
+
     updateEntries: (entriesToAdd, totalCount) => {
       const { entries } = get();
 
@@ -159,12 +244,6 @@ const createUserBodyCompEntriesStore = () => {
       set({
         entries: applyLast7DayValueToBodyCompEntries(updatedEntriesArray),
         totalCount,
-      });
-    },
-
-    setIsLoadingMore: (isLoadingMore) => {
-      set({
-        isLoadingMore,
       });
     },
   }));
@@ -196,14 +275,18 @@ interface IState {
 
 interface IActions {
   /**
+   * Adds the given entry to the state and saves it to the database.
+   */
+  addEntry: (entry: INewBodyCompEntry) => Promise<void>;
+  /**
+   * Set the value of `isLoadingMore`.
+   */
+  setIsLoadingMore: (isLoadingMore: boolean) => void;
+  /**
    * Add or update multiple entries to the store.
    *
    * Any entries that are already in the store will be updated. Others will be
    * added.
    */
   updateEntries: (entries: IBodyCompEntry[], totalCount: number) => void;
-  /**
-   * Set the value of `isLoadingMore`.
-   */
-  setIsLoadingMore: (isLoadingMore: boolean) => void;
 }
