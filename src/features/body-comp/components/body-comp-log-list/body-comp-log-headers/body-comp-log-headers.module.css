@@ -1,0 +1,40 @@
+@value desktopLarge, desktopMedium, desktopSmall, tablet from '@/shared/styles/breakpoints.module.css';
+
+.container {
+  display: none;
+}
+
+.responsive-column-header {
+  display: none;
+}
+
+@media (tablet) {
+  .container {
+    display: grid;
+
+    margin-inline: 1rem;
+    padding-bottom: 0.5rem;
+
+    font-weight: bold;
+
+    border-bottom-width: 1px;
+  }
+}
+
+@media (desktopsmall) {
+  .header-desktop-small {
+    display: block;
+  }
+}
+
+@media (desktopmedium) {
+  .header-desktop-medium {
+    display: block;
+  }
+}
+
+@media (desktoplarge) {
+  .header-desktop-large {
+    display: block;
+  }
+}

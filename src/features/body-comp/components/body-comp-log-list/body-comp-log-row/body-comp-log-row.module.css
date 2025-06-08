@@ -1,0 +1,41 @@
+@value desktopLarge, desktopMedium, desktopSmall, tablet from '@/shared/styles/breakpoints.module.css';
+
+.container {
+  display: flex;
+  justify-content: space-between;
+
+  padding: 1rem;
+
+  &:hover {
+    background-color: #f3f4f6;
+  }
+
+  &:active {
+    background-color: #e5e7eb;
+  }
+}
+
+@media (tablet) {
+  .grid {
+    display: grid;
+    grid-template-columns: 2fr repeat(2, 1fr);
+  }
+}
+
+@media (desktopsmall) {
+  .grid {
+    grid-template-columns: 2fr repeat(3, 1fr);
+  }
+}
+
+@media (desktopmedium) {
+  .grid {
+    grid-template-columns: 2fr repeat(5, 1fr);
+  }
+}
+
+@media (desktoplarge) {
+  .grid {
+    grid-template-columns: 2fr repeat(8, 1fr);
+  }
+}

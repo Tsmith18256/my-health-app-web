@@ -1,0 +1,61 @@
+@value desktopLarge, desktopMedium, desktopSmall, tablet from '@/shared/styles/breakpoints.module.css';
+
+.align-end-on-mobile {
+  text-align: end;
+}
+
+.cell {
+  display: none;
+  flex-direction: column;
+}
+
+.cell-mobile {
+  display: flex;
+}
+
+.label {
+  color: var(--color-text-light);
+  font-size: 0.75rem;
+  line-height: 1.33rem;
+}
+
+.value {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+@media (tablet) {
+  .align-end-on-mobile {
+    text-align: start;
+  }
+
+  .cell-tablet {
+    display: flex;
+  }
+
+  .label {
+    display: none;
+  }
+
+  .value {
+    font-size: 1.125rem;
+  }
+}
+
+@media (desktopsmall) {
+  .cell-desktop-small {
+    display: flex;
+  }
+}
+
+@media (desktopmedium) {
+  .cell-desktop-medium {
+    display: flex;
+  }
+}
+
+@media (desktoplarge) {
+  .cell-desktop-large {
+    display: flex;
+  }
+}

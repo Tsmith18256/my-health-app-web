@@ -1,9 +1,11 @@
 {
   "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": ["src/app/**/*.tsx!", "src/middleware.ts!"],
   "ignore": ["src/**/*.css.d.ts"],
   "ignoreDependencies": [
     "@eslint/js",
     "eslint-config-next",
     "typed-css-modules"
-  ]
+  ],
+  "project": ["src/**/*.{ts,tsx}!", "src/testing"]
 }

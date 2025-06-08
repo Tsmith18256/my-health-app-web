@@ -3,7 +3,7 @@
 import {
   BodyCompEntryId,
   deleteBodyCompEntryById,
-} from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
+} from "@/features/body-comp/daos/body-comp-entry.dao";
 
 export const deleteBodyCompEntry = async (id: BodyCompEntryId) => {
   await deleteBodyCompEntryById(id);

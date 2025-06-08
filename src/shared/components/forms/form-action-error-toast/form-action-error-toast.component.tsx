@@ -3,9 +3,10 @@
 import { useEffect, useState } from "react";
 import styles from "./form-action-error-toast.module.css";
 
-export const FormActionErrorToast = (props: IFormActionErrorToastProps) => {
+export const FormActionErrorToast = ({
+  message,
+}: IFormActionErrorToastProps) => {
   const [isVisible, setIsVisible] = useState(false);
-  const message = props.error?.message;
 
   useEffect(() => {
     setIsVisible(true);
@@ -22,10 +23,6 @@ export const FormActionErrorToast = (props: IFormActionErrorToastProps) => {
   return <div className={styles.container}>{message}</div>;
 };
 
-interface IFormActionError {
-  message: string;
-}
-
 interface IFormActionErrorToastProps {
-  error?: IFormActionError;
+  message?: string;
 }

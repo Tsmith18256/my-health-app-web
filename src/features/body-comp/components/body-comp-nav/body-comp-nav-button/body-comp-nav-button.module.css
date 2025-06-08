@@ -1,0 +1,56 @@
+@value desktopSmall from '@/shared/styles/breakpoints.module.css';
+
+.button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+
+  flex-grow: 1;
+  width: 100%;
+
+  background-color: var(--color-primary-light);
+  color: var(--color-text);
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--color-primary-light);
+  }
+
+  &:active {
+    background-color: var(--color-primary-dark);
+  }
+
+  &:disabled {
+    background-color: var(--color-primary);
+
+    cursor: default;
+  }
+}
+
+.label {
+  font-size: 0.75rem;
+  line-height: 1.33rem;
+}
+
+@media (desktopsmall) {
+  .button {
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    gap: 1rem;
+
+    width: 10rem;
+    flex-grow: 0;
+
+    padding: 0.5rem 1rem;
+
+    background-color: initial;
+
+    &:disabled {
+      border: 3px solid black;
+    }
+  }
+}

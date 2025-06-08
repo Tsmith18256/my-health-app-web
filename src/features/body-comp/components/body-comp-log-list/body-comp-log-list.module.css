@@ -1,0 +1,13 @@
+@value desktopSmall, tablet from '@/shared/styles/breakpoints.module.css';
+
+@media (tablet) {
+  .container {
+    padding-block: 2rem;
+  }
+}
+
+@media (desktopsmall) {
+  .container {
+    padding: 1rem;
+  }
+}

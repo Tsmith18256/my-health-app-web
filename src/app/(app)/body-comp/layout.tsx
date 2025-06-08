@@ -1,4 +1,4 @@
-import { UserBodyCompEntriesProvider } from "@/features/body-comp/body-comp-entry/user-body-comp-entries/user-body-comp-entries.state";
+import { UserBodyCompEntriesProvider } from "@/features/body-comp/state/user-body-comp-entries/user-body-comp-entries.state";
 import { ILayoutProps } from "@/shared/helper-types/layout-props.type";
 
 /**

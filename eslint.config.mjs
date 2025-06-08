@@ -26,11 +26,15 @@ export default tseslint.config([
       },
     },
     rules: {
-      "no-restricted-imports": [
+      "@typescript-eslint/no-restricted-imports": [
         "error",
         {
-          name: "@testing-library/react",
-          message: "Import from @/testing/react-testing-library/test.util",
+          patterns: [
+            {
+              group: ["@/testing/*"],
+              message: "Don't import testing utils from source files",
+            },
+          ],
         },
       ],
       "no-shadow": "error",
@@ -39,6 +43,22 @@ export default tseslint.config([
       "@typescript-eslint/switch-exhaustiveness-check": "error",
 
       "storybook/await-interactions": "error",
+    },
+  },
+  {
+    files: ["**/*.test.ts*", "src/testing/**"],
+    rules: {
+      "@typescript-eslint/no-restricted-imports": [
+        "error",
+        {
+          paths: [
+            {
+              name: "@testing-library/react",
+              message: "Import from @/testing/react-testing-library/test.util",
+            },
+          ],
+        },
+      ],
     },
   },
   ...compat.config({

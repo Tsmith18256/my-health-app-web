@@ -1,24 +1,4 @@
 {
-  "Media Query Desktop Large": {
-    "scope": "css",
-    "prefix": ["media-dt-lg"],
-    "body": ["/* Desktop Large */", "@media (width >= 120rem) {", "\t$1", "}"],
-  },
-  "Media Query Desktop Medium": {
-    "scope": "css",
-    "prefix": ["media-dt-md"],
-    "body": ["/* Desktop Medium */", "@media (width >= 96rem) {", "\t$1", "}"],
-  },
-  "Media Query Desktop Small": {
-    "scope": "css",
-    "prefix": ["media-dt-sm"],
-    "body": ["/* Desktop Small */", "@media (width >= 64rem) {", "\t$1", "}"],
-  },
-  "Media Query Tablet": {
-    "scope": "css",
-    "prefix": ["media-tablet"],
-    "body": ["/* Tablet */", "@media (width >= 48rem) {", "\t$1", "}"],
-  },
   "Next Layout": {
     "scope": "typescriptreact",
     "prefix": ["next-layout"],

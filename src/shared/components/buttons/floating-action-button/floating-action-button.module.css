@@ -1,3 +1,5 @@
+@value desktopLarge from '@/shared/styles/breakpoints.module.css';
+
 .button {
   background-color: var(--color-primary);
   border: 3px solid black;
@@ -17,7 +19,7 @@
   }
 }
 
-@media (width >= 64rem) {
+@media (desktoplarge) {
   .button {
     inset-block-end: var(--floating-action-button-inset);
     inset-inline-end: var(--floating-action-button-inset);

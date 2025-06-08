@@ -28,6 +28,8 @@ export class ErrorWithCode extends Error {
  */
 export const ErrorCode = {
   AuthFailed: "AuthFailed",
+  DatabaseInsertError: "DatabaseInsertError",
+  DatabaseUpdateError: "DatabaseUpdateError",
   FormDataIncomplete: "FormDataIncomplete",
   FormValueTypeMismatch: "FormValueTypeMismatch",
 } as const;
@@ -40,7 +42,8 @@ export type ErrorCode = ObjectValues<typeof ErrorCode>;
  */
 const DefaultErrorMessagesByCode = {
   [ErrorCode.AuthFailed]: "Authentication failed.",
+  [ErrorCode.DatabaseInsertError]: "Unknown error inserting into database.",
+  [ErrorCode.DatabaseUpdateError]: "Unknown error updating entry in database.",
   [ErrorCode.FormDataIncomplete]: "Form data incomplete.",
-  [ErrorCode.FormValueTypeMismatch]:
-    "An unknown error occurred when parsing the form data.",
+  [ErrorCode.FormValueTypeMismatch]: "Unknown error parsing form data.",
 } as const satisfies Record<ErrorCode, string>;

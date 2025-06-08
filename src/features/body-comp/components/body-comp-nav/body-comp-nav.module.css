@@ -1,0 +1,20 @@
+@value desktopSmall from '@/shared/styles/breakpoints.module.css';
+
+.nav {
+  border-top: 3px solid black;
+  display: flex;
+  height: var(--nav-bar-height-mobile);
+  inset-block-end: 0;
+  inset-inline: 0;
+  justify-content: stretch;
+  position: fixed;
+}
+
+@media (desktopsmall) {
+  .nav {
+    border-top: none;
+    height: auto;
+    margin: 2rem 1rem;
+    position: static;
+  }
+}
