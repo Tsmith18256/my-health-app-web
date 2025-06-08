@@ -125,7 +125,7 @@ export const selectBodyCompEntryById = async (
 
 export const updateBodyCompEntry = async (
   inputEntry: IBodyCompEntry,
-): Promise<IBodyCompEntry> => {
+): Promise<WithError<{ updatedEntry: IBodyCompEntry }>> => {
   const [updatedEntry] = await sql<IBodyCompEntryModel[]>`
     UPDATE body_comp_entries SET
         ab_skinfold = ${
@@ -161,10 +161,15 @@ export const updateBodyCompEntry = async (
   `;
 
   if (updatedEntry) {
-    return convertModelToObject(updatedEntry);
+    return { updatedEntry: convertModelToObject(updatedEntry) };
   }
 
-  throw new Error("Unknown error updating body comp entry");
+  return {
+    error: new ErrorWithCode(
+      ErrorCode.DatabaseInsertError,
+      `Unknown error updating body comp entry (id: ${inputEntry.id.toString()})`,
+    ),
+  };
 };
 
 const convertModelToObject = (model: IBodyCompEntryModel): IBodyCompEntry => {

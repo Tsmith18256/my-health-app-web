@@ -10,14 +10,6 @@ import { HttpStatusCode } from "@/shared/enums/http-status-code.enum";
 
 vi.mock("@/features/body-comp/daos/body-comp-entry.dao");
 
-const insertBodyCompEntryMock = vi.mocked(insertBodyCompEntry);
-
-const newEntryMock: INewBodyCompEntry = {
-  date: "2025-06-08",
-  userEmail: "test@email.com" as EmailAddress,
-  weightInG: 57700,
-};
-
 beforeEach(() => {
   insertBodyCompEntryMock.mockImplementation((entry) => {
     return Promise.resolve({
@@ -61,3 +53,11 @@ it("returns an error if one is thrown on insert", async () => {
     statusCode: HttpStatusCode.InternalServerError,
   });
 });
+
+const insertBodyCompEntryMock = vi.mocked(insertBodyCompEntry);
+
+const newEntryMock: INewBodyCompEntry = {
+  date: "2025-06-08",
+  userEmail: "test@email.com" as EmailAddress,
+  weightInG: 57700,
+};

@@ -34,8 +34,9 @@ import { AriaLabel } from "@/shared/enums/aria-label.enum";
 import { DatePicker } from "@/shared/components/forms/date-picker/date-picker.component";
 import { HiddenInput } from "@/shared/components/forms/hidden-input/hidden-input.component";
 import { usePreferredUnitUtils } from "@/shared/hooks/use-preferred-unit-utils/use-preferred-unit-utils.hook";
-import { createBodyCompEntry } from "../../actions/create-body-comp-entry/create-body-comp-entry.action";
+import { createBodyCompEntry } from "@/features/body-comp/actions/create-body-comp-entry/create-body-comp-entry.action";
 import { useUserSettings } from "@/shared/state/user-settings/user-settings.state";
+import { updateBodyCompEntry } from "@/features/body-comp/actions/update-body-comp-entry/update-body-comp-entry.action";
 
 export const BodyCompEntryForm = ({
   abSkinfold: initialAbSkinfold,
@@ -95,35 +96,68 @@ export const BodyCompEntryForm = ({
     (event) => {
       event.preventDefault();
 
-      const entry: INewBodyCompEntry = {
-        abSkinfold: abSkinfold.trim() ? parseInt(abSkinfold, 10) : undefined,
-        chestSkinfold: chestSkinfold.trim()
-          ? parseInt(chestSkinfold, 10)
-          : undefined,
-        date,
-        neckCircumferenceInMm: neckCircumference.trim()
-          ? convertCircumferenceToMillimetres(parseFloat(neckCircumference))
-          : undefined,
-        thighSkinfold: thighSkinfold.trim()
-          ? parseInt(thighSkinfold, 10)
-          : undefined,
-        userEmail: emailAddress,
-        waistCircumferenceInMm: waistCircumference.trim()
-          ? convertCircumferenceToMillimetres(parseFloat(waistCircumference))
-          : undefined,
-        weightInG: convertBodyweightToGrams(parseInt(weight, 10)),
-      };
-
       setIsSubmitting(true);
-      void createBodyCompEntry(entry).then((res) => {
-        setIsSubmitting(false);
 
-        if (!res.entry) {
-          setErrorMessage(res.message);
-        } else {
-          router.replace("/body-comp/log");
-        }
-      });
+      if (isEditMode) {
+        const entry: IBodyCompEntry = {
+          abSkinfold: abSkinfold.trim() ? parseInt(abSkinfold, 10) : undefined,
+          chestSkinfold: chestSkinfold.trim()
+            ? parseInt(chestSkinfold, 10)
+            : undefined,
+          date,
+          id,
+          neckCircumferenceInMm: neckCircumference.trim()
+            ? convertCircumferenceToMillimetres(parseFloat(neckCircumference))
+            : undefined,
+          thighSkinfold: thighSkinfold.trim()
+            ? parseInt(thighSkinfold, 10)
+            : undefined,
+          userEmail: emailAddress,
+          waistCircumferenceInMm: waistCircumference.trim()
+            ? convertCircumferenceToMillimetres(parseFloat(waistCircumference))
+            : undefined,
+          weightInG: convertBodyweightToGrams(parseInt(weight, 10)),
+        };
+
+        void updateBodyCompEntry(entry).then((res) => {
+          setIsSubmitting(false);
+
+          if (res.updatedEntry) {
+            router.replace(`/body-comp/${res.updatedEntry.id.toString()}`);
+          } else {
+            setErrorMessage(res.message);
+          }
+        });
+      } else {
+        const entry: INewBodyCompEntry = {
+          abSkinfold: abSkinfold.trim() ? parseInt(abSkinfold, 10) : undefined,
+          chestSkinfold: chestSkinfold.trim()
+            ? parseInt(chestSkinfold, 10)
+            : undefined,
+          date,
+          neckCircumferenceInMm: neckCircumference.trim()
+            ? convertCircumferenceToMillimetres(parseFloat(neckCircumference))
+            : undefined,
+          thighSkinfold: thighSkinfold.trim()
+            ? parseInt(thighSkinfold, 10)
+            : undefined,
+          userEmail: emailAddress,
+          waistCircumferenceInMm: waistCircumference.trim()
+            ? convertCircumferenceToMillimetres(parseFloat(waistCircumference))
+            : undefined,
+          weightInG: convertBodyweightToGrams(parseInt(weight, 10)),
+        };
+
+        void createBodyCompEntry(entry).then((res) => {
+          setIsSubmitting(false);
+
+          if (res.entry) {
+            router.replace("/body-comp/log");
+          } else {
+            setErrorMessage(res.message);
+          }
+        });
+      }
     },
     [
       abSkinfold,
@@ -132,6 +166,8 @@ export const BodyCompEntryForm = ({
       convertCircumferenceToMillimetres,
       date,
       emailAddress,
+      id,
+      isEditMode,
       neckCircumference,
       thighSkinfold,
       router,
