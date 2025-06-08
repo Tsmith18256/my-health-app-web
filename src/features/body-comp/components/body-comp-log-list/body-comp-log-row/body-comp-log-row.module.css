@@ -1,4 +1,4 @@
-@value desktopLarge, desktopMedium, desktopSmall, tablet from '@/shared/styles/breakpoints.module.css';
+@value desktop_large, desktop_medium, desktop_small, tablet from '@/shared/styles/breakpoints.module.css';
 
 .container {
   display: flex;
@@ -22,19 +22,19 @@
   }
 }
 
-@media (desktopsmall) {
+@media (desktop_small) {
   .grid {
     grid-template-columns: 2fr repeat(3, 1fr);
   }
 }
 
-@media (desktopmedium) {
+@media (desktop_medium) {
   .grid {
     grid-template-columns: 2fr repeat(5, 1fr);
   }
 }
 
-@media (desktoplarge) {
+@media (desktop_large) {
   .grid {
     grid-template-columns: 2fr repeat(8, 1fr);
   }

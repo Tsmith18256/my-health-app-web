@@ -55,7 +55,7 @@ export const BodyCompLogRow = ({ entry }: IBodyCompLogRowProps) => {
       />
 
       <BodyCompLogCell
-        minimumBreakpoint={Breakpoint.DesktopSmall}
+        minimumBreakpoint={Breakpoint.desktop_small}
         valueText={formatWeight(entry.last7DaysWeightInG, { unit: weightUnit })}
       />
 
@@ -69,7 +69,7 @@ export const BodyCompLogRow = ({ entry }: IBodyCompLogRowProps) => {
 
       {entry.neckCircumferenceInMm && (
         <BodyCompLogCell
-          minimumBreakpoint={Breakpoint.DesktopMedium}
+          minimumBreakpoint={Breakpoint.desktop_medium}
           valueText={formatLength(entry.neckCircumferenceInMm, {
             unit: lengthUnit,
           })}
@@ -78,7 +78,7 @@ export const BodyCompLogRow = ({ entry }: IBodyCompLogRowProps) => {
 
       {entry.waistCircumferenceInMm && (
         <BodyCompLogCell
-          minimumBreakpoint={Breakpoint.DesktopMedium}
+          minimumBreakpoint={Breakpoint.desktop_medium}
           valueText={formatLength(entry.waistCircumferenceInMm, {
             unit: lengthUnit,
           })}
@@ -87,7 +87,7 @@ export const BodyCompLogRow = ({ entry }: IBodyCompLogRowProps) => {
 
       {entry.chestSkinfold && (
         <BodyCompLogCell
-          minimumBreakpoint={Breakpoint.DesktopLarge}
+          minimumBreakpoint={Breakpoint.desktop_large}
           valueText={formatLength(entry.chestSkinfold, {
             unit: LengthUnit.Millimeters,
           })}
@@ -96,7 +96,7 @@ export const BodyCompLogRow = ({ entry }: IBodyCompLogRowProps) => {
 
       {entry.abSkinfold && (
         <BodyCompLogCell
-          minimumBreakpoint={Breakpoint.DesktopLarge}
+          minimumBreakpoint={Breakpoint.desktop_large}
           valueText={formatLength(entry.abSkinfold, {
             unit: LengthUnit.Millimeters,
           })}
@@ -105,7 +105,7 @@ export const BodyCompLogRow = ({ entry }: IBodyCompLogRowProps) => {
 
       {entry.thighSkinfold && (
         <BodyCompLogCell
-          minimumBreakpoint={Breakpoint.DesktopLarge}
+          minimumBreakpoint={Breakpoint.desktop_large}
           valueText={formatLength(entry.thighSkinfold, {
             unit: LengthUnit.Millimeters,
           })}

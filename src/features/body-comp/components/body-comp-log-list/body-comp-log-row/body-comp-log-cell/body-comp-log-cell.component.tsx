@@ -21,9 +21,9 @@ export const BodyCompLogCell = ({
 const visibilityClassesByBreakpoint: Record<Breakpoint, string> = {
   [Breakpoint.Mobile]: styles["cell-mobile"],
   [Breakpoint.Tablet]: styles["cell-tablet"],
-  [Breakpoint.DesktopSmall]: styles["cell-desktop-small"],
-  [Breakpoint.DesktopMedium]: styles["cell-desktop-medium"],
-  [Breakpoint.DesktopLarge]: styles["cell-desktop-large"],
+  [Breakpoint.desktop_small]: styles["cell-desktop-small"],
+  [Breakpoint.desktop_medium]: styles["cell-desktop-medium"],
+  [Breakpoint.desktop_large]: styles["cell-desktop-large"],
 };
 
 type IBodyCompLogCellProps = {

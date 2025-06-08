@@ -1,4 +1,4 @@
-@value desktopLarge, desktopMedium, desktopSmall, tablet from '@/shared/styles/breakpoints.module.css';
+@value desktop_large, desktop_medium, desktop_small, tablet from '@/shared/styles/breakpoints.module.css';
 
 .container {
   display: none;
@@ -21,19 +21,19 @@
   }
 }
 
-@media (desktopsmall) {
+@media (desktop_small) {
   .header-desktop-small {
     display: block;
   }
 }
 
-@media (desktopmedium) {
+@media (desktop_medium) {
   .header-desktop-medium {
     display: block;
   }
 }
 
-@media (desktoplarge) {
+@media (desktop_large) {
   .header-desktop-large {
     display: block;
   }

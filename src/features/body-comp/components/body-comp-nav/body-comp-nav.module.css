@@ -1,4 +1,4 @@
-@value desktopSmall from '@/shared/styles/breakpoints.module.css';
+@value desktop_small from '@/shared/styles/breakpoints.module.css';
 
 .nav {
   border-top: 3px solid black;
@@ -10,7 +10,7 @@
   position: fixed;
 }
 
-@media (desktopsmall) {
+@media (desktop_small) {
   .nav {
     border-top: none;
     height: auto;
