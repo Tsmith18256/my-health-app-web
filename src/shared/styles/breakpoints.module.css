@@ -1,4 +1,4 @@
-@value desktopLarge: min-width: 120rem;
-@value desktopMedium: min-width: 96rem;
-@value desktopSmall: min-width: 64rem;
+@value desktop_large: min-width: 120rem;
+@value desktop_medium: min-width: 96rem;
+@value desktop_small: min-width: 64rem;
 @value tablet: min-width: 48rem;

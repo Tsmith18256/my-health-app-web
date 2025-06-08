@@ -1,4 +1,4 @@
-@value desktopLarge, desktopMedium, desktopSmall, tablet from '@/shared/styles/breakpoints.module.css';
+@value desktop_large, desktop_medium, desktop_small, tablet from '@/shared/styles/breakpoints.module.css';
 
 .align-end-on-mobile {
   text-align: end;
@@ -42,19 +42,19 @@
   }
 }
 
-@media (desktopsmall) {
+@media (desktop_small) {
   .cell-desktop-small {
     display: flex;
   }
 }
 
-@media (desktopmedium) {
+@media (desktop_medium) {
   .cell-desktop-medium {
     display: flex;
   }
 }
 
-@media (desktoplarge) {
+@media (desktop_large) {
   .cell-desktop-large {
     display: flex;
   }
