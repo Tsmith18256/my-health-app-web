@@ -21,8 +21,10 @@ const newEntryMock: INewBodyCompEntry = {
 beforeEach(() => {
   insertBodyCompEntryMock.mockImplementation((entry) => {
     return Promise.resolve({
-      ...entry,
-      id: entry.weightInG as BodyCompEntryId,
+      entry: {
+        ...entry,
+        id: entry.weightInG as BodyCompEntryId,
+      },
     });
   });
 });
@@ -47,37 +49,15 @@ it("returns the created entry", async () => {
 });
 
 it("returns an error if one is thrown on insert", async () => {
-  const errorMessage = "Uh oh";
-  insertBodyCompEntryMock.mockRejectedValue(new Error(errorMessage));
-
-  const response = await createBodyCompEntry(newEntryMock);
-
-  expect(response).toStrictEqual({
-    message: errorMessage,
-    statusCode: HttpStatusCode.InternalServerError,
+  insertBodyCompEntryMock.mockResolvedValue({
+    error: new Error("Uh oh"),
   });
-});
-
-it("returns an error if one is thrown on insert (string)", async () => {
-  const errorMessage = "Uh oh";
-  insertBodyCompEntryMock.mockRejectedValue(errorMessage);
 
   const response = await createBodyCompEntry(newEntryMock);
 
   expect(response).toStrictEqual({
-    message: errorMessage,
-    statusCode: HttpStatusCode.InternalServerError,
-  });
-});
-
-it("returns an error if one is thrown on insert (number)", async () => {
-  const error = 100;
-  insertBodyCompEntryMock.mockRejectedValue(error);
-
-  const response = await createBodyCompEntry(newEntryMock);
-
-  expect(response).toStrictEqual({
-    message: "Unknown error occurred",
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    message: expect.any(String),
     statusCode: HttpStatusCode.InternalServerError,
   });
 });

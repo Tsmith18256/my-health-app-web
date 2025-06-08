@@ -1,5 +1,10 @@
 import { sql } from "@/shared/database/db";
+import {
+  ErrorCode,
+  ErrorWithCode,
+} from "@/shared/errors/error-with-code.class";
 import { Brand } from "@/shared/helper-types/brand.type";
+import { WithError } from "@/shared/helper-types/with-error.type";
 import { formatVanillaDateWithoutTime } from "@/shared/utils/dates/vanilla/format-vanilla-date-without-time";
 import { clampNumber } from "@/shared/utils/math/clamp-number/clamp-number.util";
 import {
@@ -16,7 +21,7 @@ export const deleteBodyCompEntryById = async (id: BodyCompEntryId) => {
 
 export const insertBodyCompEntry = async (
   inputEntry: INewBodyCompEntry,
-): Promise<IBodyCompEntry> => {
+): Promise<WithError<{ entry: IBodyCompEntry }>> => {
   const [createdEntry] = await sql<IBodyCompEntryModel[]>`
     INSERT INTO body_comp_entries (
       ab_skinfold,
@@ -60,10 +65,15 @@ export const insertBodyCompEntry = async (
   `;
 
   if (createdEntry) {
-    return convertModelToObject(createdEntry);
+    return { entry: convertModelToObject(createdEntry) };
   }
 
-  throw new Error("Unknown error inserting body comp entry");
+  return {
+    error: new ErrorWithCode(
+      ErrorCode.DatabaseInsertError,
+      "Unknown error inserting body comp entry",
+    ),
+  };
 };
 
 export const selectBodyCompEntries = async ({

@@ -14,24 +14,17 @@ import { IActionResponse } from "@/shared/interfaces/action-response.interface";
 export const createBodyCompEntry = async (
   inputEntry: INewBodyCompEntry,
 ): IActionResponse<{ entry: IBodyCompEntry }> => {
-  try {
-    const createdEntry = await insertBodyCompEntry(inputEntry);
+  const { entry: createdEntry, error } = await insertBodyCompEntry(inputEntry);
 
+  if (createdEntry) {
     return {
       entry: createdEntry,
       statusCode: HttpStatusCode.Success,
     };
-  } catch (err) {
-    if (err instanceof Error) {
-      return {
-        message: err.message,
-        statusCode: HttpStatusCode.InternalServerError,
-      };
-    }
-
-    return {
-      message: typeof err === "string" ? err : "Unknown error occurred",
-      statusCode: HttpStatusCode.InternalServerError,
-    };
   }
+
+  return {
+    message: error.message,
+    statusCode: HttpStatusCode.InternalServerError,
+  };
 };
