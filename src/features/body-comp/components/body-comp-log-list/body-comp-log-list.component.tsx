@@ -1,13 +1,13 @@
 "use client";
 
-import { BodyCompLogRow } from "@/features/body-comp/log/list/row/body-comp-log-row.component";
-import { BodyCompLogHeaders } from "@/features/body-comp/log/list/body-comp-log-headers.component";
+import { BodyCompLogRow } from "@/features/body-comp/components/body-comp-log-list/body-comp-log-row/body-comp-log-row.component";
 import { InfiniteScrollContainer } from "@/shared/components/infinite-scroll-container/infinite-scroll-container.component";
 import styles from "./body-comp-log-list.module.css";
+import { BodyCompLogHeaders } from "./body-comp-log-headers/body-comp-log-headers.component";
 import {
   useLoadBodyCompEntries,
   useUserBodyCompEntries,
-} from "@/features/body-comp/body-comp-entry/user-body-comp-entries/user-body-comp-entries.state";
+} from "../../state/user-body-comp-entries/user-body-comp-entries.state";
 
 export const BodyCompLogList = () => {
   const { entries, hasMore, isLoadingMore } = useUserBodyCompEntries();

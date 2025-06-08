@@ -3,7 +3,7 @@
 import {
   BodyCompNavButton,
   BodyCompNavPage,
-} from "@/features/body-comp/nav/body-comp-nav-button.component";
+} from "@/features/body-comp/components/body-comp-nav/body-comp-nav-button/body-comp-nav-button.component";
 import styles from "./body-comp-nav.module.css";
 
 export const BodyCompNav = () => {

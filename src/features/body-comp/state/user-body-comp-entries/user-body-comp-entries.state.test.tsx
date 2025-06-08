@@ -3,17 +3,19 @@ import {
   useLoadBodyCompEntries,
   UserBodyCompEntriesProvider,
   useUserBodyCompEntries,
-} from "@/features/body-comp/body-comp-entry/user-body-comp-entries/user-body-comp-entries.state";
+} from "@/features/body-comp/state/user-body-comp-entries/user-body-comp-entries.state";
 import {
   BodyCompEntryId,
   IBodyCompEntry,
-} from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
+} from "@/features/body-comp/daos/body-comp-entry.dao";
 import { EmailAddress } from "@/shared/utils/validation/validate-email-address.util";
 import { renderHook } from "@/testing/react-testing-library/test.util";
-import { loadBodyCompEntries } from "@/features/body-comp/body-comp-entry/load-body-comp-entries.action";
+import { loadBodyCompEntries } from "@/features/body-comp/actions/load-body-comp-entries/load-body-comp-entries.action";
 import { wait } from "@/shared/utils/wait.util";
 
-vi.mock("@/features/body-comp/body-comp-entry/load-body-comp-entries.action");
+vi.mock(
+  "@/features/body-comp/actions/load-body-comp-entries/load-body-comp-entries.action",
+);
 
 const mockInitialEntry: IBodyCompEntry = {
   id: 1 as BodyCompEntryId,

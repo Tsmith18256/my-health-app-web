@@ -1,4 +1,4 @@
-import { IBodyCompEntry } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
+import { IBodyCompEntry } from "@/features/body-comp/daos/body-comp-entry.dao";
 
 export interface IBodyCompEntryWithLast7Days extends IBodyCompEntry {
   /**

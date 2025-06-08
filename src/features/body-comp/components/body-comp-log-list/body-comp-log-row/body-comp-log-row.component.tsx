@@ -1,7 +1,7 @@
 "use client";
 
-import { calculateBodyFat } from "@/features/body-comp/calculate-body-fat.util";
-import { BodyCompLogCell } from "@/features/body-comp/log/list/row/body-comp-log-cell.component";
+import { calculateBodyFat } from "@/features/body-comp/utils/calculate-body-fat.util";
+import { BodyCompLogCell } from "@/features/body-comp/components/body-comp-log-list/body-comp-log-row/body-comp-log-cell/body-comp-log-cell.component";
 import { Breakpoint } from "@/shared/enums/breakpoint.enum";
 import { LengthUnit } from "@/shared/enums/length-unit.enum";
 import { formatLength } from "@/shared/utils/formatting/format-length.util";
@@ -14,7 +14,7 @@ import { useUserSettings } from "@/shared/state/user-settings/user-settings.stat
 import { getAgeFromBirthday } from "@/shared/utils/dates/get-age-from-birthday.util";
 import { WeightUnit } from "@/shared/enums/weight-unit.enum";
 import { MeasurementSystem } from "@/shared/enums/measurement-system.enum";
-import { IBodyCompEntryWithLast7Days } from "@/features/body-comp/body-comp-entry/user-body-comp-entries/body-comp-entry-with-last-7-days.type";
+import { IBodyCompEntryWithLast7Days } from "@/features/body-comp/state/user-body-comp-entries/body-comp-entry-with-last-7-days.type";
 
 /**
  * A single row in the body comp log list. On mobile, the row renders as a list

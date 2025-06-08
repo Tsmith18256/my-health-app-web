@@ -12,7 +12,7 @@ import {
   HeadingLevel,
 } from "@/shared/components/heading/heading.component";
 import { IconImage } from "@/shared/components/icon/icon.component";
-import { IBodyCompEntry } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
+import { IBodyCompEntry } from "@/features/body-comp/daos/body-comp-entry.dao";
 import Link from "next/link";
 import { useActionState } from "react";
 import { deleteBodyCompEntry } from "@/app/(app)/body-comp/[id]/edit/delete-body-comp-entry.action";
@@ -24,7 +24,7 @@ import { WeightUnit } from "@/shared/enums/weight-unit.enum";
 import { LengthUnit } from "@/shared/enums/length-unit.enum";
 import { convertWeightUnits } from "@/shared/utils/units/convert-weight-units.util";
 import { convertLengthUnits } from "@/shared/utils/units/convert-length-units.util";
-import { processBodyCompEntryForm } from "@/features/body-comp/log/body-comp-entry-form/process-body-comp-entry-form.action";
+import { processBodyCompEntryForm } from "@/features/body-comp/actions/process-body-comp-entry-form/process-body-comp-entry-form.action";
 import {
   getUiString,
   UiStringKey,

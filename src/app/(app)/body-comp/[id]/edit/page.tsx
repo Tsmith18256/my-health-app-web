@@ -1,5 +1,5 @@
-import { BodyCompEntryForm } from "@/features/body-comp/log/body-comp-entry-form/body-comp-entry-form.component";
-import { selectBodyCompEntryById } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
+import { BodyCompEntryForm } from "@/features/body-comp/components/body-comp-entry-form/body-comp-entry-form.component";
+import { selectBodyCompEntryById } from "@/features/body-comp/daos/body-comp-entry.dao";
 import { PageWithParamsProps } from "@/shared/helper-types/page-with-params-props.type";
 import { getAuthSessionDetails } from "@/features/auth/get-auth-session-details.util";
 import { notFound } from "next/navigation";

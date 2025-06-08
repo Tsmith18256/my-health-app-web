@@ -7,7 +7,7 @@
     "dev": "next dev",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
-    "generate:css-types": "npx typed-css-modules ./src & npm run format",
+    "generate:css-types": "rm ./**/*.css.d.ts && npx typed-css-modules ./src & npm run format",
     "knip": "knip",
     "lint": "next lint",
     "lint:fix": "next lint --fix",

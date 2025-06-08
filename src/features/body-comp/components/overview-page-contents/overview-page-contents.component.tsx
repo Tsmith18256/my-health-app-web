@@ -1,19 +1,19 @@
 "use client";
 
 import dayjs from "dayjs";
-import { OverviewMetricRow } from "@/features/body-comp/overview/overview-metric-row.component";
-import { OverviewSection } from "@/features/body-comp/overview/overview-section.component";
+import { OverviewMetricRow } from "@/features/body-comp/components/overview-metric-row/overview-metric-row.component";
+import { OverviewSection } from "@/features/body-comp/components/overview-section/overview-section.component";
 import {
   Heading,
   HeadingLevel,
 } from "@/shared/components/heading/heading.component";
-import { calculateBodyFat } from "@/features/body-comp/calculate-body-fat.util";
+import { calculateBodyFat } from "@/features/body-comp/utils/calculate-body-fat.util";
 import { getAgeFromBirthday } from "@/shared/utils/dates/get-age-from-birthday.util";
-import { OverviewMeasuringTapeSection } from "@/features/body-comp/overview/overview-measuring-tape-section.component";
-import { OverviewSkinfoldSection } from "@/features/body-comp/overview/overview-skinfold-section.component";
-import { OverviewCondensedItem } from "@/features/body-comp/overview/overview-condensed-item.component";
+import { OverviewMeasuringTapeSection } from "@/features/body-comp/components/overview-measuring-tape-section/overview-measuring-tape-section.component";
+import { OverviewSkinfoldSection } from "@/features/body-comp/components/overview-skinfold-section/overview-skinfold-section.component";
+import { OverviewCondensedItem } from "@/features/body-comp/components/overview-page-contents/overview-condensed-item/overview-condensed-item.component";
 import { formatWeight } from "@/shared/utils/formatting/format-weight.util";
-import { IBodyCompEntry } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
+import { IBodyCompEntry } from "@/features/body-comp/daos/body-comp-entry.dao";
 import { useUserSettings } from "@/shared/state/user-settings/user-settings.state";
 import { MeasurementSystem } from "@/shared/enums/measurement-system.enum";
 import { LengthUnit } from "@/shared/enums/length-unit.enum";

@@ -1,6 +1,6 @@
-import { IBodyCompEntry } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
-import { OverviewMetricRow } from "@/features/body-comp/overview/overview-metric-row.component";
-import { OverviewMetricsSection } from "@/features/body-comp/overview/overview-metrics-section.component";
+import { IBodyCompEntry } from "@/features/body-comp/daos/body-comp-entry.dao";
+import { OverviewMetricRow } from "@/features/body-comp/components/overview-metric-row/overview-metric-row.component";
+import { OverviewMetricsSection } from "@/features/body-comp/components/overview-metrics-section/overview-metrics-section.component";
 import { LengthUnit } from "@/shared/enums/length-unit.enum";
 
 export const OverviewMeasuringTapeSection = ({

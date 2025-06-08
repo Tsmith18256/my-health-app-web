@@ -1,7 +1,7 @@
 "use server";
 
 import { getAuthSessionDetails } from "@/features/auth/get-auth-session-details.util";
-import { selectBodyCompEntries } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
+import { selectBodyCompEntries } from "@/features/body-comp/daos/body-comp-entry.dao";
 import { selectUserProfileByEmail } from "@/shared/database/daos/user-profile.dao";
 import {
   ErrorCode,

@@ -3,11 +3,11 @@
 import { createContext, ReactNode } from "react";
 import { create } from "zustand";
 import { useShallow } from "zustand/shallow";
-import { IBodyCompEntry } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
+import { IBodyCompEntry } from "@/features/body-comp/daos/body-comp-entry.dao";
 import { ZustandStoreProvider } from "@/shared/state/generic-state-provider/generic-state.provider";
 import { useZustandStore } from "@/shared/state/generic-state-provider/use-zustand-store.hook";
-import { loadBodyCompEntries } from "@/features/body-comp/body-comp-entry/load-body-comp-entries.action";
-import { IBodyCompEntryWithLast7Days } from "@/features/body-comp/body-comp-entry/user-body-comp-entries/body-comp-entry-with-last-7-days.type";
+import { loadBodyCompEntries } from "@/features/body-comp/actions/load-body-comp-entries/load-body-comp-entries.action";
+import { IBodyCompEntryWithLast7Days } from "@/features/body-comp/state/user-body-comp-entries/body-comp-entry-with-last-7-days.type";
 import dayjs from "dayjs";
 
 const pageSize = 20;

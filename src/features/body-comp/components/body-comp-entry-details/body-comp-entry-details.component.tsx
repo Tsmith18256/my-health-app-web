@@ -1,14 +1,14 @@
 "use client";
 
 import dayjs from "dayjs";
-import { IBodyCompEntry } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
+import { IBodyCompEntry } from "@/features/body-comp/daos/body-comp-entry.dao";
 import {
   BodyFatMethod,
   calculateBodyFat,
-} from "@/features/body-comp/calculate-body-fat.util";
-import { OverviewMeasuringTapeSection } from "@/features/body-comp/overview/overview-measuring-tape-section.component";
-import { OverviewSection } from "@/features/body-comp/overview/overview-section.component";
-import { OverviewSkinfoldSection } from "@/features/body-comp/overview/overview-skinfold-section.component";
+} from "@/features/body-comp/utils/calculate-body-fat.util";
+import { OverviewMeasuringTapeSection } from "@/features/body-comp/components/overview-measuring-tape-section/overview-measuring-tape-section.component";
+import { OverviewSection } from "@/features/body-comp/components/overview-section/overview-section.component";
+import { OverviewSkinfoldSection } from "@/features/body-comp/components/overview-skinfold-section/overview-skinfold-section.component";
 import {
   Heading,
   HeadingLevel,

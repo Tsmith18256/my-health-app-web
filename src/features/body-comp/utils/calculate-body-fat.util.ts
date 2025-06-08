@@ -1,4 +1,4 @@
-import { IBodyCompEntry } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
+import { IBodyCompEntry } from "@/features/body-comp/daos/body-comp-entry.dao";
 import { LengthUnit } from "@/shared/enums/length-unit.enum";
 import { ObjectValues } from "@/shared/helper-types/object-values.type";
 import { Prettify } from "@/shared/helper-types/prettify.type";

@@ -7,7 +7,7 @@ import {
   INewBodyCompEntry,
   insertBodyCompEntry,
   updateBodyCompEntry,
-} from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
+} from "@/features/body-comp/daos/body-comp-entry.dao";
 import { selectUserProfileByEmail } from "@/shared/database/daos/user-profile.dao";
 import { LengthUnit } from "@/shared/enums/length-unit.enum";
 import { MeasurementSystem } from "@/shared/enums/measurement-system.enum";

@@ -3,7 +3,7 @@ import {
   UiStringKey,
 } from "@/shared/utils/strings/get-ui-string.util";
 import styles from "./body-comp-log-headers.module.css";
-import rowStyles from "./row/body-comp-log-row.module.css";
+import rowStyles from "../body-comp-log-row/body-comp-log-row.module.css";
 
 export const BodyCompLogHeaders = () => {
   return (
@@ -15,6 +15,7 @@ export const BodyCompLogHeaders = () => {
       <span
         className={`${styles["responsive-column-header"]} ${styles["header-desktop-small"]}`}
       >
+        gc
         {getUiString(UiStringKey.ColumnHeaderLast7Days)}
       </span>
 

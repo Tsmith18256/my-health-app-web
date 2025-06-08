@@ -1,8 +1,8 @@
 import dayjs from "dayjs";
 import { getAuthSessionDetails } from "@/features/auth/get-auth-session-details.util";
-import { selectBodyCompEntries } from "@/features/body-comp/body-comp-entry/body-comp-entry.dao";
-import { calculateBodyFat } from "@/features/body-comp/calculate-body-fat.util";
-import { OverviewPageContents } from "@/features/body-comp/overview/overview-page-contents.component";
+import { selectBodyCompEntries } from "@/features/body-comp/daos/body-comp-entry.dao";
+import { calculateBodyFat } from "@/features/body-comp/utils/calculate-body-fat.util";
+import { OverviewPageContents } from "@/features/body-comp/components/overview-page-contents/overview-page-contents.component";
 import { Header } from "@/shared/components/header/header.component";
 import { selectUserProfileByEmail } from "@/shared/database/daos/user-profile.dao";
 import {
