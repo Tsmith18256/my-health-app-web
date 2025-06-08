@@ -11,7 +11,7 @@ it("renders a label and input with the correct attributes", () => {
     label: "Cool label",
     name: "testFieldName",
     required: true,
-  } as const satisfies Required<ComponentProps<typeof DatePicker>>;
+  } as const satisfies ComponentProps<typeof DatePicker>;
 
   const res = render(<DatePicker {...props} />);
 

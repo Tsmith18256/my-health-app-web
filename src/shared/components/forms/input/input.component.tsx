@@ -49,10 +49,9 @@ export const Input = ({
 
 type IInputProps = INumericProps &
   IValueProps &
-  Pick<ComponentProps<"input">, "required"> & {
-    id: string;
+  Pick<ComponentProps<"input">, "required"> &
+  Required<Pick<ComponentProps<"input">, "id" | "name">> & {
     label: string;
-    name: string;
     type?: Extract<ComponentProps<"input">["type"], "number" | "text">;
   };
 
