@@ -9,6 +9,7 @@
     "format:check": "prettier . --check",
     "generate:css-types": "rm ./**/*.css.d.ts && npx typed-css-modules ./src & npm run format",
     "knip": "knip",
+    "knip:prod": "knip --production",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "migrate": "node ./migrations/migrate.mjs",
