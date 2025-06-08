@@ -36,7 +36,6 @@ export default defineConfig({
         "src/app/page.tsx",
         "src/features/auth/get-auth-session-details.util.ts",
         "src/features/body-comp/actions/load-body-comp-entries/load-body-comp-entries.action.ts",
-        "src/features/body-comp/actions/process-body-comp-entry-form/process-body-comp-entry-form.action.ts",
         "src/features/body-comp/components/body-comp-entry-details/body-comp-entry-details.component.tsx",
         "src/features/body-comp/components/body-comp-entry-form/body-comp-entry-form.component.tsx",
         "src/features/body-comp/components/body-comp-log-list/body-comp-log-headers/body-comp-log-headers.component.tsx",

@@ -93,13 +93,7 @@ export const UserProfileForm = ({
 
   return (
     <>
-      <FormActionErrorToast
-        error={
-          formState.errorMessage
-            ? { message: formState.errorMessage }
-            : undefined
-        }
-      />
+      <FormActionErrorToast message={formState.errorMessage} />
 
       <form onSubmit={onSubmit}>
         <main className={styles.container}>

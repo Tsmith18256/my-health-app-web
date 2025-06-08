@@ -58,7 +58,7 @@ type IValueProps =
       value: string | number;
     }
   | {
-      defaultValue: string | number;
+      defaultValue?: string | number;
       onChange?: undefined;
       value?: undefined;
     };
