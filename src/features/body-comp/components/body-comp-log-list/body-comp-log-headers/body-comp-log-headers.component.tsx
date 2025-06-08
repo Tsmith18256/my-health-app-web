@@ -15,7 +15,6 @@ export const BodyCompLogHeaders = () => {
       <span
         className={`${styles["responsive-column-header"]} ${styles["header-desktop-small"]}`}
       >
-        gc
         {getUiString(UiStringKey.ColumnHeaderLast7Days)}
       </span>
 
