@@ -11,7 +11,7 @@ import {
 import { EmailAddress } from "@/shared/utils/validation/validate-email-address.util";
 import { renderHook } from "@/testing/react-testing-library/test.util";
 import { loadBodyCompEntries } from "@/features/body-comp/actions/load-body-comp-entries/load-body-comp-entries.action";
-import { wait } from "@/shared/utils/wait.util";
+import { wait } from "@/testing/agnostic/wait/wait.util";
 
 vi.mock(
   "@/features/body-comp/actions/load-body-comp-entries/load-body-comp-entries.action",
