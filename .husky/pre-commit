@@ -10,3 +10,5 @@ npx lint-staged
 npm run knip
 npm run test:coverage
 npm run format
+
+git add -u

@@ -1,3 +1,5 @@
+@value tablet from '@/shared/styles/breakpoints.module.css';
+
 .container {
   display: flex;
   flex-direction: column;
@@ -24,8 +26,7 @@
   inset-inline: 0;
 }
 
-/* Tablet */
-@media (width >= 48rem) {
+@media (tablet) {
   .footer-button-wrapper-onboarding {
     border: none;
     margin-block-start: 2rem;

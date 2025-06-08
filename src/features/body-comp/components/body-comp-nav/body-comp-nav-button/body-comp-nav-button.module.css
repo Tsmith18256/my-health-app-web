@@ -1,3 +1,5 @@
+@value desktopSmall from '@/shared/styles/breakpoints.module.css';
+
 .button {
   display: flex;
   flex-direction: column;
@@ -33,8 +35,7 @@
   line-height: 1.33rem;
 }
 
-/* Desktop small */
-@media (width >= 64rem) {
+@media (desktopsmall) {
   .button {
     flex-direction: row;
     justify-content: start;

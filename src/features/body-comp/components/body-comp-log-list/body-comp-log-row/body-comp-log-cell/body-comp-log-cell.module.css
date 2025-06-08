@@ -1,3 +1,5 @@
+@value desktopLarge, desktopMedium, desktopSmall, tablet from '@/shared/styles/breakpoints.module.css';
+
 .align-end-on-mobile {
   text-align: end;
 }
@@ -22,8 +24,7 @@
   font-weight: bold;
 }
 
-/* Tablet */
-@media (width >= 48rem) {
+@media (tablet) {
   .align-end-on-mobile {
     text-align: start;
   }
@@ -41,22 +42,19 @@
   }
 }
 
-/* Desktop Small */
-@media (width >= 64rem) {
+@media (desktopsmall) {
   .cell-desktop-small {
     display: flex;
   }
 }
 
-/* Desktop Medium */
-@media (width >= 96rem) {
+@media (desktopmedium) {
   .cell-desktop-medium {
     display: flex;
   }
 }
 
-/* Desktop Large */
-@media (width >= 120rem) {
+@media (desktoplarge) {
   .cell-desktop-large {
     display: flex;
   }

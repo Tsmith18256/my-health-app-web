@@ -1,3 +1,5 @@
+@value desktopLarge, desktopMedium, desktopSmall, tablet from '@/shared/styles/breakpoints.module.css';
+
 .container {
   display: flex;
   justify-content: space-between;
@@ -13,30 +15,26 @@
   }
 }
 
-/* Tablet */
-@media (width >= 48rem) {
+@media (tablet) {
   .grid {
     display: grid;
     grid-template-columns: 2fr repeat(2, 1fr);
   }
 }
 
-/* Desktop small */
-@media (width >= 64rem) {
+@media (desktopsmall) {
   .grid {
     grid-template-columns: 2fr repeat(3, 1fr);
   }
 }
 
-/* Desktop medium */
-@media (width >= 96rem) {
+@media (desktopmedium) {
   .grid {
     grid-template-columns: 2fr repeat(5, 1fr);
   }
 }
 
-/* Desktop large */
-@media (width >= 120rem) {
+@media (desktoplarge) {
   .grid {
     grid-template-columns: 2fr repeat(8, 1fr);
   }

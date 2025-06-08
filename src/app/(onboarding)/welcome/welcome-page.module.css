@@ -1,3 +1,5 @@
+@value tablet from '@/shared/styles/breakpoints.module.css';
+
 .button-wrapper {
   align-items: center;
   display: flex;
@@ -32,8 +34,7 @@
   text-align: center;
 }
 
-/* Tablet */
-@media (width >= 48rem) {
+@media (tablet) {
   .button-wrapper {
     width: 16rem;
   }
