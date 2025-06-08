@@ -7,6 +7,7 @@ import { UserSettingsProvider } from "@/shared/state/user-settings/user-settings
 import { ReactNode } from "react";
 import { MeasurementSystem } from "@/shared/enums/measurement-system.enum";
 import { Sex } from "@/shared/utils/validation/validate-sex.util";
+import { EmailAddress } from "@/shared/utils/validation/validate-email-address.util";
 
 it("returns correct units (imperial)", () => {
   const { result } = renderHook(usePreferredUnitUtils, {
@@ -76,6 +77,7 @@ const createSettingsProvider = (measurementSystem: MeasurementSystem) => {
       <UserSettingsProvider
         initialValues={{
           birthday: "1970-01-01",
+          emailAddress: "test@email.com" as EmailAddress,
           heightInMm: 1700,
           lengthSystem: measurementSystem,
           sex: Sex.Female,

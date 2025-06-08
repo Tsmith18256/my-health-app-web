@@ -1,6 +1,7 @@
 "use client";
 
 import { MeasurementSystem } from "@/shared/enums/measurement-system.enum";
+import { EmailAddress } from "@/shared/utils/validation/validate-email-address.util";
 import { Sex } from "@/shared/utils/validation/validate-sex.util";
 import { createContext, ReactNode, useContext, useRef } from "react";
 import { create, useStore } from "zustand";
@@ -51,6 +52,7 @@ const UserSettingsContext = createContext<
 
 interface ISettingsState {
   birthday: string;
+  emailAddress: EmailAddress;
   heightInMm: number;
   lengthSystem: MeasurementSystem;
   sex: Sex;
