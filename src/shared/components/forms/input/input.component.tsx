@@ -1,5 +1,5 @@
 import { ComponentProps, useCallback } from "react";
-import { TestId } from "@/testing/test-id.enum";
+import { TestId } from "@/shared/enums/test-id.enum";
 import styles from "./input.module.css";
 
 /**

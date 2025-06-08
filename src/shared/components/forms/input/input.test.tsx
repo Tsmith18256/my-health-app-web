@@ -1,5 +1,5 @@
 import { Input } from "@/shared/components/forms/input/input.component";
-import { TestId } from "@/testing/test-id.enum";
+import { TestId } from "@/shared/enums/test-id.enum";
 import { render } from "@/testing/react-testing-library/test.util";
 import { ComponentProps } from "react";
 import { expect, it, vi } from "vitest";

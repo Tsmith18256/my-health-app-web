@@ -1,4 +1,4 @@
-import { TestId } from "@/testing/test-id.enum";
+import { TestId } from "@/shared/enums/test-id.enum";
 import type { ComponentProps } from "react";
 
 /**

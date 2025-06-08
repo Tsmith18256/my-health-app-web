@@ -2,7 +2,7 @@ import { ComponentProps } from "react";
 import { expect, it } from "vitest";
 import { HiddenInput } from "@/shared/components/forms/hidden-input/hidden-input.component";
 import { render } from "@/testing/react-testing-library/test.util";
-import { TestId } from "@/testing/test-id.enum";
+import { TestId } from "@/shared/enums/test-id.enum";
 
 it("renders a hidden input with the correct attributes", () => {
   const props = {
