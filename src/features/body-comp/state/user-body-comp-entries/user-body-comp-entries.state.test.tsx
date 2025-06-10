@@ -219,13 +219,9 @@ describe("useLoadBodyCompEntries", () => {
 
     expect(result.current).toEqual(
       expect.objectContaining({
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        createEntry: expect.any(Function),
         entries: [],
         hasMore: true,
         isLoadingMore: true,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        loadEntries: expect.any(Function),
       }),
     );
   });
@@ -253,8 +249,6 @@ describe("useLoadBodyCompEntries", () => {
 
     expect(result.current).toEqual(
       expect.objectContaining({
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        createEntry: expect.any(Function),
         entries: [
           {
             ...MOCK_BODY_COMP_ENTRY,
@@ -263,8 +257,6 @@ describe("useLoadBodyCompEntries", () => {
         ],
         hasMore: false,
         isLoadingMore: false,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        loadEntries: expect.any(Function),
       }),
     );
   });
@@ -302,8 +294,6 @@ describe("useLoadBodyCompEntries", () => {
 
     expect(result.current).toEqual(
       expect.objectContaining({
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        createEntry: expect.any(Function),
         entries: [
           {
             ...MOCK_BODY_COMP_ENTRY,
@@ -312,8 +302,6 @@ describe("useLoadBodyCompEntries", () => {
         ],
         hasMore: true,
         isLoadingMore: false,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        loadEntries: expect.any(Function),
       }),
     );
   });
@@ -334,8 +322,6 @@ describe("useLoadBodyCompEntries", () => {
 
     expect(result.current).toEqual(
       expect.objectContaining({
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        createEntry: expect.any(Function),
         entries: [
           {
             ...MOCK_BODY_COMP_ENTRY,
@@ -344,8 +330,6 @@ describe("useLoadBodyCompEntries", () => {
         ],
         hasMore: true,
         isLoadingMore: false,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        loadEntries: expect.any(Function),
       }),
     );
   });
