@@ -6,7 +6,7 @@ import {
 } from "@/features/body-comp/daos/body-comp-entry.dao";
 import { EmailAddress } from "@/shared/utils/validation/validate-email-address.util";
 import { HttpStatusCode } from "@/shared/enums/http-status-code.enum";
-import { updateBodyCompEntry } from "./update-body-comp-entry.action";
+import { updateBodyCompEntryAction } from "./update-body-comp-entry.action";
 
 vi.mock("@/features/body-comp/daos/body-comp-entry.dao");
 
@@ -19,13 +19,13 @@ beforeEach(() => {
 });
 
 it("updates the given entry", async () => {
-  await updateBodyCompEntry(inputEntryMock);
+  await updateBodyCompEntryAction(inputEntryMock);
 
   expect(updateEntryInDb).toHaveBeenCalledWith(inputEntryMock);
 });
 
 it("returns the updated entry", async () => {
-  const response = await updateBodyCompEntry(inputEntryMock);
+  const response = await updateBodyCompEntryAction(inputEntryMock);
 
   expect(response).toStrictEqual({
     statusCode: HttpStatusCode.Success,
@@ -38,7 +38,7 @@ it("returns an error if one is thrown on insert", async () => {
     error: new Error("Uh oh"),
   });
 
-  const response = await updateBodyCompEntry(inputEntryMock);
+  const response = await updateBodyCompEntryAction(inputEntryMock);
 
   expect(response).toStrictEqual({
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

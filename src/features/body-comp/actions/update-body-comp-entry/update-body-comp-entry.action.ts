@@ -10,7 +10,7 @@ import { HttpStatusCode } from "@/shared/enums/http-status-code.enum";
 /**
  * Server action to update an existing body comp entry.
  */
-export const updateBodyCompEntry = async (
+export const updateBodyCompEntryAction = async (
   entry: IBodyCompEntry,
 ): IActionResponse<{ updatedEntry: IBodyCompEntry }> => {
   const { updatedEntry, error } = await updateEntryInDb(entry);
