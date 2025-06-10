@@ -116,7 +116,7 @@ export const BodyCompEntryForm = ({
           waistCircumferenceInMm: waistCircumference.trim()
             ? convertCircumferenceToMillimetres(parseFloat(waistCircumference))
             : undefined,
-          weightInG: convertBodyweightToGrams(parseInt(weight, 10)),
+          weightInG: convertBodyweightToGrams(parseFloat(weight)),
         };
 
         void updateBodyCompEntry(entry).then((res) => {
@@ -145,7 +145,7 @@ export const BodyCompEntryForm = ({
           waistCircumferenceInMm: waistCircumference.trim()
             ? convertCircumferenceToMillimetres(parseFloat(waistCircumference))
             : undefined,
-          weightInG: convertBodyweightToGrams(parseInt(weight, 10)),
+          weightInG: convertBodyweightToGrams(parseFloat(weight)),
         };
 
         void createBodyCompEntry(entry).then((res) => {
