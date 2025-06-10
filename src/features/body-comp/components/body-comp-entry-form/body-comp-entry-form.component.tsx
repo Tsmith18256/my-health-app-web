@@ -35,8 +35,10 @@ import { DatePicker } from "@/shared/components/forms/date-picker/date-picker.co
 import { HiddenInput } from "@/shared/components/forms/hidden-input/hidden-input.component";
 import { usePreferredUnitUtils } from "@/shared/hooks/use-preferred-unit-utils/use-preferred-unit-utils.hook";
 import { useUserSettings } from "@/shared/state/user-settings/user-settings.state";
-import { updateBodyCompEntry } from "@/features/body-comp/actions/update-body-comp-entry/update-body-comp-entry.action";
-import { useCreateBodyCompEntry } from "../../state/user-body-comp-entries/user-body-comp-entries.state";
+import {
+  useCreateBodyCompEntry,
+  useUpdateBodyCompEntry,
+} from "../../state/user-body-comp-entries/user-body-comp-entries.state";
 
 export const BodyCompEntryForm = ({
   abSkinfold: initialAbSkinfold,
@@ -50,7 +52,6 @@ export const BodyCompEntryForm = ({
   weightInG,
 }: IBodyCompEntryFormProps) => {
   const createBodyCompEntry = useCreateBodyCompEntry();
-  const router = useRouter();
   const {
     bodyweightUnit,
     circumferenceUnit,
@@ -59,6 +60,8 @@ export const BodyCompEntryForm = ({
     convertCircumferenceFromMillimetres,
     convertCircumferenceToMillimetres,
   } = usePreferredUnitUtils();
+  const router = useRouter();
+  const updateBodyCompEntry = useUpdateBodyCompEntry();
   const { emailAddress } = useUserSettings();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -125,7 +128,7 @@ export const BodyCompEntryForm = ({
           if (res.updatedEntry) {
             router.replace(`/body-comp/${res.updatedEntry.id.toString()}`);
           } else {
-            setErrorMessage(res.message);
+            setErrorMessage(res.error.message);
           }
         });
       } else {
@@ -172,6 +175,7 @@ export const BodyCompEntryForm = ({
       neckCircumference,
       thighSkinfold,
       router,
+      updateBodyCompEntry,
       waistCircumference,
       weight,
     ],

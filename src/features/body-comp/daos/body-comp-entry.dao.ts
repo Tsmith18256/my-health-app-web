@@ -166,7 +166,7 @@ export const updateBodyCompEntry = async (
 
   return {
     error: new ErrorWithCode(
-      ErrorCode.DatabaseInsertError,
+      ErrorCode.DatabaseUpdateError,
       `Unknown error updating body comp entry (id: ${inputEntry.id.toString()})`,
     ),
   };

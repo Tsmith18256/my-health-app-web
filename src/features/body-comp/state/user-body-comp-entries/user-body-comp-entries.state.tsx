@@ -18,6 +18,7 @@ import {
   ErrorCode,
   ErrorWithCode,
 } from "@/shared/errors/error-with-code.class";
+import { updateBodyCompEntryAction } from "../../actions/update-body-comp-entry/update-body-comp-entry.action";
 
 const pageSize = 20;
 
@@ -42,12 +43,19 @@ export const UserBodyCompEntriesProvider = ({
   );
 };
 
+/**
+ * Hook to get the callback to add a new body comp entry to the database and
+ * local state.
+ */
 export const useCreateBodyCompEntry = () => {
   const addEntryIfInRange = useZustandStore(
     UserBodyCompEntriesContext,
     (state) => state.addEntryIfInRange,
   );
 
+  /**
+   * Adds the given new body comp entry to the database and local state.
+   */
   return async (
     newEntry: INewBodyCompEntry,
   ): Promise<WithError<{ entry: IBodyCompEntry }>> => {
@@ -67,12 +75,8 @@ export const useCreateBodyCompEntry = () => {
 };
 
 /**
- * Hook to get the function to load more entries into the user body comp entries
- * state store.
- *
- * This function should not be called if `hasMore` is false or `isLoadingMore`
- * is true from the store. It will not do anything if called in either of those
- * states.
+ * Hook to get the function to load more entries from the database into the
+ * local state store.
  */
 export const useLoadBodyCompEntries = () => {
   const {
@@ -83,6 +87,13 @@ export const useLoadBodyCompEntries = () => {
     updateEntries,
   } = useZustandStore(UserBodyCompEntriesContext, (state) => state);
 
+  /**
+   * Loads more entries from the databsae into the local state store.
+   *
+   * This function should not be called if `hasMore` is false or `isLoadingMore`
+   * is true from the store. It will not do anything if called in either of those
+   * states.
+   */
   return async () => {
     if (isLoadingMore || !getHasMore(entries, totalCount)) {
       return;
@@ -99,6 +110,36 @@ export const useLoadBodyCompEntries = () => {
 
     updateEntries(newEntries, newTotalCount);
     setIsLoadingMore(false);
+  };
+};
+
+/**
+ * Hook to get the callback to update a body comp entry in the database and
+ * local state.
+ */
+export const useUpdateBodyCompEntry = () => {
+  const updateEntry = useZustandStore(
+    UserBodyCompEntriesContext,
+    (state) => state.updateEntry,
+  );
+
+  /**
+   * Updates the given new body comp entry in the database and local state.
+   */
+  return async (
+    entry: IBodyCompEntry,
+  ): Promise<WithError<{ updatedEntry: IBodyCompEntry }>> => {
+    const { updatedEntry, message } = await updateBodyCompEntryAction(entry);
+
+    if (!updatedEntry) {
+      return {
+        error: new ErrorWithCode(ErrorCode.DatabaseUpdateError, message),
+      };
+    }
+
+    updateEntry(updatedEntry);
+
+    return { updatedEntry };
   };
 };
 
@@ -237,6 +278,27 @@ const createUserBodyCompEntriesStore = () => {
         totalCount,
       });
     },
+
+    updateEntry(updatedEntry) {
+      const entries = get().entries;
+      const entryIndex = entries.findIndex(
+        (entry) => entry.id === updatedEntry.id,
+      );
+
+      if (entryIndex < 0) {
+        return;
+      }
+
+      const updatedEntriesArray = entries.toSpliced(
+        entryIndex,
+        1,
+        updatedEntry,
+      );
+
+      set({
+        entries: applyLast7DayValueToBodyCompEntries(updatedEntriesArray),
+      });
+    },
   }));
 };
 
@@ -265,6 +327,10 @@ interface IState {
 }
 
 interface IActions {
+  /**
+   * Adds an entry to the store if the date is newer than the oldest entry
+   * already loaded.
+   */
   addEntryIfInRange: (entry: IBodyCompEntry) => void;
   /**
    * Set the value of `isLoadingMore`.
@@ -277,4 +343,8 @@ interface IActions {
    * added.
    */
   updateEntries: (entries: IBodyCompEntry[], totalCount: number) => void;
+  /**
+   * Updates a given entry in the store if it is already present.
+   */
+  updateEntry: (entry: IBodyCompEntry) => void;
 }

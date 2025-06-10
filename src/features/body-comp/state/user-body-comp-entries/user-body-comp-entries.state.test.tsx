@@ -3,6 +3,7 @@ import {
   useCreateBodyCompEntry,
   useLoadBodyCompEntries,
   UserBodyCompEntriesProvider,
+  useUpdateBodyCompEntry,
   useUserBodyCompEntries,
 } from "@/features/body-comp/state/user-body-comp-entries/user-body-comp-entries.state";
 import {
@@ -17,12 +18,17 @@ import {
   MOCK_NEW_BODY_COMP_ENTRY,
 } from "../../daos/body-comp-entry.dao.mock-data";
 import { createBodyCompEntryAction } from "../../actions/create-body-comp-entry/create-body-comp-entry.action";
+import { updateBodyCompEntryAction } from "../../actions/update-body-comp-entry/update-body-comp-entry.action";
+import { HttpStatusCode } from "@/shared/enums/http-status-code.enum";
 
 vi.mock(
   "@/features/body-comp/actions/create-body-comp-entry/create-body-comp-entry.action",
 );
 vi.mock(
   "@/features/body-comp/actions/load-body-comp-entries/load-body-comp-entries.action",
+);
+vi.mock(
+  "@/features/body-comp/actions/update-body-comp-entry/update-body-comp-entry.action",
 );
 
 const mockCreatedEntry = {
@@ -40,12 +46,14 @@ const mockExtraEntry = {
 const useCombinedHooks = () => {
   const createEntry = useCreateBodyCompEntry();
   const loadEntries = useLoadBodyCompEntries();
+  const updateEntry = useUpdateBodyCompEntry();
   const state = useUserBodyCompEntries();
 
   return {
     ...state,
     createEntry,
     loadEntries,
+    updateEntry,
   };
 };
 
@@ -72,6 +80,13 @@ beforeEach(() => {
     return Promise.resolve({
       entries: [mockExtraEntry],
       totalCount: 2,
+    });
+  });
+
+  vi.mocked(updateBodyCompEntryAction).mockImplementation((entry) => {
+    return Promise.resolve({
+      statusCode: HttpStatusCode.Success,
+      updatedEntry: entry,
     });
   });
 });
@@ -142,20 +157,18 @@ describe("useLoadBodyCompEntries", () => {
 
     await result.current.loadEntries();
 
-    expect(result.current).toStrictEqual({
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      createEntry: expect.any(Function),
-      entries: [
-        {
-          ...MOCK_BODY_COMP_ENTRY,
-          last7DaysWeightInG: MOCK_BODY_COMP_ENTRY.weightInG,
-        },
-      ],
-      hasMore: true,
-      isLoadingMore: false,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      loadEntries: expect.any(Function),
-    });
+    expect(result.current).toEqual(
+      expect.objectContaining({
+        entries: [
+          {
+            ...MOCK_BODY_COMP_ENTRY,
+            last7DaysWeightInG: MOCK_BODY_COMP_ENTRY.weightInG,
+          },
+        ],
+        hasMore: true,
+        isLoadingMore: false,
+      }),
+    );
   });
 
   it("loads more entries", async () => {
@@ -166,25 +179,23 @@ describe("useLoadBodyCompEntries", () => {
     await result.current.loadEntries();
     await result.current.loadEntries();
 
-    expect(result.current).toStrictEqual({
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      createEntry: expect.any(Function),
-      entries: [
-        {
-          ...MOCK_BODY_COMP_ENTRY,
-          last7DaysWeightInG:
-            (MOCK_BODY_COMP_ENTRY.weightInG + mockExtraEntry.weightInG) / 2,
-        },
-        {
-          ...mockExtraEntry,
-          last7DaysWeightInG: mockExtraEntry.weightInG,
-        },
-      ],
-      hasMore: false,
-      isLoadingMore: false,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      loadEntries: expect.any(Function),
-    });
+    expect(result.current).toEqual(
+      expect.objectContaining({
+        entries: [
+          {
+            ...MOCK_BODY_COMP_ENTRY,
+            last7DaysWeightInG:
+              (MOCK_BODY_COMP_ENTRY.weightInG + mockExtraEntry.weightInG) / 2,
+          },
+          {
+            ...mockExtraEntry,
+            last7DaysWeightInG: mockExtraEntry.weightInG,
+          },
+        ],
+        hasMore: false,
+        isLoadingMore: false,
+      }),
+    );
   });
 
   it("sets `isLoadingMore` to true when entries are loading", async () => {
@@ -206,15 +217,17 @@ describe("useLoadBodyCompEntries", () => {
     // Tick the event loop for the state update.
     await wait(0);
 
-    expect(result.current).toStrictEqual({
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      createEntry: expect.any(Function),
-      entries: [],
-      hasMore: true,
-      isLoadingMore: true,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      loadEntries: expect.any(Function),
-    });
+    expect(result.current).toEqual(
+      expect.objectContaining({
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        createEntry: expect.any(Function),
+        entries: [],
+        hasMore: true,
+        isLoadingMore: true,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        loadEntries: expect.any(Function),
+      }),
+    );
   });
 
   it("does not load more entries if hasMore is false", async () => {
@@ -238,20 +251,22 @@ describe("useLoadBodyCompEntries", () => {
     // This call shouldn't do anything
     await result.current.loadEntries();
 
-    expect(result.current).toStrictEqual({
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      createEntry: expect.any(Function),
-      entries: [
-        {
-          ...MOCK_BODY_COMP_ENTRY,
-          last7DaysWeightInG: MOCK_BODY_COMP_ENTRY.weightInG,
-        },
-      ],
-      hasMore: false,
-      isLoadingMore: false,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      loadEntries: expect.any(Function),
-    });
+    expect(result.current).toEqual(
+      expect.objectContaining({
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        createEntry: expect.any(Function),
+        entries: [
+          {
+            ...MOCK_BODY_COMP_ENTRY,
+            last7DaysWeightInG: MOCK_BODY_COMP_ENTRY.weightInG,
+          },
+        ],
+        hasMore: false,
+        isLoadingMore: false,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        loadEntries: expect.any(Function),
+      }),
+    );
   });
 
   it("does not load more entries if data is still loading", async () => {
@@ -285,20 +300,22 @@ describe("useLoadBodyCompEntries", () => {
 
     await wait(loadTime);
 
-    expect(result.current).toStrictEqual({
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      createEntry: expect.any(Function),
-      entries: [
-        {
-          ...MOCK_BODY_COMP_ENTRY,
-          last7DaysWeightInG: MOCK_BODY_COMP_ENTRY.weightInG,
-        },
-      ],
-      hasMore: true,
-      isLoadingMore: false,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      loadEntries: expect.any(Function),
-    });
+    expect(result.current).toEqual(
+      expect.objectContaining({
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        createEntry: expect.any(Function),
+        entries: [
+          {
+            ...MOCK_BODY_COMP_ENTRY,
+            last7DaysWeightInG: MOCK_BODY_COMP_ENTRY.weightInG,
+          },
+        ],
+        hasMore: true,
+        isLoadingMore: false,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        loadEntries: expect.any(Function),
+      }),
+    );
   });
 
   it("replaces existing entries if loading returned a duplicate", async () => {
@@ -315,20 +332,22 @@ describe("useLoadBodyCompEntries", () => {
     await result.current.loadEntries();
     await result.current.loadEntries();
 
-    expect(result.current).toStrictEqual({
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      createEntry: expect.any(Function),
-      entries: [
-        {
-          ...MOCK_BODY_COMP_ENTRY,
-          last7DaysWeightInG: MOCK_BODY_COMP_ENTRY.weightInG,
-        },
-      ],
-      hasMore: true,
-      isLoadingMore: false,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      loadEntries: expect.any(Function),
-    });
+    expect(result.current).toEqual(
+      expect.objectContaining({
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        createEntry: expect.any(Function),
+        entries: [
+          {
+            ...MOCK_BODY_COMP_ENTRY,
+            last7DaysWeightInG: MOCK_BODY_COMP_ENTRY.weightInG,
+          },
+        ],
+        hasMore: true,
+        isLoadingMore: false,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        loadEntries: expect.any(Function),
+      }),
+    );
   });
 
   it("sorts entries by date", async () => {
@@ -354,25 +373,87 @@ describe("useLoadBodyCompEntries", () => {
     await result.current.loadEntries();
     await result.current.loadEntries();
 
-    expect(result.current).toStrictEqual({
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      createEntry: expect.any(Function),
-      entries: [
-        {
-          ...MOCK_BODY_COMP_ENTRY,
-          last7DaysWeightInG:
-            (MOCK_BODY_COMP_ENTRY.weightInG + mockExtraEntry.weightInG) / 2,
-        },
-        {
-          ...mockExtraEntry,
-          last7DaysWeightInG: mockExtraEntry.weightInG,
-        },
-      ],
-      hasMore: false,
-      isLoadingMore: false,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      loadEntries: expect.any(Function),
+    expect(result.current).toEqual(
+      expect.objectContaining({
+        entries: [
+          {
+            ...MOCK_BODY_COMP_ENTRY,
+            last7DaysWeightInG:
+              (MOCK_BODY_COMP_ENTRY.weightInG + mockExtraEntry.weightInG) / 2,
+          },
+          {
+            ...mockExtraEntry,
+            last7DaysWeightInG: mockExtraEntry.weightInG,
+          },
+        ],
+        hasMore: false,
+        isLoadingMore: false,
+      }),
+    );
+  });
+});
+
+describe("useUpdateBodyCompEntry", () => {
+  const entryToUpdate = {
+    ...MOCK_BODY_COMP_ENTRY,
+    abSkinfold: 88,
+  } as const satisfies IBodyCompEntry;
+
+  it("saves updated entry to the database and returns it", async () => {
+    const { result } = renderHook(useCombinedHooks, {
+      wrapper: UserBodyCompEntriesProvider,
     });
+
+    await result.current.loadEntries();
+    const { updatedEntry } = await result.current.updateEntry(entryToUpdate);
+
+    expect(updatedEntry).toStrictEqual(entryToUpdate);
+  });
+
+  it("saves updated entry to the Zustand store", async () => {
+    const { result } = renderHook(useCombinedHooks, {
+      wrapper: UserBodyCompEntriesProvider,
+    });
+
+    await result.current.loadEntries();
+    await result.current.updateEntry(entryToUpdate);
+
+    const entries = result.current.entries;
+    expect(entries[0]).toStrictEqual(expect.objectContaining(entryToUpdate));
+  });
+
+  it("doesn't save entry to the Zustand store if it's older than the loaded entries", async () => {
+    const { result } = renderHook(useCombinedHooks, {
+      wrapper: UserBodyCompEntriesProvider,
+    });
+
+    await result.current.loadEntries();
+    await result.current.loadEntries();
+    await result.current.updateEntry({
+      ...entryToUpdate,
+      date: "1900-01-01",
+    });
+
+    const entries = result.current.entries;
+    expect(entries[2]).toBeUndefined();
+  });
+
+  it("returns an error if saving to the database fails", async () => {
+    vi.mocked(updateBodyCompEntryAction, { partial: true }).mockImplementation(
+      () => {
+        return Promise.resolve({
+          message: "Uh oh",
+        });
+      },
+    );
+
+    const { result } = renderHook(useUpdateBodyCompEntry, {
+      wrapper: UserBodyCompEntriesProvider,
+    });
+
+    const { error } = await result.current(entryToUpdate);
+
+    expect(error).toBeInstanceOf(Error);
   });
 });
 
