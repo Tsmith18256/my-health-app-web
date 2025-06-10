@@ -34,9 +34,9 @@ import { AriaLabel } from "@/shared/enums/aria-label.enum";
 import { DatePicker } from "@/shared/components/forms/date-picker/date-picker.component";
 import { HiddenInput } from "@/shared/components/forms/hidden-input/hidden-input.component";
 import { usePreferredUnitUtils } from "@/shared/hooks/use-preferred-unit-utils/use-preferred-unit-utils.hook";
-import { createBodyCompEntry } from "@/features/body-comp/actions/create-body-comp-entry/create-body-comp-entry.action";
 import { useUserSettings } from "@/shared/state/user-settings/user-settings.state";
 import { updateBodyCompEntry } from "@/features/body-comp/actions/update-body-comp-entry/update-body-comp-entry.action";
+import { useCreateBodyCompEntry } from "../../state/user-body-comp-entries/user-body-comp-entries.state";
 
 export const BodyCompEntryForm = ({
   abSkinfold: initialAbSkinfold,
@@ -49,9 +49,8 @@ export const BodyCompEntryForm = ({
   waistCircumferenceInMm,
   weightInG,
 }: IBodyCompEntryFormProps) => {
+  const createBodyCompEntry = useCreateBodyCompEntry();
   const router = useRouter();
-  const { emailAddress } = useUserSettings();
-
   const {
     bodyweightUnit,
     circumferenceUnit,
@@ -60,6 +59,7 @@ export const BodyCompEntryForm = ({
     convertCircumferenceFromMillimetres,
     convertCircumferenceToMillimetres,
   } = usePreferredUnitUtils();
+  const { emailAddress } = useUserSettings();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | undefined>(
@@ -154,7 +154,7 @@ export const BodyCompEntryForm = ({
           if (res.entry) {
             router.replace("/body-comp/log");
           } else {
-            setErrorMessage(res.message);
+            setErrorMessage(res.error.message);
           }
         });
       }
@@ -164,6 +164,7 @@ export const BodyCompEntryForm = ({
       chestSkinfold,
       convertBodyweightToGrams,
       convertCircumferenceToMillimetres,
+      createBodyCompEntry,
       date,
       emailAddress,
       id,

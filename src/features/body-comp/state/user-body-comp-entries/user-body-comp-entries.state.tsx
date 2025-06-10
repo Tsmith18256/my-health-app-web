@@ -3,12 +3,21 @@
 import { createContext, ReactNode } from "react";
 import { create } from "zustand";
 import { useShallow } from "zustand/shallow";
-import { IBodyCompEntry } from "@/features/body-comp/daos/body-comp-entry.dao";
+import {
+  IBodyCompEntry,
+  INewBodyCompEntry,
+} from "@/features/body-comp/daos/body-comp-entry.dao";
 import { ZustandStoreProvider } from "@/shared/state/generic-state-provider/generic-state.provider";
 import { useZustandStore } from "@/shared/state/generic-state-provider/use-zustand-store.hook";
 import { loadBodyCompEntries } from "@/features/body-comp/actions/load-body-comp-entries/load-body-comp-entries.action";
 import { IBodyCompEntryWithLast7Days } from "@/features/body-comp/state/user-body-comp-entries/body-comp-entry-with-last-7-days.type";
 import dayjs from "dayjs";
+import { createBodyCompEntryAction } from "@/features/body-comp/actions/create-body-comp-entry/create-body-comp-entry.action";
+import { WithError } from "@/shared/helper-types/with-error.type";
+import {
+  ErrorCode,
+  ErrorWithCode,
+} from "@/shared/errors/error-with-code.class";
 
 const pageSize = 20;
 
@@ -31,6 +40,30 @@ export const UserBodyCompEntriesProvider = ({
       {children}
     </ZustandStoreProvider>
   );
+};
+
+export const useCreateBodyCompEntry = () => {
+  const addEntryIfInRange = useZustandStore(
+    UserBodyCompEntriesContext,
+    (state) => state.addEntryIfInRange,
+  );
+
+  return async (
+    newEntry: INewBodyCompEntry,
+  ): Promise<WithError<{ entry: IBodyCompEntry }>> => {
+    const { entry: createdEntry, message } =
+      await createBodyCompEntryAction(newEntry);
+
+    if (!createdEntry) {
+      return {
+        error: new ErrorWithCode(ErrorCode.DatabaseInsertError, message),
+      };
+    }
+
+    addEntryIfInRange(createdEntry);
+
+    return { entry: createdEntry };
+  };
 };
 
 /**
@@ -136,8 +169,51 @@ const applyLast7DayValueToBodyCompEntries = (
  */
 const createUserBodyCompEntriesStore = () => {
   return create<IState & IActions>((set, get) => ({
+    addEntryIfInRange: (newEntry) => {
+      const oldestEntry = get().entries.reduce<IBodyCompEntry | undefined>(
+        (currentOldest, currentEntry) => {
+          if (!currentOldest) {
+            return currentEntry;
+          }
+
+          const previousDate = dayjs(currentOldest.date);
+          const currentDate = dayjs(currentEntry.date);
+
+          return currentDate.isBefore(previousDate)
+            ? currentEntry
+            : currentOldest;
+        },
+        undefined,
+      );
+
+      if (!oldestEntry) {
+        return;
+      }
+
+      const newEntryDate = dayjs(newEntry.date);
+      const oldestEntryDate = dayjs(oldestEntry.date);
+
+      const totalCount = get().totalCount ?? 0;
+      // Only add the new entry to the store if it's within the scope of entries
+      // that have already been loaded
+      if (newEntryDate.isAfter(oldestEntryDate)) {
+        get().updateEntries([newEntry], totalCount + 1);
+      } else {
+        set({
+          totalCount: totalCount + 1,
+        });
+      }
+    },
+
     entries: [],
     isLoadingMore: false,
+
+    setIsLoadingMore: (isLoadingMore) => {
+      set({
+        isLoadingMore,
+      });
+    },
+
     totalCount: null,
 
     updateEntries: (entriesToAdd, totalCount) => {
@@ -159,12 +235,6 @@ const createUserBodyCompEntriesStore = () => {
       set({
         entries: applyLast7DayValueToBodyCompEntries(updatedEntriesArray),
         totalCount,
-      });
-    },
-
-    setIsLoadingMore: (isLoadingMore) => {
-      set({
-        isLoadingMore,
       });
     },
   }));
@@ -195,6 +265,11 @@ interface IState {
 }
 
 interface IActions {
+  addEntryIfInRange: (entry: IBodyCompEntry) => void;
+  /**
+   * Set the value of `isLoadingMore`.
+   */
+  setIsLoadingMore: (isLoadingMore: boolean) => void;
   /**
    * Add or update multiple entries to the store.
    *
@@ -202,8 +277,4 @@ interface IActions {
    * added.
    */
   updateEntries: (entries: IBodyCompEntry[], totalCount: number) => void;
-  /**
-   * Set the value of `isLoadingMore`.
-   */
-  setIsLoadingMore: (isLoadingMore: boolean) => void;
 }

@@ -31,16 +31,17 @@ export default tseslint.config([
         {
           patterns: [
             {
-              group: ["@/testing/*"],
+              group: ["@/testing/*", "**/*.mock-data.ts"],
               message: "Don't import testing utils from source files",
             },
           ],
         },
       ],
-      "no-shadow": "error",
-
-      // Typescript ESLint
       "@typescript-eslint/switch-exhaustiveness-check": "error",
+
+      "no-shadow": "error",
+      // Need to fix existing errors before enabling.
+      // "sort-keys": "error",
 
       "storybook/await-interactions": "error",
     },
@@ -53,8 +54,8 @@ export default tseslint.config([
         {
           paths: [
             {
-              name: "@testing-library/react",
               message: "Import from @/testing/react-testing-library/test.util",
+              name: "@testing-library/react",
             },
           ],
         },

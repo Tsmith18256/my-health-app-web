@@ -7,5 +7,5 @@
     "eslint-config-next",
     "typed-css-modules"
   ],
-  "project": ["src/**/*.{ts,tsx}!", "src/testing"]
+  "project": ["src/**/*.{ts,tsx}!", "src/testing", "src/**/*.mock-data.ts"]
 }

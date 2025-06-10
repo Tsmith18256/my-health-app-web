@@ -1,5 +1,5 @@
 import { beforeEach, expect, it, vi } from "vitest";
-import { createBodyCompEntry } from "@/features/body-comp/actions/create-body-comp-entry/create-body-comp-entry.action";
+import { createBodyCompEntryAction } from "@/features/body-comp/actions/create-body-comp-entry/create-body-comp-entry.action";
 import {
   BodyCompEntryId,
   INewBodyCompEntry,
@@ -22,13 +22,13 @@ beforeEach(() => {
 });
 
 it("inserts the given entry", async () => {
-  await createBodyCompEntry(newEntryMock);
+  await createBodyCompEntryAction(newEntryMock);
 
   expect(insertBodyCompEntry).toHaveBeenCalledWith(newEntryMock);
 });
 
 it("returns the created entry", async () => {
-  const response = await createBodyCompEntry(newEntryMock);
+  const response = await createBodyCompEntryAction(newEntryMock);
 
   expect(response).toStrictEqual({
     entry: {
@@ -45,7 +45,7 @@ it("returns an error if one is thrown on insert", async () => {
     error: new Error("Uh oh"),
   });
 
-  const response = await createBodyCompEntry(newEntryMock);
+  const response = await createBodyCompEntryAction(newEntryMock);
 
   expect(response).toStrictEqual({
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

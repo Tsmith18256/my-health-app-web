@@ -11,7 +11,7 @@ import { IActionResponse } from "@/shared/interfaces/action-response.interface";
 /**
  * Server action to create a new body comp entry.
  */
-export const createBodyCompEntry = async (
+export const createBodyCompEntryAction = async (
   inputEntry: INewBodyCompEntry,
 ): IActionResponse<{ entry: IBodyCompEntry }> => {
   const { entry: createdEntry, error } = await insertBodyCompEntry(inputEntry);
