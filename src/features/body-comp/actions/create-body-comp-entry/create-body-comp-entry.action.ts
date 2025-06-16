@@ -1,5 +1,6 @@
 "use server";
 
+import { getAuthSessionDetails } from "@/features/auth/get-auth-session-details.util";
 import {
   IBodyCompEntry,
   INewBodyCompEntry,
@@ -14,6 +15,14 @@ import { IActionResponse } from "@/shared/interfaces/action-response.interface";
 export const createBodyCompEntryAction = async (
   inputEntry: INewBodyCompEntry,
 ): IActionResponse<{ entry: IBodyCompEntry }> => {
+  const { emailAddress } = await getAuthSessionDetails();
+  if (inputEntry.userEmail !== emailAddress) {
+    return {
+      message: "Cannot create a body comp entry for another user",
+      statusCode: HttpStatusCode.BadRequest,
+    };
+  }
+
   const { entry: createdEntry, error } = await insertBodyCompEntry(inputEntry);
 
   if (createdEntry) {

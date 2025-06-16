@@ -7,10 +7,29 @@ import {
 } from "@/features/body-comp/daos/body-comp-entry.dao";
 import { EmailAddress } from "@/shared/utils/validation/validate-email-address.util";
 import { HttpStatusCode } from "@/shared/enums/http-status-code.enum";
+import { getAuthSessionDetails } from "@/features/auth/get-auth-session-details.util";
 
+vi.mock("@/features/auth/get-auth-session-details.util");
 vi.mock("@/features/body-comp/daos/body-comp-entry.dao");
 
+const getAuthSessionDetailsMock = vi.mocked(getAuthSessionDetails, {
+  partial: true,
+});
+const insertBodyCompEntryMock = vi.mocked(insertBodyCompEntry);
+
+const userEmail = "user@email.com" as EmailAddress;
+
+const newEntryMock: INewBodyCompEntry = {
+  date: "2025-06-08",
+  userEmail,
+  weightInG: 57700,
+};
+
 beforeEach(() => {
+  getAuthSessionDetailsMock.mockResolvedValue({
+    emailAddress: userEmail,
+  });
+
   insertBodyCompEntryMock.mockImplementation((entry) => {
     return Promise.resolve({
       entry: {
@@ -54,10 +73,15 @@ it("returns an error if one is thrown on insert", async () => {
   });
 });
 
-const insertBodyCompEntryMock = vi.mocked(insertBodyCompEntry);
+it("returns an error if the body comp entry ID doesn't match the user ID", async () => {
+  const response = await createBodyCompEntryAction({
+    ...newEntryMock,
+    userEmail: "different@email.ca" as EmailAddress,
+  });
 
-const newEntryMock: INewBodyCompEntry = {
-  date: "2025-06-08",
-  userEmail: "test@email.com" as EmailAddress,
-  weightInG: 57700,
-};
+  expect(response).toStrictEqual({
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    message: expect.any(String),
+    statusCode: HttpStatusCode.BadRequest,
+  });
+});
