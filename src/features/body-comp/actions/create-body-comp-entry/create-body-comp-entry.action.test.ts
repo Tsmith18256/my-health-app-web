@@ -12,21 +12,17 @@ import { getAuthSessionDetails } from "@/features/auth/get-auth-session-details.
 vi.mock("@/features/auth/get-auth-session-details.util");
 vi.mock("@/features/body-comp/daos/body-comp-entry.dao");
 
-const getAuthSessionDetailsMock = vi.mocked(getAuthSessionDetails, {
-  partial: true,
-});
 const insertBodyCompEntryMock = vi.mocked(insertBodyCompEntry);
 
 const userEmail = "user@email.com" as EmailAddress;
-
-const newEntryMock: INewBodyCompEntry = {
+const mockNewEntry: INewBodyCompEntry = {
   date: "2025-06-08",
   userEmail,
   weightInG: 57700,
 };
 
 beforeEach(() => {
-  getAuthSessionDetailsMock.mockResolvedValue({
+  vi.mocked(getAuthSessionDetails, { partial: true }).mockResolvedValue({
     emailAddress: userEmail,
   });
 
@@ -41,17 +37,17 @@ beforeEach(() => {
 });
 
 it("inserts the given entry", async () => {
-  await createBodyCompEntryAction(newEntryMock);
+  await createBodyCompEntryAction(mockNewEntry);
 
-  expect(insertBodyCompEntry).toHaveBeenCalledWith(newEntryMock);
+  expect(insertBodyCompEntry).toHaveBeenCalledWith(mockNewEntry);
 });
 
 it("returns the created entry", async () => {
-  const response = await createBodyCompEntryAction(newEntryMock);
+  const response = await createBodyCompEntryAction(mockNewEntry);
 
   expect(response).toStrictEqual({
     entry: {
-      ...newEntryMock,
+      ...mockNewEntry,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       id: expect.any(Number),
     },
@@ -64,7 +60,7 @@ it("returns an error if one is thrown on insert", async () => {
     error: new Error("Uh oh"),
   });
 
-  const response = await createBodyCompEntryAction(newEntryMock);
+  const response = await createBodyCompEntryAction(mockNewEntry);
 
   expect(response).toStrictEqual({
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -75,7 +71,7 @@ it("returns an error if one is thrown on insert", async () => {
 
 it("returns an error if the body comp entry ID doesn't match the user ID", async () => {
   const response = await createBodyCompEntryAction({
-    ...newEntryMock,
+    ...mockNewEntry,
     userEmail: "different@email.ca" as EmailAddress,
   });
 

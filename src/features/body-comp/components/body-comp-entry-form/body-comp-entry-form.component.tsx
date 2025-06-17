@@ -18,7 +18,6 @@ import {
 } from "@/features/body-comp/daos/body-comp-entry.dao";
 import Link from "next/link";
 import { ComponentProps, useCallback, useState } from "react";
-import { deleteBodyCompEntry } from "@/app/(app)/body-comp/[id]/edit/delete-body-comp-entry.action";
 import { useRouter } from "next/navigation";
 import { HeaderButton } from "@/shared/components/header/header-button/header-button.component";
 import {
@@ -37,6 +36,7 @@ import { usePreferredUnitUtils } from "@/shared/hooks/use-preferred-unit-utils/u
 import { useUserSettings } from "@/shared/state/user-settings/user-settings.state";
 import {
   useCreateBodyCompEntry,
+  useDeleteBodyCompEntryById,
   useUpdateBodyCompEntry,
 } from "../../state/user-body-comp-entries/user-body-comp-entries.state";
 
@@ -52,6 +52,7 @@ export const BodyCompEntryForm = ({
   weightInG,
 }: IBodyCompEntryFormProps) => {
   const createBodyCompEntry = useCreateBodyCompEntry();
+  const deleteBodyCompEntry = useDeleteBodyCompEntryById();
   const {
     bodyweightUnit,
     circumferenceUnit,
@@ -187,7 +188,7 @@ export const BodyCompEntryForm = ({
         router.replace("/body-comp/log");
       });
     }
-  }, [id, router]);
+  }, [deleteBodyCompEntry, id, router]);
 
   const titleKey = isEditMode
     ? UiStringKey.PageHeadingEditBodyCompEntry
