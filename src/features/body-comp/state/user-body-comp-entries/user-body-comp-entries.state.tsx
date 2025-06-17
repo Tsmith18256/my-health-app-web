@@ -4,6 +4,7 @@ import { createContext, ReactNode } from "react";
 import { create } from "zustand";
 import { useShallow } from "zustand/shallow";
 import {
+  BodyCompEntryId,
   IBodyCompEntry,
   INewBodyCompEntry,
 } from "@/features/body-comp/daos/body-comp-entry.dao";
@@ -19,6 +20,7 @@ import {
   ErrorWithCode,
 } from "@/shared/errors/error-with-code.class";
 import { updateBodyCompEntryAction } from "../../actions/update-body-comp-entry/update-body-comp-entry.action";
+import { deleteBodyCompEntryByIdAction } from "@/features/body-comp/actions/delete-body-comp-entry-by-id/delete-body-comp-entry-by-id.action";
 
 const pageSize = 20;
 
@@ -71,6 +73,19 @@ export const useCreateBodyCompEntry = () => {
     addEntryIfInRange(createdEntry);
 
     return { entry: createdEntry };
+  };
+};
+
+export const useDeleteBodyCompEntryById = () => {
+  const removeEntryById = useZustandStore(
+    UserBodyCompEntriesContext,
+    (state) => state.removeEntryById,
+  );
+
+  return async (entryId: BodyCompEntryId) => {
+    await deleteBodyCompEntryByIdAction(entryId);
+
+    removeEntryById(entryId);
   };
 };
 
@@ -249,6 +264,19 @@ const createUserBodyCompEntriesStore = () => {
     entries: [],
     isLoadingMore: false,
 
+    removeEntryById: (entryId) => {
+      const { entries, totalCount } = get();
+
+      const filteredEntries = entries.filter((entry) => {
+        return entry.id !== entryId;
+      });
+
+      set({
+        entries: filteredEntries,
+        totalCount: totalCount === null ? null : totalCount - 1,
+      });
+    },
+
     setIsLoadingMore: (isLoadingMore) => {
       set({
         isLoadingMore,
@@ -332,6 +360,10 @@ interface IActions {
    * already loaded.
    */
   addEntryIfInRange: (entry: IBodyCompEntry) => void;
+  /**
+   * Removes the entry with the given ID from the store.
+   */
+  removeEntryById: (id: BodyCompEntryId) => void;
   /**
    * Set the value of `isLoadingMore`.
    */

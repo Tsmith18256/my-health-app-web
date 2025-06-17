@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   useCreateBodyCompEntry,
+  useDeleteBodyCompEntryById,
   useLoadBodyCompEntries,
   UserBodyCompEntriesProvider,
   useUpdateBodyCompEntry,
@@ -20,9 +21,13 @@ import {
 import { createBodyCompEntryAction } from "../../actions/create-body-comp-entry/create-body-comp-entry.action";
 import { updateBodyCompEntryAction } from "../../actions/update-body-comp-entry/update-body-comp-entry.action";
 import { HttpStatusCode } from "@/shared/enums/http-status-code.enum";
+import { deleteBodyCompEntryByIdAction } from "@/features/body-comp/actions/delete-body-comp-entry-by-id/delete-body-comp-entry-by-id.action";
 
 vi.mock(
   "@/features/body-comp/actions/create-body-comp-entry/create-body-comp-entry.action",
+);
+vi.mock(
+  "@/features/body-comp/actions/delete-body-comp-entry-by-id/delete-body-comp-entry-by-id.action",
 );
 vi.mock(
   "@/features/body-comp/actions/load-body-comp-entries/load-body-comp-entries.action",
@@ -45,6 +50,7 @@ const mockExtraEntry = {
 
 const useCombinedHooks = () => {
   const createEntry = useCreateBodyCompEntry();
+  const deleteEntry = useDeleteBodyCompEntryById();
   const loadEntries = useLoadBodyCompEntries();
   const updateEntry = useUpdateBodyCompEntry();
   const state = useUserBodyCompEntries();
@@ -52,6 +58,7 @@ const useCombinedHooks = () => {
   return {
     ...state,
     createEntry,
+    deleteEntry,
     loadEntries,
     updateEntry,
   };
@@ -146,6 +153,31 @@ describe("useCreateBodyCompEntry", () => {
     const { error } = await result.current(mockCreatedEntry);
 
     expect(error).toBeInstanceOf(Error);
+  });
+});
+
+describe("useDeleteBodyCompEntryById", () => {
+  it("deletes entry from the database", async () => {
+    const entryId = 1337 as BodyCompEntryId;
+    const { result } = renderHook(useDeleteBodyCompEntryById, {
+      wrapper: UserBodyCompEntriesProvider,
+    });
+
+    await result.current(entryId);
+
+    expect(deleteBodyCompEntryByIdAction).toHaveBeenCalledWith(entryId);
+  });
+
+  it("removes entry from the Zustand store", async () => {
+    const { result } = renderHook(useCombinedHooks, {
+      wrapper: UserBodyCompEntriesProvider,
+    });
+
+    await result.current.loadEntries();
+    await result.current.deleteEntry(MOCK_BODY_COMP_ENTRY.id);
+
+    const entries = result.current.entries;
+    expect(entries.length).toBe(0);
   });
 });
 

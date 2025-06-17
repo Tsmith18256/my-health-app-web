@@ -12,10 +12,17 @@ import {
   validateEmailAddress,
 } from "@/shared/utils/validation/validate-email-address.util";
 
-export const deleteBodyCompEntryById = async (id: BodyCompEntryId) => {
+/**
+ * @todo Determine how this library treats the ID missing and handle it.
+ */
+export const deleteBodyCompEntryByIdAndEmail = async (
+  id: BodyCompEntryId,
+  userEmail: EmailAddress,
+) => {
   await sql`
     DELETE FROM body_comp_entries
       WHERE id = ${id}
+      AND user_email = ${userEmail}
   `;
 };
 

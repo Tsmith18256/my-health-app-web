@@ -2,5 +2,6 @@
   "editor.rulers": [80],
   "files.exclude": {
     "src/**/*.css.d.ts": true
-  }
+  },
+  "typescript.preferences.importModuleSpecifier": "non-relative"
 }

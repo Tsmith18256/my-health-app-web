@@ -7,10 +7,30 @@ import {
 import { EmailAddress } from "@/shared/utils/validation/validate-email-address.util";
 import { HttpStatusCode } from "@/shared/enums/http-status-code.enum";
 import { updateBodyCompEntryAction } from "./update-body-comp-entry.action";
+import { getAuthSessionDetails } from "@/features/auth/get-auth-session-details.util";
 
+vi.mock("@/features/auth/get-auth-session-details.util");
 vi.mock("@/features/body-comp/daos/body-comp-entry.dao");
 
+const getAuthSessionDetailsMock = vi.mocked(getAuthSessionDetails, {
+  partial: true,
+});
+const updateEntryInDbMock = vi.mocked(updateEntryInDb);
+
+const userEmail = "user@email.com" as EmailAddress;
+
+const inputEntryMock: IBodyCompEntry = {
+  date: "2025-06-08",
+  id: 2 as BodyCompEntryId,
+  userEmail,
+  weightInG: 57700,
+};
+
 beforeEach(() => {
+  getAuthSessionDetailsMock.mockResolvedValue({
+    emailAddress: userEmail,
+  });
+
   updateEntryInDbMock.mockImplementation((entry) => {
     return Promise.resolve({
       updatedEntry: entry,
@@ -33,7 +53,7 @@ it("returns the updated entry", async () => {
   });
 });
 
-it("returns an error if one is thrown on insert", async () => {
+it("returns an error if one is thrown on update", async () => {
   updateEntryInDbMock.mockResolvedValue({
     error: new Error("Uh oh"),
   });
@@ -47,11 +67,15 @@ it("returns an error if one is thrown on insert", async () => {
   });
 });
 
-const updateEntryInDbMock = vi.mocked(updateEntryInDb);
+it("returns an error if the body comp entry ID doesn't match the user ID", async () => {
+  const response = await updateBodyCompEntryAction({
+    ...inputEntryMock,
+    userEmail: "different@email.ca" as EmailAddress,
+  });
 
-const inputEntryMock: IBodyCompEntry = {
-  date: "2025-06-08",
-  id: 2 as BodyCompEntryId,
-  userEmail: "test@email.com" as EmailAddress,
-  weightInG: 57700,
-};
+  expect(response).toStrictEqual({
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    message: expect.any(String),
+    statusCode: HttpStatusCode.BadRequest,
+  });
+});

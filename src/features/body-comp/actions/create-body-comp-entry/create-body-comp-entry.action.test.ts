@@ -7,10 +7,25 @@ import {
 } from "@/features/body-comp/daos/body-comp-entry.dao";
 import { EmailAddress } from "@/shared/utils/validation/validate-email-address.util";
 import { HttpStatusCode } from "@/shared/enums/http-status-code.enum";
+import { getAuthSessionDetails } from "@/features/auth/get-auth-session-details.util";
 
+vi.mock("@/features/auth/get-auth-session-details.util");
 vi.mock("@/features/body-comp/daos/body-comp-entry.dao");
 
+const insertBodyCompEntryMock = vi.mocked(insertBodyCompEntry);
+
+const userEmail = "user@email.com" as EmailAddress;
+const mockNewEntry: INewBodyCompEntry = {
+  date: "2025-06-08",
+  userEmail,
+  weightInG: 57700,
+};
+
 beforeEach(() => {
+  vi.mocked(getAuthSessionDetails, { partial: true }).mockResolvedValue({
+    emailAddress: userEmail,
+  });
+
   insertBodyCompEntryMock.mockImplementation((entry) => {
     return Promise.resolve({
       entry: {
@@ -22,17 +37,17 @@ beforeEach(() => {
 });
 
 it("inserts the given entry", async () => {
-  await createBodyCompEntryAction(newEntryMock);
+  await createBodyCompEntryAction(mockNewEntry);
 
-  expect(insertBodyCompEntry).toHaveBeenCalledWith(newEntryMock);
+  expect(insertBodyCompEntry).toHaveBeenCalledWith(mockNewEntry);
 });
 
 it("returns the created entry", async () => {
-  const response = await createBodyCompEntryAction(newEntryMock);
+  const response = await createBodyCompEntryAction(mockNewEntry);
 
   expect(response).toStrictEqual({
     entry: {
-      ...newEntryMock,
+      ...mockNewEntry,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       id: expect.any(Number),
     },
@@ -45,7 +60,7 @@ it("returns an error if one is thrown on insert", async () => {
     error: new Error("Uh oh"),
   });
 
-  const response = await createBodyCompEntryAction(newEntryMock);
+  const response = await createBodyCompEntryAction(mockNewEntry);
 
   expect(response).toStrictEqual({
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -54,10 +69,15 @@ it("returns an error if one is thrown on insert", async () => {
   });
 });
 
-const insertBodyCompEntryMock = vi.mocked(insertBodyCompEntry);
+it("returns an error if the body comp entry ID doesn't match the user ID", async () => {
+  const response = await createBodyCompEntryAction({
+    ...mockNewEntry,
+    userEmail: "different@email.ca" as EmailAddress,
+  });
 
-const newEntryMock: INewBodyCompEntry = {
-  date: "2025-06-08",
-  userEmail: "test@email.com" as EmailAddress,
-  weightInG: 57700,
-};
+  expect(response).toStrictEqual({
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    message: expect.any(String),
+    statusCode: HttpStatusCode.BadRequest,
+  });
+});
