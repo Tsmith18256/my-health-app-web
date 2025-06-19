@@ -94,7 +94,17 @@ export const selectBodyCompEntries = async ({
   const clampedLimit = clampNumber(limit, 1, 100);
 
   const models = await sql<IModelWithTotalCount[]>`
-    SELECT *, count(*) OVER() AS total_count
+    SELECT
+      ab_skinfold,
+      chest_skinfold,
+      entry_date,
+      id,
+      neck_circ_in_mm,
+      thigh_skinfold,
+      user_email,
+      waist_circ_in_mm,
+      weight_in_grams,
+      count(*) OVER() AS total_count
         FROM body_comp_entries
       WHERE user_email = ${userEmail}
           AND entry_date < ${beforeDate}
@@ -119,7 +129,17 @@ export const selectBodyCompEntryById = async (
   }
 
   const [model] = await sql<IBodyCompEntryModel[]>`
-    SELECT * FROM body_comp_entries
+    SELECT
+      ab_skinfold,
+      chest_skinfold,
+      entry_date,
+      id,
+      neck_circ_in_mm,
+      thigh_skinfold,
+      user_email,
+      waist_circ_in_mm,
+      weight_in_grams,
+      FROM body_comp_entries
       WHERE id = ${id.toString()} AND user_email = ${userEmail}
   `;
 
