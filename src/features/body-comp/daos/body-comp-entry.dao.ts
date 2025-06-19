@@ -13,6 +13,19 @@ import {
   validateEmailAddress,
 } from "@/shared/utils/validation/validate-email-address.util";
 
+const newEntryColumns = [
+  "ab_skinfold",
+  "chest_skinfold",
+  "entry_date",
+  "neck_circ_in_mm",
+  "thigh_skinfold",
+  "user_email",
+  "waist_circ_in_mm",
+  "weight_in_grams",
+];
+const columns = [...newEntryColumns, "id"];
+const tableName = "body_comp_entries";
+
 /**
  * @todo Determine how this library treats the ID missing and handle it.
  */
@@ -21,7 +34,7 @@ export const deleteBodyCompEntryByIdAndEmail = async (
   userEmail: EmailAddress,
 ) => {
   await sql`
-    DELETE FROM body_comp_entries
+    DELETE FROM ${sql(tableName)}
       WHERE id = ${id}
       AND user_email = ${userEmail}
   `;
@@ -32,16 +45,7 @@ export const insertBodyCompEntry = async (
 ): Promise<WithError<{ entry: IBodyCompEntry }>> => {
   try {
     const [createdEntry] = await sql<IBodyCompEntryModel[]>`
-      INSERT INTO body_comp_entries (
-        ab_skinfold,
-        chest_skinfold,
-        entry_date,
-        neck_circ_in_mm,
-        thigh_skinfold,
-        user_email,
-        waist_circ_in_mm,
-        weight_in_grams
-      ) VALUES (
+      INSERT INTO ${sql(tableName)} (${sql(newEntryColumns)}) VALUES (
         ${
           inputEntry.abSkinfold === undefined
             ? null
@@ -115,20 +119,9 @@ export const selectBodyCompEntries = async ({
   const clampedLimit = clampNumber(limit, 1, 100);
 
   const models = await sql<IModelWithTotalCount[]>`
-    SELECT
-      ab_skinfold,
-      chest_skinfold,
-      entry_date,
-      id,
-      neck_circ_in_mm,
-      thigh_skinfold,
-      user_email,
-      waist_circ_in_mm,
-      weight_in_grams,
-      count(*) OVER() AS total_count
-        FROM body_comp_entries
-      WHERE user_email = ${userEmail}
-          AND entry_date < ${beforeDate}
+    SELECT ${sql(columns)}, count(*) OVER() AS total_count
+        FROM ${sql(tableName)}
+      WHERE user_email = ${userEmail} AND entry_date < ${beforeDate}
       ORDER BY entry_date DESC
       LIMIT ${clampedLimit}
   `;
@@ -150,17 +143,7 @@ export const selectBodyCompEntryById = async (
   }
 
   const [model] = await sql<IBodyCompEntryModel[]>`
-    SELECT
-      ab_skinfold,
-      chest_skinfold,
-      entry_date,
-      id,
-      neck_circ_in_mm,
-      thigh_skinfold,
-      user_email,
-      waist_circ_in_mm,
-      weight_in_grams,
-      FROM body_comp_entries
+    SELECT ${sql(columns)} FROM ${sql(tableName)}
       WHERE id = ${id.toString()} AND user_email = ${userEmail}
   `;
 
@@ -175,7 +158,7 @@ export const updateBodyCompEntry = async (
   inputEntry: IBodyCompEntry,
 ): Promise<WithError<{ updatedEntry: IBodyCompEntry }>> => {
   const [updatedEntry] = await sql<IBodyCompEntryModel[]>`
-    UPDATE body_comp_entries SET
+    UPDATE ${sql(tableName)} SET
         ab_skinfold = ${
           inputEntry.abSkinfold === undefined
             ? null
