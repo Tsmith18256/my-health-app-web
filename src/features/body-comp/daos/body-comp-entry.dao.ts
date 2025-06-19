@@ -84,7 +84,6 @@ export const insertBodyCompEntry = async (
       ),
     };
   } catch (err) {
-    console.log(err);
     const message = getMessageFromUnknownError(err);
 
     if (message?.includes("duplicate key value violates unique constraint")) {
