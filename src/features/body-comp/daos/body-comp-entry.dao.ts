@@ -6,11 +6,25 @@ import {
 import { Brand } from "@/shared/helper-types/brand.type";
 import { WithError } from "@/shared/helper-types/with-error.type";
 import { formatVanillaDateWithoutTime } from "@/shared/utils/dates/vanilla/format-vanilla-date-without-time";
+import { getMessageFromUnknownError } from "@/shared/utils/errors/get-message-from-unknown-error/get-message-from-unknown-error.util";
 import { clampNumber } from "@/shared/utils/math/clamp-number/clamp-number.util";
 import {
   EmailAddress,
   validateEmailAddress,
 } from "@/shared/utils/validation/validate-email-address.util";
+
+const newEntryColumns = [
+  "ab_skinfold",
+  "chest_skinfold",
+  "entry_date",
+  "neck_circ_in_mm",
+  "thigh_skinfold",
+  "user_email",
+  "waist_circ_in_mm",
+  "weight_in_grams",
+];
+const columns = [...newEntryColumns, "id"];
+const tableName = "body_comp_entries";
 
 /**
  * @todo Determine how this library treats the ID missing and handle it.
@@ -20,7 +34,7 @@ export const deleteBodyCompEntryByIdAndEmail = async (
   userEmail: EmailAddress,
 ) => {
   await sql`
-    DELETE FROM body_comp_entries
+    DELETE FROM ${sql(tableName)}
       WHERE id = ${id}
       AND user_email = ${userEmail}
   `;
@@ -29,58 +43,69 @@ export const deleteBodyCompEntryByIdAndEmail = async (
 export const insertBodyCompEntry = async (
   inputEntry: INewBodyCompEntry,
 ): Promise<WithError<{ entry: IBodyCompEntry }>> => {
-  const [createdEntry] = await sql<IBodyCompEntryModel[]>`
-    INSERT INTO body_comp_entries (
-      ab_skinfold,
-      chest_skinfold,
-      entry_date,
-      neck_circ_in_mm,
-      thigh_skinfold,
-      user_email,
-      waist_circ_in_mm,
-      weight_in_grams
-    ) VALUES (
-      ${
-        inputEntry.abSkinfold === undefined
-          ? null
-          : Math.round(inputEntry.abSkinfold)
-      },
-      ${
-        inputEntry.chestSkinfold === undefined
-          ? null
-          : Math.round(inputEntry.chestSkinfold)
-      },
-      ${inputEntry.date},
-      ${
-        inputEntry.neckCircumferenceInMm === undefined
-          ? null
-          : Math.round(inputEntry.neckCircumferenceInMm)
-      },
-      ${
-        inputEntry.thighSkinfold === undefined
-          ? null
-          : Math.round(inputEntry.thighSkinfold)
-      },
-      ${inputEntry.userEmail},
-      ${
-        inputEntry.waistCircumferenceInMm === undefined
-          ? null
-          : Math.round(inputEntry.waistCircumferenceInMm)
-      },
-      ${Math.round(inputEntry.weightInG)}
-    ) RETURNING *
-  `;
+  try {
+    const [createdEntry] = await sql<IBodyCompEntryModel[]>`
+      INSERT INTO ${sql(tableName)} (${sql(newEntryColumns)}) VALUES (
+        ${
+          inputEntry.abSkinfold === undefined
+            ? null
+            : Math.round(inputEntry.abSkinfold)
+        },
+        ${
+          inputEntry.chestSkinfold === undefined
+            ? null
+            : Math.round(inputEntry.chestSkinfold)
+        },
+        ${inputEntry.date},
+        ${
+          inputEntry.neckCircumferenceInMm === undefined
+            ? null
+            : Math.round(inputEntry.neckCircumferenceInMm)
+        },
+        ${
+          inputEntry.thighSkinfold === undefined
+            ? null
+            : Math.round(inputEntry.thighSkinfold)
+        },
+        ${inputEntry.userEmail},
+        ${
+          inputEntry.waistCircumferenceInMm === undefined
+            ? null
+            : Math.round(inputEntry.waistCircumferenceInMm)
+        },
+        ${Math.round(inputEntry.weightInG)}
+      ) RETURNING *
+    `;
 
-  if (createdEntry) {
-    return { entry: convertModelToObject(createdEntry) };
+    if (createdEntry) {
+      return { entry: convertModelToObject(createdEntry) };
+    }
+
+    return {
+      error: new ErrorWithCode(
+        ErrorCode.DatabaseInsertError,
+        "Unknown error inserting body comp entry",
+      ),
+    };
+  } catch (err) {
+    const message = getMessageFromUnknownError(err);
+
+    if (message?.includes("duplicate key value violates unique constraint")) {
+      return {
+        error: new ErrorWithCode(
+          ErrorCode.DatabaseInsertError,
+          "Entry already exists with that date",
+        ),
+      };
+    }
+
+    return {
+      error: new ErrorWithCode(
+        ErrorCode.DatabaseInsertError,
+        message ?? "Unknown error inserting body comp entry",
+      ),
+    };
   }
-
-  return {
-    error: new ErrorWithCode(
-      ErrorCode.DatabaseInsertError,
-      "Unknown error inserting body comp entry",
-    ),
-  };
 };
 
 export const selectBodyCompEntries = async ({
@@ -94,10 +119,9 @@ export const selectBodyCompEntries = async ({
   const clampedLimit = clampNumber(limit, 1, 100);
 
   const models = await sql<IModelWithTotalCount[]>`
-    SELECT *, count(*) OVER() AS total_count
-        FROM body_comp_entries
-      WHERE user_email = ${userEmail}
-          AND entry_date < ${beforeDate}
+    SELECT ${sql(columns)}, count(*) OVER() AS total_count
+        FROM ${sql(tableName)}
+      WHERE user_email = ${userEmail} AND entry_date < ${beforeDate}
       ORDER BY entry_date DESC
       LIMIT ${clampedLimit}
   `;
@@ -119,7 +143,7 @@ export const selectBodyCompEntryById = async (
   }
 
   const [model] = await sql<IBodyCompEntryModel[]>`
-    SELECT * FROM body_comp_entries
+    SELECT ${sql(columns)} FROM ${sql(tableName)}
       WHERE id = ${id.toString()} AND user_email = ${userEmail}
   `;
 
@@ -133,8 +157,9 @@ export const selectBodyCompEntryById = async (
 export const updateBodyCompEntry = async (
   inputEntry: IBodyCompEntry,
 ): Promise<WithError<{ updatedEntry: IBodyCompEntry }>> => {
-  const [updatedEntry] = await sql<IBodyCompEntryModel[]>`
-    UPDATE body_comp_entries SET
+  try {
+    const [updatedEntry] = await sql<IBodyCompEntryModel[]>`
+    UPDATE ${sql(tableName)} SET
         ab_skinfold = ${
           inputEntry.abSkinfold === undefined
             ? null
@@ -167,16 +192,36 @@ export const updateBodyCompEntry = async (
       RETURNING *
   `;
 
-  if (updatedEntry) {
-    return { updatedEntry: convertModelToObject(updatedEntry) };
-  }
+    if (updatedEntry) {
+      return { updatedEntry: convertModelToObject(updatedEntry) };
+    }
 
-  return {
-    error: new ErrorWithCode(
-      ErrorCode.DatabaseUpdateError,
-      `Unknown error updating body comp entry (id: ${inputEntry.id.toString()})`,
-    ),
-  };
+    return {
+      error: new ErrorWithCode(
+        ErrorCode.DatabaseUpdateError,
+        `Unknown error updating body comp entry (id: ${inputEntry.id.toString()})`,
+      ),
+    };
+  } catch (err) {
+    const message = getMessageFromUnknownError(err);
+
+    if (message?.includes("duplicate key value violates unique constraint")) {
+      return {
+        error: new ErrorWithCode(
+          ErrorCode.DatabaseUpdateError,
+          "Entry already exists with that date",
+        ),
+      };
+    }
+
+    return {
+      error: new ErrorWithCode(
+        ErrorCode.DatabaseUpdateError,
+        message ??
+          `Unknown error updating body comp entry (id: ${inputEntry.id.toString()})`,
+      ),
+    };
+  }
 };
 
 const convertModelToObject = (model: IBodyCompEntryModel): IBodyCompEntry => {

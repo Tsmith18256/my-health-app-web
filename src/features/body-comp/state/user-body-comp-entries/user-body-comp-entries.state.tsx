@@ -273,7 +273,7 @@ const createUserBodyCompEntriesStore = () => {
 
       set({
         entries: filteredEntries,
-        totalCount: totalCount === null ? null : totalCount - 1,
+        totalCount: totalCount === null ? null : Math.max(0, totalCount - 1),
       });
     },
 
