@@ -6,6 +6,7 @@ import {
 import { Brand } from "@/shared/helper-types/brand.type";
 import { WithError } from "@/shared/helper-types/with-error.type";
 import { formatVanillaDateWithoutTime } from "@/shared/utils/dates/vanilla/format-vanilla-date-without-time";
+import { getMessageFromUnknownError } from "@/shared/utils/errors/get-message-from-unknown-error/get-message-from-unknown-error.util";
 import { clampNumber } from "@/shared/utils/math/clamp-number/clamp-number.util";
 import {
   EmailAddress,
@@ -29,58 +30,79 @@ export const deleteBodyCompEntryByIdAndEmail = async (
 export const insertBodyCompEntry = async (
   inputEntry: INewBodyCompEntry,
 ): Promise<WithError<{ entry: IBodyCompEntry }>> => {
-  const [createdEntry] = await sql<IBodyCompEntryModel[]>`
-    INSERT INTO body_comp_entries (
-      ab_skinfold,
-      chest_skinfold,
-      entry_date,
-      neck_circ_in_mm,
-      thigh_skinfold,
-      user_email,
-      waist_circ_in_mm,
-      weight_in_grams
-    ) VALUES (
-      ${
-        inputEntry.abSkinfold === undefined
-          ? null
-          : Math.round(inputEntry.abSkinfold)
-      },
-      ${
-        inputEntry.chestSkinfold === undefined
-          ? null
-          : Math.round(inputEntry.chestSkinfold)
-      },
-      ${inputEntry.date},
-      ${
-        inputEntry.neckCircumferenceInMm === undefined
-          ? null
-          : Math.round(inputEntry.neckCircumferenceInMm)
-      },
-      ${
-        inputEntry.thighSkinfold === undefined
-          ? null
-          : Math.round(inputEntry.thighSkinfold)
-      },
-      ${inputEntry.userEmail},
-      ${
-        inputEntry.waistCircumferenceInMm === undefined
-          ? null
-          : Math.round(inputEntry.waistCircumferenceInMm)
-      },
-      ${Math.round(inputEntry.weightInG)}
-    ) RETURNING *
-  `;
+  try {
+    const [createdEntry] = await sql<IBodyCompEntryModel[]>`
+      INSERT INTO body_comp_entries (
+        ab_skinfold,
+        chest_skinfold,
+        entry_date,
+        neck_circ_in_mm,
+        thigh_skinfold,
+        user_email,
+        waist_circ_in_mm,
+        weight_in_grams
+      ) VALUES (
+        ${
+          inputEntry.abSkinfold === undefined
+            ? null
+            : Math.round(inputEntry.abSkinfold)
+        },
+        ${
+          inputEntry.chestSkinfold === undefined
+            ? null
+            : Math.round(inputEntry.chestSkinfold)
+        },
+        ${inputEntry.date},
+        ${
+          inputEntry.neckCircumferenceInMm === undefined
+            ? null
+            : Math.round(inputEntry.neckCircumferenceInMm)
+        },
+        ${
+          inputEntry.thighSkinfold === undefined
+            ? null
+            : Math.round(inputEntry.thighSkinfold)
+        },
+        ${inputEntry.userEmail},
+        ${
+          inputEntry.waistCircumferenceInMm === undefined
+            ? null
+            : Math.round(inputEntry.waistCircumferenceInMm)
+        },
+        ${Math.round(inputEntry.weightInG)}
+      ) RETURNING *
+    `;
 
-  if (createdEntry) {
-    return { entry: convertModelToObject(createdEntry) };
+    if (createdEntry) {
+      return { entry: convertModelToObject(createdEntry) };
+    }
+
+    return {
+      error: new ErrorWithCode(
+        ErrorCode.DatabaseInsertError,
+        "Unknown error inserting body comp entry",
+      ),
+    };
+  } catch (err) {
+    console.log(err);
+    const message = getMessageFromUnknownError(err);
+
+    if (message?.includes("duplicate key value violates unique constraint")) {
+      return {
+        error: new ErrorWithCode(
+          ErrorCode.DatabaseInsertError,
+          "Entry already exists with that date",
+        ),
+      };
+    }
+
+    return {
+      error: new ErrorWithCode(
+        ErrorCode.DatabaseInsertError,
+        message ?? "Unknown error inserting body comp entry",
+      ),
+    };
   }
-
-  return {
-    error: new ErrorWithCode(
-      ErrorCode.DatabaseInsertError,
-      "Unknown error inserting body comp entry",
-    ),
-  };
 };
 
 export const selectBodyCompEntries = async ({
