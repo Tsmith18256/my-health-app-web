@@ -157,7 +157,8 @@ export const selectBodyCompEntryById = async (
 export const updateBodyCompEntry = async (
   inputEntry: IBodyCompEntry,
 ): Promise<WithError<{ updatedEntry: IBodyCompEntry }>> => {
-  const [updatedEntry] = await sql<IBodyCompEntryModel[]>`
+  try {
+    const [updatedEntry] = await sql<IBodyCompEntryModel[]>`
     UPDATE ${sql(tableName)} SET
         ab_skinfold = ${
           inputEntry.abSkinfold === undefined
@@ -191,16 +192,36 @@ export const updateBodyCompEntry = async (
       RETURNING *
   `;
 
-  if (updatedEntry) {
-    return { updatedEntry: convertModelToObject(updatedEntry) };
-  }
+    if (updatedEntry) {
+      return { updatedEntry: convertModelToObject(updatedEntry) };
+    }
 
-  return {
-    error: new ErrorWithCode(
-      ErrorCode.DatabaseUpdateError,
-      `Unknown error updating body comp entry (id: ${inputEntry.id.toString()})`,
-    ),
-  };
+    return {
+      error: new ErrorWithCode(
+        ErrorCode.DatabaseUpdateError,
+        `Unknown error updating body comp entry (id: ${inputEntry.id.toString()})`,
+      ),
+    };
+  } catch (err) {
+    const message = getMessageFromUnknownError(err);
+
+    if (message?.includes("duplicate key value violates unique constraint")) {
+      return {
+        error: new ErrorWithCode(
+          ErrorCode.DatabaseUpdateError,
+          "Entry already exists with that date",
+        ),
+      };
+    }
+
+    return {
+      error: new ErrorWithCode(
+        ErrorCode.DatabaseUpdateError,
+        message ??
+          `Unknown error updating body comp entry (id: ${inputEntry.id.toString()})`,
+      ),
+    };
+  }
 };
 
 const convertModelToObject = (model: IBodyCompEntryModel): IBodyCompEntry => {
