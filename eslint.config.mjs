@@ -40,8 +40,7 @@ export default tseslint.config([
       "@typescript-eslint/switch-exhaustiveness-check": "error",
 
       "no-shadow": "error",
-      // Need to fix existing errors before enabling.
-      // "sort-keys": "error",
+      "sort-keys": "error",
 
       "storybook/await-interactions": "error",
     },

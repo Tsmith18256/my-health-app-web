@@ -16,11 +16,11 @@ it.each([
   [
     "applies class names from object",
     {
-      heading: true,
       bold: false,
       emphasized: true,
+      heading: true,
     },
-    "heading emphasized",
+    "emphasized heading",
   ],
 ])("%s", (_, param, expected) => {
   const result = combineClassNames(param);

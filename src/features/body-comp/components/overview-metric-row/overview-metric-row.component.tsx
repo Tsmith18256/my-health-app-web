@@ -40,9 +40,9 @@ const getText = ({
 
   if (unit === "percent") {
     return value.toLocaleString(undefined, {
-      style: "percent",
-      minimumFractionDigits: 1,
       maximumFractionDigits: 1,
+      minimumFractionDigits: 1,
+      style: "percent",
     });
   }
 

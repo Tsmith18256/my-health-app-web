@@ -18,8 +18,8 @@ export const IconImage = {
 } as const;
 
 export const IconSize = {
-  Medium: styles["icon-medium"],
   Large: styles["icon-large"],
+  Medium: styles["icon-medium"],
 } as const;
 
 export type IconImage = ObjectValues<typeof IconImage>;
