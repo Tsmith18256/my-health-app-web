@@ -137,6 +137,18 @@ describe("useCreateBodyCompEntry", () => {
     expect(entries[2]).toBeUndefined();
   });
 
+  it("saves the entry to the store if it is the first entry", async () => {
+    const { result } = renderHook(useCombinedHooks, {
+      wrapper: UserBodyCompEntriesProvider,
+    });
+
+    await result.current.createEntry(mockCreatedEntry);
+
+    const entries = result.current.entries;
+    expect(entries.length).toBe(1);
+    expect(entries[0]).toEqual(expect.objectContaining(mockCreatedEntry));
+  });
+
   it("returns an error if saving to the database fails", async () => {
     vi.mocked(createBodyCompEntryAction, { partial: true }).mockImplementation(
       () => {
