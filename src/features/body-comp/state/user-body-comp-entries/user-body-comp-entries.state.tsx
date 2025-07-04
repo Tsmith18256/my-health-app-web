@@ -243,6 +243,8 @@ const createUserBodyCompEntriesStore = () => {
       );
 
       if (!oldestEntry) {
+        get().updateEntries([newEntry], 1);
+
         return;
       }
 
