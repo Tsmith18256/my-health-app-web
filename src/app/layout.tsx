@@ -4,8 +4,8 @@ import { defaultFont, iconFont } from "@/app/fonts/fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Cool fitness app",
   description: "So many gainz",
+  title: "Cool fitness app",
 };
 
 export default function RootLayout({

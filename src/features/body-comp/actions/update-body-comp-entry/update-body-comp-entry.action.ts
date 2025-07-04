@@ -26,8 +26,8 @@ export const updateBodyCompEntryAction = async (
 
   if (updatedEntry) {
     return {
-      updatedEntry,
       statusCode: HttpStatusCode.Success,
+      updatedEntry,
     };
   }
 

@@ -48,8 +48,8 @@ export const UiStringKey = {
   FormLabelWaist: "Waist ({unit})",
   FormLabelWeight: "Weight ({unit})",
   LabelDate: "Date",
-  PageHeadingNewBodyCompEntry: "New entry",
   PageHeadingEditBodyCompEntry: "Edit entry",
+  PageHeadingNewBodyCompEntry: "New entry",
   SectionHeadingAdvanced: "Advanced",
   SectionHeadingMeasuringTape: "Measuring tape",
 } as const;

@@ -49,9 +49,9 @@ export const ButtonAppearance = {
 export type ButtonAppearance = ObjectValues<typeof ButtonAppearance>;
 
 export const ButtonSize = {
-  Small: "Small",
-  Medium: "Medium",
   Large: "Large",
+  Medium: "Medium",
+  Small: "Small",
 } as const;
 
 export type ButtonSize = ObjectValues<typeof ButtonSize>;

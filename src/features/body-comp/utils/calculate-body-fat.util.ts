@@ -109,9 +109,9 @@ const getResultsObject = ({
 
   return {
     bodyFatPercent,
-    method,
     fatMass,
     leanMass: weightInG - fatMass,
+    method,
   };
 };
 
