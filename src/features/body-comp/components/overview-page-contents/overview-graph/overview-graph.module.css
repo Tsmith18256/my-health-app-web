@@ -1,0 +1,13 @@
+.graph-wrapper {
+  aspect-ratio: 2 / 1;
+  background-color: white;
+  border: 3px solid black;
+  width: 100%;
+}
+
+.graph-wrapper-no-data {
+  align-items: center;
+  display: flex;
+  font-size: var(--font-size-24);
+  justify-content: center;
+}

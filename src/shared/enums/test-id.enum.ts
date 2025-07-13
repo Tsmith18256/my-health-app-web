@@ -10,6 +10,8 @@ export const TestId = {
   HiddenInput: "HiddenInput",
   InputField: "InputField",
   InputLabel: "InputLabel",
+  OverviewGraph: "OverviewGraph",
+  OverviewGraphNoData: "OverviewGraphNoData",
 } as const;
 
 export type TestId = ObjectValues<typeof TestId>;

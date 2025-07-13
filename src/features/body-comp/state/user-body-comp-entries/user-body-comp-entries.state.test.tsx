@@ -22,6 +22,7 @@ import { createBodyCompEntryAction } from "../../actions/create-body-comp-entry/
 import { updateBodyCompEntryAction } from "../../actions/update-body-comp-entry/update-body-comp-entry.action";
 import { HttpStatusCode } from "@/shared/enums/http-status-code.enum";
 import { deleteBodyCompEntryByIdAction } from "@/features/body-comp/actions/delete-body-comp-entry-by-id/delete-body-comp-entry-by-id.action";
+import { getMockFromFn } from "@/testing/agnostic/getMockFromFn/getMockFromFn.util";
 
 vi.mock(
   "@/features/body-comp/actions/create-body-comp-entry/create-body-comp-entry.action",
@@ -65,18 +66,19 @@ const useCombinedHooks = () => {
 };
 
 beforeEach(() => {
-  vi.mocked(createBodyCompEntryAction, { partial: true }).mockImplementation(
-    (entry) => {
-      return Promise.resolve({
-        entry: {
-          ...entry,
-          id: mockCreatedEntry.id,
-        },
-      });
-    },
-  );
+  getMockFromFn(createBodyCompEntryAction, {
+    deep: true,
+    partial: true,
+  }).mockImplementation((entry) => {
+    return Promise.resolve({
+      entry: {
+        ...entry,
+        id: mockCreatedEntry.id,
+      },
+    });
+  });
 
-  vi.mocked(loadBodyCompEntries).mockImplementation((opts) => {
+  getMockFromFn(loadBodyCompEntries).mockImplementation((opts) => {
     if (opts?.beforeDate === undefined) {
       return Promise.resolve({
         entries: [MOCK_BODY_COMP_ENTRY],
@@ -90,7 +92,7 @@ beforeEach(() => {
     });
   });
 
-  vi.mocked(updateBodyCompEntryAction).mockImplementation((entry) => {
+  getMockFromFn(updateBodyCompEntryAction).mockImplementation((entry) => {
     return Promise.resolve({
       statusCode: HttpStatusCode.Success,
       updatedEntry: entry,
@@ -150,13 +152,14 @@ describe("useCreateBodyCompEntry", () => {
   });
 
   it("returns an error if saving to the database fails", async () => {
-    vi.mocked(createBodyCompEntryAction, { partial: true }).mockImplementation(
-      () => {
-        return Promise.resolve({
-          message: "Uh oh",
-        });
-      },
-    );
+    getMockFromFn(createBodyCompEntryAction, {
+      deep: true,
+      partial: true,
+    }).mockImplementation(() => {
+      return Promise.resolve({
+        message: "Uh oh",
+      });
+    });
 
     const { result } = renderHook(useCreateBodyCompEntry, {
       wrapper: UserBodyCompEntriesProvider,
@@ -243,7 +246,7 @@ describe("useLoadBodyCompEntries", () => {
   });
 
   it("sets `isLoadingMore` to true when entries are loading", async () => {
-    vi.mocked(loadBodyCompEntries).mockImplementation(async () => {
+    getMockFromFn(loadBodyCompEntries).mockImplementation(async () => {
       await wait(100);
 
       return {
@@ -271,7 +274,7 @@ describe("useLoadBodyCompEntries", () => {
   });
 
   it("does not load more entries if hasMore is false", async () => {
-    vi.mocked(loadBodyCompEntries).mockImplementation((opts) => {
+    getMockFromFn(loadBodyCompEntries).mockImplementation((opts) => {
       if (opts?.beforeDate === undefined) {
         return Promise.resolve({
           entries: [MOCK_BODY_COMP_ENTRY],
@@ -307,7 +310,7 @@ describe("useLoadBodyCompEntries", () => {
 
   it("does not load more entries if data is still loading", async () => {
     const loadTime = 100;
-    vi.mocked(loadBodyCompEntries).mockImplementation(async (opts) => {
+    getMockFromFn(loadBodyCompEntries).mockImplementation(async (opts) => {
       await wait(loadTime);
 
       if (opts?.beforeDate === undefined) {
@@ -351,7 +354,7 @@ describe("useLoadBodyCompEntries", () => {
   });
 
   it("replaces existing entries if loading returned a duplicate", async () => {
-    vi.mocked(loadBodyCompEntries).mockImplementation(async () => {
+    getMockFromFn(loadBodyCompEntries).mockImplementation(async () => {
       return Promise.resolve({
         entries: [MOCK_BODY_COMP_ENTRY],
         totalCount: 200,
@@ -380,7 +383,7 @@ describe("useLoadBodyCompEntries", () => {
 
   it("sorts entries by date", async () => {
     // Return the entries in reverse date order
-    vi.mocked(loadBodyCompEntries).mockImplementation((opts) => {
+    getMockFromFn(loadBodyCompEntries).mockImplementation((opts) => {
       if (opts?.beforeDate === undefined) {
         return Promise.resolve({
           entries: [mockExtraEntry],
@@ -467,13 +470,14 @@ describe("useUpdateBodyCompEntry", () => {
   });
 
   it("returns an error if saving to the database fails", async () => {
-    vi.mocked(updateBodyCompEntryAction, { partial: true }).mockImplementation(
-      () => {
-        return Promise.resolve({
-          message: "Uh oh",
-        });
-      },
-    );
+    getMockFromFn(updateBodyCompEntryAction, {
+      deep: true,
+      partial: true,
+    }).mockImplementation(() => {
+      return Promise.resolve({
+        message: "Uh oh",
+      });
+    });
 
     const { result } = renderHook(useUpdateBodyCompEntry, {
       wrapper: UserBodyCompEntriesProvider,

@@ -19,6 +19,8 @@ import { MeasurementSystem } from "@/shared/enums/measurement-system.enum";
 import { LengthUnit } from "@/shared/enums/length-unit.enum";
 import { WeightUnit } from "@/shared/enums/weight-unit.enum";
 import styles from "./overview-page-contents.module.css";
+import { OverviewGraph } from "@/features/body-comp/components/overview-page-contents/overview-graph/overview-graph.component";
+import { OverviewMetricsSection } from "@/features/body-comp/components/overview-metrics-section/overview-metrics-section.component";
 
 export const OverviewPageContents = ({
   last7DaysWeight,
@@ -71,10 +73,9 @@ export const OverviewPageContents = ({
           />
         </div>
 
-        <div className={styles.graph}>
-          <div>PLACEHOLDER</div>
-          <div>FOR GRAPH</div>
-        </div>
+        <OverviewMetricsSection title="Last 30 days">
+          <OverviewGraph />
+        </OverviewMetricsSection>
       </OverviewSection>
 
       <OverviewSection>

@@ -8,11 +8,12 @@ import {
 import { EmailAddress } from "@/shared/utils/validation/validate-email-address.util";
 import { HttpStatusCode } from "@/shared/enums/http-status-code.enum";
 import { getAuthSessionDetails } from "@/features/auth/get-auth-session-details.util";
+import { getMockFromFn } from "@/testing/agnostic/getMockFromFn/getMockFromFn.util";
 
 vi.mock("@/features/auth/get-auth-session-details.util");
 vi.mock("@/features/body-comp/daos/body-comp-entry.dao");
 
-const insertBodyCompEntryMock = vi.mocked(insertBodyCompEntry);
+const insertBodyCompEntryMock = getMockFromFn(insertBodyCompEntry);
 
 const userEmail = "user@email.com" as EmailAddress;
 const mockNewEntry: INewBodyCompEntry = {
@@ -22,7 +23,10 @@ const mockNewEntry: INewBodyCompEntry = {
 };
 
 beforeEach(() => {
-  vi.mocked(getAuthSessionDetails, { partial: true }).mockResolvedValue({
+  getMockFromFn(getAuthSessionDetails, {
+    deep: true,
+    partial: true,
+  }).mockResolvedValue({
     emailAddress: userEmail,
   });
 
