@@ -21,6 +21,7 @@ it("renders the overview graph", () => {
     entries: [
       {
         date: formatDateWithoutTime(dayjs()),
+        weightInG: 75000,
       },
     ],
   });
