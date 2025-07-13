@@ -12,7 +12,6 @@ import {
 export const BodyCompLogList = () => {
   const { entries, hasMore, isLoadingMore } = useUserBodyCompEntries();
 
-  console.log(entries, hasMore, isLoadingMore);
   const loadMoreEntries = useLoadBodyCompEntries();
 
   return (

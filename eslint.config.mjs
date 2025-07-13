@@ -25,6 +25,11 @@ export default tseslint.config([
         tsconfigRootDir: import.meta.dirname,
       },
     },
+    /*
+     * ----------------------
+     * ----- Base rules -----
+     * ----------------------
+     */
     rules: {
       "@typescript-eslint/no-restricted-imports": [
         "error",
@@ -39,12 +44,25 @@ export default tseslint.config([
       ],
       "@typescript-eslint/switch-exhaustiveness-check": "error",
 
+      "no-restricted-properties": [
+        "error",
+        {
+          message: "Use getMockFromFn() instead of vi.mocked()",
+          object: "vi",
+          property: "mocked",
+        },
+      ],
       "no-shadow": "error",
       "sort-keys": "error",
 
       "storybook/await-interactions": "error",
     },
   },
+  /*
+   * ----------------------------------------
+   * ----- Rules specific to test files -----
+   * ----------------------------------------
+   */
   {
     files: ["**/*.test.ts*", "src/testing/**"],
     rules: {

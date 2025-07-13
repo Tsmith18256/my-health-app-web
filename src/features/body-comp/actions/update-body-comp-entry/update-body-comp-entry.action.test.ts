@@ -8,14 +8,16 @@ import { EmailAddress } from "@/shared/utils/validation/validate-email-address.u
 import { HttpStatusCode } from "@/shared/enums/http-status-code.enum";
 import { updateBodyCompEntryAction } from "./update-body-comp-entry.action";
 import { getAuthSessionDetails } from "@/features/auth/get-auth-session-details.util";
+import { getMockFromFn } from "@/testing/agnostic/getMockFromFn/getMockFromFn.util";
 
 vi.mock("@/features/auth/get-auth-session-details.util");
 vi.mock("@/features/body-comp/daos/body-comp-entry.dao");
 
-const getAuthSessionDetailsMock = vi.mocked(getAuthSessionDetails, {
+const getAuthSessionDetailsMock = getMockFromFn(getAuthSessionDetails, {
+  deep: true,
   partial: true,
 });
-const updateEntryInDbMock = vi.mocked(updateEntryInDb);
+const updateEntryInDbMock = getMockFromFn(updateEntryInDb);
 
 const userEmail = "user@email.com" as EmailAddress;
 
