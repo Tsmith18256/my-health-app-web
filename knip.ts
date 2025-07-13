@@ -3,7 +3,13 @@ import { KnipConfig } from "knip";
 const config: KnipConfig = {
   $schema: "https://unpkg.com/knip@5/schema.json",
   entry: ["src/app/**/*.tsx!", "src/middleware.ts!"],
-  ignore: ["src/**/*.css.d.ts"],
+  ignore: [
+    "src/**/*.css.d.ts",
+    // Only used in test files right now.
+    "src/shared/helper-types/any-function.type.ts",
+    // Only used in test files right now.
+    "src/shared/helper-types/deep-partial.type.ts",
+  ],
   ignoreDependencies: [
     // Used in linting.
     "@eslint/js",
